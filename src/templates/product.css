@@ -1,0 +1,372 @@
+.product-pagination-wrap {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  padding: 8px 16px;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  color: #636462;
+  font-size: 14px;
+}
+
+.pagination-icon {
+  padding-right: 8px;
+  padding-left: 8px;
+  font-family: "Fa solid 900", sans-serif;
+}
+
+.product-variation-market-deal {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  margin-top: 24px;
+  padding: 16px;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  border-style: solid;
+  border-width: 2px;
+  border-color: #739e3c;
+}
+
+.column {
+  padding: 0px;
+}
+
+.farm-label {
+  font-size: 24px;
+}
+
+.column2 {
+  margin-bottom: auto;
+  padding-right: 16px;
+  padding-left: 16px;
+}
+
+.product-variation {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  margin-top: 24px;
+  padding: 16px;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  border-style: solid;
+  border-width: 2px;
+  border-color: #dad9d9;
+}
+
+.addsubtract-cart-btn {
+  min-width: 80px;
+  margin-right: 8px;
+  padding: 8px 16px;
+  -webkit-align-self: flex-start;
+  -ms-flex-item-align: start;
+  align-self: flex-start;
+  -webkit-box-flex: 0;
+  -webkit-flex: 0 0 auto;
+  -ms-flex: 0 0 auto;
+  flex: 0 0 auto;
+  border-style: solid;
+  border-width: 2px;
+  border-color: #739e3c;
+  background-color: #739e3c;
+  font-family: "Fa solid 900", sans-serif;
+  color: #f3f3f3;
+  font-size: 17px;
+  line-height: 24px;
+  text-align: center;
+}
+
+.product-price-container {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  padding-right: 62px;
+  padding-left: 8px;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-box-align: end;
+  -webkit-align-items: flex-end;
+  -ms-flex-align: end;
+  align-items: flex-end;
+  border-style: none;
+  border-width: 2px;
+  border-color: #dad9d9;
+}
+
+.add-to-order-button {
+  min-width: 150px;
+  margin-right: 8px;
+  margin-bottom: 0px;
+  margin-left: 0px;
+  padding: 8px 16px;
+  -webkit-align-self: flex-start;
+  -ms-flex-item-align: start;
+  align-self: flex-start;
+  -webkit-box-flex: 0;
+  -webkit-flex: 0 0 auto;
+  -ms-flex: 0 0 auto;
+  flex: 0 0 auto;
+  border-style: solid;
+  border-width: 2px;
+  border-color: #739e3c;
+  background-color: transparent;
+  font-family: Raleway, sans-serif;
+  color: #739e3c;
+  font-size: 24px;
+  line-height: 24px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.add-to-order-container {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  margin-top: 16px;
+}
+
+.price {
+  margin-top: 0px;
+  margin-right: 8px;
+  margin-bottom: 0px;
+  -webkit-box-flex: 0;
+  -webkit-flex: 0 auto;
+  -ms-flex: 0 auto;
+  flex: 0 auto;
+  font-family: Lato, sans-serif;
+}
+
+.product-name {
+  margin-top: 8px;
+  margin-bottom: 0px;
+  padding-bottom: 8px;
+  border-bottom: 3px solid #dad9d9;
+}
+
+.product-highlight-text {
+  font-family: Bebas Neue, sans-serif;
+  color: #739e3c;
+}
+
+.product-columns {
+  display: flex;
+  align-items: flex-start;
+}
+
+.product-amount-label {
+  margin-bottom: 0px;
+  font-size: 20px;
+  line-height: 30px;
+  text-decoration: none;
+  white-space: normal;
+}
+
+.product-market-deal-text {
+  font-family: Bebas Neue, sans-serif;
+  color: #739e3c;
+}
+
+.image {
+  max-height: 90vh;
+  float: right;
+}
+
+.product-page {
+  max-width: 1440px;
+  padding-right: 16px;
+  padding-left: 16px;
+  color: #2c2d2b;
+}
+
+.delivered-on-label {
+  font-family: Raleway, sans-serif;
+}
+
+.delivery-dates-container {
+  display: flex;
+  flex-direction: row;
+}
+
+.whats-good-heading {
+  margin-top: 80px;
+  margin-bottom: 32px;
+}
+
+.check {
+  padding-right: 16px;
+  font-family: "Fa solid 900", sans-serif;
+}
+
+.whats-good-item-label {
+  text-align: center;
+}
+
+.available-delivery-date {
+  width: 50px;
+}
+
+.certification {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  margin-right: 8px;
+  margin-bottom: 24px;
+  padding-right: 0px;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+  text-align: center;
+}
+
+.whats-good-image {
+  width: 100px;
+  height: 100px;
+  margin-bottom: 8px;
+  padding-right: 0px;
+  border-radius: 50%;
+}
+
+.product-certification-container {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  font-weight: 600;
+}
+
+.product-description {
+  margin-top: 16px;
+  padding-top: 0px;
+  padding-right: 16px;
+  padding-left: 16px;
+  border-left: 4px solid #4c2b38;
+  color: #2c2d2b;
+  font-size: 20px;
+  line-height: 25px;
+}
+
+.delivered-on-led {
+  font-family: "Fa solid 900", sans-serif;
+  color: #739e3c;
+  font-size: 9px;
+}
+
+.product-highlight-list-item {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  margin-bottom: 16px;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+  color: #739e3c;
+}
+
+.delivered-on-container {
+  margin-top: 16px;
+  padding-right: 16px;
+  padding-left: 16px;
+  border-left: 4px solid #739e3c;
+  font-family: Lato, sans-serif;
+  color: #2c2d2b;
+  font-size: 16px;
+}
+
+.delivered-on-led-container {
+  font-family: "Fa solid 900", sans-serif;
+  text-align: center;
+}
+
+@media screen and (max-width: 479px) {
+  .product-pagination-wrap {
+    padding-top: 0px;
+    -webkit-flex-wrap: wrap;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+  }
+  .column {
+    padding-right: 0px;
+  }
+  .add-to-order-container {
+    -webkit-flex-wrap: wrap;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+  }
+  .price {
+    margin-bottom: 8px;
+  }
+  .addsubtract-cart-button {
+    margin-top: 8px;
+  }
+  .image {
+    margin-bottom: 16px;
+  }
+  .product-page {
+    padding-right: 0px;
+    padding-left: 0px;
+  }
+}
+
+@font-face {
+  font-family: "Fa solid 900";
+  src: url("../fonts/fa-solid-900.woff2") format("woff2"),
+    url("../fonts/fa-solid-900.eot") format("embedded-opentype"),
+    url("../fonts/fa-solid-900.eot") format("embedded-opentype"),
+    url("../fonts/fa-solid-900.woff") format("woff"),
+    url("../fonts/fa-solid-900.ttf") format("truetype"),
+    url("../fonts/fa-solid-900.svg") format("svg");
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Fa 400";
+  src: url("../fonts/fa-regular-400.woff2") format("woff2"),
+    url("../fonts/fa-regular-400.eot") format("embedded-opentype"),
+    url("../fonts/fa-regular-400.eot") format("embedded-opentype"),
+    url("../fonts/fa-regular-400.woff") format("woff"),
+    url("../fonts/fa-regular-400.ttf") format("truetype"),
+    url("../fonts/fa-regular-400.svg") format("svg");
+  font-weight: 400;
+  font-style: normal;
+}
