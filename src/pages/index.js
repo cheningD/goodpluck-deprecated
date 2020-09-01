@@ -14,7 +14,7 @@ export default function Home() {
               <Link to="" className="header-link">
                 My Lists
               </Link>
-              <Link to="" className="header-link">
+              <Link to="/signin" className="header-link">
                 Sign in
               </Link>
               <Link to="" className="header-link">
