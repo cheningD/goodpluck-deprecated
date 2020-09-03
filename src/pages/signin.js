@@ -2,6 +2,48 @@ import React, { useState } from "react"
 import { Formik, Form, Field, ErrorMessage } from "formik"
 import * as yup from "yup"
 import "./signin.css"
+import { listToClass } from "../util"
+
+export default function SignIn() {
+  const [isSignUp, setIsSignUp] = useState(true)
+  const toggleView = () => setIsSignUp(!isSignUp)
+
+  return (
+    <div className="sign-in-page">
+      <div className="sign-in__left-panel">
+        <div className="brand">GOODPLUCK</div>
+        <div className="sign-in--form__wrapper">
+          <div className="sign-in--form">
+            <RenderHeader isSignUp={isSignUp} toggleView={toggleView} />
+            {isSignUp ? <SignUpForm /> : <SignInForm />}
+          </div>
+        </div>
+      </div>
+      <div className="sign-in__right-panel" />
+    </div>
+  )
+}
+
+function RenderHeader({ isSignUp, toggleView }) {
+  if (isSignUp) {
+    return (
+      <FieldWrapper className="sign-in__account-header-wrapper">
+        <h2 className="sign-in__account-header">Create a new account</h2>
+        <button className="sign-in--button" onClick={toggleView}>
+          or Sign In
+        </button>
+      </FieldWrapper>
+    )
+  }
+  return (
+    <FieldWrapper className="sign-in__account-header-wrapper">
+      <h2 className="sign-in__account-header">Sign in</h2>
+      <button className="sign-in--button" onClick={toggleView}>
+        or create new account
+      </button>
+    </FieldWrapper>
+  )
+}
 
 const signUpSchema = yup.object().shape({
   first: yup
@@ -49,7 +91,7 @@ const SignUpForm = () => {
       {({ isSubmitting }) => (
         <Form>
           <div className="sign-in--form__field-row">
-            <div className="sign-in--field-wrapper">
+            <FieldWrapper className="sign-in--form__wrapper-input">
               <Field
                 className="sign-in-input"
                 type="text"
@@ -57,9 +99,9 @@ const SignUpForm = () => {
                 placeholder="first name"
               />
               <ErrorMessage name="first" component="div" />
-            </div>
+            </FieldWrapper>
 
-            <div className="sign-in--field-wrapper">
+            <FieldWrapper className="sign-in--form__wrapper-input">
               <Field
                 className="sign-in-input"
                 type="text"
@@ -67,10 +109,10 @@ const SignUpForm = () => {
                 placeholder="last name"
               />
               <ErrorMessage name="last" component="div" />
-            </div>
+            </FieldWrapper>
           </div>
 
-          <div className="sign-in--field-wrapper">
+          <FieldWrapper className="sign-in--form__wrapper-input">
             <Field
               type="text"
               name="phone"
@@ -78,8 +120,9 @@ const SignUpForm = () => {
               placeholder="Phone (For Delivery Updates)"
             />
             <ErrorMessage name="phone" component="div" />
-          </div>
-          <div className="sign-in--field-wrapper">
+          </FieldWrapper>
+
+          <FieldWrapper className="sign-in--form__wrapper-input">
             <Field
               className="sign-in-input"
               type="email"
@@ -87,15 +130,15 @@ const SignUpForm = () => {
               placeholder="email"
             />
             <ErrorMessage name="email" component="div" />
-          </div>
-          <div className="sign-in--field-wrapper">
+          </FieldWrapper>
+          <FieldWrapper>
             <span className="sign-in--blurb">
               By entering your phone number, you agree to receive text messages
               from Goodpluck regarding your order. Standard message rates apply.
               Only U.S based numbers are allowed
             </span>
-          </div>
-          <div className="sign-in--field-wrapper">
+          </FieldWrapper>
+          <FieldWrapper>
             <button
               className="sign-in--form__button"
               type="submit"
@@ -103,7 +146,7 @@ const SignUpForm = () => {
             >
               <span>Sign Up</span>
             </button>
-          </div>
+          </FieldWrapper>
         </Form>
       )}
     </Formik>
@@ -119,7 +162,7 @@ const SignInForm = () => {
     >
       {({ isSubmitting }) => (
         <Form>
-          <div className="sign-in--field-wrapper">
+          <FieldWrapper className="sign-in--form__wrapper-input">
             <Field
               className="sign-in-input"
               type="email"
@@ -127,45 +170,39 @@ const SignInForm = () => {
               placeholder="email"
             />
             <ErrorMessage name="email" component="div" />
-          </div>
-          <button
-            className="sign-in--form__button"
-            type="submit"
-            disabled={isSubmitting}
-          >
-            <span>Sign In</span>
-          </button>
+          </FieldWrapper>
+
+          <FieldWrapper>
+            <span className="sign-in--blurb">
+              We'll email you a link to make sure you are who you say you are.
+              <br />
+              <br />
+              Click it and you're in! (No passwords here)
+              <br />
+              <br />
+              <a>Having trouble logging in?</a>
+            </span>
+          </FieldWrapper>
+
+          <FieldWrapper>
+            <button
+              className="sign-in--form__button"
+              type="submit"
+              disabled={isSubmitting}
+            >
+              <span>Sign In</span>
+            </button>
+          </FieldWrapper>
         </Form>
       )}
     </Formik>
   )
 }
 
-export default function SignIn() {
-  const [isSignUp, setIsSignUp] = useState(true)
-
-  const setSignIn = () => setIsSignUp(false)
-  const setSignUp = () => setIsSignUp(true)
-
+function FieldWrapper({ children, className }) {
   return (
-    <div className="sign-in-page">
-      <div className="sign-in__left-panel">
-        <div className="brand">GOODPLUCK</div>
-        <button className="navbutton g-button" onClick={setSignUp}>
-          {isSignUp ? <span className="fa-solid"></span> : ""}
-          Sign Up
-        </button>
-        <button className="navbutton g-button" onClick={setSignIn}>
-          {!isSignUp ? <span className="fa-solid"></span> : ""}
-          Sign In
-        </button>
-        <div className="sign-in--form__wrapper">
-          <div className="sign-in--form">
-            {isSignUp ? <SignUpForm /> : <SignInForm />}
-          </div>
-        </div>
-      </div>
-      <div className="sign-in__right-panel" />
+    <div className={listToClass(["sign-in--field-wrapper", className])}>
+      {children}
     </div>
   )
 }
