@@ -27,25 +27,6 @@
   background-repeat: no-repeat;
   background-position: left;
 }
-@media only screen and (max-width: 800px) {
-  .sign-in__right-panel {
-    visibility: hidden;
-    display: none;
-  }
-  .sign-in__left-panel {
-    width: 100%;
-  }
-
-  .sign-in--form__field-row {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .sign-in--blurb,
-  .sign-in--form__button {
-    font-size: medium;
-  }
-}
 
 @media only screen and (min-height: 400px) {
   .sign-in__right-panel {
@@ -60,7 +41,7 @@
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  height: 100%;
+  padding-bottom: 50px;
 }
 
 .sign-in--form {
@@ -89,7 +70,6 @@
 
 .sign-in--field-wrapper {
   padding: 20px;
-  height: 100px;
   width: 100%;
 }
 
@@ -97,4 +77,29 @@
   border: none;
   padding: 10px;
   width: 100%;
+}
+
+@media only screen and (max-width: 800px) {
+  .sign-in__right-panel {
+    visibility: hidden;
+    display: none;
+  }
+  .sign-in__left-panel {
+    width: 100%;
+  }
+
+  .sign-in--form__field-row {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .sign-in--blurb,
+  .sign-in--form__button {
+    font-size: large;
+  }
+
+  .sign-in--form,
+  .sign-in--form__button {
+    width: 100%;
+  }
 }
