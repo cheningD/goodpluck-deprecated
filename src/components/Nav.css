@@ -57,7 +57,9 @@
   visibility: hidden;
 }
 
-
+.search-text {
+  font-family: Raleway, sans-serif;
+}
 
 .header-links--list {
   display: flex;
@@ -78,6 +80,7 @@
   border-bottom: 2px solid #fff;
   text-decoration: none;
 }
+
 .header-link:focus {
   font-weight: 600;
   border-width: 2px;

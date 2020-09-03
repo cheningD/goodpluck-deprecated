@@ -1,8 +1,10 @@
 import React, { useState } from "react"
 import { Formik, Form, Field, ErrorMessage } from "formik"
 import * as yup from "yup"
+
 import "./signin.css"
 import { listToClass } from "../util"
+import Nav from "../components/Nav";
 
 export default function SignIn() {
   const [isSignUp, setIsSignUp] = useState(true)
@@ -11,7 +13,7 @@ export default function SignIn() {
   return (
     <div className="sign-in-page">
       <div className="sign-in__left-panel">
-        <div className="brand">GOODPLUCK</div>
+      <Nav />
         <div className="sign-in--form__wrapper">
           <div className="sign-in--form">
             <RenderHeader isSignUp={isSignUp} toggleView={toggleView} />
