@@ -1,0 +1,19 @@
+.cart-content {
+  padding: 32px;
+  font-family: Raleway, sans-serif;
+  color: #031927;
+}
+
+.peach-highlight {
+  color: #df928e;
+  font-weight: bolder;
+}
+
+/* //Todo: Delete ME: Temporary css so that i can see what im doing */
+.cart-content > button {
+  background: #df928e;
+}
+
+.cart-item-controls {
+  background: #df928e;
+}

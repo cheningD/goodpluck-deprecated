@@ -1,83 +1,72 @@
 import React from "react"
 import { Link } from "gatsby"
 import "./index.css"
+import Nav from "../components/Nav"
 
 export default function Home() {
   return (
     <div className="body1">
       <div className="section-1">
-        <div className="hero-left">
-          <div className="nav">
-            <div className="brand">GOODPLUCK</div>
-            <div className="header-links">
-              <button>Search</button>
-              <Link to="" className="header-link">
-                My Lists
-              </Link>
-              <Link to="/signin" className="header-link">
-                Sign in
-              </Link>
-              <Link to="" className="header-link">
-                Cart: 0
-              </Link>
-            </div>
-          </div>
-          <div className="div1">
-            <div className="menu">
-              <button>
-                Shopping for Today
-                <br />
-              </button>
-              <button className="menu-category">
-                Produce
-                <br />
-              </button>
-              <button className="menu-category">
-                Bakery
-                <br />
-              </button>
-              <button className="menu-category">
-                Eggs
-                <br />
-              </button>
-              <button className="menu-category">
-                Dairy
-                <br />
-              </button>
-              <button className="menu-category">
-                Meat &amp; Seafood
-                <br />
-              </button>
-              <button className="menu-category">
-                Beverages
-                <br />
-              </button>
-              <button className="menu-category">
-                Growing Now
-                <br />
-              </button>
-              <div className="social-icons">Social Icons</div>
-            </div>
-            <div className="hero-text g-clearfix">
-              <h1 className="h11">
-                <div className="hero-line-1">
-                  <span className="span1">SUPER FRESH </span>
-                  FOOD FROM
-                </div>
-                <div className="hero-line-1">
-                  <span className="span1">SMALL FARMERS</span>
-                  &nbsp;in&nbsp; &nbsp;
-                </div>
-                <button className="hero-dropdown">DETROIT</button>
-              </h1>
-              <form className="cta-form CLEARFIX g-clearfix">
-                <input
-                  type="text"
-                  placeholder="zip code"
-                  className="cta-ionput"
-                />
-                <button className="cta-button">Get Started</button>
-              </form>
+        <div className="homepage-left-side">
+          <Nav />
+          <div className="hero-left">
+            <div className="div1">
+              <div className="menu">
+                <button>
+                  Shopping for Today
+                  <br />
+                </button>
+                <button className="menu-category">
+                  Produce
+                  <br />
+                </button>
+                <button className="menu-category">
+                  Bakery
+                  <br />
+                </button>
+                <button className="menu-category">
+                  Eggs
+                  <br />
+                </button>
+                <button className="menu-category">
+                  Dairy
+                  <br />
+                </button>
+                <button className="menu-category">
+                  Meat &amp; Seafood
+                  <br />
+                </button>
+                <button className="menu-category">
+                  Beverages
+                  <br />
+                </button>
+                <button className="menu-category">
+                  Growing Now
+                  <br />
+                </button>
+                <div className="social-icons">Social Icons</div>
+              </div>
+              <div className="hero-text g-clearfix">
+                <h1 className="h11">
+                  <div className="hero-line-1">
+                    <span className="span1">SUPER FRESH </span>
+                    FOOD FROM
+                  </div>
+                  <div className="hero-line-1">
+                    <span className="span1">SMALL FARMERS</span>
+                    &nbsp;in&nbsp; &nbsp;
+                  </div>
+                  <button className="hero-dropdown">DETROIT</button>
+                </h1>
+                <form className="cta-form CLEARFIX g-clearfix">
+                  <input
+                    type="text"
+                    placeholder="zip code"
+                    className="cta-ionput"
+                  />
+                  <button className="cta-button">Get Started</button>
+                </form>
+              </div>
             </div>
           </div>
         </div>
@@ -189,15 +178,15 @@ export default function Home() {
           <div>© WhatsEatLike, Inc.</div>
         </div>
         <div className="footer-column">
-          <Link to="" className="a2">
+          <a href="/" className="a2">
             Facebook
-          </Link>
-          <Link to="" className="a2">
+          </a>
+          <a href="/" className="a2">
             Twitter
-          </Link>
-          <Link to="" className="a2">
+          </a>
+          <a href="/" className="a2">
             Instagram
-          </Link>
+          </a>
         </div>
         <div className="footer-column">
           <div>Our newsletter is also super fresh:</div>
@@ -213,13 +202,13 @@ export default function Home() {
           </div>
         </div>
         <div className="footer-column">
-          <Link to="" className="a2">
+          <Link to="/" className="a2">
             Sell On Goodpluck
           </Link>
-          <Link to="" className="a2">
+          <Link to="/" className="a2">
             Privacy
           </Link>
-          <Link to="" className="a2">
+          <Link to="/" className="a2">
             Terms &amp; Conditions
           </Link>
         </div>
