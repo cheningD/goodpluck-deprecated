@@ -95,13 +95,15 @@ const SignUpForm = () => {
               Only U.S based numbers are allowed
             </span>
           </div>
-          <button
-            className="sign-in--form__button"
-            type="submit"
-            disabled={isSubmitting}
-          >
-            <span>Sign Up</span>
-          </button>
+          <div className="sign-in--field-wrapper">
+            <button
+              className="sign-in--form__button"
+              type="submit"
+              disabled={isSubmitting}
+            >
+              <span>Sign Up</span>
+            </button>
+          </div>
         </Form>
       )}
     </Formik>
