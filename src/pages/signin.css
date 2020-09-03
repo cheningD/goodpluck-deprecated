@@ -4,4 +4,97 @@
 
 .sign-in-page {
   background: #788474;
+  height: 100%;
+  display: flex;
+  min-height: 100vh;
+  font-family: Bebas Neue, sans-serif;
+}
+
+.sign-in__left-panel {
+  width: 80%;
+}
+
+.sign-in--form__field-row {
+  display: flex;
+}
+
+.sign-in__right-panel {
+  width: 35%;
+  background-image: url("../images/strawberry-sign-up.jpeg");
+  min-height: 100vh;
+  height: 100%;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: left;
+}
+@media only screen and (max-width: 800px) {
+  .sign-in__right-panel {
+    visibility: hidden;
+    display: none;
+  }
+  .sign-in__left-panel {
+    width: 100%;
+  }
+
+  .sign-in--form__field-row {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .sign-in--blurb,
+  .sign-in--form__button {
+    font-size: medium;
+  }
+}
+
+@media only screen and (min-height: 400px) {
+  .sign-in__right-panel {
+    width: 25%;
+    background-position: center;
+  }
+}
+
+.sign-in--form__wrapper {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  height: 100%;
+}
+
+.sign-in--form {
+  width: 80%;
+  max-width: 800px;
+  height: 100%;
+}
+
+.sign-in--form__button {
+  font-family: Bebas Neue, sans-serif;
+  background: none;
+  border: 2px solid white;
+  width: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: x-large;
+}
+
+.sign-in--blurb {
+  color: white;
+  font-size: larger;
+  font-family: Raleway, sans-serif;
+  font-weight: bolder;
+}
+
+.sign-in--field-wrapper {
+  padding: 20px;
+  height: 100px;
+  width: 100%;
+}
+
+.sign-in-input {
+  border: none;
+  padding: 10px;
+  width: 100%;
 }

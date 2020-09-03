@@ -3,7 +3,7 @@ import { Formik, Form, Field, ErrorMessage } from "formik"
 import * as yup from "yup"
 import "./signin.css"
 
-let signUpSchema = yup.object().shape({
+const signUpSchema = yup.object().shape({
   first: yup
     .string()
     .required("What should we call you?")
@@ -24,7 +24,7 @@ let signUpSchema = yup.object().shape({
     .email(`That email doesn't look quite right...`),
 })
 
-let signInSchema = yup.object().shape({
+const signInSchema = yup.object().shape({
   email: yup
     .string()
     .required("We are going to need your email for this...")
@@ -32,7 +32,7 @@ let signInSchema = yup.object().shape({
 })
 
 const onSubmitHandler = (values, { setSubmitting }) => {
-  console.log(`submitting`)
+  console.log(`pow pow`)
   setTimeout(() => {
     alert(JSON.stringify(values, null, 2))
     setSubmitting(false)
@@ -48,24 +48,59 @@ const SignUpForm = () => {
     >
       {({ isSubmitting }) => (
         <Form>
-          <Field type="text" name="first" placeholder="first name" />
-          <ErrorMessage name="first" component="div" />
+          <div className="sign-in--form__field-row">
+            <div className="sign-in--field-wrapper">
+              <Field
+                className="sign-in-input"
+                type="text"
+                name="first"
+                placeholder="first name"
+              />
+              <ErrorMessage name="first" component="div" />
+            </div>
 
-          <Field type="text" name="last" placeholder="last name" />
-          <ErrorMessage name="last" component="div" />
+            <div className="sign-in--field-wrapper">
+              <Field
+                className="sign-in-input"
+                type="text"
+                name="last"
+                placeholder="last name"
+              />
+              <ErrorMessage name="last" component="div" />
+            </div>
+          </div>
 
-          <Field
-            type="text"
-            name="phone"
-            placeholder="Phone (For Delivery Updates)"
-          />
-          <ErrorMessage name="phone" component="div" />
-
-          <Field type="email" name="email" placeholder="email" />
-          <ErrorMessage name="email" component="div" />
-
-          <button type="submit" disabled={isSubmitting}>
-            Sign Up
+          <div className="sign-in--field-wrapper">
+            <Field
+              type="text"
+              name="phone"
+              className="sign-in-input"
+              placeholder="Phone (For Delivery Updates)"
+            />
+            <ErrorMessage name="phone" component="div" />
+          </div>
+          <div className="sign-in--field-wrapper">
+            <Field
+              className="sign-in-input"
+              type="email"
+              name="email"
+              placeholder="email"
+            />
+            <ErrorMessage name="email" component="div" />
+          </div>
+          <div className="sign-in--field-wrapper">
+            <span className="sign-in--blurb">
+              By entering your phone number, you agree to receive text messages
+              from Goodpluck regarding your order. Standard message rates apply.
+              Only U.S based numbers are allowed
+            </span>
+          </div>
+          <button
+            className="sign-in--form__button"
+            type="submit"
+            disabled={isSubmitting}
+          >
+            <span>Sign Up</span>
           </button>
         </Form>
       )}
@@ -82,10 +117,21 @@ const SignInForm = () => {
     >
       {({ isSubmitting }) => (
         <Form>
-          <Field type="email" name="email" placeholder="email" />
-          <ErrorMessage name="email" component="div" />
-          <button type="submit" disabled={isSubmitting}>
-            Sign In
+          <div className="sign-in--field-wrapper">
+            <Field
+              className="sign-in-input"
+              type="email"
+              name="email"
+              placeholder="email"
+            />
+            <ErrorMessage name="email" component="div" />
+          </div>
+          <button
+            className="sign-in--form__button"
+            type="submit"
+            disabled={isSubmitting}
+          >
+            <span>Sign In</span>
           </button>
         </Form>
       )}
@@ -101,15 +147,23 @@ export default function SignIn() {
 
   return (
     <div className="sign-in-page">
-      <button className="navbutton g-button" onClick={setSignUp}>
-        {isSignUp ? <span className="fa-solid"></span> : ""}
-        Sign Up
-      </button>
-      <button className="navbutton g-button" onClick={setSignIn}>
-        {!isSignUp ? <span className="fa-solid"></span> : ""}
-        Sign In
-      </button>
-      {isSignUp ? <SignUpForm /> : <SignInForm />}
+      <div className="sign-in__left-panel">
+        <div className="brand">GOODPLUCK</div>
+        <button className="navbutton g-button" onClick={setSignUp}>
+          {isSignUp ? <span className="fa-solid"></span> : ""}
+          Sign Up
+        </button>
+        <button className="navbutton g-button" onClick={setSignIn}>
+          {!isSignUp ? <span className="fa-solid"></span> : ""}
+          Sign In
+        </button>
+        <div className="sign-in--form__wrapper">
+          <div className="sign-in--form">
+            {isSignUp ? <SignUpForm /> : <SignInForm />}
+          </div>
+        </div>
+      </div>
+      <div className="sign-in__right-panel" />
     </div>
   )
 }
