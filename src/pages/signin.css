@@ -10,6 +10,29 @@
   font-family: Bebas Neue, sans-serif;
 }
 
+.sign-in-page .brand {
+  font-size: 60px;
+}
+
+.sign-in__account-header {
+  font-size: 50px;
+  font-family: Bebas Neue, sans-serif;
+  color: #f7c59f;
+  margin: 0;
+}
+
+.sign-in__account-header-wrapper {
+  flex-direction: row;
+  align-items: baseline;
+  display: flex;
+}
+
+.sign-in--button {
+  font-family: Bebas Neue, sans-serif;
+  height: 38px;
+  text-decoration: underline;
+}
+
 .sign-in__left-panel {
   width: 80%;
 }
@@ -21,8 +44,6 @@
 .sign-in__right-panel {
   width: 35%;
   background-image: url("../images/strawberry-sign-up.jpeg");
-  min-height: 100vh;
-  height: 100%;
   background-size: cover;
   background-repeat: no-repeat;
   background-position: left;
@@ -42,6 +63,10 @@
   justify-content: center;
   flex-direction: column;
   padding-bottom: 50px;
+}
+
+.sign-in--form__wrapper-input {
+  height: 80px;
 }
 
 .sign-in--form {
