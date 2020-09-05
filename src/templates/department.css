@@ -1,0 +1,22 @@
+section {
+  display: flex;
+  flex-direction: row;
+}
+
+.leftPanel {
+  padding: 32px 16px 32px 32px;
+  width: 300px;
+}
+
+.rightPanel {
+  width: calc(100% - 260px);
+  max-height: calc(100vh - 90px);
+  overflow: auto;
+  scroll-behavior: smooth;
+}
+
+.product-card--image {
+  background-size: auto;
+  height: 200px;
+  width: 300px;
+}

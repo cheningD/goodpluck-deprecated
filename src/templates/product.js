@@ -10,7 +10,11 @@ export const query = graphql`
       data {
         name
         description
-        department
+        department {
+          data {
+            name
+          }
+        }
         family
         multipleSupplierLabel
         suppliersForProductGroup
@@ -115,7 +119,7 @@ export default function Home({ data }) {
         <div className="product-pagination-wrap">
           <div className="product-pagination-text">Market</div>
           <div className="pagination-icon"></div>
-          <div className="product-pagination-text">{page.department}</div>
+          <div className="product-pagination-text">{page.department.data.name}</div>
           <div className="pagination-icon"></div>
           <div className="product-pagination-text">{page.family}</div>
           <div className="pagination-icon"></div>
