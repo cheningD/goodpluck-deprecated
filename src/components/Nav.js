@@ -8,7 +8,6 @@ import { listToClass } from "../util"
 import { Hamburger } from "./Hamburger"
 import { Menu } from "./Menu"
 
-
 const Nav = () => {
   const { cartCount } = useShoppingCart()
   const [isMobileNavOpen, setMobileNavIsOpen] = React.useState()
@@ -37,41 +36,46 @@ const Nav = () => {
             <span className="search-text">Search</span>
           </button>
 
-          <div
-            className={listToClass([
-              "header-links",
-              isMobileNavOpen && "header-links__open",
-            ])}
-          >
-            <div className="header-link--wrapper">
-              <Link
-                to="/mylists"
-                className={listToClass([
-                  "header-link",
-                  linkIsActive("/mylists") && "current-link",
-                ])}
-              >
-                My Lists
-              </Link>
-            </div>
-            <div className="header-link--wrapper">
-              <Link
-                to="/signin"
-                className={listToClass([
-                  "header-link",
-                  linkIsActive("/signin"),
-                ])}
-              >
-                Sign in
-              </Link>
-            </div>
-            <div className="header-link--wrapper">
-              <Link
-                to="/cart"
-                className={listToClass(["header-link", linkIsActive("/cart")])}
-              >
-                Cart: {`${cartCount}`}
-              </Link>
+          <div className="header-links--list--wrapper">
+            <div
+              className={listToClass([
+                "header-links--list",
+                isMobileNavOpen && "header-links--list__open",
+              ])}
+            >
+              <div className="header-link--wrapper">
+                <Link
+                  to="/mylists"
+                  className={listToClass([
+                    "header-link",
+                    linkIsActive("/mylists") && "current-link",
+                  ])}
+                >
+                  My Lists
+                </Link>
+              </div>
+              <div className="header-link--wrapper">
+                <Link
+                  to="/signin"
+                  className={listToClass([
+                    "header-link",
+                    linkIsActive("/signin"),
+                  ])}
+                >
+                  Sign in
+                </Link>
+              </div>
+              <div className="header-link--wrapper">
+                <Link
+                  to="/cart"
+                  className={listToClass([
+                    "header-link",
+                    linkIsActive("/cart"),
+                  ])}
+                >
+                  Cart: {`${cartCount}`}
+                </Link>
+              </div>
             </div>
           </div>
           <Menu />
