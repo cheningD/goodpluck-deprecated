@@ -3,6 +3,8 @@ import { Link } from "gatsby"
 import "./Nav.css"
 import { useShoppingCart } from "use-shopping-cart"
 import { Hamburger } from "./Hamburger"
+import { listToClass } from "../util"
+import { Menu } from "./Menu"
 
 const Nav = () => {
   const { cartCount } = useShoppingCart()
@@ -12,49 +14,72 @@ const Nav = () => {
     setMobileNavIsOpen(!isMobileNavOpen)
   }, [isMobileNavOpen])
 
-  const className = ""
-
   return (
-    <div className="nav">
-      <Hamburger onOpen={toggleMobileNavOpen} />
-      <Link to="/" className="brand">
-        GOODPLUCK
-      </Link>
+    <div
+      className={listToClass(["nav", isMobileNavOpen && "nav__mobile-open"])}
+    >
+      <div className="nav__wrapper">
+        <div className="brand--wrapper">
+          <Hamburger isOpen={isMobileNavOpen} onOpen={toggleMobileNavOpen} />
+          <Link to="/" className="brand">
+            GOODPLUCK
+          </Link>
+          <button className="nav-search--btn">
+            <span className="search-icon"></span>
+          </button>
+        </div>
 
-      <div className="nav-items">
-        <button className="nav-search--btn">
-          <span className="search-text">Search</span>
-          <span className="search-icon"></span>
-        </button>
-        <div className="header-links">
-          <Link
-            to="/mylists"
-            className={`header-link ${
-              window.location.pathname === "/mylists" ? "current-link" : ""
-            }`}
+        <div className="nav-items">
+          <button className="nav-search--btn">
+            <span className="search-text">Search</span>
+          </button>
+
+          <div
+            className={listToClass([
+              "header-links",
+              isMobileNavOpen && "header-links__open",
+            ])}
           >
-            My Lists
-          </Link>
-          <Link
-            to="/signin"
-            className={`header-link ${
-              window.location.pathname === "/signin" ? "current-link" : ""
-            }`}
-          >
-            Sign in
-          </Link>
-          <Link
-            to="/cart"
-            className={`header-link ${
-              window.location.pathname === "/cart" ? "current-link" : ""
-            }`}
-          >
-            Cart: {`${cartCount}`}
-          </Link>
+            <div className="header-link--wrapper">
+              <Link
+                to="/mylists"
+                className={listToClass([
+                  "header-link",
+                  linkIsActive("/mylists") && "current-link",
+                ])}
+              >
+                My Lists
+              </Link>
+            </div>
+            <div className="header-link--wrapper">
+              <Link
+                to="/signin"
+                className={listToClass([
+                  "header-link",
+                  linkIsActive("/signin"),
+                ])}
+              >
+                Sign in
+              </Link>
+            </div>
+            <div className="header-link--wrapper">
+              <Link
+                to="/cart"
+                className={listToClass(["header-link", linkIsActive("/cart")])}
+              >
+                Cart: {`${cartCount}`}
+              </Link>
+            </div>
+          </div>
+          <Menu />
         </div>
       </div>
     </div>
   )
+}
+
+function linkIsActive(path) {
+  return window.location.pathname === path
 }
 
 export default Nav

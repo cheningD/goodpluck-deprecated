@@ -52,6 +52,7 @@ body {
   background: #788474;
   padding: 0 32px 32px 32px;
   display: block;
+  height: 100%;
 }
 .hero-right {
   background: #df928e;
@@ -74,19 +75,6 @@ body {
   font-size: 1rem;
 }
 
-.menu {
-  min-width: 10rem;
-}
-.menu-category {
-  margin-top: 16px;
-  font-weight: 600;
-}
-.social-icons {
-  height: 20px;
-  width: 100px;
-  background: #ccc;
-  margin-top: 40px;
-}
 .div1 {
   display: flex;
   flex-direction: row;

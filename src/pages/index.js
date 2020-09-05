@@ -2,6 +2,7 @@ import React from "react"
 import { Link } from "gatsby"
 import "./index.css"
 import Nav from "../components/Nav"
+import { Menu } from "../components/Menu"
 
 export default function Home() {
   return (
@@ -11,41 +12,7 @@ export default function Home() {
           <Nav />
           <div className="hero-left">
             <div className="div1">
-              <div className="menu">
-                <button>
-                  Shopping for Today
-                  <br />
-                </button>
-                <button className="menu-category">
-                  Produce
-                  <br />
-                </button>
-                <button className="menu-category">
-                  Bakery
-                  <br />
-                </button>
-                <button className="menu-category">
-                  Eggs
-                  <br />
-                </button>
-                <button className="menu-category">
-                  Dairy
-                  <br />
-                </button>
-                <button className="menu-category">
-                  Meat &amp; Seafood
-                  <br />
-                </button>
-                <button className="menu-category">
-                  Beverages
-                  <br />
-                </button>
-                <button className="menu-category">
-                  Growing Now
-                  <br />
-                </button>
-                <div className="social-icons">Social Icons</div>
-              </div>
+              <Menu />
               <div className="hero-text g-clearfix">
                 <h1 className="h11">
                   <div className="hero-line-1">
