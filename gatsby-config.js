@@ -19,7 +19,7 @@ module.exports = {
           {
             baseId: process.env.AIRTABLE_BASE_ID,
             tableName: `productGroup`,
-            tableLinks: [`products`],
+            tableLinks: [`products`, `department`],
           },
           {
             baseId: process.env.AIRTABLE_BASE_ID,
@@ -30,6 +30,11 @@ module.exports = {
             baseId: process.env.AIRTABLE_BASE_ID,
             tableName: `supplier`,
             tableLinks: [`products`],
+          },
+          {
+            baseId: process.env.AIRTABLE_BASE_ID,
+            tableName: `department`,
+            tableLinks: [`productGroup`],
           },
         ],
       },

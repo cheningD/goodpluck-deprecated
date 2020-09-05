@@ -26,9 +26,10 @@ const StockLabel = sku => {
       <div className="low-stock-label">
         Only a few left!{" "}
         <span>
-          <input type="checkbox" id="allow-substitutions">
-            <label for="allow-substitutions">(Allow Substitutions)</label>
-          </input>
+          <label htmlFor="allow-substitutions">
+            <input type="checkbox" id="allow-substitutions" />
+            (Allow Substitutions)
+          </label>
         </span>
       </div>
     )
