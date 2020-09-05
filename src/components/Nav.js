@@ -23,7 +23,7 @@ const Nav = () => {
 
       <div className="nav-items">
         <button className="nav-search--btn">
-          <span className="search-text"></span>Search
+          <span className="search-text">Search</span>
           <span className="search-icon"></span>
         </button>
         <div className="header-links">

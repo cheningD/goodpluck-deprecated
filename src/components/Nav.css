@@ -11,7 +11,12 @@
 }
 
 .nav-search--btn {
- font-family: "Fa solid 900";
+  font-family: "Fa solid 900";
+}
+
+.nav-search--btn .search-icon {
+  visibility: hidden;
+  display: none;
 }
 
 .brand {
@@ -30,7 +35,6 @@
 }
 
 .header-links {
-
 }
 
 .header-link {
@@ -66,12 +70,8 @@
 }
 
 .hamburger__wrapper {
-  width: 55px;
-  height: 20px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: flex-start;
+  display: none;
+  visibility: hidden;
 }
 
 .hamburger__wrapper:hover {
@@ -86,10 +86,11 @@
 .hamburger-line {
   height: 3px;
   width: 25px;
-  background: #FFF;
+  background: #fff;
 }
 
-.hamburger--line-top {}
+.hamburger--line-top {
+}
 .hamburger--line-middle {
   width: 25px;
 }
@@ -99,12 +100,32 @@
 
 @media screen and (max-width: 800px) {
   .header-links {
-      visibility: hidden;
-      display: none;
+    visibility: hidden;
+    display: none;
   }
 
   .header-links__open {
     visibility: visible;
     display: block;
+  }
+
+  .hamburger__wrapper {
+    visibility: visible;
+    width: 55px;
+    height: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+
+  .nav-search--btn .search-text {
+    visibility: hidden;
+    display: none;
+  }
+
+  .nav-search--btn .search-icon {
+    display: block;
+    visibility: visible;
   }
 }
