@@ -2,9 +2,12 @@ import React from "react"
 import { Link } from "gatsby"
 import "./Nav.css"
 import { useShoppingCart } from "use-shopping-cart"
-import { Hamburger } from "./Hamburger"
+
 import { listToClass } from "../util"
+
+import { Hamburger } from "./Hamburger"
 import { Menu } from "./Menu"
+
 
 const Nav = () => {
   const { cartCount } = useShoppingCart()
@@ -18,7 +21,7 @@ const Nav = () => {
     <div
       className={listToClass(["nav", isMobileNavOpen && "nav__mobile-open"])}
     >
-      <div className="nav__wrapper">
+      <div className="nav--wrapper">
         <div className="brand--wrapper">
           <Hamburger isOpen={isMobileNavOpen} onOpen={toggleMobileNavOpen} />
           <Link to="/" className="brand">

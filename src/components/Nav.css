@@ -10,7 +10,7 @@
   background: #788474;
 }
 
-.nav__wrapper {
+.nav--wrapper {
   display: flex;
   width: 100%;
   justify-content: space-between;
@@ -150,7 +150,7 @@
     align-items: flex-start;
   }
 
-  .nav__wrapper {
+  .nav--wrapper {
     flex-direction: column;
   }
 
