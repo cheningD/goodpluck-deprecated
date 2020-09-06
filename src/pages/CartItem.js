@@ -18,9 +18,7 @@ export const CartItem = ({ product, sku }) => (
 )
 
 const ProductName = ({ product }) => (
-  <div className="cart-item--product-name">
-    {product.name}
-  </div>
+  <div className="cart-item--product-name">{product.name}</div>
 )
 
 const ProductSupplier = ({ product }) => (
@@ -49,10 +47,10 @@ const StockLabel = sku => {
     return <div className="in-stock-label">In Stock</div>
   } else if (sku === "something else") {
     return (
-      <div className="low-stock-label">
+      <div className="low-stock-label peach-highlight">
         Only a few left!
         <span>
-          <label htmlFor="allow-substitutions">
+          <label className="low-stock-checkbox" htmlFor="allow-substitutions">
             <input type="checkbox" id="allow-substitutions" />
             (Allow Substitutions)
           </label>
@@ -61,7 +59,7 @@ const StockLabel = sku => {
     )
   } else {
     return (
-      <div className="out-of-stock-label">
+      <div className="out-of-stock-label peach-highlight">
         Out of stock <Link to="/">find a substitute</Link>
       </div>
     )
