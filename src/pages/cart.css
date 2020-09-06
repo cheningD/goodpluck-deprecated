@@ -147,6 +147,19 @@
   color: #788474;
 }
 
+.low-stock-label {
+  display: flex;
+  flex-direction: column;
+}
+
+.low-stock-checkbox {
+  display: flex;
+}
+
+.low-stock-checkbox > input {
+  margin-right: 10px;
+}
+
 @media screen and (max-width: 786px) {
   .cart-content--overview {
     padding-top: 20px;
