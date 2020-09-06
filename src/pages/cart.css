@@ -14,7 +14,8 @@
 
 .cart-content--overview {
   width: 40%;
-  max-width: 300px;
+  max-width: 250px;
+  min-width: 250px;
   color: #788474;
   border-right: 1px solid #788474;
   margin-right: 30px;
@@ -46,7 +47,7 @@
 .cart-checkout--btn {
   font-family: Bebas Neue, sans-serif;
   background: #788474;
-  color: #FFF;
+  color: #fff;
   padding: 5px;
   min-width: 80px;
   border-radius: 4px;
@@ -63,6 +64,61 @@
 .cart-item-list--wrapper {
   width: 100%;
   position: relative;
+}
+
+.cart-item-card {
+  padding-bottom: 20px;
+  border-bottom: 1px solid #788474;
+}
+
+.cart-item--wrapper,
+.cart-item--details {
+  display: flex;
+  width: 100%;
+}
+
+.cart-item--image {
+  height: 70px;
+  width: 100px;
+  object-fit: contain;
+  min-width: 100px;
+  background: red;
+}
+
+.cart-item--product {
+  width: 89%;
+  padding-left: 10px;
+}
+
+.cart-item--product-name {
+  font-weight: bold;
+  font-family: Raleway, sans-serif;
+  color: #788474;
+  padding-right: 20px;
+}
+
+.cart-item--product-price--wrapper {
+  display: flex;
+  justify-content: space-between;
+  font-family: Bebas Neue, sans-serif;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.cart-item--supplier-name,
+.cart-item--unit-price {
+  color: #788474;
+}
+
+.cart-item--product-cumulative-total {
+  font-size: 25px;
+  color: #788474;
+  font-family: Bebas Neue, sans-serif;
+}
+
+.in-stock-label {
+  color: #788474;
+  font-weight: lighter;
 }
 
 .cart-item-controls {
@@ -91,54 +147,49 @@
   color: #788474;
 }
 
-.cart-item--product-price--wrapper {
-  display: flex;
-  justify-content: space-between;
-  font-family: Bebas Neue, sans-serif;
-  align-items: flex-start;
-  width: 100%;
-}
+@media screen and (max-width: 786px) {
+  .cart-content--overview {
+    padding-top: 20px;
+    width: 100%;
+    margin-right: 0;
+    border: none;
+    border-bottom: 1px solid #788474;
+    max-width: none;
+  }
 
-.cart-item--product-name {
-  font-weight: bold;
-  font-family: Raleway, sans-serif;
-  color: #788474;
-}
+  .cart-content {
+    flex-direction: column;
+    padding: 0px 20px 20px 20px;
+  }
 
-.cart-item-card {
-  padding-bottom: 20px;
-  border-bottom: 1px solid #788474;
-}
+  .cart-item--image {
+    height: 100px;
+    width: 70px;
+    min-width: 70px;
+  }
 
-.cart-item--wrapper {
-  display: flex;
-}
+  .cart-checkout--secure,
+  .cart-items--overview-header {
+    visibility: hidden;
+    display: none;
+  }
 
-.cart-item--image {
-  height: 70px;
-  width: 100px;
-  object-fit: contain;
-  min-width: 100px;
-  background: red;
-}
+  .cart-checkout--wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
 
-.cart-item--product {
-  width: 100%;
-  padding-left: 10px;
-}
+  .cart-checkout--btn {
+    width: 100%;
+    padding: 10px;
+  }
 
-.cart-item--supplier-name {
-  color: #788474;
-}
+  .cart-item--details {
+    flex-direction: column;
+  }
 
-.cart-item--currency {
-  font-size: 25px;
-  color: #788474;
-  font-family: Bebas Neue, sans-serif;
+  .cart-item--product-cumulative-total {
+    padding-left: 10px;
+  }
 }
-
-.in-stock-label {
-  color: #788474;
-  font-weight: lighter;
-}
-

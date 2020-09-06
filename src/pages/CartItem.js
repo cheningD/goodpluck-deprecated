@@ -5,18 +5,20 @@ import { formatCurrencyString } from "use-shopping-cart"
 export const CartItem = ({ product, sku }) => (
   <div className="cart-item--wrapper">
     <div className="cart-item--image" />
-    <div className="cart-item--product">
-      <ProductName product={product} />
-      <ProductSupplier product={product} />
-      <ProductUnitPrice product={product} />
-      <StockLabel sku={sku} />
+    <div className="cart-item--details">
+      <div className="cart-item--product">
+        <ProductName product={product} />
+        <ProductSupplier product={product} />
+        <ProductUnitPrice product={product} />
+        <StockLabel sku={sku} />
+      </div>
+      <ProductCumulativeTotal product={product} />
     </div>
-    <ProductCumulativeTotal product={product} />
   </div>
 )
 
 const ProductName = ({ product }) => (
-  <div className="cart-item--product-name text-overflow-ellipsis">
+  <div className="cart-item--product-name">
     {product.name}
   </div>
 )
@@ -26,7 +28,7 @@ const ProductSupplier = ({ product }) => (
 )
 
 const ProductUnitPrice = ({ product }) => (
-  <div className="cart-item--supplier-name">
+  <div className="cart-item--unit-price">
     {formatCurrencyString({
       value: product.price,
       currency: product.currency,
@@ -36,7 +38,7 @@ const ProductUnitPrice = ({ product }) => (
 )
 
 const ProductCumulativeTotal = ({ product }) => (
-  <div className="cart-item--currency">
+  <div className="cart-item--product-cumulative-total">
     {product.formattedValue.replace("US$", "")}
   </div>
 )

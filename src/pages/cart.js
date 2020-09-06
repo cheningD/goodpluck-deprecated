@@ -43,8 +43,8 @@ const CartContent = () => {
     return (
       <div className="cart-content">
         No items yet! <Link to="/">Why not try one of these?</Link>{" "}
-        <button onClick={() => addItem(demoProduct)}>
-          Add demo item. Status ({status})
+        <button style={{ color: "red" }} onClick={() => addItem(demoProduct)}>
+          DELETE ME Add demo item. Status ({status})
         </button>
       </div>
     )
@@ -85,8 +85,8 @@ const CartContent = () => {
           </div>
         </div>
 
-        <button onClick={() => addItem(demoProduct)}>
-          Add demo item. Status ({status})
+        <button style={{ color: "red" }}  onClick={() => addItem(demoProduct)}>
+          DELETE ME Add demo item. Status ({status})
         </button>
       </div>
       <div className="cart-item-list--wrapper">
