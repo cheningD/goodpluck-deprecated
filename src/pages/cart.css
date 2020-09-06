@@ -1,7 +1,10 @@
 .cart-content {
-  padding: 32px;
+  padding: 0px 32px 32px 32px;
   font-family: Raleway, sans-serif;
   color: #031927;
+  display: flex;
+  height: 100%;
+  min-height: 100vh;
 }
 
 .peach-highlight {
@@ -9,11 +12,133 @@
   font-weight: bolder;
 }
 
-/* //Todo: Delete ME: Temporary css so that i can see what im doing */
-.cart-content > button {
-  background: #df928e;
+.cart-content--overview {
+  width: 40%;
+  max-width: 300px;
+  color: #788474;
+  border-right: 1px solid #788474;
+  margin-right: 30px;
+}
+
+.cart-items--overview-header {
+  font-weight: normal;
+}
+
+.cart-subtotal--count {
+  font-weight: bold;
+}
+
+.cart-checkout--secure {
+  padding-top: 10px;
+  color: lightgray;
+}
+
+.cart-checkout--secure-text {
+  font-variant: small-caps;
+  font-family: Raleway, sans-serif;
+  padding-left: 5px;
+}
+
+.cart-checkout--wrapper {
+  padding-top: 10px;
+}
+
+.cart-checkout--btn {
+  font-family: Bebas Neue, sans-serif;
+  background: #788474;
+  color: #FFF;
+  padding: 5px;
+  min-width: 80px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cart-items--produce-header {
+  font-family: Bebas Neue, sans-serif;
+  color: #788474;
+}
+
+.cart-item-list--wrapper {
+  width: 100%;
+  position: relative;
 }
 
 .cart-item-controls {
-  background: #df928e;
+  display: flex;
+  padding-top: 10px;
 }
+
+.remove-from-cart--btn {
+  color: #788474;
+  padding-left: 10px;
+}
+
+.quantity-drop-down {
+  width: 100px;
+}
+
+.quantity-drop-down .react-select__single-value {
+  font-family: Bebas Neue, sans-serif;
+  color: #788474;
+  font-size: 20px;
+}
+
+.quantity-drop-down--arrow {
+  padding: 0px 10px;
+  font-size: 17px;
+  color: #788474;
+}
+
+.cart-item--product-price--wrapper {
+  display: flex;
+  justify-content: space-between;
+  font-family: Bebas Neue, sans-serif;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.cart-item--product-name {
+  font-weight: bold;
+  font-family: Raleway, sans-serif;
+  color: #788474;
+}
+
+.cart-item-card {
+  padding-bottom: 20px;
+  border-bottom: 1px solid #788474;
+}
+
+.cart-item--wrapper {
+  display: flex;
+}
+
+.cart-item--image {
+  height: 70px;
+  width: 100px;
+  object-fit: contain;
+  min-width: 100px;
+  background: red;
+}
+
+.cart-item--product {
+  width: 100%;
+  padding-left: 10px;
+}
+
+.cart-item--supplier-name {
+  color: #788474;
+}
+
+.cart-item--currency {
+  font-size: 25px;
+  color: #788474;
+  font-family: Bebas Neue, sans-serif;
+}
+
+.in-stock-label {
+  color: #788474;
+  font-weight: lighter;
+}
+

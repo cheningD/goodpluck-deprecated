@@ -59,3 +59,10 @@ button:focus {
 button:active {
   transform: scale(0.99);
 }
+
+.text-overflow-ellipsis {
+  word-wrap: break-word;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
