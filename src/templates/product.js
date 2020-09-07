@@ -1,7 +1,9 @@
 import React from "react"
 import "./product.css"
-import ProductPriceContainer from "../components/productPriceContainer"
-
+import ProductPriceContainer from "../components/ProductPriceContainer"
+import Nav from "../components/Nav"
+import { Link } from "gatsby"
+import { removeNonLetters } from "../util"
 import { graphql } from "gatsby"
 
 export const query = graphql`
@@ -9,10 +11,12 @@ export const query = graphql`
     airtable(table: { eq: "productGroup" }, data: { id: { eq: $id } }) {
       data {
         name
+        slug
         description
         department {
           data {
             name
+            slug
           }
         }
         family
@@ -24,9 +28,9 @@ export const query = graphql`
           data {
             price
             sizeDescription
-            quantity
             deliveryDate1
             deliveryDate2
+            sku
             supplier {
               data {
                 name
@@ -58,13 +62,56 @@ function DeliveryDateComponent({ date }) {
   )
 }
 
-export default function Home({ data }) {
+const ProductDetailBreadcrumbs = ({
+  name,
+  slug,
+  department,
+  departmentSlug,
+  family,
+  familySlug,
+}) => {
+  return (
+    <div className="product-detail">
+      <div className="product-detail--breadcrumb-container">
+        <Link className="product-detail--breadcrumb-text" to="/">
+          Market
+        </Link>
+        <div className="product-detail--breadcrumb-icon"></div>
+        <Link className="product-detail--breadcrumb-text" to={departmentSlug}>
+          {department}
+        </Link>
+        <div className="product-detail--breadcrumb-icon"></div>
+        <Link className="product-detail--breadcrumb-text" to={familySlug}>
+          {family}
+        </Link>
+        <div className="product-detail--breadcrumb-icon"></div>
+        <Link className="product-detail--breadcrumb-text" to={slug}>
+          {name}
+        </Link>
+      </div>
+    </div>
+  )
+}
+
+export default function ProductDetailPage({ data }) {
   const page = data.airtable.data
   const productLabels = page.products.map(product => {
+    console.log("L@@K!", product)
+    const cartItem = {
+      name: page.name,
+      description: page.description,
+      sku: product.data.sku,
+      price: product.data.price,
+      currency: "USD",
+      image: page.imageUrl,
+    }
     return (
       <ProductPriceContainer
         price={product.data.price}
         sizeDescription={product.data.sizeDescription}
+        is_market_deal={false}
+        cartItem={cartItem}
+        key={product.data.sku}
       />
     )
   })
@@ -88,13 +135,13 @@ export default function Home({ data }) {
 
   const uniqueDates = Array.from(new Set(allDates))
   const deliveryDates = uniqueDates.map(date => {
-    return <DeliveryDateComponent date={date} />
+    return <DeliveryDateComponent date={date} key={date} />
   })
 
   const productHighlights = page.productHighlights.map(highlight => {
     return (
-      <div className="product-highlight-list-item">
-        <div className="check"></div>
+      <div className="product-highlight-list-item" key={highlight}>
+        <div className="product-detail--check"></div>
         <div>{highlight}</div>
       </div>
     )
@@ -102,11 +149,11 @@ export default function Home({ data }) {
 
   const productBadges = page.productBadges.map(badge => {
     return (
-      <div className="certification">
+      <div className="product-detail--badge" key={badge}>
         <img
           src="https://d3e54v103j8qbb.cloudfront.net/plugins/Basic/assets/placeholder.60f9b1840c.svg"
           alt={badge}
-          className="whats-good-image"
+          className="product-detail--badge-img"
         />
         <div>{badge}</div>
       </div>
@@ -114,56 +161,54 @@ export default function Home({ data }) {
   })
 
   return (
-    <div className="react-body">
-      <div className="product-page">
-        <div className="product-pagination-wrap">
-          <div className="product-pagination-text">Market</div>
-          <div className="pagination-icon"></div>
-          <div className="product-pagination-text">{page.department.data.name}</div>
-          <div className="pagination-icon"></div>
-          <div className="product-pagination-text">{page.family}</div>
-          <div className="pagination-icon"></div>
-          <div className="product-pagination-text">{page.name}</div>
+    <>
+      <Nav />
+      <ProductDetailBreadcrumbs
+        name={page.name}
+        slug={page.slug}
+        department={page.department[0].data.name}
+        departmentSlug={page.department[0].data.slug}
+        family={page.family}
+        familySlug={`${page.department[0].data.slug}#${removeNonLetters(
+          page.family
+        )}`}
+      />
+
+      <div className="product-detail--column-container">
+        <div className="product-detail--left-panel">
+          <img
+            height=""
+            src="https://d3e54v103j8qbb.cloudfront.net/plugins/Basic/assets/placeholder.60f9b1840c.svg"
+            alt=""
+            className="image"
+          />
         </div>
-        <div className="product-columns g-row">
-          <div className="column w-clearfix g-col g-col-6">
-            <img
-              height=""
-              src="https://d3e54v103j8qbb.cloudfront.net/plugins/Basic/assets/placeholder.60f9b1840c.svg"
-              alt=""
-              className="image"
-            />
+        <div className="product-detail--right-panel">
+          <div className="product-highlight-text">FRESHLY PLUCKED</div>
+          <div className="product-detail--supplier">
+            {page.suppliersForProductGroup.length === 1
+              ? page.products[0].data.supplier[0].data.name
+              : page.multipleSupplierLabel}
           </div>
-          <div className="column2 g-col g-col-6">
-            <div className="product-highlight-text">FRESHLY PLUCKED</div>
-            <div className="farm-label">
-              {page.suppliersForProductGroup.length === 1
-                ? page.products[0].data.supplier[0].data.name
-                : page.multipleSupplierLabel}
-            </div>
-            <h1 className="product-name">{page.name}</h1>
-            {productLabels}
-          </div>
-        </div>
-        <div className="product-columns g-row">
-          <div className="column g-col g-col-6">
-            <div className="delivered-on-container">
-              <div className="delivered-on-label">
-                Plucked &amp; Delivered on:
-              </div>
-              <div className="delivery-dates-container">{deliveryDates}</div>
-            </div>
-            <div className="product-description">{page.description}</div>
-          </div>
-          <div className="column2 g-col g-col-6">
-            <h2 className="whats-good-heading">What&#x27;s Good?</h2>
-            <div className="product-certification-container">
-              {productBadges}
-            </div>
-            {productHighlights}
-          </div>
+          <h1 className="product-detail--name">{page.name}</h1>
+          {productLabels}
         </div>
       </div>
-    </div>
+      <div className="product-detail--column-container">
+        <div className="product-detail--left-panel">
+          <div className="product-detail--delivered-on-container">
+            <div className="product-detail--delivered-on-label">
+              Plucked &amp; Delivered on:
+            </div>
+            <div className="delivery-dates-container">{deliveryDates}</div>
+          </div>
+          <div className="product-detail--description ">{page.description}</div>
+        </div>
+        <div className="product-detail--right-panel">
+          <div className="product-detail--badge-container">{productBadges}</div>
+          {productHighlights}
+        </div>
+      </div>
+    </>
   )
 }

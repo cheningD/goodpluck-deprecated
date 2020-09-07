@@ -13,7 +13,7 @@ export default function Home() {
           <div className="hero-left">
             <div className="div1">
               <Menu />
-              <div className="hero-text g-clearfix">
+              <div className="hero-text">
                 <h1 className="h11">
                   <div className="hero-line-1">
                     <span className="span1">SUPER FRESH </span>
@@ -25,7 +25,7 @@ export default function Home() {
                   </div>
                   <button className="hero-dropdown">DETROIT</button>
                 </h1>
-                <form className="cta-form CLEARFIX g-clearfix">
+                <form className="cta-form">
                   <input
                     type="text"
                     placeholder="zip code"

@@ -73,7 +73,11 @@ section {
 }
 
 .product-card--fav-btn {
+<<<<<<< HEAD
   font-family: "Fa solid 900";
+=======
+  font-family: "fa solid";
+>>>>>>> (fixes #8) Adds CSS for shopping pages (e.g. market/produce)
   font-size: 0.8rem;
   width: 1.2rem;
   height: 1.2rem;
@@ -128,7 +132,11 @@ section {
   flex-direction: row;
   align-items: center;
   justify-content: center;
+<<<<<<< HEAD
   font-family: "Fa solid 900";
+=======
+  font-family: "fa solid";
+>>>>>>> (fixes #8) Adds CSS for shopping pages (e.g. market/produce)
   z-index: 4;
 }
 

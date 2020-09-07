@@ -1,0 +1,12 @@
+.price-formatter-dollars {
+  font-size: 3rem;
+  font-weight: 400;
+  line-height: 3rem;
+  margin: 0 0.5rem;
+}
+
+.price-formatter-cents {
+  font-size: 1.5rem;
+  font-weight: 600;
+  vertical-align: super;
+}
