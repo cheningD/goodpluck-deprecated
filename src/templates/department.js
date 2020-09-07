@@ -1,15 +1,13 @@
-import React from "react"
+import React, { useEffect } from "react"
 import Nav from "../components/Nav"
 import ConnectedSidebar from "../components/ConnectedSidebar"
 import { graphql } from "gatsby"
-import { InView } from "react-intersection-observer"
 import { useShoppingCart } from "use-shopping-cart"
 import "./department.css"
 import AddIcon from "../images/icons/add.svg"
 import MinusIcon from "../images/icons/minus.svg"
+import { debounce, removeNonLetters } from "../util"
 
-//Returns a string with all non letters [a-z] removed
-const removeNonLetters = string => string.replace(/[^a-z]/gi, "")
 
 export const query = graphql`
   query DepartmentPageQuery {
@@ -45,31 +43,10 @@ export const query = graphql`
   }
 `
 
-// The ObservableElement updates window.location.hash when it scrolls into view
-const ObservableElement = props => {
-  const id = removeNonLetters(props.title)
-  return (
-    <InView
-      as={props.tag}
-      id={id}
-      className={props.className}
-      onChange={(inView, entry) => {
-        console.log("Inview:", inView)
-        if (id && inView) {
-          console.log("Changing hash to:", id)
-          window.location.hash = id
-        }
-      }}
-    >
-      {props.title}
-    </InView>
-  )
-}
-
 const ProductCard = ({ productGroup }) => {
   const data = productGroup.data
   const selectedProduct = productGroup.data.products[0].data
-  console.log(selectedProduct)
+  // console.log(selectedProduct)
 
   // To add itmes to the cart the following fields are required:
   const cartItem = {
@@ -163,21 +140,117 @@ const ProductCard = ({ productGroup }) => {
   )
 }
 
-export default function DepartmentPage({ data }) {
-  /* Create a map {category: {family: [productGroup] }
+const DepartmentPage = React.memo(({ data }) => {
+  const [scrollTop, setScrollTop] = React.useState(0)
+  const [activeSection, setActiveSection] = React.useState("");
+  const rightPanelRef = React.useRef()
 
-  e.g.
-  {vegetables: {
-    "Cucumbers & Zucchinis": [ {}, ... ],
-    "Tomatoes, Peppers & Eggplants": [ {}, ... ]
-  },
-  fruits: {
-    "Cucumbers & Zucchinis": [ {}, ... ]
-  }}
-  
-  */
+  const productMap = React.useMemo(() => {
+    return selectProductMap(data.allAirtable.nodes)
+  }, [data.allAirtable.nodes])
+
+  const sidebarEntries = React.useMemo(() => {
+    return selectSideBarEntries(productMap)
+  }, [productMap])
+
+  const scrollHandler = React.useCallback(
+    debounce(() => {
+      const parentTop =
+        (rightPanelRef?.current?.scrollTop || 0) +
+        (rightPanelRef?.current?.offsetTop || 0)
+
+      setScrollTop(parentTop)
+    }, 500),
+    []
+  )
+
+  useEffect(() => {
+    scrollHandler(rightPanelRef?.current)
+  })
+
+  return (
+    <>
+      <Nav />
+      <section>
+        <div className="leftPanel">
+          <ConnectedSidebar activeSection={activeSection} sideBarLinks={sidebarEntries} />
+        </div>
+        <div
+          onScroll={scrollHandler}
+          ref={rightPanelRef}
+          className="rightPanel"
+        >
+          {Object.keys(productMap).map(category => (
+            <React.Fragment key={`heading-${category}`}>
+              <h1
+                className="department--heading-1"
+                id={removeNonLetters(category)}
+              >
+                {category}
+              </h1>
+              {Object.keys(productMap[category]).map((family, idx) => (
+                <ProductSection
+                  setActiveSection={setActiveSection}
+                  key={`${family}-${idx}`}
+                  parentTop={scrollTop}
+                  family={family}
+                >
+                  <div className="product-card--container">
+                    {productMap[category][family].map((productGroup, childIdx) => (
+                      <ProductCard
+                        key={`product-${family}-${childIdx}`}
+                        productGroup={productGroup}
+                      />
+                    ))}
+                  </div>
+                </ProductSection>
+              ))}
+            </React.Fragment>
+          ))}
+        </div>
+      </section>
+    </>
+  )
+})
+
+const ProductSection = React.memo(props => {
+  const productRef = React.useRef()
+
+  const newHash = React.useMemo(() => removeNonLetters(props.family), [
+    props.family,
+  ])
+
+  const inView = productRef?.current?.offsetTop + 80 >= props.parentTop;
+
+  useEffect(() => {
+    if(inView) {
+      props.setActiveSection(newHash)
+    }
+  }, [newHash, inView])
+
+  return (
+    <div ref={productRef} id={newHash}>
+      <h2 className="department--heading-2">{props.family}</h2>
+      {props.children}
+    </div>
+  )
+})
+
+/* Create a map {category: {family: [productGroup] }
+
+e.g.
+{vegetables: {
+  "Cucumbers & Zucchinis": [ {}, ... ],
+  "Tomatoes, Peppers & Eggplants": [ {}, ... ]
+},
+fruits: {
+  "Cucumbers & Zucchinis": [ {}, ... ]
+}}
+
+*/
+function selectProductMap(nodes) {
   const productMap = {}
-  data.allAirtable.nodes.forEach(productGroup => {
+  nodes.forEach(productGroup => {
     const category = productGroup.data.category[0]
     const family = productGroup.data.family
 
@@ -195,8 +268,12 @@ export default function DepartmentPage({ data }) {
     productMap[category][family].push(productGroup)
   })
 
-  //Create an entry   { title: "Link 1", link: "#link1", children: [] } for each category
-  const sidebarEntries = Object.keys(productMap).map(category => {
+  return productMap
+}
+
+// Create an entry   { title: "Link 1", link: "#link1", children: [] } for each category
+function selectSideBarEntries(productMap) {
+  return Object.keys(productMap).map(category => {
     const childEntries = Object.keys(productMap[category]).map(family => {
       return { title: family, link: `#${removeNonLetters(family)}` }
     })
@@ -207,44 +284,6 @@ export default function DepartmentPage({ data }) {
       children: childEntries,
     }
   })
-
-  console.log(sidebarEntries)
-
-  const categorySection = Object.keys(productMap).map(category => {
-    const familySection = Object.keys(productMap[category]).map(family => {
-      const productGroups = productMap[category][family].map(productGroup => {
-        return <ProductCard productGroup={productGroup} />
-      })
-      return (
-        <>
-          <ObservableElement
-            title={family}
-            tag="h2"
-            className="department--heading-2"
-          />
-          <div className="product-card--container">{productGroups}</div>
-        </>
-      )
-    })
-    return (
-      <>
-        <h1 className="department--heading-1" id={removeNonLetters(category)}>
-          {category}
-        </h1>
-        {familySection}
-      </>
-    )
-  })
-
-  return (
-    <>
-      <Nav />
-      <section>
-        <div className="leftPanel">
-          <ConnectedSidebar sideBarLinks={sidebarEntries} />
-        </div>
-        <div className="rightPanel">{categorySection}</div>
-      </section>
-    </>
-  )
 }
+
+export default DepartmentPage

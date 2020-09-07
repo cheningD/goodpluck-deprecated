@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react"
 import "./ConnectedSidebar.css"
+import { removeNonLetters } from "../util"
 
 export default function ConnectedSidebar(props) {
+  console.log(props.activeSection)
   const sideBarLinks =
     props.sideBarLinks !== undefined ? props.sideBarLinks : []
   const [activeLink, setActiveLink] = useState(window.location.hash)
@@ -17,13 +19,21 @@ export default function ConnectedSidebar(props) {
   })
 
   function checkIfActive(item, activeLink) {
+    const sectionName = removeNonLetters(item.link)
+
     if (!activeLink) return false
-    return item.link === activeLink
+    return sectionName === props.activeSection
       ? true
       : item.children !== undefined && item.children.length > 0 //check if the active link is any of the childrens
-      ? item.children.filter(childItem => {
-          return childItem.link === activeLink
-        }).length > 0
+      ? !!item.children.find(
+          childItem => {
+            console.log( removeNonLetters(childItem.link))
+            const isTrue = removeNonLetters(childItem.link) === props.activeSection
+            console.log(isTrue)
+
+            return isTrue
+          }
+        )
       : false
   }
 
