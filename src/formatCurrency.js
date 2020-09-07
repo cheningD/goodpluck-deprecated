@@ -1,4 +1,11 @@
-// cached as `Intl.NumberFormat` is slow as hell to instantiate.
+/**
+ * @throws
+ * cached as `Intl.NumberFormat` is slow as hell to instantiate.
+ * @param val {string | number}
+ * @param currency {string}
+ * @param locale {string}
+ * @return {number}
+ */
 export function formatCurrency(val, currency = "USD", locale = "en-US") {
   const number = +val
   if (isNaN(number)) {
@@ -19,12 +26,16 @@ export function formatCurrency(val, currency = "USD", locale = "en-US") {
   return currencyFormatters[currency].format(val)
 }
 
+/**
+ *
+ * @type {Object<string, any>}
+ */
 const currencyFormatters = {}
 
 /**
- *
- * @param currency string
- * @return number
+ * @throws
+ * @param currency {string}
+ * @return {number}
  */
 export function currencyToNumber(currency) {
   const withoutCurrencySymbol = currency.replace(currencyRegEx, "")
@@ -55,8 +66,6 @@ const CURRENCY_TO_SYMBOLS = {
   VND: "₫", // Vietnamese Dong
 }
 
-
 const currencyRegEx = new RegExp(
   `[${Object.values(CURRENCY_TO_SYMBOLS).join("")}]`
 )
-
