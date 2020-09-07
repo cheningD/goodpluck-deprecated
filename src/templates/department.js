@@ -7,9 +7,8 @@ import { useShoppingCart } from "use-shopping-cart"
 import "./department.css"
 import AddIcon from "../images/icons/add.svg"
 import MinusIcon from "../images/icons/minus.svg"
-
-//Returns a string with all non letters [a-z] removed
-const removeNonLetters = string => string.replace(/[^a-z]/gi, "")
+import { removeNonLetters } from "../util"
+import PriceFormatter from "../components/PriceFormatter"
 
 export const query = graphql`
   query DepartmentPageQuery {
@@ -156,7 +155,9 @@ const ProductCard = ({ productGroup }) => {
           <span className="product-card--sizeDescription">
             {selectedProduct.sizeDescription}
           </span>
-          <span className="product-card--price">{selectedProduct.price}</span>
+          <span className="product-card--price">
+            <PriceFormatter priceInCents={selectedProduct.price} />
+          </span>
         </div>
       </div>
     </div>
