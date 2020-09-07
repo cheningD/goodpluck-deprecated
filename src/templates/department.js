@@ -8,7 +8,6 @@ import AddIcon from "../images/icons/add.svg"
 import MinusIcon from "../images/icons/minus.svg"
 import { debounce, removeNonLetters } from "../util"
 
-
 export const query = graphql`
   query DepartmentPageQuery {
     allAirtable(
@@ -142,7 +141,7 @@ const ProductCard = ({ productGroup }) => {
 
 const DepartmentPage = React.memo(({ data }) => {
   const [scrollTop, setScrollTop] = React.useState(0)
-  const [activeSection, setActiveSection] = React.useState("");
+  const [activeSection, setActiveSection] = React.useState("")
   const rightPanelRef = React.useRef()
 
   const productMap = React.useMemo(() => {
@@ -165,7 +164,7 @@ const DepartmentPage = React.memo(({ data }) => {
   )
 
   useEffect(() => {
-    scrollHandler(rightPanelRef?.current)
+    scrollHandler()
   })
 
   return (
@@ -173,7 +172,10 @@ const DepartmentPage = React.memo(({ data }) => {
       <Nav />
       <section>
         <div className="leftPanel">
-          <ConnectedSidebar activeSection={activeSection} sideBarLinks={sidebarEntries} />
+          <ConnectedSidebar
+            activeSection={activeSection}
+            sideBarLinks={sidebarEntries}
+          />
         </div>
         <div
           onScroll={scrollHandler}
@@ -196,12 +198,14 @@ const DepartmentPage = React.memo(({ data }) => {
                   family={family}
                 >
                   <div className="product-card--container">
-                    {productMap[category][family].map((productGroup, childIdx) => (
-                      <ProductCard
-                        key={`product-${family}-${childIdx}`}
-                        productGroup={productGroup}
-                      />
-                    ))}
+                    {productMap[category][family].map(
+                      (productGroup, childIdx) => (
+                        <ProductCard
+                          key={`product-${family}-${childIdx}`}
+                          productGroup={productGroup}
+                        />
+                      )
+                    )}
                   </div>
                 </ProductSection>
               ))}
@@ -220,10 +224,10 @@ const ProductSection = React.memo(props => {
     props.family,
   ])
 
-  const inView = productRef?.current?.offsetTop + 80 >= props.parentTop;
+  const inView = productRef?.current?.offsetTop + 80 >= props.parentTop
 
   useEffect(() => {
-    if(inView) {
+    if (inView) {
       props.setActiveSection(newHash)
     }
   }, [newHash, inView])
