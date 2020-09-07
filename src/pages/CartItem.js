@@ -1,6 +1,6 @@
 import * as React from "react"
 import { Link } from "gatsby"
-import { formatCurrencyString } from "use-shopping-cart"
+import { formatCurrency } from "../formatCurrency"
 
 export const CartItem = ({ product, sku }) => (
   <div className="cart-item--wrapper">
@@ -27,17 +27,13 @@ const ProductSupplier = ({ product }) => (
 
 const ProductUnitPrice = ({ product }) => (
   <div className="cart-item--unit-price">
-    {formatCurrencyString({
-      value: product.price,
-      currency: product.currency,
-    }).replace("US$", "")}{" "}
-    each
+    {formatCurrency(product.price, product.currency).replace("$", "")} each
   </div>
 )
 
 const ProductCumulativeTotal = ({ product }) => (
   <div className="cart-item--product-cumulative-total">
-    {product.formattedValue.replace("US$", "")}
+    {formatCurrency(product.value, product.currency).replace("$", "")}
   </div>
 )
 

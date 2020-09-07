@@ -1,12 +1,13 @@
 import React, { useState } from "react"
 import { Link } from "gatsby"
-import { useShoppingCart, formatCurrencyString } from "use-shopping-cart"
+import { useShoppingCart } from "use-shopping-cart"
 import Select from "react-select"
 
 import "./cart.css"
 import Nav from "../components/Nav"
 import { CartItem } from "./CartItem"
 import { listToClass } from "../util"
+import { formatCurrency } from "../formatCurrency"
 
 const Cart = () => {
   return (
@@ -26,7 +27,7 @@ const CartContent = () => {
     redirectToCheckout,
   } = useShoppingCart()
 
-  const isEligibleForFreeShipping = totalPrice < minPriceForFreehipping
+  const isEligibleForFreeShipping = totalPrice > minPriceForFreehipping
 
   async function handleCheckout(event) {
     event.preventDefault()
@@ -58,21 +59,18 @@ const CartContent = () => {
           Subtotal ({cartCount} items) :
           <span
             className={listToClass([
-              isEligibleForFreeShipping && "peach-highlight", "cart-subtotal--count"
+              !isEligibleForFreeShipping && "peach-highlight",
+              "cart-subtotal--count",
             ])}
           >
-            {formatCurrencyString({
-              value: totalPrice,
-              currency: "USD",
-            })}
+            {formatCurrency(totalPrice)}
           </span>
         </div>
-        {isEligibleForFreeShipping && (
+        {!isEligibleForFreeShipping && (
           <div className="peach-highlight">
-            {`Add ${formatCurrencyString({
-              value: minPriceForFreehipping - totalPrice,
-              currency: "USD",
-            })} for free shipping`}
+            {`Add ${formatCurrency(
+              minPriceForFreehipping - totalPrice
+            )} for free shipping`}
           </div>
         )}
         <div className="cart-checkout--wrapper">
@@ -194,7 +192,7 @@ const SelectQuantity = React.memo(props => {
       }}
       value={{
         label: `QTY: ${props.product.quantity}`,
-        value: props.product.quantity
+        value: props.product.quantity,
       }}
     />
   )
