@@ -97,6 +97,7 @@ body {
   align-items: center;
   font-family: Bebas Neue, sans-serif;
   justify-content: flex-end;
+  width: 100%;
 }
 .span1 {
   color: #f7c59f;
