@@ -71,30 +71,6 @@
   border-color: #dad9d9;
 }
 
-.product-price-container {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  padding-right: 62px;
-  padding-left: 8px;
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: normal;
-  -webkit-flex-direction: row;
-  -ms-flex-direction: row;
-  flex-direction: row;
-  -webkit-flex-wrap: wrap;
-  -ms-flex-wrap: wrap;
-  flex-wrap: wrap;
-  -webkit-box-align: end;
-  -webkit-align-items: flex-end;
-  -ms-flex-align: end;
-  align-items: flex-end;
-  border-style: none;
-  border-width: 2px;
-  border-color: #dad9d9;
-}
-
 .add-to-order-button {
   min-width: 150px;
   margin-right: 8px;
