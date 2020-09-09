@@ -9,6 +9,7 @@ import AddIcon from "../images/icons/add.svg"
 import MinusIcon from "../images/icons/minus.svg"
 import { removeNonLetters } from "../util"
 import PriceFormatter from "../components/PriceFormatter"
+import Footer from "../components/footer"
 
 export const query = graphql`
   query DepartmentPageQuery($id: Int!) {
@@ -243,6 +244,7 @@ export default function DepartmentPage({ data }) {
         </div>
         <div className="rightPanel">{categorySection}</div>
       </section>
+      <Footer />
     </>
   )
 }

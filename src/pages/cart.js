@@ -2,6 +2,7 @@ import React, { useState } from "react"
 import { Link } from "gatsby"
 import { useShoppingCart, formatCurrencyString } from "use-shopping-cart"
 import Select from "react-select"
+import Footer from "../components/footer"
 
 import "./cart.css"
 import Nav from "../components/Nav"
@@ -10,10 +11,13 @@ import { listToClass } from "../util"
 
 const Cart = () => {
   return (
-    <div className="cart">
-      <Nav />
-      <CartContent />
-    </div>
+    <>
+      <div className="cart">
+        <Nav />
+        <CartContent />
+      </div>
+      <Footer />
+    </>
   )
 }
 
@@ -55,7 +59,8 @@ const CartContent = () => {
           Subtotal ({cartCount} items) :
           <span
             className={listToClass([
-              isEligibleForFreeShipping && "peach-highlight", "cart-subtotal--count"
+              isEligibleForFreeShipping && "peach-highlight",
+              "cart-subtotal--count",
             ])}
           >
             {formatCurrencyString({
@@ -187,7 +192,7 @@ const SelectQuantity = React.memo(props => {
       }}
       value={{
         label: `QTY: ${props.product.quantity}`,
-        value: props.product.quantity
+        value: props.product.quantity,
       }}
     />
   )
