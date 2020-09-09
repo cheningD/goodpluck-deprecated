@@ -5,33 +5,29 @@ import "./footer.css"
 export default function Footer() {
   return (
     <div className="footer">
-      <div className="footer-row-1">
-        <div className="footer-column">
-          <h4 className="h41">Goodpluck</h4>
-          <div>© WhatsEatLike, Inc.</div>
-        </div>
-        <div className="footer-column">
-          <a href="/" className="a2">
-            Facebook
-          </a>
-          <a href="/" className="a2">
-            Twitter
-          </a>
-          <a href="/" className="a2">
-            Instagram
-          </a>
-        </div>
-        <div className="footer-column">
-          <Link to="/" className="a2">
-            Sell On Goodpluck
-          </Link>
-          <Link to="/" className="a2">
-            Privacy
-          </Link>
-          <Link to="/" className="a2">
-            Terms &amp; Conditions
-          </Link>
-        </div>
+      <div className="footer-brand">
+        <h1 className="footer-brand-logo">Goodpluck</h1>
+        <div>© WhatsEatLike, Inc.</div>
+      </div>
+      <div className="footer-links">
+        <a href="/" className="footer-link">
+          Facebook
+        </a>
+        <a href="/" className="footer-link">
+          Twitter
+        </a>
+        <a href="/" className="footer-link">
+          Instagram
+        </a>
+        <Link to="/" className="footer-link">
+          Sell On Goodpluck
+        </Link>
+        <Link to="/" className="footer-link">
+          Privacy
+        </Link>
+        <Link to="/" className="footer-link">
+          Terms &amp; Conditions
+        </Link>
       </div>
       <iframe
         className="footer-newsletter-signup"

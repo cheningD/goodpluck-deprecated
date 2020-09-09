@@ -5,6 +5,7 @@ import Nav from "../components/Nav"
 import { Link } from "gatsby"
 import { removeNonLetters } from "../util"
 import { graphql } from "gatsby"
+import Footer from "../components/footer"
 
 export const query = graphql`
   query ProductGroupPage($id: Int) {
@@ -209,6 +210,7 @@ export default function ProductDetailPage({ data }) {
           {productHighlights}
         </div>
       </div>
+      <Footer />
     </>
   )
 }

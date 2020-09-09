@@ -6,27 +6,47 @@
   justify-content: space-between;
   flex-wrap: wrap;
   color: #fff;
-  font-size: 0.8rem;
+  font-size: 1rem;
   font-family: Raleway, sans-serif;
   padding: 1rem;
-  align-items: flex-start;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
 }
 
-.footer-column {
+.footer-brand {
+  margin: 3rem 0;
+}
+
+.footer-brand-logo {
+  font-family: Bebas Neue, sans-serif;
+  font-size: 4rem;
+}
+
+.footer-links {
   display: flex;
   flex-direction: column;
-  margin: 0 0 1rem 0;
-  width: 250px;
+  margin: 2rem 0;
 }
 
-.footer-row-1 {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
+.footer-link {
+  margin: 0.5rem 0;
+  text-decoration: none;
+  color: #fff;
+}
+
+.footer-link:hover,
+.footer-link:visited {
+  text-decoration: underline;
+  font-weight: 600;
+}
+
+.footer-link:active {
+  color: #f7c59f;
 }
 
 .footer-newsletter-signup {
-  border: none;
   width: 100%;
-  height: 500px;
+  min-height: 500px;
+  border: none;
 }
