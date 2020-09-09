@@ -48,6 +48,39 @@ body {
   font-family: Raleway, sans-serif;
   padding: 1rem;
 }
+
+.homepage-menu {
+  min-width: 160px;
+  display: flex;
+  flex-direction: column;
+}
+.homepage-menu-link {
+  margin-top: 1rem;
+  font-weight: 600;
+  text-decoration: none;
+  color: #fff;
+}
+
+.homepage-menu-link:hover {
+  color: #f7c59f;
+  text-decoration: underline;
+}
+
+.social-icons {
+  height: 20px;
+  width: 100px;
+  background: #ccc;
+  margin-top: 40px;
+}
+
+@media screen and (max-width: 786px) {
+  .menu {
+    margin-top: 16px;
+    display: none;
+    visibility: hidden;
+  }
+}
+
 .hero-left {
   background: #788474;
   padding: 0 32px 32px 32px;

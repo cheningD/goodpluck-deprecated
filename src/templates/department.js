@@ -11,10 +11,10 @@ import { removeNonLetters } from "../util"
 import PriceFormatter from "../components/PriceFormatter"
 
 export const query = graphql`
-  query DepartmentPageQuery {
+  query DepartmentPageQuery($id: Int!) {
     allAirtable(
       filter: {
-        data: { department: { elemMatch: { data: { id: { eq: 1 } } } } }
+        data: { department: { elemMatch: { data: { id: { eq: $id } } } } }
         table: { eq: "productGroup" }
       }
     ) {
@@ -68,7 +68,6 @@ const ObservableElement = props => {
 const ProductCard = ({ productGroup }) => {
   const data = productGroup.data
   const selectedProduct = productGroup.data.products[0].data
-  console.log(selectedProduct)
 
   // To add itmes to the cart the following fields are required:
   const cartItem = {
@@ -196,7 +195,7 @@ export default function DepartmentPage({ data }) {
     productMap[category][family].push(productGroup)
   })
 
-  //Create an entry   { title: "Link 1", link: "#link1", children: [] } for each category
+  // Create an entry   { title: "Link 1", link: "#link1", children: [] } for each category
   const sidebarEntries = Object.keys(productMap).map(category => {
     const childEntries = Object.keys(productMap[category]).map(family => {
       return { title: family, link: `#${removeNonLetters(family)}` }
@@ -208,8 +207,6 @@ export default function DepartmentPage({ data }) {
       children: childEntries,
     }
   })
-
-  console.log(sidebarEntries)
 
   const categorySection = Object.keys(productMap).map(category => {
     const familySection = Object.keys(productMap[category]).map(family => {

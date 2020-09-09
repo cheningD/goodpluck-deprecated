@@ -7,7 +7,6 @@ import Select from "react-select"
 import { listToClass } from "../util"
 
 import { Hamburger } from "./Hamburger"
-import { Menu } from "./Menu"
 
 const Nav = () => {
   const [isMobileNavOpen, setMobileNavIsOpen] = React.useState()
@@ -37,7 +36,6 @@ const Nav = () => {
           {(!showSearchBar || isMobileNavOpen) && (
             <Links isMobileNavOpen={isMobileNavOpen} />
           )}
-          <Menu />
         </div>
       </div>
     </div>

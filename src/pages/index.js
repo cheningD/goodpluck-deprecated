@@ -1,10 +1,36 @@
 import React from "react"
-import { Link } from "gatsby"
+import { Link, graphql } from "gatsby"
 import "./index.css"
 import Nav from "../components/Nav"
-import { Menu } from "../components/Menu"
 
-export default function Home() {
+export const query = graphql`
+  query DepartmentQuery {
+    allAirtable(filter: { table: { eq: "department" } }) {
+      nodes {
+        data {
+          name
+          id
+          slug
+        }
+      }
+    }
+  }
+`
+
+const Menu = ({ className, data }) => {
+  let sortedNodes = [...data.allAirtable.nodes].sort(
+    (a, b) => a.data.id - b.data.id
+  )
+
+  const links = sortedNodes.map(node => (
+    <Link to={node.data.slug} key={node.data.id} className="homepage-menu-link">
+      {node.data.name}
+    </Link>
+  ))
+  return <div className={className}>{links}</div>
+}
+
+export default function Home({ data }) {
   return (
     <div className="body1">
       <div className="section-1">
@@ -12,7 +38,7 @@ export default function Home() {
           <Nav />
           <div className="hero-left">
             <div className="div1">
-              <Menu />
+              <Menu className="homepage-menu" data={data} />
               <div className="hero-text">
                 <h1 className="h11">
                   <div className="hero-line-1">

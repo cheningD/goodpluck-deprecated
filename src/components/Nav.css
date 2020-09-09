@@ -237,6 +237,7 @@
     padding: 10px 0px;
     border-radius: 8px;
     width: 100%;
+    margin-top: 1rem;
   }
 
   .nav-search--btn .search-icon {
