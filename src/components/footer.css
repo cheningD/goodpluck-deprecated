@@ -1,0 +1,32 @@
+.footer {
+  background: #ccc;
+  background-color: #031927;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  color: #fff;
+  font-size: 0.8rem;
+  font-family: Raleway, sans-serif;
+  padding: 1rem;
+  align-items: flex-start;
+}
+
+.footer-column {
+  display: flex;
+  flex-direction: column;
+  margin: 0 0 1rem 0;
+  width: 250px;
+}
+
+.footer-row-1 {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.footer-newsletter-signup {
+  border: none;
+  width: 100%;
+  height: 500px;
+}
