@@ -67,9 +67,14 @@ export default function Home({ data }) {
           <Link to="#how-it-works" className="hero-link">
             How It Works
           </Link>
-          <Link to="/is-it-expensive" className="hero-link">
+          <a
+            href="https://cead433923.typeform.com/to/vfu8Ipdm"
+            className="new-ways-to-save-link"
+            target="_blank"
+            className="hero-link"
+          >
             Is It Expensive?
-          </Link>
+          </a>
         </div>
       </div>
 
@@ -98,12 +103,16 @@ export default function Home({ data }) {
               </span>
             </div>
             <div className="div4">
-              <span>We are creating</span>
-              <Link to="#chat" className="new-ways-to-save-link">
+              <span>We are creating </span>
+              <a
+                href="https://cead433923.typeform.com/to/vfu8Ipdm"
+                className="new-ways-to-save-link"
+                target="_blank"
+              >
                 new ways to save
-              </Link>
+              </a>
 
-              <span>to help make super-fresh food more affordable.</span>
+              <span> to help make super-fresh food more affordable.</span>
             </div>
           </div>
           <div className="feature">
