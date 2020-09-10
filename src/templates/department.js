@@ -86,7 +86,6 @@ const ProductCard = ({ productGroup }) => {
   // To add itmes to the cart the following fields are required:
   const cartItem = {
     name: data.name,
-    supplier: data.multipleSupplierLabel,
     description: data.description,
     sku: selectedProduct.sku,
     price: selectedProduct.price,
