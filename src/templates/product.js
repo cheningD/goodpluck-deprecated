@@ -116,7 +116,6 @@ export default function ProductDetailPage({ data }) {
       sku: product.data.sku,
       price: product.data.price,
       currency: "USD",
-      supplier: page.multipleSupplierLabel,
       image: get(page, "mainImage.localFiles[0].url", null),
     }
     return (
