@@ -12,6 +12,7 @@ import { removeNonLetters } from "../util"
 import PriceFormatter from "../components/PriceFormatter"
 import Footer from "../components/footer"
 import get from "lodash-es/get"
+import { FeatureFlags } from "../FeatureFlags"
 
 export const query = graphql`
   query DepartmentPageQuery($id: Int!) {
@@ -157,7 +158,9 @@ const ProductCard = ({ productGroup }) => {
             )}
           />
         </Link>
-        <button className="product-card--fav-btn"></button>
+        {FeatureFlags.FAVOURITES_FEATURE && (
+          <button className="product-card--fav-btn"></button>
+        )}
         {productImageOverlay}
       </div>
       <Link to={data.slug} className="product-card--info-container">
