@@ -23,13 +23,9 @@ const Cart = () => {
 
 const CartContent = () => {
   const [status, setStatus] = useState("idle")
-  const {
-    totalPrice,
-    cartCount,
-    addItem,
-    redirectToCheckout,
-  } = useShoppingCart()
+  const { totalPrice, cartCount, redirectToCheckout } = useShoppingCart()
 
+  console.info(`Cart is ${status}`)
   const isEligibleForFreeShipping = totalPrice < minPriceForFreehipping
 
   async function handleCheckout(event) {
@@ -97,16 +93,6 @@ const CartContent = () => {
 
 // Get min price from server
 const minPriceForFreehipping = 3500
-
-const demoProduct = {
-  name: "English Cucumber (Box of 3)",
-  supplier: "Avid Farmers",
-  description: "Snappable fresh salad eater",
-  sku: "price_1HNCA8DnJ2NuGUX1VgULHVTE",
-  price: 299,
-  currency: "USD",
-  image: "https://files.stripe.com/links/fl_live_6nyliyzinCLYEL7RrNSxDDca",
-}
 
 const quantityOptions = [
   { value: 0, label: "0 (Delete)" },
