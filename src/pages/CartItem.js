@@ -1,10 +1,11 @@
 import * as React from "react"
 import { Link } from "gatsby"
+import Img from "gatsby-image"
 import { formatCurrencyString } from "use-shopping-cart"
 
 export const CartItem = ({ product, sku }) => (
   <div className="cart-item--wrapper">
-    <div className="cart-item--image" />
+    <img src={product.image} className="cart-item--image" />
     <div className="cart-item--details">
       <div className="cart-item--product">
         <ProductName product={product} />
