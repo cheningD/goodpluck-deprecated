@@ -7,6 +7,7 @@ import Select from "react-select"
 import { listToClass } from "../util"
 
 import { Hamburger } from "./Hamburger"
+import { FeatureFlags } from "../FeatureFlags"
 
 const Nav = () => {
   const [isMobileNavOpen, setMobileNavIsOpen] = React.useState()
@@ -51,17 +52,19 @@ const Links = ({ isMobileNavOpen }) => {
         isMobileNavOpen && "header-links--list__open",
       ])}
     >
-      <div className="header-link--wrapper">
-        <Link
-          to="/mylists"
-          className={listToClass([
-            "header-link",
-            linkIsActive("/mylists") && "current-link",
-          ])}
-        >
-          My Lists
-        </Link>
-      </div>
+      {FeatureFlags.MY_LISTS_FEATURE && (
+        <div className="header-link--wrapper">
+          <Link
+            to="/mylists"
+            className={listToClass([
+              "header-link",
+              linkIsActive("/mylists") && "current-link",
+            ])}
+          >
+            My Lists
+          </Link>
+        </div>
+      )}
       <div className="header-link--wrapper">
         <Link
           to="/signin"
