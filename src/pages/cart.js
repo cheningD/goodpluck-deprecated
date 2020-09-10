@@ -50,7 +50,7 @@ const CartContent = () => {
   return (
     <div className="cart-content">
       <div className="cart-content--overview">
-        <h2 className="cart-items--overview-header">Your order</h2>
+        <h2 className="cart-items--overview-header subheader--font">Your order</h2>
         <div>
           Subtotal ({cartCount} items): {" "}
           <span

@@ -19,7 +19,7 @@ export const CartItem = ({ product, sku }) => (
 )
 
 const ProductName = ({ product }) => (
-  <div className="cart-item--product-name">{product.name}</div>
+  <div className="cart-item--product-name subheader--font">{product.name}</div>
 )
 
 const ProductSupplier = ({ product }) => (
