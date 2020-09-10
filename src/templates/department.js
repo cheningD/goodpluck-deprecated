@@ -1,7 +1,7 @@
 import React from "react"
 import Nav from "../components/Nav"
 import ConnectedSidebar from "../components/ConnectedSidebar"
-import { graphql } from "gatsby"
+import { Link, graphql } from "gatsby"
 import Img from "gatsby-image"
 import { InView } from "react-intersection-observer"
 import { useShoppingCart } from "use-shopping-cart"
@@ -28,7 +28,7 @@ export const query = graphql`
           family
           category
           multipleSupplierLabel
-          imageUrl
+          slug
           mainImage {
             id
             localFiles {
@@ -148,17 +148,19 @@ const ProductCard = ({ productGroup }) => {
   return (
     <div className="product-card">
       <div className="product-card--image-container">
-        <Img
-          fluid={get(
-            data,
-            "mainImage.localFiles[0].childImageSharp.fluid",
-            null
-          )}
-        />
+        <Link to={data.slug}>
+          <Img
+            fluid={get(
+              data,
+              "mainImage.localFiles[0].childImageSharp.fluid",
+              null
+            )}
+          />
+        </Link>
         <button className="product-card--fav-btn"></button>
         {productImageOverlay}
       </div>
-      <div className="product-card--info-container">
+      <Link to={data.slug} className="product-card--info-container">
         <div className="product-card--product-label">
           <div className="product-card--supplier">
             {data.multipleSupplierLabel}
@@ -174,7 +176,7 @@ const ProductCard = ({ productGroup }) => {
             <PriceFormatter priceInCents={selectedProduct.price} />
           </span>
         </div>
-      </div>
+      </Link>
     </div>
   )
 }
