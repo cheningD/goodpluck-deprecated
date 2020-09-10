@@ -52,10 +52,10 @@ const CartContent = () => {
       <div className="cart-content--overview">
         <h2 className="cart-items--overview-header">Your order</h2>
         <div>
-          Subtotal ({cartCount} items) :
+          Subtotal ({cartCount} items): {" "}
           <span
             className={listToClass([
-              isEligibleForFreeShipping && "peach-highlight",
+              isEligibleForFreeShipping && "cart-subtotal--count__warning",
               "cart-subtotal--count",
             ])}
           >
@@ -66,7 +66,7 @@ const CartContent = () => {
           </span>
         </div>
         {isEligibleForFreeShipping && (
-          <div className="peach-highlight">
+          <div className="cart-shipping--warning">
             {`Add ${formatCurrencyString({
               value: minPriceForFreehipping - totalPrice,
               currency: "USD",
@@ -74,9 +74,11 @@ const CartContent = () => {
           </div>
         )}
         <div className="cart-checkout--wrapper">
-          <button className="cart-checkout--btn" onClick={handleCheckout}>
-            <span>Checkout</span>
-          </button>
+          <div className="cart-checkout--btn--wrapper">
+            <button className="cart-checkout--btn" onClick={handleCheckout}>
+              <span>Checkout</span>
+            </button>
+          </div>
           <div className="cart-checkout--secure">
             <span className="fas fa-solid cart-checkout--secure-lock"></span>
             <span className="cart-checkout--secure-text">secure checkout</span>
