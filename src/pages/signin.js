@@ -4,7 +4,7 @@ import * as yup from "yup"
 
 import "./signin.css"
 import { listToClass } from "../util"
-import Nav from "../components/Nav";
+import Nav from "../components/Nav"
 
 export default function SignIn() {
   const [isSignUp, setIsSignUp] = useState(true)
@@ -13,7 +13,7 @@ export default function SignIn() {
   return (
     <div className="sign-in-page">
       <div className="sign-in__left-panel">
-      <Nav />
+        <Nav />
         <div className="sign-in--form__wrapper">
           <div className="sign-in--form">
             <RenderHeader isSignUp={isSignUp} toggleView={toggleView} />
@@ -182,7 +182,9 @@ const SignInForm = () => {
               Click it and you're in! (No passwords here)
               <br />
               <br />
-              <a>Having trouble logging in?</a>
+              <a href="mailto:help@goodpluck.com?subject=I'm having trouble logging in">
+                Having trouble logging in
+              </a>
             </span>
           </FieldWrapper>
 

@@ -72,7 +72,7 @@ export default function Home({ data }) {
             href="https://cead433923.typeform.com/to/vfu8Ipdm"
             className="new-ways-to-save-link"
             target="_blank"
-            className="hero-link"
+            rel="noreferrer"
           >
             Is It Expensive?
           </a>
@@ -109,6 +109,7 @@ export default function Home({ data }) {
                 href="https://cead433923.typeform.com/to/vfu8Ipdm"
                 className="new-ways-to-save-link"
                 target="_blank"
+                rel="noreferrer"
               >
                 new ways to save
               </a>

@@ -5,7 +5,9 @@ import Nav from "../components/Nav"
 import { Link } from "gatsby"
 import { removeNonLetters } from "../util"
 import { graphql } from "gatsby"
+import Img from "gatsby-image"
 import Footer from "../components/footer"
+import get from "lodash-es/get"
 
 export const query = graphql`
   query ProductGroupPage($id: Int) {
@@ -35,6 +37,17 @@ export const query = graphql`
             supplier {
               data {
                 name
+              }
+            }
+          }
+        }
+        mainImage {
+          id
+          localFiles {
+            url
+            childImageSharp {
+              fluid(maxWidth: 900) {
+                ...GatsbyImageSharpFluid_tracedSVG
               }
             }
           }
@@ -97,14 +110,13 @@ const ProductDetailBreadcrumbs = ({
 export default function ProductDetailPage({ data }) {
   const page = data.airtable.data
   const productLabels = page.products.map(product => {
-    console.log("L@@K!", product)
     const cartItem = {
       name: page.name,
       description: page.description,
       sku: product.data.sku,
       price: product.data.price,
       currency: "USD",
-      image: page.imageUrl,
+      image: get(page, "mainImage.localFiles[0].url", null),
     }
     return (
       <ProductPriceContainer
@@ -177,12 +189,19 @@ export default function ProductDetailPage({ data }) {
 
       <div className="product-detail--column-container">
         <div className="product-detail--left-panel">
-          <img
+          <Img
+            fluid={get(
+              page,
+              "mainImage.localFiles[0].childImageSharp.fluid",
+              null
+            )}
+          />
+          {/* <img
             height=""
             src="https://d3e54v103j8qbb.cloudfront.net/plugins/Basic/assets/placeholder.60f9b1840c.svg"
             alt=""
             className="image"
-          />
+          /> */}
         </div>
         <div className="product-detail--right-panel">
           <div className="product-highlight-text">FRESHLY PLUCKED</div>

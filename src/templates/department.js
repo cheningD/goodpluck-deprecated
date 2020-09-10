@@ -2,6 +2,7 @@ import React from "react"
 import Nav from "../components/Nav"
 import ConnectedSidebar from "../components/ConnectedSidebar"
 import { graphql } from "gatsby"
+import Img from "gatsby-image"
 import { InView } from "react-intersection-observer"
 import { useShoppingCart } from "use-shopping-cart"
 import "./department.css"
@@ -10,6 +11,7 @@ import MinusIcon from "../images/icons/minus.svg"
 import { removeNonLetters } from "../util"
 import PriceFormatter from "../components/PriceFormatter"
 import Footer from "../components/footer"
+import get from "lodash-es/get"
 
 export const query = graphql`
   query DepartmentPageQuery($id: Int!) {
@@ -27,6 +29,17 @@ export const query = graphql`
           category
           multipleSupplierLabel
           imageUrl
+          mainImage {
+            id
+            localFiles {
+              url
+              childImageSharp {
+                fluid(maxWidth: 400) {
+                  ...GatsbyImageSharpFluid_tracedSVG
+                }
+              }
+            }
+          }
           products {
             data {
               sku
@@ -77,7 +90,7 @@ const ProductCard = ({ productGroup }) => {
     sku: selectedProduct.sku,
     price: selectedProduct.price,
     currency: "USD",
-    image: data.imageUrl,
+    image: get(data, "mainImage.localFiles.url", null),
   }
 
   let { cartDetails, addItem, incrementItem, decrementItem } = useShoppingCart()
@@ -135,10 +148,12 @@ const ProductCard = ({ productGroup }) => {
   return (
     <div className="product-card">
       <div className="product-card--image-container">
-        <img
-          className="product-card--image"
-          src={data.imageUrl}
-          alt={data.name}
+        <Img
+          fluid={get(
+            data,
+            "mainImage.localFiles[0].childImageSharp.fluid",
+            null
+          )}
         />
         <button className="product-card--fav-btn"></button>
         {productImageOverlay}
