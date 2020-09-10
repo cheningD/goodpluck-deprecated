@@ -196,12 +196,6 @@ export default function ProductDetailPage({ data }) {
               null
             )}
           />
-          {/* <img
-            height=""
-            src="https://d3e54v103j8qbb.cloudfront.net/plugins/Basic/assets/placeholder.60f9b1840c.svg"
-            alt=""
-            className="image"
-          /> */}
         </div>
         <div className="product-detail--right-panel">
           <div className="product-highlight-text">FRESHLY PLUCKED</div>
