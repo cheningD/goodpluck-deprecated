@@ -186,6 +186,7 @@ section {
   color: #4c5349;
   line-height: 1.5rem;
   justify-content: space-between;
+  text-decoration: none;
 }
 
 .product-card--supplier {
