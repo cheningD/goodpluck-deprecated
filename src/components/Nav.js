@@ -91,7 +91,7 @@ function linkIsActive(path) {
 
 export default Nav
 
-const SearchBar = React.memo(props => {
+const SearchBar = React.memo(({toggleSearchBar}) => {
   const [isFocused, setFocused] = React.useState(false)
 
   const shouldCloseMenuOnScroll = e => {
@@ -100,11 +100,11 @@ const SearchBar = React.memo(props => {
     }
     return false
   }
-
-  const toggleFocused = React.useCallback(() => {
+  
+  const toggleFocused = () => {
     setFocused(!isFocused)
-    props.toggleSearchBar()
-  }, [isFocused])
+    toggleSearchBar()
+  }
 
   return (
     <Select

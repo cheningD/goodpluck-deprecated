@@ -4,7 +4,7 @@ import { formatCurrencyString } from "use-shopping-cart"
 
 export const CartItem = ({ product, sku }) => (
   <div className="cart-item--wrapper">
-    <img src={product.image} className="cart-item--image" />
+    <img alt={product.name} src={product.image} className="cart-item--image" />
     <div className="cart-item--details">
       <div className="cart-item--product">
         <ProductName product={product} />
