@@ -26,7 +26,7 @@ const CartContent = () => {
   const { totalPrice, cartCount, redirectToCheckout } = useShoppingCart()
 
   console.info(`Cart is ${status}`)
-  const isEligibleForFreeShipping = totalPrice < minPriceForFreehipping
+  const isInEligibleForFreeShipping = totalPrice < minPriceForFreehipping
 
   async function handleCheckout(event) {
     event.preventDefault()
@@ -57,7 +57,7 @@ const CartContent = () => {
           Subtotal ({cartCount} items):{" "}
           <span
             className={listToClass([
-              isEligibleForFreeShipping && "cart-subtotal--count__warning",
+              isInEligibleForFreeShipping && "cart-subtotal--count__warning",
               "cart-subtotal--count",
             ])}
           >
@@ -67,7 +67,7 @@ const CartContent = () => {
             })}
           </span>
         </div>
-        {isEligibleForFreeShipping && (
+        {isInEligibleForFreeShipping && (
           <div className="cart-shipping--warning">
             {`Add ${formatCurrencyString({
               value: minPriceForFreehipping - totalPrice,
