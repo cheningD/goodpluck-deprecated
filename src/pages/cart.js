@@ -50,9 +50,11 @@ const CartContent = () => {
   return (
     <div className="cart-content">
       <div className="cart-content--overview">
-        <h2 className="cart-items--overview-header subheader--font">Your order</h2>
+        <h2 className="cart-items--overview-header subheader--font">
+          Your order
+        </h2>
         <div>
-          Subtotal ({cartCount} items): {" "}
+          Subtotal ({cartCount} items):{" "}
           <span
             className={listToClass([
               isEligibleForFreeShipping && "cart-subtotal--count__warning",
@@ -159,31 +161,30 @@ const CartItems = () => {
   })
 }
 
-const SelectQuantity = React.memo(props => {
-  const handleChange = React.useCallback(
-    option => props.handleQuantityUpdate(option),
-    [props.quantityOptions]
-  )
+const SelectQuantity = React.memo(
+  ({ quantityOptions, handleQuantityUpdate, product }) => {
+    const handleChange = option => handleQuantityUpdate(option)
 
-  return (
-    <Select
-      className="quantity-drop-down"
-      classNamePrefix="react-select"
-      options={props.quantityOptions}
-      onChange={handleChange}
-      isSearchable={false}
-      components={{
-        IndicatorSeparator: null,
-        DropdownIndicator: () => (
-          <span className="fas fa-solid quantity-drop-down--arrow"></span>
-        ),
-      }}
-      value={{
-        label: `QTY: ${props.product.quantity}`,
-        value: props.product.quantity,
-      }}
-    />
-  )
-})
+    return (
+      <Select
+        className="quantity-drop-down"
+        classNamePrefix="react-select"
+        options={quantityOptions}
+        onChange={handleChange}
+        isSearchable={false}
+        components={{
+          IndicatorSeparator: null,
+          DropdownIndicator: () => (
+            <span className="fas fa-solid quantity-drop-down--arrow"></span>
+          ),
+        }}
+        value={{
+          label: `QTY: ${product.quantity}`,
+          value: product.quantity,
+        }}
+      />
+    )
+  }
+)
 
 export default Cart
