@@ -1,5 +1,7 @@
 import React, { useState } from "react"
-import { Link } from "gatsby"
+import { graphql, Link, useStaticQuery } from "gatsby"
+import isNil from "lodash-es/isNil"
+
 import { useShoppingCart, formatCurrencyString } from "use-shopping-cart"
 import Select from "react-select"
 import Footer from "../components/footer"
@@ -8,6 +10,24 @@ import "./cart.css"
 import Nav from "../components/Nav"
 import { CartItem } from "./CartItem"
 import { listToClass } from "../util"
+
+const suppliers = graphql`
+  query SupplierQuery {
+    allAirtable {
+      nodes {
+        data {
+          sku
+          supplier {
+            id
+            data {
+              name
+            }
+          }
+        }
+      }
+    }
+  }
+`
 
 const Cart = () => {
   return (
@@ -111,9 +131,25 @@ const quantityOptions = [
   { value: 9, label: "QTY 9" },
 ]
 
-const CartItems = () => {
+const CartItems = React.memo(() => {
   const { cartDetails, setItemQuantity, removeItem } = useShoppingCart()
   const cartDetailKeys = Object.keys(cartDetails)
+
+  const queryResult = useStaticQuery(suppliers)
+  const supplierMap = queryResult.allAirtable.nodes.reduce(
+    (supplierMap, node) => {
+      const id = node?.data?.sku
+      if (isNil(id)) return supplierMap
+
+      const supplierName = node?.data?.supplier?.[0]?.data?.name
+      if (isNil(supplierName)) return supplierMap
+
+      supplierMap.set(id, supplierName)
+
+      return supplierMap
+    },
+    new Map()
+  )
 
   if (!cartDetailKeys.length) {
     console.warn("No cart details!")
@@ -134,7 +170,10 @@ const CartItems = () => {
   }
 
   return cartDetailKeys.map(sku => {
-    const product = cartDetails[sku]
+    const product = Object.assign({}, cartDetails[sku], {
+      supplier: supplierMap.get(sku),
+    })
+
     return (
       <div key={sku}>
         <div className="cart-item-card">
@@ -159,7 +198,7 @@ const CartItems = () => {
       </div>
     )
   })
-}
+})
 
 const SelectQuantity = React.memo(
   ({ quantityOptions, handleQuantityUpdate, product }) => {
