@@ -13,6 +13,7 @@ import PriceFormatter from "../components/PriceFormatter"
 import Footer from "../components/footer"
 import get from "lodash-es/get"
 import { FeatureFlags } from "../FeatureFlags"
+import ZipCodeModal from "../components/ZipCodeModal"
 
 export const query = graphql`
   query DepartmentPageQuery($id: Int!) {
@@ -35,7 +36,7 @@ export const query = graphql`
             localFiles {
               url
               childImageSharp {
-                fluid(maxWidth: 400,  maxHeight: 250) {
+                fluid(maxWidth: 400, maxHeight: 250) {
                   ...GatsbyImageSharpFluid_tracedSVG
                 }
               }
@@ -80,6 +81,34 @@ const ObservableElement = props => {
   )
 }
 
+const AddItemButton = ({ addItem, cartItem }) => {
+  return (
+    <button
+      className="product-card--control-btn product-card--control-add-to-cart"
+      onClick={() => addItem(cartItem)}
+    >
+      <AddIcon
+        className="product-card--control-icon"
+        alt={`Add ${cartItem.name} to cart`}
+      />
+    </button>
+  )
+}
+
+const FakeAddItemButtonRequiresZip = ({ cartItem, setShowModal }) => {
+  return (
+    <button
+      className="product-card--control-btn product-card--control-add-to-cart"
+      onClick={() => setShowModal(true)}
+    >
+      <AddIcon
+        className="product-card--control-icon"
+        alt={`Add ${cartItem.name} to cart`}
+      />
+    </button>
+  )
+}
+
 const ProductCard = ({ productGroup }) => {
   const data = productGroup.data
   const selectedProduct = productGroup.data.products[0].data
@@ -117,7 +146,7 @@ const ProductCard = ({ productGroup }) => {
           >
             <MinusIcon
               className="product-card--control-icon"
-              alt={`Remove 1 ${data.name} from cart`}
+              alt={`Remove 1 ${cartItem.name} from cart`}
             />
           </button>
           <button
@@ -126,7 +155,7 @@ const ProductCard = ({ productGroup }) => {
           >
             <AddIcon
               className="product-card--control-icon"
-              alt={`Add 1 ${data.name} to cart`}
+              alt={`Add 1 ${cartItem.name} to cart`}
             />
           </button>
         </div>
@@ -134,15 +163,14 @@ const ProductCard = ({ productGroup }) => {
     )
   } else {
     productImageOverlay = (
-      <button
-        className="product-card--control-btn product-card--control-add-to-cart"
-        onClick={() => addItem(cartItem)}
-      >
-        <AddIcon
-          className="product-card--control-icon"
-          alt={`Add ${data.name} to cart`}
-        />
-      </button>
+      <ZipCodeModal
+        WrappedComponentNeedsZip={FakeAddItemButtonRequiresZip}
+        wrappedComponentNeedsZipProps={{ cartItem }}
+        WrappedComponentZipIsAllowed={AddItemButton}
+        wrappedComponentZipIsAllowedProps={{ addItem, cartItem }}
+        showDeliveryMessageWhenZipAllowed={false}
+        showDeliveryMessageWhenZipNotAllowed={false}
+      />
     )
   }
 
@@ -219,39 +247,46 @@ export default function DepartmentPage({ data }) {
   // Create an entry   { title: "Link 1", link: "#link1", children: [] } for each category
   const sidebarEntries = Object.keys(productMap).map(category => {
     const childEntries = Object.keys(productMap[category]).map(family => {
-      return { title: family, link: `#${removeNonLetters(family)}` }
+      return {
+        title: family,
+        key: family,
+        link: `#${removeNonLetters(family)}`,
+      }
     })
 
     return {
       title: category,
       link: `#${removeNonLetters(category)}`,
       children: childEntries,
+      key: category,
     }
   })
 
   const categorySection = Object.keys(productMap).map(category => {
     const familySection = Object.keys(productMap[category]).map(family => {
       const productGroups = productMap[category][family].map(productGroup => {
-        return <ProductCard productGroup={productGroup} />
+        return (
+          <ProductCard productGroup={productGroup} key={productGroup.data.id} />
+        )
       })
       return (
-        <>
+        <React.Fragment key={family}>
           <ObservableElement
             title={family}
             tag="h2"
             className="department--heading-2"
           />
           <div className="product-card--container">{productGroups}</div>
-        </>
+        </React.Fragment>
       )
     })
     return (
-      <>
+      <React.Fragment key={category}>
         <h1 className="department--heading-1" id={removeNonLetters(category)}>
           {category}
         </h1>
         {familySection}
-      </>
+      </React.Fragment>
     )
   })
 

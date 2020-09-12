@@ -8,6 +8,7 @@ import { graphql } from "gatsby"
 import Img from "gatsby-image"
 import Footer from "../components/footer"
 import get from "lodash-es/get"
+import ZipCodeModal, { ZipInputPage } from "../components/ZipCodeModal"
 
 export const query = graphql`
   query ProductGroupPage($id: Int) {
@@ -107,9 +108,8 @@ const ProductDetailBreadcrumbs = ({
   )
 }
 
-export default function ProductDetailPage({ data }) {
-  const page = data.airtable.data
-  const productLabels = page.products.map(product => {
+const ProductPriceContainers = ({ page }) => {
+  const productPriceContainers = page.products.map(product => {
     const cartItem = {
       name: page.name,
       description: page.description,
@@ -128,6 +128,11 @@ export default function ProductDetailPage({ data }) {
       />
     )
   })
+  return <div>{productPriceContainers}</div>
+}
+
+export default function ProductDetailPage({ data }) {
+  const page = data.airtable.data
 
   const allDates = page.products
     .map(product => {
@@ -205,7 +210,14 @@ export default function ProductDetailPage({ data }) {
               : page.multipleSupplierLabel}
           </div>
           <h1 className="product-detail--name">{page.name}</h1>
-          {productLabels}
+          <ZipCodeModal
+            WrappedComponentNeedsZip={ZipInputPage}
+            wrappedComponentNeedsZipProps={{}}
+            WrappedComponentZipIsAllowed={ProductPriceContainers}
+            wrappedComponentZipIsAllowedProps={{ page }}
+            showDeliveryMessageWhenZipAllowed={false}
+            showDeliveryMessageWhenZipNotAllowed={true}
+          />
         </div>
       </div>
       <div className="product-detail--column-container">

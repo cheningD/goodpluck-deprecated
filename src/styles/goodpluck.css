@@ -51,13 +51,92 @@ button:focus {
   color: #788474;
 }
 
-button:focus {
-  outline: 1px solid #fff;
-  outline-offset: -4px;
-}
-
 button:active {
   transform: scale(0.99);
+}
+
+.gp-button-link {
+  text-decoration: underline;
+  color: #788474;
+}
+
+.gp-button-link:hover {
+  font-weight: bold;
+}
+
+.gp-button {
+  border-width: 2px;
+  border-style: solid;
+  padding: 0.3rem 1rem;
+  font-size: 1.5rem;
+  text-align: left;
+  text-decoration: none;
+  height: 3rem;
+  width: 10rem;
+  font-family: Bebas Neue, sans-serif;
+}
+
+.gp-button:hover,
+.gp-button:focus {
+  outline: none;
+  -webkit-box-shadow: inset 0px 0px 5px #c1c1c1;
+  -moz-box-shadow: inset 0px 0px 5px #c1c1c1;
+  box-shadow: inset 0px 0px 5px #c1c1c1;
+}
+
+.gp-input-light {
+  border-color: #fff;
+  background: #fff;
+  color: #788474;
+}
+
+.gp-input-dark {
+  border-color: #788474;
+  background: #fff;
+  color: #788474;
+}
+
+.gp-close-button {
+  font-size: 3rem;
+  line-height: 1.7rem;
+  margin-left: auto;
+  text-align: center;
+  width: 2rem;
+  color: #031927;
+}
+.gp-close-button:hover {
+  color: #df928e;
+}
+
+.gp-button-dark {
+  border-color: #788474;
+  color: #fff;
+  background-color: #788474;
+}
+
+.gp-button-dark:hover {
+  color: #f7c59f;
+  background-color: #788474;
+}
+
+.gp-button-transparent-dark {
+  border-color: #788474;
+  color: #788474;
+  background-color: transparent;
+}
+.gp-button-transparent-dark:hover {
+  color: #fff;
+  background-color: #788474;
+}
+
+.gp-button-transparent-light {
+  border-color: #fff;
+  color: white;
+  background-color: transparent;
+}
+.gp-button-transparent-light:hover {
+  color: #788474;
+  background-color: #fff;
 }
 
 .subheader--font {

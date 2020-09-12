@@ -1,8 +1,9 @@
-import React from "react"
+import React, { useState } from "react"
 import { Link, graphql } from "gatsby"
 import "./index.css"
 import Nav from "../components/Nav"
 import Footer from "../components/footer"
+import ZipCodeModal from "../components/ZipCodeModal"
 
 export const query = graphql`
   query DepartmentQuery {
@@ -31,6 +32,31 @@ const Menu = ({ className, data }) => {
   return <div className={className}>{links}</div>
 }
 
+const ZipForm = ({ updateZipCode, setShowModal }) => {
+  const [zip, setZip] = useState("")
+  return (
+    <form
+      className="cta-form"
+      onSubmit={event => {
+        console.log(" updateZipCode(zipObject)", zip)
+        event.preventDefault()
+        updateZipCode(zip)
+        setShowModal(true)
+      }}
+    >
+      <input
+        type="text"
+        placeholder="zip code"
+        className="cta-input"
+        onChange={event => setZip(event.target.value)}
+      />
+      <button className="cta-button" type="submit">
+        Get Started
+      </button>
+    </form>
+  )
+}
+
 export default function Home({ data }) {
   return (
     <div className="body1">
@@ -52,14 +78,14 @@ export default function Home({ data }) {
                   </div>
                   <button className="hero-dropdown">DETROIT</button>
                 </h1>
-                <form className="cta-form">
-                  <input
-                    type="text"
-                    placeholder="zip code"
-                    className="cta-ionput"
-                  />
-                  <button className="cta-button">Get Started</button>
-                </form>
+                <ZipCodeModal
+                  WrappedComponentNeedsZip={ZipForm}
+                  wrappedComponentNeedsZipProps={{}}
+                  WrappedComponentZipIsAllowed={null}
+                  wrappedComponentZipIsAllowedProps={{}}
+                  showDeliveryMessageWhenZipAllowed={true}
+                  showDeliveryMessageWhenZipNotAllowed={true}
+                />
               </div>
             </div>
           </div>
@@ -72,7 +98,7 @@ export default function Home({ data }) {
             href="https://cead433923.typeform.com/to/vfu8Ipdm"
             className="new-ways-to-save-link"
             target="_blank"
-            rel="noreferrer"
+            rel="noopener noreferrer"
           >
             Is It Expensive?
           </a>
@@ -109,7 +135,7 @@ export default function Home({ data }) {
                 href="https://cead433923.typeform.com/to/vfu8Ipdm"
                 className="new-ways-to-save-link"
                 target="_blank"
-                rel="noreferrer"
+                rel="noopener noreferrer"
               >
                 new ways to save
               </a>
