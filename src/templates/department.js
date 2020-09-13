@@ -203,7 +203,7 @@ const ProductCard = ({ productGroup }) => {
           <span className="product-card--sizeDescription">
             {selectedProduct.sizeDescription}
           </span>
-          <span className="product-card--price">
+          <span className="product-card--price price-formatter--smaller">
             <PriceFormatter priceInCents={selectedProduct.price} />
           </span>
         </div>
