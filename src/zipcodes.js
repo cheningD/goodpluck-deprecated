@@ -1179,12 +1179,12 @@ export const isAllowedZipcode = zipcode => {
     return false
   }
 
-  //Immediately disallow zipcodes in disallowedCities
+  //Immediately disallow zipcodes in disallowedCities *CASE_SENSITIVE
   const disallowedCities = []
-  // Allow any zipcode in allowedCounties
+  // Allow any zipcode in allowedCounties *CASE_SENSITIVE
   const allowedCounties = ["Wayne"]
-  // Allow any zipcode in additionalAllowedCities
-  const additionalAllowedCities = ["ferndale", "southgate"]
+  // Allow any zipcode in additionalAllowedCities *CASE_SENSITIVE
+  const additionalAllowedCities = ["Ferndale", "Southgate"]
 
   let zipInfo = ZIP_CODE_TO_INFO[zipcode.substr(0, 5)]
   if (zipInfo) {

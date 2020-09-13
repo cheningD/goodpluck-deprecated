@@ -2,17 +2,29 @@ import React, { useState } from "react"
 import { Link } from "gatsby"
 import "./ZipCodeModal.css"
 import { Formik, Form, Field, ErrorMessage } from "formik"
+import * as yup from "yup"
 import {
   removeNonNumbers,
-  zipSchema,
   setZipToLocalStorage,
   getAndValidateZipFromLocalStorage,
+  VALID_EMAIL_PATTERN,
 } from "../util"
 import {
   isAllowedZipcode,
   getLabelForZipCode,
   getCountyForZipCode,
 } from "../zipcodes"
+
+const zipSchema = yup.object().shape({
+  zip: yup
+    .string()
+    .required("We need your 5 digit zip!")
+    // ##### and #####-#### format zip codes
+    .matches(
+      VALID_EMAIL_PATTERN,
+      `That doesn't look quite right. Please enter your 5-digit zip code.`
+    ),
+})
 
 export const ZipInputPage = ({ updateZipCode, setShowModal }) => {
   const onSubmit = zipObject => {
@@ -60,7 +72,7 @@ export const ZipInputPage = ({ updateZipCode, setShowModal }) => {
   )
 }
 
-const ZipNotAllowedPage = ({ zipCode, setShowModal, updateZipCode }) => {
+const ZipNotAllowedPage = ({ zipCode, updateZipCode }) => {
   return (
     <div className="zipcode-modal-page">
       <p>
@@ -180,7 +192,13 @@ const ZipCodeModal = ({
   // Determine what the modal content should be
   let currentPage
   if (!zipCode) {
-    currentPage = <ZipInputPage updateZipCode={updateZipCode} inline="false" />
+    currentPage = (
+      <ZipInputPage
+        updateZipCode={updateZipCode}
+        setShowModal={setShowModal}
+        inline="false"
+      />
+    )
   } else if (isAllowedZipcode(zipCode)) {
     currentPage = (
       <ZipAllowedPage zipCode={zipCode} setShowModal={setShowModal} />
