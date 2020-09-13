@@ -12,6 +12,8 @@ import { removeNonLetters } from "../util"
 import PriceFormatter from "../components/PriceFormatter"
 import Footer from "../components/footer"
 import get from "lodash-es/get"
+import noop from "lodash-es/noop"
+import throttle from "lodash-es/throttle"
 import { FeatureFlags } from "../FeatureFlags"
 import ZipCodeModal from "../components/ZipCodeModal"
 
@@ -60,21 +62,34 @@ export const query = graphql`
   }
 `
 
-// The ObservableElement updates window.location.hash when it scrolls into view
+export class ActiveSidebarContext {
+  static context = React.createContext({
+    activeItem: "",
+    setActiveItem: noop,
+    // to prevent clicking from fighting with scrolling
+    isNavigating: false,
+    setNavigating: noop
+  })
+  static Provider = ActiveSidebarContext.context.Provider
+  static Consumer = ActiveSidebarContext.context.Consumer
+}
+
 const ObservableElement = props => {
   const id = removeNonLetters(props.title)
+  const context = React.useContext(ActiveSidebarContext.context);
+
+  function handleOnChange(inView) {
+    if (context.isNavigating) return
+    else if (id && inView) context.setActiveItem(id);
+  }
+  const handleChangeThrottled = throttle(handleOnChange, 150)
+
   return (
     <InView
       as={props.tag}
       id={id}
       className={props.className}
-      onChange={(inView, entry) => {
-        console.log("Inview:", inView)
-        if (id && inView) {
-          console.log("Changing hash to:", id)
-          window.location.hash = id
-        }
-      }}
+      onChange={handleChangeThrottled}
     >
       {props.title}
     </InView>
@@ -213,6 +228,9 @@ const ProductCard = ({ productGroup }) => {
 }
 
 export default function DepartmentPage({ data }) {
+  const [activeItem, setActiveItem] = React.useState("");
+  const [isNavigating, setNavigating] = React.useState(false)
+
   /* Create a map {category: {family: [productGroup] }
 
   e.g.
@@ -294,10 +312,12 @@ export default function DepartmentPage({ data }) {
     <>
       <Nav />
       <section>
-        <div className="leftPanel">
-          <ConnectedSidebar sideBarLinks={sidebarEntries} />
-        </div>
-        <div className="rightPanel">{categorySection}</div>
+        <ActiveSidebarContext.Provider value={{ setActiveItem, activeItem, isNavigating, setNavigating }}>
+          <div className="leftPanel">
+            <ConnectedSidebar sideBarLinks={sidebarEntries} />
+          </div>
+          <div className="rightPanel">{categorySection}</div>
+        </ActiveSidebarContext.Provider>
       </section>
       <Footer />
     </>
