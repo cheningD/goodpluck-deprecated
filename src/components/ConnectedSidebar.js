@@ -1,61 +1,52 @@
-import React, { useState, useEffect } from "react"
+import React from "react"
+import find from "lodash-es/find"
+import get from "lodash-es/get"
+import debounce from "lodash-es/debounce"
+
+import { ActiveSidebarContext } from "../templates/department"
+import { removeNonLetters, listToClass } from "../util"
 import "./ConnectedSidebar.css"
 
-export default function ConnectedSidebar(props) {
-  const sideBarLinks =
-    props.sideBarLinks !== undefined ? props.sideBarLinks : []
-  const [activeLink, setActiveLink] = useState(window.location.hash)
+const ConnectedSidebar = React.memo(props => {
+  const sideBarLinks = get(props, "sideBarLinks", [])
+  const context = React.useContext(ActiveSidebarContext.context);
 
-  useEffect(() => {
-    window.addEventListener(
-      "hashchange",
-      function () {
-        setActiveLink(window.location.hash)
-      },
-      false
-    )
-  })
-
-  function checkIfActive(item, activeLink) {
-    if (!activeLink) return false
-    return item.link === activeLink
-      ? true
-      : item.children !== undefined && item.children.length > 0 //check if the active link is any of the childrens
-      ? item.children.filter(childItem => {
-          return childItem.link === activeLink
-        }).length > 0
-      : false
+  function checkIfActive(item) {
+    if (removeNonLetters(item.link) === context.activeItem) return "active"
+    const childIsActive = !!find(item.children, childItem => removeNonLetters(childItem.link) === context.activeItem)
+    return childIsActive ? "active" : undefined
   }
 
+  function handleLinkClick(link) {
+    context.setNavigating(true)
+    context.setActiveItem(removeNonLetters(link))
+    unSetNavigating()
+  }
+
+  const unSetNavigating =  React.useCallback(debounce(() => context.setNavigating(false), 450))
+  
   return (
     <div className="sideBarMainWrap">
-      {sideBarLinks &&
-        sideBarLinks.map((el, index) => {
+      {sideBarLinks.map((el, index) => {
           return (
             <div key={index} className={"slideRTL sideBarItem"}>
               <a
                 href={el.link}
-                className={
-                  "parentLink" +
-                  (checkIfActive(el, activeLink) ? " active" : "")
-                }
+                onClick={() => handleLinkClick(el.link)}
+                className={listToClass(["parentLink", checkIfActive(el)])}
               >
                 {el.title}
               </a>
               <div className="sideBarChildrenItems">
                 {el.children.length > 0 &&
-                  checkIfActive(el, activeLink) &&
+                  !!checkIfActive(el) &&
                   el.children.map((childElement, childIndex) => {
                     return (
                       <a
                         href={childElement.link}
                         key={childIndex}
-                        className={
-                          "childLink" +
-                          (checkIfActive(childElement, activeLink)
-                            ? " active"
-                            : "")
-                        }
+                        onClick={() => handleLinkClick(childElement.link)}
+                        className={listToClass(["childLink", checkIfActive(childElement)])}
                       >
                         <div className="childLinkText slideRTL">
                           {childElement.title}
@@ -69,4 +60,6 @@ export default function ConnectedSidebar(props) {
         })}
     </div>
   )
-}
+})
+
+export default ConnectedSidebar
