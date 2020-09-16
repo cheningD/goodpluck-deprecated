@@ -96,7 +96,7 @@ export default function Home({ data }) {
           </Link>
           <a
             href="https://cead433923.typeform.com/to/vfu8Ipdm"
-            className="new-ways-to-save-link"
+            className="new-ways-to-save-link hero-link"
             target="_blank"
             rel="noopener noreferrer"
           >
