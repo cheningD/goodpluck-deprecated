@@ -220,3 +220,47 @@ section {
 .product-card--image-container:hover .showOnHover {
   display: block;
 }
+
+@media only screen and (max-width: 800px) {
+  .leftPanel {
+    visibility: hidden;
+    display: none;
+  }
+
+  .rightPanel {
+    width: 100%;
+    padding: 0 1rem;
+  }
+
+  .product-card {
+    width: 100%;
+    margin-right: 0;
+    flex-wrap: nowrap;
+    border-top: 1px solid #eaeaea;
+    border-bottom: none;
+    padding-top: 10px;
+    margin-bottom: 0;
+    align-items: flex-start;
+  }
+
+  .product-card:first-child {
+    border-top: none;
+  }
+
+  .product-card--product-label {
+    padding-left: 5px;
+  }
+
+  .product-card--image-container {
+    width: 75%;
+  }
+
+  .product-card--info-container {
+    height: auto;
+    width: 85%;
+  }
+
+  .product-card--title {
+    font-size: 1rem;
+  }
+}
