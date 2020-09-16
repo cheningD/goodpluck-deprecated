@@ -109,7 +109,7 @@ const ProductDetailBreadcrumbs = ({
 }
 
 const ProductPriceContainers = ({ page }) => {
-  const productPriceContainers = page.products.map(product => {
+  const productPriceContainers = get(page, "products", []).map(product => {
     const cartItem = {
       name: page.name,
       description: page.description,
@@ -134,17 +134,17 @@ const ProductPriceContainers = ({ page }) => {
 export default function ProductDetailPage({ data }) {
   const page = data.airtable.data
 
-  const allDates = page.products
+  const allDates = get(page, "products", [])
     .map(product => {
-      if (product.data.deliveryDate1) {
-        return product.data.deliveryDate1
+      if (get(product, "data.deliveryDate1")) {
+        return get(product, "data.deliveryDate1")
       }
       return null
     })
     .concat(
-      page.products.map(product => {
-        if (product.data.deliveryDate2) {
-          return product.data.deliveryDate2
+      get(page, "products", []).map(product => {
+        if (get(product, "data.deliveryDate2")) {
+          return get(product, "data.deliveryDate2")
         }
         return null
       })
@@ -156,7 +156,9 @@ export default function ProductDetailPage({ data }) {
     return <DeliveryDateComponent date={date} key={date} />
   })
 
-  const productHighlights = page.productHighlights.map(highlight => {
+  //Save the empty arry if productHighlights === null
+  const productHighlights = get(page, "productHighlights", []) || []
+  productHighlights.map(highlight => {
     return (
       <div className="product-highlight-list-item" key={highlight}>
         <div className="product-detail--check"></div>
@@ -165,7 +167,8 @@ export default function ProductDetailPage({ data }) {
     )
   })
 
-  const productBadges = page.productBadges.map(badge => {
+  const productBadges = get(page, "productBadges", []) || []
+  productBadges.map(badge => {
     return (
       <div className="product-detail--badge" key={badge}>
         <img
