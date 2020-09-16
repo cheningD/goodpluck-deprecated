@@ -37,6 +37,7 @@ section {
 .product-card--container {
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
 }
 
 .product-card {
@@ -199,7 +200,6 @@ section {
   font-size: 1.2rem;
 }
 .product-card--price-label {
-  margin-top: 1rem;
   font-weight: 600;
   font-size: 0.8rem;
   align-self: flex-end;
