@@ -13,6 +13,9 @@
   color: #031927;
   font-family: Raleway, Arial, sans-serif;
   text-shadow: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .zipcode-modal-content {

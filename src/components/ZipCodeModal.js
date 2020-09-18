@@ -14,6 +14,7 @@ import {
   getLabelForZipCode,
   getCountyForZipCode,
 } from "../zipcodes"
+import { Portal } from "./Portal"
 
 const zipSchema = yup.object().shape({
   zip: yup
@@ -227,24 +228,29 @@ const ZipCodeModal = ({
   }
 
   return (
-    <div className="zipcode-modal">
-      <div className="zipcode-modal-content">
-        <button className="gp-close-button" onClick={() => setShowModal(false)}>
-          &times;
-        </button>
-        <div className="zipcode-modal-brand">Goodpluck</div>
-        {currentPage}
-        <Link className="gp-button-link zipcode-modal-link" to="/howitworks">
-          How it works
-        </Link>
-        <span>
-          Already have an account?{" "}
-          <Link className="gp-button-link zipcode-modal-link" to="/signin">
-            Sign In
+    <Portal>
+      <div className="zipcode-modal">
+        <div className="zipcode-modal-content">
+          <button
+            className="gp-close-button"
+            onClick={() => setShowModal(false)}
+          >
+            &times;
+          </button>
+          <div className="zipcode-modal-brand">Goodpluck</div>
+          {currentPage}
+          <Link className="gp-button-link zipcode-modal-link" to="/howitworks">
+            How it works
           </Link>
-        </span>
+          <span>
+            Already have an account?{" "}
+            <Link className="gp-button-link zipcode-modal-link" to="/signin">
+              Sign In
+            </Link>
+          </span>
+        </div>
       </div>
-    </div>
+    </Portal>
   )
 }
 
