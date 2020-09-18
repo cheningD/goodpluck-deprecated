@@ -49,6 +49,7 @@
   flex-wrap: wrap;
   margin: 0.8rem 0.8em 0.8rem 0;
   border-bottom: 1px solid #eaeaea;
+  max-width: 300px;
 }
 
 .product-card--image-container {
@@ -197,7 +198,9 @@
 .product-card--price-label {
   font-weight: 600;
   font-size: 0.8rem;
+  display: flex;
   align-self: flex-end;
+  align-items: flex-end;
 }
 .product-card--price {
   font-size: 1.5rem;
@@ -226,7 +229,9 @@
     width: 100%;
     padding: 0 1rem;
   }
+}
 
+@media only screen and (max-width: 750px) {
   .product-card {
     width: 100%;
     margin-right: 0;
@@ -236,6 +241,7 @@
     padding-top: 10px;
     margin-bottom: 0;
     align-items: flex-start;
+    max-width: none;
   }
 
   .product-card:first-child {
@@ -251,11 +257,70 @@
   }
 
   .product-card--info-container {
-    height: auto;
+    height: 100%;
     width: 85%;
   }
 
   .product-card--title {
-    font-size: 1rem;
+    line-height: 16px;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-box-orient: vertical;
+    display: -webkit-box;
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .department--heading-1,
+  .department--heading-2 {
+    padding-left: 5px;
+  }
+
+  .rightPanel {
+    padding: 0;
+  }
+
+  .product-card--supplier {
+    font-size: 12px;
+  }
+
+  .product-card--title {
+    font-size: 14px;
+    line-height: 16px;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-box-orient: vertical;
+    display: -webkit-box;
+  }
+
+  .product-card--info-container {
+    height: 120px;
+  }
+
+  .product-card--image-container {
+    width: 100%;
+  }
+
+  .product-card--image-container img {
+    height: 120px !important;
+  }
+
+  .product-card--image-container .gatsby-image-wrapper {
+    height: 120px !important;
+    width: 100% !important;
+  }
+  .product-card--price.price-formatter--smaller {
+    margin-right: 0;
+    margin-left: 0;
+    height: 40px;
+    line-height: 2em;
+  }
+
+  .product-card--sizeDescription {
+    font-weight: 400;
+    line-height: initial;
+    padding-left: 5px;
   }
 }
