@@ -137,8 +137,6 @@ const ZipCodeModal = ({
   // Check component zipcode data is fresh when component mounts/updates
   useEffect(() => setZipCode(getAndValidateZipFromLocalStorage()))
 
-  //Check for updates on component mount
-
   /** Update the zipcode and  trigger a page re-render
    *
    * @param {*} zip The new zipcode  to save
