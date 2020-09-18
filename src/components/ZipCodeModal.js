@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { Link } from "gatsby"
 import "./ZipCodeModal.css"
 import { Formik, Form, Field, ErrorMessage } from "formik"
@@ -134,6 +134,11 @@ const ZipCodeModal = ({
   const [showModal, setShowModal] = useState(false)
   const [zipCode, setZipCode] = useState(getAndValidateZipFromLocalStorage())
 
+  // Check component zipcode data is fresh when component mounts/updates
+  useEffect(() => setZipCode(getAndValidateZipFromLocalStorage()))
+
+  //Check for updates on component mount
+
   /** Update the zipcode and  trigger a page re-render
    *
    * @param {*} zip The new zipcode  to save
@@ -212,36 +217,36 @@ const ZipCodeModal = ({
       />
     )
   }
+
+  // Dont render all the modal stuff if it doesn't need to be shown
+  if (!showModal) {
+    return (
+      <>
+        {outsideModalContent}
+        <span>{deliveryMessage}</span>
+      </>
+    )
+  }
+
   return (
-    <>
-      {outsideModalContent}
-      <span>{deliveryMessage}</span>
-      <div
-        className={`zipcode-modal ${
-          showModal ? "" : "zipcode-modal-display-none"
-        }`}
-      >
-        <div className="zipcode-modal-content">
-          <button
-            className="gp-close-button"
-            onClick={() => setShowModal(false)}
-          >
-            &times;
-          </button>
-          <div className="zipcode-modal-brand">Goodpluck</div>
-          {currentPage}
-          <Link className="gp-button-link zipcode-modal-link" to="/howitworks">
-            How it works
+    <div className="zipcode-modal">
+      <div className="zipcode-modal-content">
+        <button className="gp-close-button" onClick={() => setShowModal(false)}>
+          &times;
+        </button>
+        <div className="zipcode-modal-brand">Goodpluck</div>
+        {currentPage}
+        <Link className="gp-button-link zipcode-modal-link" to="/howitworks">
+          How it works
+        </Link>
+        <span>
+          Already have an account?{" "}
+          <Link className="gp-button-link zipcode-modal-link" to="/signin">
+            Sign In
           </Link>
-          <span>
-            Already have an account?{" "}
-            <Link className="gp-button-link zipcode-modal-link" to="/signin">
-              Sign In
-            </Link>
-          </span>
-        </div>
+        </span>
       </div>
-    </>
+    </div>
   )
 }
 
