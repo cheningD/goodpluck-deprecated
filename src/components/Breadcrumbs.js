@@ -8,6 +8,16 @@ import "./Breadcrumbs.css"
 import { removeNonLetters } from "../util"
 
 export class Breadcrumbs extends React.PureComponent {
+  state = {
+    produceMenuOpen: false,
+  }
+
+  toggleProduceMenu = () => {
+    this.setState(({ produceMenuOpen }) => ({
+      produceMenuOpen: !produceMenuOpen,
+    }))
+  }
+
   render() {
     const productTree = ProductTree.create(this.props.sideBarLinks)
     const activeNode = productTree.get(this.props.activeItem)
@@ -17,7 +27,14 @@ export class Breadcrumbs extends React.PureComponent {
     return (
       <div className="product--bread-crumbs">
         <div className="product--bread-crumb-wrapper">
-          <BreadCrumb title="Produce" />
+          <BreadCrumb onClick={this.toggleProduceMenu} title="Produce" />
+          {this.state.produceMenuOpen && (
+            <div>
+              {productTree.products.map(p => (
+                <a href={p.link}>{p.title}</a>
+              ))}
+            </div>
+          )}
           <span className="arrow-right" />
         </div>
         <BreadCrumb title={activeNode.product.title} />
@@ -27,10 +44,10 @@ export class Breadcrumbs extends React.PureComponent {
 }
 
 const BreadCrumb = props => (
-  <span className="product--bread-crumb">
+  <button onClick={props.onClick} className="product--bread-crumb">
     {props.title}
     {props.children}
-  </span>
+  </button>
 )
 
 class ProductTree {
