@@ -101,3 +101,20 @@
   font-family: Raleway, Arial, sans-serif;
   color: inherit;
 }
+
+@media screen and (max-width: 786px) {
+  .zipcode-modal-form-row {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .zipcode-modal-form--element {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
+  .zipcode-modal-form--item {
+    width: 80%;
+  }
+}
