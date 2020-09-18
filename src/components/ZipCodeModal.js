@@ -53,19 +53,23 @@ export const ZipInputPage = ({ updateZipCode, setShowModal }) => {
           )}
 
           <div className="zipcode-modal-form-row">
-            <Field
-              className="gp-button gp-input-dark"
-              type="text"
-              name="zip"
-              placeholder="Zip Code"
-            />
-            <button
-              className="gp-button gp-button-dark"
-              type="submit"
-              disabled={isSubmitting}
-            >
-              Continue
-            </button>
+            <div className="zipcode-modal-form--element">
+              <Field
+                className="gp-button gp-input-dark zipcode-modal-form--item"
+                type="text"
+                name="zip"
+                placeholder="Zip Code"
+              />
+            </div>
+            <div className="zipcode-modal-form--element">
+              <button
+                className="gp-button gp-button-dark zipcode-modal-form--item"
+                type="submit"
+                disabled={isSubmitting}
+              >
+                Continue
+              </button>
+            </div>
           </div>
         </Form>
       )}
