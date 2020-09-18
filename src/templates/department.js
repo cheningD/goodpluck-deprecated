@@ -5,17 +5,20 @@ import { Link, graphql } from "gatsby"
 import Img from "gatsby-image"
 import { InView } from "react-intersection-observer"
 import { useShoppingCart } from "use-shopping-cart"
+import memoizeOne from "memoize-one"
+import get from "lodash-es/get"
+import noop from "lodash-es/noop"
+import throttle from "lodash-es/throttle"
+
 import "./department.css"
 import AddIcon from "../images/icons/add.svg"
 import MinusIcon from "../images/icons/minus.svg"
 import { removeNonLetters } from "../util"
 import PriceFormatter from "../components/PriceFormatter"
 import Footer from "../components/footer"
-import get from "lodash-es/get"
-import noop from "lodash-es/noop"
-import throttle from "lodash-es/throttle"
 import { FeatureFlags } from "../FeatureFlags"
 import ZipCodeModal from "../components/ZipCodeModal"
+import { Breadcrumbs } from "../components/Breadcrumbs"
 
 export const query = graphql`
   query DepartmentPageQuery($id: Int!) {
@@ -68,7 +71,7 @@ export class ActiveSidebarContext {
     setActiveItem: noop,
     // to prevent clicking from fighting with scrolling
     isNavigating: false,
-    setNavigating: noop
+    setNavigating: noop,
   })
   static Provider = ActiveSidebarContext.context.Provider
   static Consumer = ActiveSidebarContext.context.Consumer
@@ -76,11 +79,11 @@ export class ActiveSidebarContext {
 
 const ObservableElement = props => {
   const id = removeNonLetters(props.title)
-  const context = React.useContext(ActiveSidebarContext.context);
+  const context = React.useContext(ActiveSidebarContext.context)
 
   function handleOnChange(inView) {
     if (context.isNavigating) return
-    else if (id && inView) context.setActiveItem(id);
+    else if (id && inView) context.setActiveItem(id)
   }
   const handleChangeThrottled = throttle(handleOnChange, 150)
 
@@ -228,57 +231,10 @@ const ProductCard = ({ productGroup }) => {
 }
 
 export default function DepartmentPage({ data }) {
-  const [activeItem, setActiveItem] = React.useState("");
+  const [activeItem, setActiveItem] = React.useState("")
   const [isNavigating, setNavigating] = React.useState(false)
-
-  /* Create a map {category: {family: [productGroup] }
-
-  e.g.
-  {vegetables: {
-    "Cucumbers & Zucchinis": [ {}, ... ],
-    "Tomatoes, Peppers & Eggplants": [ {}, ... ]
-  },
-  fruits: {
-    "Cucumbers & Zucchinis": [ {}, ... ]
-  }}
-  
-  */
-  const productMap = {}
-  data.allAirtable.nodes.forEach(productGroup => {
-    const category = productGroup.data.category[0]
-    const family = productGroup.data.family
-
-    // Create a new category if necessary
-    if (!productMap[category]) {
-      productMap[category] = {}
-    }
-
-    // Create a new family if necessary
-    if (!productMap[category][family]) {
-      productMap[category][family] = []
-    }
-
-    // Add productGroup to list of [productGroup]
-    productMap[category][family].push(productGroup)
-  })
-
-  // Create an entry   { title: "Link 1", link: "#link1", children: [] } for each category
-  const sidebarEntries = Object.keys(productMap).map(category => {
-    const childEntries = Object.keys(productMap[category]).map(family => {
-      return {
-        title: family,
-        key: family,
-        link: `#${removeNonLetters(family)}`,
-      }
-    })
-
-    return {
-      title: category,
-      link: `#${removeNonLetters(category)}`,
-      children: childEntries,
-      key: category,
-    }
-  })
+  const productMap = getProductMapMemoized(data.allAirtable.nodes)
+  const sidebarEntries = getSidebarEntriesMemoized(productMap)
 
   const categorySection = Object.keys(productMap).map(category => {
     const familySection = Object.keys(productMap[category]).map(family => {
@@ -322,4 +278,59 @@ export default function DepartmentPage({ data }) {
       <Footer />
     </>
   )
+}
+
+/* Create a map {category: {family: [productGroup] }
+
+e.g.
+{vegetables: {
+  "Cucumbers & Zucchinis": [ {}, ... ],
+  "Tomatoes, Peppers & Eggplants": [ {}, ... ]
+},
+fruits: {
+  "Cucumbers & Zucchinis": [ {}, ... ]
+}}
+
+*/
+const getProductMapMemoized = memoizeOne(getProductMap)
+function getProductMap(airTableNodes) {
+  return airTableNodes.reduce((productMap, productGroup) => {
+    const category = productGroup.data.category[0]
+    const family = productGroup.data.family
+
+    // Create a new category if necessary
+    if (!productMap[category]) {
+      productMap[category] = {}
+    }
+
+    // Create a new family if necessary
+    if (!productMap[category][family]) {
+      productMap[category][family] = []
+    }
+
+    // Add productGroup to list of [productGroup]
+    productMap[category][family].push(productGroup)
+    return productMap
+  }, {})
+}
+
+// Create an entry   { title: "Link 1", link: "#link1", children: [] } for each category
+const getSidebarEntriesMemoized = memoizeOne(getSidebarEntries)
+function getSidebarEntries(productMap) {
+  return Object.keys(productMap).map(category => {
+    const childEntries = Object.keys(productMap[category]).map(family => {
+      return {
+        title: family,
+        key: family,
+        link: `#${removeNonLetters(family)}`,
+      }
+    })
+
+    return {
+      title: category,
+      link: `#${removeNonLetters(category)}`,
+      children: childEntries,
+      key: category,
+    }
+  })
 }
