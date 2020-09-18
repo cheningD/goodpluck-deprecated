@@ -1,6 +1,6 @@
 .zipcode-modal {
   position: fixed; /* Stay in place */
-  z-index: 20; /* Sit on top of the Nav
+  z-index: 20; /* Sit on top of the Nav */
   padding-top: 100px; /* Location of the box */
   padding-bottom: 100px; /* Location of the box */
   left: 0;

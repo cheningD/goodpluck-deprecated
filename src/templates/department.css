@@ -111,7 +111,6 @@ section {
   right: 0;
   top: 20%;
   text-align: center;
-  /* z-index: 4; */
   font-family: Bebas Neue, sans-serif;
   line-height: 2.2rem;
 }
@@ -126,7 +125,6 @@ section {
   align-items: center;
   justify-content: center;
   font-family: "fa solid";
-  /* z-index: 4; */
 }
 
 .product-card--control-btn {
