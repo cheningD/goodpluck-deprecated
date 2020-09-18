@@ -1,0 +1,37 @@
+.product--bread-crumbs {
+  height: 30px;
+  background-color: #f4f4f4;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.product--bread-crumb-wrapper {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  position: relative;
+}
+
+.product--bread-crumb {
+  height: 100%;
+  background-color: #f4f4f4;
+  padding: 0 10px;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  position: relative;
+}
+
+.product--bread-crumb:first-child {
+  background-color: #eaeaea;
+}
+
+.arrow-right {
+  width: 0;
+  height: 0;
+  border-top: 30px solid transparent;
+  border-bottom: 30px solid transparent;
+  border-left: 25px solid #eaeaea;
+}
