@@ -311,7 +311,7 @@ export default function DepartmentPage({ data }) {
   return (
     <>
       <Nav />
-      <section>
+      <section className="department--page-wrapper">
         <ActiveSidebarContext.Provider value={{ setActiveItem, activeItem, isNavigating, setNavigating }}>
           <div className="leftPanel">
             <ConnectedSidebar sideBarLinks={sidebarEntries} />
