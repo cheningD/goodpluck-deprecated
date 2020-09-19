@@ -219,10 +219,20 @@
   display: block;
 }
 
+.product--bread-crumbs {
+  visibility: hidden;
+  display: none !important;
+}
+
 @media only screen and (max-width: 800px) {
   .leftPanel {
     visibility: hidden;
     display: none;
+  }
+
+  .product--bread-crumbs {
+    visibility: visible;
+    display: flex !important;
   }
 
   .rightPanel {
