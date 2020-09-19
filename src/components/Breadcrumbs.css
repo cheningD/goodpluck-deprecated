@@ -17,7 +17,6 @@
 .product--bread-crumb {
   height: 100%;
   color: #4c5349;
-  background-color: #f4f4f4;
   padding: 0 10px;
   display: flex;
   align-items: center;
@@ -25,13 +24,11 @@
   position: relative;
 }
 
-.product--bread-crumb:first-child,
-.product--bread-crumb:focus {
-  background-color: #eaeaea;
-}
-
-.product--bread-crumb:focus {
-  background-color: #f4f4f4;
+.product--bread-crumb--chevron {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  margin-left: 5px;
 }
 
 .arrow-right {
@@ -74,4 +71,14 @@
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
+}
+
+.product--bread-crumb__dark-background,
+.product--bread-crumb__dark-background:focus {
+  background-color: #eaeaea !important;
+}
+
+.product--bread-crumb__light-background,
+.product--bread-crumb__light-background:focus {
+  background-color: #f4f4f4 !important;
 }

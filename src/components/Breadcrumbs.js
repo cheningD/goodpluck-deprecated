@@ -5,8 +5,9 @@ import omit from "lodash-es/omit"
 import memoizeOne from "memoize-one"
 
 import "./Breadcrumbs.css"
-import { removeNonLetters } from "../util"
+import { listToClass, removeNonLetters } from "../util"
 import { Portal } from "./Portal"
+import { ToggleableChevron } from "./ToggleableChevron"
 
 export class Breadcrumbs extends React.PureComponent {
   produceMenuRef = React.createRef()
@@ -41,10 +42,12 @@ export class Breadcrumbs extends React.PureComponent {
       <div className="product--bread-crumbs">
         <div className="product--bread-crumb-wrapper">
           <BreadCrumb
+            classNames="product--bread-crumb__dark-background"
             parentRef={this.produceMenuRef}
             onClick={this.toggleProduceMenu}
-            title="Produce"
+            isOpen={this.state.produceMenuOpen}
           />
+          <span>Produce</span>
           {this.state.produceMenuOpen && (
             <BreadCrumbMenu
               onClick={this.toggleProduceMenu}
@@ -56,20 +59,24 @@ export class Breadcrumbs extends React.PureComponent {
           )}
           <span className="arrow-right" />
         </div>
-        <BreadCrumb
-          parentRef={this.productMenuRef}
-          title={activeNode.product.title}
-          onClick={this.toggleProductMenu}
-        />
-        {this.state.productMenuOpen && activeNode.product.children && (
-          <BreadCrumbMenu
+        <div className="product--bread-crumb-wrapper">
+          <BreadCrumb
+            classNames="product--bread-crumb__light-background"
+            parentRef={this.productMenuRef}
             onClick={this.toggleProductMenu}
-            products={activeNode.product.children}
-            top={
-              this.productMenuRef.current?.getBoundingClientRect().bottom || 0
-            }
+            isOpen={this.state.productMenuOpen}
           />
-        )}
+          <span>{activeNode.product.title}</span>
+          {this.state.productMenuOpen && activeNode.product.children && (
+            <BreadCrumbMenu
+              onClick={this.toggleProductMenu}
+              products={activeNode.product.children}
+              top={
+                this.productMenuRef.current?.getBoundingClientRect().bottom || 0
+              }
+            />
+          )}
+        </div>
       </div>
     )
   }
@@ -79,10 +86,13 @@ const BreadCrumb = props => (
   <button
     ref={props.parentRef}
     onClick={props.onClick}
-    className="product--bread-crumb"
+    className={listToClass(["product--bread-crumb", props.classNames])}
   >
-    {props.title}
     {props.children}
+    <ToggleableChevron
+      classNames={"product--bread-crumb--chevron"}
+      isUpArrow={props.isOpen}
+    />
   </button>
 )
 
