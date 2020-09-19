@@ -46,17 +46,19 @@ export class Breadcrumbs extends React.PureComponent {
             parentRef={this.produceMenuRef}
             onClick={this.toggleProduceMenu}
             isOpen={this.state.produceMenuOpen}
-          />
-          <span>Produce</span>
-          {this.state.produceMenuOpen && (
-            <BreadCrumbMenu
-              onClick={this.toggleProduceMenu}
-              products={productTree.products}
-              top={
-                this.produceMenuRef.current?.getBoundingClientRect().bottom || 0
-              }
-            />
-          )}
+          >
+            <span>Produce</span>
+            {this.state.produceMenuOpen && (
+              <BreadCrumbMenu
+                onClick={this.toggleProduceMenu}
+                products={productTree.products}
+                top={
+                  this.produceMenuRef.current?.getBoundingClientRect().bottom ||
+                  0
+                }
+              />
+            )}
+          </BreadCrumb>
           <span className="arrow-right" />
         </div>
         <div className="product--bread-crumb-wrapper">
@@ -65,17 +67,19 @@ export class Breadcrumbs extends React.PureComponent {
             parentRef={this.productMenuRef}
             onClick={this.toggleProductMenu}
             isOpen={this.state.productMenuOpen}
-          />
-          <span>{activeNode.product.title}</span>
-          {this.state.productMenuOpen && activeNode.product.children && (
-            <BreadCrumbMenu
-              onClick={this.toggleProductMenu}
-              products={activeNode.product.children}
-              top={
-                this.productMenuRef.current?.getBoundingClientRect().bottom || 0
-              }
-            />
-          )}
+          >
+            <span>{activeNode.product.title}</span>
+            {this.state.productMenuOpen && activeNode.product.children && (
+              <BreadCrumbMenu
+                onClick={this.toggleProductMenu}
+                products={activeNode.product.children}
+                top={
+                  this.productMenuRef.current?.getBoundingClientRect().bottom ||
+                  0
+                }
+              />
+            )}
+          </BreadCrumb>
         </div>
       </div>
     )
