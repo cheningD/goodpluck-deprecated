@@ -129,7 +129,15 @@ const FakeAddItemButtonRequiresZip = ({ cartItem, setShowModal }) => {
 
 const ProductCard = ({ productGroup }) => {
   const data = productGroup.data
-  const selectedProduct = productGroup.data.products[0].data
+  const selectedProduct = productGroup?.data?.products?.[0]?.data
+  const {
+    cartDetails,
+    addItem,
+    incrementItem,
+    decrementItem,
+  } = useShoppingCart()
+
+  if (!selectedProduct) return null
 
   // To add itmes to the cart the following fields are required:
   const cartItem = {
@@ -140,8 +148,6 @@ const ProductCard = ({ productGroup }) => {
     currency: "USD",
     image: get(data, "mainImage.localFiles.url", null),
   }
-
-  let { cartDetails, addItem, incrementItem, decrementItem } = useShoppingCart()
 
   let productImageOverlay
   if (cartDetails[cartItem.sku] && cartDetails[cartItem.sku].quantity) {
@@ -267,6 +273,7 @@ export default function DepartmentPage({ data }) {
   return (
     <>
       <Nav />
+      <Breadcrumbs activeItem={activeItem} sideBarLinks={sidebarEntries}/>
       <section className="department--page-wrapper">
         <ActiveSidebarContext.Provider
           value={{ setActiveItem, activeItem, isNavigating, setNavigating }}
