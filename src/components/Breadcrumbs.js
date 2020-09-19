@@ -6,15 +6,28 @@ import memoizeOne from "memoize-one"
 
 import "./Breadcrumbs.css"
 import { removeNonLetters } from "../util"
+import { Portal } from "./Portal"
 
 export class Breadcrumbs extends React.PureComponent {
+  produceMenuRef = React.createRef()
+  productMenuRef = React.createRef()
+
   state = {
     produceMenuOpen: false,
+    productMenuOpen: false,
   }
 
   toggleProduceMenu = () => {
-    this.setState(({ produceMenuOpen }) => ({
+    this.setState(({ produceMenuOpen, productMenuOpen }) => ({
       produceMenuOpen: !produceMenuOpen,
+      productMenuOpen: false,
+    }))
+  }
+
+  toggleProductMenu = () => {
+    this.setState(({ productMenuOpen, produceMenuOpen }) => ({
+      productMenuOpen: !productMenuOpen,
+      produceMenuOpen: false,
     }))
   }
 
@@ -27,27 +40,70 @@ export class Breadcrumbs extends React.PureComponent {
     return (
       <div className="product--bread-crumbs">
         <div className="product--bread-crumb-wrapper">
-          <BreadCrumb onClick={this.toggleProduceMenu} title="Produce" />
+          <BreadCrumb
+            parentRef={this.produceMenuRef}
+            onClick={this.toggleProduceMenu}
+            title="Produce"
+          />
           {this.state.produceMenuOpen && (
-            <div>
-              {productTree.products.map(p => (
-                <a href={p.link}>{p.title}</a>
-              ))}
-            </div>
+            <BreadCrumbMenu
+              onClick={this.toggleProduceMenu}
+              products={productTree.products}
+              top={
+                this.produceMenuRef.current?.getBoundingClientRect().bottom || 0
+              }
+            />
           )}
           <span className="arrow-right" />
         </div>
-        <BreadCrumb title={activeNode.product.title} />
+        <BreadCrumb
+          parentRef={this.productMenuRef}
+          title={activeNode.product.title}
+          onClick={this.toggleProductMenu}
+        />
+        {this.state.productMenuOpen && activeNode.product.children && (
+          <BreadCrumbMenu
+            onClick={this.toggleProductMenu}
+            products={activeNode.product.children}
+            top={
+              this.productMenuRef.current?.getBoundingClientRect().bottom || 0
+            }
+          />
+        )}
       </div>
     )
   }
 }
 
 const BreadCrumb = props => (
-  <button onClick={props.onClick} className="product--bread-crumb">
+  <button
+    ref={props.parentRef}
+    onClick={props.onClick}
+    className="product--bread-crumb"
+  >
     {props.title}
     {props.children}
   </button>
+)
+
+const BreadCrumbMenu = props => (
+  <Portal
+    className="product--bread-crumb--menu__portal"
+    style={`top: ${props.top}px;`}
+  >
+    <div className="product--bread-crumb--menu">
+      {props.products.map(product => (
+        <a
+          onClick={props.onClick}
+          className="product--bread-crumb--menu__link"
+          key={product.link}
+          href={product.link}
+        >
+          {product.title}
+        </a>
+      ))}
+    </div>
+  </Portal>
 )
 
 class ProductTree {
