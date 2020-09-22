@@ -23,7 +23,7 @@ export const query = graphql`
             slug
           }
         }
-        family
+        subCategory
         multipleSupplierLabel
         suppliersForProductGroup
         productHighlights
@@ -189,9 +189,9 @@ export default function ProductDetailPage({ data }) {
         slug={page.slug}
         department={page.department[0].data.name}
         departmentSlug={page.department[0].data.slug}
-        family={page.family}
+        family={page.subCategory}
         familySlug={`${page.department[0].data.slug}#${removeNonLetters(
-          page.family
+          page.subCategory
         )}`}
       />
 
