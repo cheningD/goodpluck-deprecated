@@ -32,7 +32,7 @@ export const query = graphql`
         data {
           id
           name
-          family
+          subCategory
           category
           multipleSupplierLabel
           slug
@@ -268,7 +268,9 @@ export default function DepartmentPage({ data }) {
     <>
       <Nav />
       <section className="department--page-wrapper">
-        <ActiveSidebarContext.Provider value={{ setActiveItem, activeItem, isNavigating, setNavigating }}>
+        <ActiveSidebarContext.Provider
+          value={{ setActiveItem, activeItem, isNavigating, setNavigating }}
+        >
           <div className="leftPanel">
             <ConnectedSidebar sideBarLinks={sidebarEntries} />
           </div>
@@ -296,7 +298,7 @@ const getProductMapMemoized = memoizeOne(getProductMap)
 function getProductMap(airTableNodes) {
   return airTableNodes.reduce((productMap, productGroup) => {
     const category = productGroup.data.category[0]
-    const family = productGroup.data.family
+    const family = productGroup.data.subCategory
 
     // Create a new category if necessary
     if (!productMap[category]) {
