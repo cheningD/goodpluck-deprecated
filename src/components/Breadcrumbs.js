@@ -43,7 +43,6 @@ export class Breadcrumbs extends React.PureComponent {
       <div className="product--bread-crumbs">
         <div className="product--bread-crumb-wrapper">
           <BreadCrumb
-            key={this.props.activeItem}
             classNames="product--bread-crumb__dark-background"
             parentRef={this.produceMenuRef}
             onClick={this.toggleProduceMenu}
@@ -65,14 +64,13 @@ export class Breadcrumbs extends React.PureComponent {
         </div>
         <div className="product--bread-crumb-wrapper">
           <BreadCrumb
-            key={this.props.activeItem}
             classNames="product--bread-crumb__light-background"
             parentRef={this.productMenuRef}
             onClick={this.toggleProductMenu}
             isOpen={this.state.productMenuOpen}
           >
             <span>{activeNode.product.title}</span>
-            {this.state.productMenuOpen && activeNode.product.children && (
+            {this.state.productMenuOpen && (
               <BreadCrumbMenu
                 onClick={this.toggleProductMenu}
                 products={activeNode.product.children}
@@ -165,7 +163,7 @@ class ProductTree {
       const child = this._getActiveChild(activeItem)
       const maybeProduct = this._getActiveProduct(child.productHash)
 
-      return new ActiveNode(maybeProduct, child)
+      return new ActiveNode(maybeProduct)
     }
     return new ActiveNode(product)
   }
@@ -201,9 +199,8 @@ class ChildNode {
 }
 
 class ActiveNode {
-  constructor(product, activeChild) {
+  constructor(product) {
     this.product = product
-    this.activeChild = activeChild || null
   }
 }
 
