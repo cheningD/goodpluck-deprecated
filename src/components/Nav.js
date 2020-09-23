@@ -53,38 +53,40 @@ const Links = ({ isMobileNavOpen }) => {
         isMobileNavOpen && "header-links--list__open",
       ])}
     >
-      <div className="header--mobile-links">
-        {FeatureFlags.MY_LISTS_FEATURE && (
-          <div className="header-link--wrapper">
-            <Link
-              to="/mylists"
-              className={listToClass([
-                "header-link",
-                linkIsActive("/mylists") && "current-link",
-              ])}
-            >
-              My Lists
-            </Link>
-          </div>
-        )}
+      {FeatureFlags.MY_LISTS_FEATURE && (
         <div className="header-link--wrapper">
           <Link
-            to="/signin"
-            className={listToClass(["header-link", linkIsActive("/signin")])}
+            to="/mylists"
+            className={listToClass([
+              "header-link",
+              linkIsActive("/mylists") && "current-link",
+            ])}
           >
-            Sign in
+            My Lists
           </Link>
         </div>
-        <div className="header-link--wrapper">
-          <Link
-            to="/cart"
-            className={listToClass(["header-link", linkIsActive("/cart")])}
-          >
-            Cart: {`${cartCount}`}
-          </Link>
-        </div>
+      )}
+      <div className="header-link--wrapper">
+        <Link
+          to="/signin"
+          className={listToClass(["header-link", linkIsActive("/signin")])}
+        >
+          Sign in
+        </Link>
       </div>
-      <Menu className="menu" linkClassName="header-link--wrapper header-link" />
+      <div className="header-link--wrapper">
+        <Link
+          to="/cart"
+          className={listToClass(["header-link", linkIsActive("/cart")])}
+        >
+          Cart: {`${cartCount}`}
+        </Link>
+      </div>
+      <hr className="nav--mobile-divider" />
+      <Menu
+        className="menu"
+        linkClassName="menu-category header-link--wrapper header-link"
+      />
     </div>
   )
 }

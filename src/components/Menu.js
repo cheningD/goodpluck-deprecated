@@ -26,7 +26,7 @@ export const Menu = ({ className, linkClassName }) => {
     <Link
       to={node.data.slug}
       key={node.data.id}
-      className={listToClass(["menu-category", linkClassName])}
+      className={listToClass([linkClassName])}
     >
       {node.data.name}
     </Link>
