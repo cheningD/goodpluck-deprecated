@@ -218,7 +218,7 @@ export default function ProductDetailPage({ data }) {
             wrappedComponentNeedsZipProps={{}}
             WrappedComponentZipIsAllowed={ProductPriceContainers}
             wrappedComponentZipIsAllowedProps={{ page }}
-            showDeliveryMessageWhenZipAllowed={false}
+            showDeliveryMessageWhenZipAllowed={true}
             showDeliveryMessageWhenZipNotAllowed={true}
           />
         </div>
