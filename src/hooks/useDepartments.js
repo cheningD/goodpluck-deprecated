@@ -30,18 +30,15 @@ export function useDepartments() {
 
       if (isNil(departmentName) || isNil(slug)) return departments
 
-      departments.set(departmentName, {
-        departmentName,
-        slug,
-      })
+      departments.set(departmentName, slug)
 
       return departments
     },
     new Map()
   )
 
-  return Array.from(departmentNames.values(), d =>
-    DepartmentLink.create(d.departmentName, d.slug)
+  return Array.from(departmentNames, ([departmentName, slug]) =>
+    DepartmentLink.create(departmentName, slug)
   )
 }
 
