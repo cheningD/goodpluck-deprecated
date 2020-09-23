@@ -29,5 +29,9 @@ export const setZipToLocalStorage = zip => {
 export function getFirstFromObject(obj) {
   if (isNil(obj) || !isObject(obj)) return null
 
-  for (const key in obj) return obj[key]
+  for (const key in obj) {
+    return obj[key]
+  }
+
+  return null
 }
