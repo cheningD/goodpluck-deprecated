@@ -48,7 +48,7 @@ export class Breadcrumbs extends React.PureComponent {
             onClick={this.toggleProduceMenu}
             isOpen={this.state.produceMenuOpen}
           >
-            <span>Produce</span>
+            <span>{activeNode.product.department}</span>
             {this.state.produceMenuOpen && (
               <BreadCrumbMenu
                 onClick={this.toggleProduceMenu}
