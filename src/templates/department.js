@@ -9,9 +9,9 @@ import memoizeOne from "memoize-one"
 import get from "lodash-es/get"
 import noop from "lodash-es/noop"
 import throttle from "lodash-es/throttle"
-import reduce from "lodash-es/reduce"
 import head from "lodash-es/head"
 import isNil from "lodash-es/isNil"
+import flow from "lodash-es/flow"
 
 import "./department.css"
 import AddIcon from "../images/icons/add.svg"
@@ -22,7 +22,6 @@ import Footer from "../components/footer"
 import { FeatureFlags } from "../FeatureFlags"
 import ZipCodeModal from "../components/ZipCodeModal"
 import Breadcrumbs from "../components/Breadcrumbs"
-import flow from "lodash-es/flow"
 
 export const query = graphql`
   query DepartmentPageQuery($id: Int!) {
