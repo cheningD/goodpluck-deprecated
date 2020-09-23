@@ -20,6 +20,13 @@ const query = graphql`
   }
 `
 
+export function withDepartments(Component) {
+  return props => {
+    const departments = useDepartments()
+    return <Component {...props} departments={departments} />
+  }
+}
+
 export function useDepartments() {
   const result = useStaticQuery(query)
   const departmentNames = reduce(
@@ -42,13 +49,6 @@ export function useDepartments() {
   return Array.from(departmentNames, ([departmentName, slug]) =>
     DepartmentLink.create(departmentName, slug)
   )
-}
-
-export function withDepartments(Component) {
-  return props => {
-    const departments = useDepartments()
-    return <Component {...props} departments={departments} />
-  }
 }
 
 class DepartmentLink {
