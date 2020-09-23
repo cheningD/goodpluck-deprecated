@@ -1,3 +1,7 @@
+.department--page.footer {
+  position: absolute;
+}
+
 .department--page-wrapper {
   display: flex;
   flex-direction: row;

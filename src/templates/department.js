@@ -272,7 +272,7 @@ export default function DepartmentPage({ data }) {
   })
 
   return (
-    <>
+    <div className="department--page">
       <nav className="product-navigation--wrapper">
         <Nav />
         <Breadcrumbs activeItem={activeItem} sideBarLinks={sidebarEntries} />
@@ -288,7 +288,7 @@ export default function DepartmentPage({ data }) {
         </ActiveSidebarContext.Provider>
       </section>
       <Footer />
-    </>
+    </div>
   )
 }
 
