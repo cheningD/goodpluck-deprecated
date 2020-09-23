@@ -60,14 +60,6 @@ body {
   margin-top: 40px;
 }
 
-@media screen and (max-width: 786px) {
-  .menu {
-    margin-top: 16px;
-    display: none;
-    visibility: hidden;
-  }
-}
-
 .hero-left {
   background: #788474;
   padding: 0 32px 32px 32px;
@@ -332,4 +324,39 @@ body {
 .go-to-chat-link {
 }
 .new-ways-to-save-link {
+}
+
+@media screen and (max-width: 786px) {
+  .menu {
+    margin-top: 16px;
+    display: none;
+    visibility: hidden;
+  }
+
+  .section-1 {
+    flex-direction: column;
+  }
+
+  .homepage-left-side {
+    height: 80vh;
+  }
+
+  .hero-left {
+    display: flex;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2em;
+    padding: 5px;
+  }
+
+  .feature-container {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .feature-container .feature {
+    max-width: none;
+    margin-left: 0;
+  }
 }
