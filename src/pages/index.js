@@ -4,33 +4,7 @@ import "./index.css"
 import Nav from "../components/Nav"
 import Footer from "../components/footer"
 import ZipCodeModal from "../components/ZipCodeModal"
-
-export const query = graphql`
-  query DepartmentQuery {
-    allAirtable(filter: { table: { eq: "department" } }) {
-      nodes {
-        data {
-          name
-          id
-          slug
-        }
-      }
-    }
-  }
-`
-
-const Menu = ({ className, data }) => {
-  let sortedNodes = [...data.allAirtable.nodes].sort(
-    (a, b) => a.data.id - b.data.id
-  )
-
-  const links = sortedNodes.map(node => (
-    <Link to={node.data.slug} key={node.data.id} className="homepage-menu-link">
-      {node.data.name}
-    </Link>
-  ))
-  return <div className={className}>{links}</div>
-}
+import {Menu} from "../components/Menu";
 
 const ZipForm = ({ updateZipCode, setShowModal }) => {
   const [zip, setZip] = useState("")
@@ -57,7 +31,7 @@ const ZipForm = ({ updateZipCode, setShowModal }) => {
   )
 }
 
-export default function Home({ data }) {
+export default function Home() {
   return (
     <div className="body1">
       <div className="section-1">
@@ -65,7 +39,7 @@ export default function Home({ data }) {
           <Nav />
           <div className="hero-left">
             <div className="div1">
-              <Menu className="homepage-menu" data={data} />
+              <Menu className="homepage-menu menu" />
               <div className="hero-text">
                 <h1 className="h11">
                   <div className="hero-line-1">

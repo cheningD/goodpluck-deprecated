@@ -8,6 +8,7 @@ import { listToClass } from "../util"
 
 import { Hamburger } from "./Hamburger"
 import { FeatureFlags } from "../FeatureFlags"
+import { Menu } from "./Menu"
 
 const Nav = () => {
   const [isMobileNavOpen, setMobileNavIsOpen] = React.useState()
@@ -52,35 +53,38 @@ const Links = ({ isMobileNavOpen }) => {
         isMobileNavOpen && "header-links--list__open",
       ])}
     >
-      {FeatureFlags.MY_LISTS_FEATURE && (
+      <div className="header--mobile-links">
+        {FeatureFlags.MY_LISTS_FEATURE && (
+          <div className="header-link--wrapper">
+            <Link
+              to="/mylists"
+              className={listToClass([
+                "header-link",
+                linkIsActive("/mylists") && "current-link",
+              ])}
+            >
+              My Lists
+            </Link>
+          </div>
+        )}
         <div className="header-link--wrapper">
           <Link
-            to="/mylists"
-            className={listToClass([
-              "header-link",
-              linkIsActive("/mylists") && "current-link",
-            ])}
+            to="/signin"
+            className={listToClass(["header-link", linkIsActive("/signin")])}
           >
-            My Lists
+            Sign in
           </Link>
         </div>
-      )}
-      <div className="header-link--wrapper">
-        <Link
-          to="/signin"
-          className={listToClass(["header-link", linkIsActive("/signin")])}
-        >
-          Sign in
-        </Link>
+        <div className="header-link--wrapper">
+          <Link
+            to="/cart"
+            className={listToClass(["header-link", linkIsActive("/cart")])}
+          >
+            Cart: {`${cartCount}`}
+          </Link>
+        </div>
       </div>
-      <div className="header-link--wrapper">
-        <Link
-          to="/cart"
-          className={listToClass(["header-link", linkIsActive("/cart")])}
-        >
-          Cart: {`${cartCount}`}
-        </Link>
-      </div>
+      <Menu className="menu" linkClassName="header-link--wrapper header-link" />
     </div>
   )
 }
@@ -91,7 +95,7 @@ function linkIsActive(path) {
 
 export default Nav
 
-const SearchBar = React.memo(({toggleSearchBar}) => {
+const SearchBar = React.memo(({ toggleSearchBar }) => {
   const [isFocused, setFocused] = React.useState(false)
 
   const shouldCloseMenuOnScroll = e => {
@@ -100,7 +104,7 @@ const SearchBar = React.memo(({toggleSearchBar}) => {
     }
     return false
   }
-  
+
   const toggleFocused = () => {
     setFocused(!isFocused)
     toggleSearchBar()

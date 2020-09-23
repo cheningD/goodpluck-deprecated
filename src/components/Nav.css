@@ -177,6 +177,7 @@
     display: flex;
     flex-direction: column;
     min-width: 160px;
+    width: 100%;
   }
 
   .header-link,
@@ -188,6 +189,12 @@
   .current-link {
     border-bottom-color: #788474;
   }
+
+  .header--mobile-links {
+    border-bottom: 1px solid #788474;
+  }
+
+
 
   .header-link--wrapper {
     margin-bottom: 16px;
