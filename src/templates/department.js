@@ -244,6 +244,7 @@ export default function DepartmentPage({ data }) {
 
   const categorySection = Object.keys(productMap).map(category => {
     const familySection = Object.keys(productMap[category]).map(family => {
+
       const productGroups = productMap[category][family].map(productGroup => {
         return (
           <ProductCard productGroup={productGroup} key={productGroup.data.id} />
@@ -260,20 +261,22 @@ export default function DepartmentPage({ data }) {
         </React.Fragment>
       )
     })
+
     return (
-      <React.Fragment key={category}>
-        <h1 className="department--heading-1" id={removeNonLetters(category)}>
-          {category}
-        </h1>
+      <div className="product-card--wrapper" key={category}>
+        <div id={removeNonLetters(category)} className="product-anchor--tag" />
+        <h1 className="department--heading-1">{category}</h1>
         {familySection}
-      </React.Fragment>
+      </div>
     )
   })
 
   return (
     <>
-      <Nav />
-      <Breadcrumbs activeItem={activeItem} sideBarLinks={sidebarEntries}/>
+      <nav className="product-navigation--wrapper">
+        <Nav />
+        <Breadcrumbs activeItem={activeItem} sideBarLinks={sidebarEntries} />
+      </nav>
       <section className="department--page-wrapper">
         <ActiveSidebarContext.Provider
           value={{ setActiveItem, activeItem, isNavigating, setNavigating }}

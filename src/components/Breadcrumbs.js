@@ -19,14 +19,14 @@ export class Breadcrumbs extends React.PureComponent {
   }
 
   toggleProduceMenu = () => {
-    this.setState(({ produceMenuOpen, productMenuOpen }) => ({
+    this.setState(({ produceMenuOpen }) => ({
       produceMenuOpen: !produceMenuOpen,
       productMenuOpen: false,
     }))
   }
 
   toggleProductMenu = () => {
-    this.setState(({ productMenuOpen, produceMenuOpen }) => ({
+    this.setState(({ productMenuOpen }) => ({
       productMenuOpen: !productMenuOpen,
       produceMenuOpen: false,
     }))
@@ -42,6 +42,7 @@ export class Breadcrumbs extends React.PureComponent {
       <div className="product--bread-crumbs">
         <div className="product--bread-crumb-wrapper">
           <BreadCrumb
+            key={this.props.activeItem}
             classNames="product--bread-crumb__dark-background"
             parentRef={this.produceMenuRef}
             onClick={this.toggleProduceMenu}
@@ -63,6 +64,7 @@ export class Breadcrumbs extends React.PureComponent {
         </div>
         <div className="product--bread-crumb-wrapper">
           <BreadCrumb
+            key={this.props.activeItem}
             classNames="product--bread-crumb__light-background"
             parentRef={this.productMenuRef}
             onClick={this.toggleProductMenu}

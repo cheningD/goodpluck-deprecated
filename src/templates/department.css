@@ -2,19 +2,30 @@
   display: flex;
   flex-direction: row;
   padding-bottom: 40px;
+  scroll-behavior: smooth;
+  padding-top: 100px;
 }
 
 .leftPanel {
   padding: 32px 0 32px 32px;
   width: 250px;
+  position: relative;
 }
 
 .rightPanel {
   width: calc(100% - 260px);
-  max-height: calc(100vh - 90px);
-  overflow: auto;
+  min-height: 100vh;
   scroll-behavior: smooth;
   padding: 0 2rem;
+}
+
+.product-card--wrapper {
+  position: relative;
+}
+
+.product-anchor--tag {
+  position: absolute;
+  top: -125px;
 }
 
 .department--heading-1 {
@@ -230,6 +241,8 @@
     display: none;
   }
 
+
+
   .product--bread-crumbs {
     visibility: visible;
     display: flex !important;
@@ -239,6 +252,12 @@
     width: 100%;
     padding: 0 1rem;
   }
+}
+
+.product-navigation--wrapper {
+  position: fixed;
+  width: 100%;
+  z-index: 10;
 }
 
 @media only screen and (max-width: 750px) {
