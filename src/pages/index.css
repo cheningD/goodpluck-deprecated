@@ -333,6 +333,11 @@ body {
     visibility: hidden;
   }
 
+  .how-it-works-image {
+    display: none;
+    visibility: hidden;
+  }
+
   .section-1 {
     flex-direction: column;
   }
@@ -350,9 +355,17 @@ body {
     padding: 5px;
   }
 
+  .hero-right {
+    min-height: 300px;
+  }
+
   .feature-container {
     flex-direction: column;
     width: 100%;
+  }
+
+  .how-it-works-text {
+    margin-left: 0;
   }
 
   .feature-container .feature {
