@@ -39,7 +39,7 @@ export default function Home() {
           <Nav />
           <div className="hero-left">
             <div className="div1">
-              <Menu className="homepage-menu menu" />
+              <Menu linkClassName="homepage-menu-link" className="homepage-menu menu" />
               <div className="hero-text">
                 <h1 className="h11">
                   <div className="hero-line-1">

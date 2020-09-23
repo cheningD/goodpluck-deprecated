@@ -99,6 +99,11 @@
   text-decoration: none;
 }
 
+.nav--mobile-divider {
+  visibility: hidden;
+  display: none;
+}
+
 /* react-select search styles */
 .nav-search--wrapper {
   width: 84px;
@@ -159,6 +164,13 @@
     display: none;
   }
 
+  .nav--mobile-divider {
+    border-bottom: 1px solid #788474;
+    width: 100%;
+    visibility: visible;
+    display: block;
+  }
+
   .nav .hamburger {
     display: flex;
     visibility: visible;
@@ -189,12 +201,6 @@
   .current-link {
     border-bottom-color: #788474;
   }
-
-  .header--mobile-links {
-    border-bottom: 1px solid #788474;
-  }
-
-
 
   .header-link--wrapper {
     margin-bottom: 16px;
