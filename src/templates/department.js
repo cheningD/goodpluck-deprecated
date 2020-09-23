@@ -22,6 +22,7 @@ import Footer from "../components/footer"
 import { FeatureFlags } from "../FeatureFlags"
 import ZipCodeModal from "../components/ZipCodeModal"
 import Breadcrumbs from "../components/Breadcrumbs"
+import flow from "lodash-es/flow"
 
 export const query = graphql`
   query DepartmentPageQuery($id: Int!) {
@@ -349,21 +350,12 @@ function getSidebarEntries(productMap) {
 }
 
 function getDepartmentNameOrNull(productMap) {
-  const departmentSet = reduce(
-    productMap,
-    (departmentNames, product) => {
-      const first = head(getFirstFromObject(product))
-      const departmentName = first?.data?.department?.[0]?.data?.name || null
-
-      if (!isNil(departmentName)) {
-        departmentNames.add(departmentName)
-      }
-      return departmentNames
-    },
-    new Set()
-  )
-
-  return head(Array.from(departmentSet))
+  return flow(
+    productFamilies => getFirstFromObject(productFamilies),
+    productCategoryDictionary => getFirstFromObject(productCategoryDictionary),
+    productCategories => head(productCategories),
+    firstProduct => firstProduct?.data?.department?.[0]?.data?.name || null
+  )(productMap)
 }
 
 class SideBarEntry {
