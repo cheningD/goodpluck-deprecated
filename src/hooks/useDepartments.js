@@ -25,8 +25,10 @@ export function useDepartments() {
   const departmentNames = reduce(
     result?.allAirtable?.nodes,
     (departments, graphQlResponse) => {
-      const departmentName = graphQlResponse?.data?.department?.[0]?.data?.name
-      const slug = graphQlResponse?.data?.department?.[0]?.data?.slug
+      const dataOrNull = graphQlResponse?.data?.department?.[0]?.data
+
+      const departmentName = dataOrNull?.name
+      const slug = dataOrNull?.slug
 
       if (isNil(departmentName) || isNil(slug)) return departments
 
