@@ -9,11 +9,14 @@ import memoizeOne from "memoize-one"
 import get from "lodash-es/get"
 import noop from "lodash-es/noop"
 import throttle from "lodash-es/throttle"
+import reduce from "lodash-es/reduce"
+import head from "lodash-es/head"
+import isNil from "lodash-es/isNil"
 
 import "./department.css"
 import AddIcon from "../images/icons/add.svg"
 import MinusIcon from "../images/icons/minus.svg"
-import { removeNonLetters } from "../util"
+import { getFirstFromObject, removeNonLetters } from "../util"
 import PriceFormatter from "../components/PriceFormatter"
 import Footer from "../components/footer"
 import { FeatureFlags } from "../FeatureFlags"
@@ -45,6 +48,12 @@ export const query = graphql`
                   ...GatsbyImageSharpFluid_tracedSVG
                 }
               }
+            }
+          }
+          department {
+            data {
+              name
+              slug
             }
           }
           products {
@@ -244,7 +253,6 @@ export default function DepartmentPage({ data }) {
 
   const categorySection = Object.keys(productMap).map(category => {
     const familySection = Object.keys(productMap[category]).map(family => {
-
       const productGroups = productMap[category][family].map(productGroup => {
         return (
           <ProductCard productGroup={productGroup} key={productGroup.data.id} />
@@ -329,20 +337,63 @@ function getProductMap(airTableNodes) {
 // Create an entry   { title: "Link 1", link: "#link1", children: [] } for each category
 const getSidebarEntriesMemoized = memoizeOne(getSidebarEntries)
 function getSidebarEntries(productMap) {
-  return Object.keys(productMap).map(category => {
-    const childEntries = Object.keys(productMap[category]).map(family => {
-      return {
-        title: family,
-        key: family,
-        link: `#${removeNonLetters(family)}`,
-      }
-    })
+  const departmentNameOrNull = getDepartmentNameOrNull(productMap)
 
-    return {
-      title: category,
-      link: `#${removeNonLetters(category)}`,
-      children: childEntries,
-      key: category,
-    }
+  return Object.keys(productMap).map(category => {
+    const childEntries = Object.keys(productMap[category]).map(
+      SideBarEntryChild.create
+    )
+
+    return SideBarEntry.create(category, childEntries, departmentNameOrNull)
   })
+}
+
+function getDepartmentNameOrNull(productMap) {
+  const departmentSet = reduce(
+    productMap,
+    (departmentNames, product) => {
+      const first = head(getFirstFromObject(product))
+      const departmentName = first?.data?.department?.[0]?.data?.name || null
+
+      if (!isNil(departmentName)) {
+        departmentNames.add(departmentName)
+      }
+      return departmentNames
+    },
+    new Set()
+  )
+
+  return head(Array.from(departmentSet))
+}
+
+class SideBarEntry {
+  static create(category, childEntries, departmentNameOrNull) {
+    return new SideBarEntry(
+      category,
+      `#${removeNonLetters(category)}`,
+      childEntries,
+      category,
+      isNil(departmentNameOrNull) ? "Market" : departmentNameOrNull
+    )
+  }
+
+  constructor(title, link, children, key, department) {
+    this.title = title
+    this.link = link
+    this.children = children
+    this.key = key
+    this.department = department
+  }
+}
+
+class SideBarEntryChild {
+  static create(family) {
+    return new SideBarEntryChild(family, family, `#${removeNonLetters(family)}`)
+  }
+
+  constructor(title, key, link) {
+    this.title = title
+    this.key = key
+    this.link = link
+  }
 }

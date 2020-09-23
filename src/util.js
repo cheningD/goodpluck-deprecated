@@ -1,3 +1,6 @@
+import isNil from "lodash-es/isNil"
+import isObject from "lodash-es/isObject"
+
 export const VALID_EMAIL_PATTERN = /^[0-9]{5}(?:-[0-9]{4})?$/
 
 export function listToClass(className) {
@@ -20,4 +23,11 @@ export const getAndValidateZipFromLocalStorage = () => {
 
 export const setZipToLocalStorage = zip => {
   localStorage.setItem("goodpluck_data_zip", zip)
+}
+
+// get first element from an object
+export function getFirstFromObject(obj) {
+  if (isNil(obj) || !isObject(obj)) return null
+
+  for (const key in obj) return obj[key]
 }
