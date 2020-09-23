@@ -18,7 +18,7 @@ import PriceFormatter from "../components/PriceFormatter"
 import Footer from "../components/footer"
 import { FeatureFlags } from "../FeatureFlags"
 import ZipCodeModal from "../components/ZipCodeModal"
-import { Breadcrumbs } from "../components/Breadcrumbs"
+import Breadcrumbs from "../components/Breadcrumbs"
 
 export const query = graphql`
   query DepartmentPageQuery($id: Int!) {

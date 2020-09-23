@@ -8,6 +8,7 @@ import "./Breadcrumbs.css"
 import { listToClass, removeNonLetters } from "../util"
 import { Portal } from "./Portal"
 import { ToggleableChevron } from "./ToggleableChevron"
+import { withDepartments } from "../hooks/useDepartments"
 
 export class Breadcrumbs extends React.PureComponent {
   produceMenuRef = React.createRef()
@@ -52,7 +53,7 @@ export class Breadcrumbs extends React.PureComponent {
             {this.state.produceMenuOpen && (
               <BreadCrumbMenu
                 onClick={this.toggleProduceMenu}
-                products={productTree.products}
+                products={this.props.departments}
                 top={
                   this.produceMenuRef.current?.getBoundingClientRect().bottom ||
                   0
@@ -205,3 +206,5 @@ class ActiveNode {
     this.activeChild = activeChild || null
   }
 }
+
+export default withDepartments(Breadcrumbs)
