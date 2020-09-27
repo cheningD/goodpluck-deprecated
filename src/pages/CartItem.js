@@ -1,5 +1,4 @@
 import * as React from "react"
-import { Link } from "gatsby"
 import { formatCurrencyString } from "use-shopping-cart"
 
 export const CartItem = ({ product, sku }) => (
