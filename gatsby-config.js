@@ -40,7 +40,6 @@ module.exports = {
             tableName: `site_defaults`,
             mapping: {
               placeholderImage: `fileNode`,
-              placeholderImage2: `fileNode`,
             },
           },
           {
