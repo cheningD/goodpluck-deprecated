@@ -11,8 +11,8 @@ import get from "lodash-es/get"
 import ZipCodeModal, { ZipInputPage } from "../components/ZipCodeModal"
 
 export const query = graphql`
-  query ProductGroupPage($id: String) {
-    airtable(table: { eq: "productGroup" }, data: { id: { eq: $id } }) {
+  query ProductGroupPage($gpid: Int) {
+    airtable(table: { eq: "productGroup" }, data: { gpid: { eq: $gpid } }) {
       data {
         name
         slug
@@ -21,20 +21,21 @@ export const query = graphql`
         departmentSlug
         subCategory
         multipleSupplierLabel
-        suppliersForProductGroup
         productHighlights
         productBadges
-        products {
+        productv2 {
           data {
-            price
-            sizeDescription
-            deliveryDate1
-            deliveryDate2
-            sku
+            name
+            priceInCents
+            stripePriceId
+            unitQuantity
+            unitLabel
+            growingMethod
             supplier {
               data {
                 name
               }
+              id
             }
           }
         }
@@ -84,10 +85,6 @@ const ProductDetailBreadcrumbs = ({
   return (
     <div className="product-detail">
       <div className="product-detail--breadcrumb-container">
-        <Link className="product-detail--breadcrumb-text" to="/">
-          Market
-        </Link>
-        <div className="product-detail--breadcrumb-icon"></div>
         <Link className="product-detail--breadcrumb-text" to={departmentSlug}>
           {department}
         </Link>
@@ -105,22 +102,22 @@ const ProductDetailBreadcrumbs = ({
 }
 
 const ProductPriceContainers = ({ page }) => {
-  const productPriceContainers = get(page, "products", []).map(product => {
+  const productPriceContainers = get(page, "productv2", []).map(product => {
     const cartItem = {
       name: page.name,
       description: page.description,
-      sku: product.data.sku,
-      price: product.data.price,
+      sku: product.data.stripePriceId,
+      price: product.data.priceInCents,
       currency: "USD",
-      image: get(page, "mainImage.localFiles[0].url", null),
+      image: get(page, "mainImage.localFiles[0].url", ""),
     }
     return (
       <ProductPriceContainer
-        price={product.data.price}
-        sizeDescription={product.data.sizeDescription}
+        price={product.data.priceInCents}
+        sizeDescription={`${product.data.unitQuantity} ${product.data.unitLabel}`}
         is_market_deal={false}
         cartItem={cartItem}
-        key={product.data.sku}
+        key={product.data.stripePriceId}
       />
     )
   })
@@ -128,29 +125,42 @@ const ProductPriceContainers = ({ page }) => {
 }
 
 export default function ProductDetailPage({ data }) {
+  const getSupplierLabelForProduct = (products, defaultSupplierLabel) => {
+    const suppliers = []
+    products.forEach(product => {
+      const supplier = get(product, "data.supplier[0].name", "")
+      if (!suppliers.includes(supplier)) {
+        suppliers.push(supplier)
+      }
+    })
+    if (suppliers.length === 0) {
+      return defaultSupplierLabel
+    }
+    return suppliers.join(", ")
+  }
   const page = data.airtable.data
 
-  const allDates = get(page, "products", [])
-    .map(product => {
-      if (get(product, "data.deliveryDate1")) {
-        return get(product, "data.deliveryDate1")
-      }
-      return null
-    })
-    .concat(
-      get(page, "products", []).map(product => {
-        if (get(product, "data.deliveryDate2")) {
-          return get(product, "data.deliveryDate2")
-        }
-        return null
-      })
-    )
-    .filter(x => x !== null)
+  // const allDates = get(page, "products", [])
+  //   .map(product => {
+  //     if (get(product, "data.deliveryDate1")) {
+  //       return get(product, "data.deliveryDate1")
+  //     }
+  //     return null
+  //   })
+  //   .concat(
+  //     get(page, "products", []).map(product => {
+  //       if (get(product, "data.deliveryDate2")) {
+  //         return get(product, "data.deliveryDate2")
+  //       }
+  //       return null
+  //     })
+  //   )
+  //   .filter(x => x !== null)
 
-  const uniqueDates = Array.from(new Set(allDates))
-  const deliveryDates = uniqueDates.map(date => {
-    return <DeliveryDateComponent date={date} key={date} />
-  })
+  // const uniqueDates = Array.from(new Set(allDates))
+  // const deliveryDates = uniqueDates.map(date => {
+  //   return <DeliveryDateComponent date={date} key={date} />
+  // })
 
   //Save the empty arry if productHighlights === null
   const productHighlights = get(page, "productHighlights", []) || []
@@ -184,9 +194,9 @@ export default function ProductDetailPage({ data }) {
         name={page.name}
         slug={page.slug}
         department={page.department}
-        departmentSlug={page.departmentSlug}
+        departmentSlug={page.departmentSlug[0]}
         family={page.subCategory}
-        familySlug={`${page.department[0].data.slug}#${removeNonLetters(
+        familySlug={`${page.departmentSlug[0]}#${removeNonLetters(
           page.subCategory
         )}`}
       />
@@ -204,9 +214,10 @@ export default function ProductDetailPage({ data }) {
         <div className="product-detail--right-panel">
           <div className="product-highlight-text">FRESHLY PLUCKED</div>
           <div className="product-detail--supplier">
-            {page.suppliersForProductGroup.length === 1
-              ? page.products[0].data.supplier[0].data.name
-              : page.multipleSupplierLabel}
+            {getSupplierLabelForProduct(
+              page.productv2,
+              page.multipleSupplierLabel
+            )}
           </div>
           <h1 className="product-detail--name">{page.name}</h1>
           <ZipCodeModal
@@ -221,12 +232,12 @@ export default function ProductDetailPage({ data }) {
       </div>
       <div className="product-detail--column-container">
         <div className="product-detail--left-panel">
-          <div className="product-detail--delivered-on-container">
+          {/* <div className="product-detail--delivered-on-container">
             <div className="product-detail--delivered-on-label">
               Plucked &amp; Delivered on:
             </div>
             <div className="delivery-dates-container">{deliveryDates}</div>
-          </div>
+          </div> */}
           <div className="product-detail--description ">{page.description}</div>
         </div>
         <div className="product-detail--right-panel">

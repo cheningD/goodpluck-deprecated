@@ -34,7 +34,7 @@ export const query = graphql`
     ) {
       nodes {
         data {
-          id
+          gpid
           name
           department
           category
@@ -156,7 +156,7 @@ const ProductCard = ({ productGroup }) => {
     sku: selectedProduct.stripePriceId,
     price: selectedProduct.priceInCents,
     currency: "USD",
-    image: get(data, "mainImage.localFiles.url", null),
+    image: get(data, "mainImage.localFiles[0].url", null),
   }
 
   let productImageOverlay
@@ -270,7 +270,10 @@ export default function DepartmentPage({ data }) {
     const familySection = Object.keys(productMap[category]).map(family => {
       const productGroups = productMap[category][family].map(productGroup => {
         return (
-          <ProductCard productGroup={productGroup} key={productGroup.data.id} />
+          <ProductCard
+            productGroup={productGroup}
+            key={productGroup.data.gpid}
+          />
         )
       })
       return (

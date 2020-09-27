@@ -19,6 +19,7 @@ exports.createSchemaCustomization = ({ actions }) => {
       description: String
       growingMethod: String
       id: Int
+      gpid: Int!
       multipleSupplierLabel: String
       name: String
       productBadges: [String]
@@ -91,7 +92,7 @@ exports.createPages = async ({ graphql, actions }) => {
           nodes {
             data {
               slug
-              id
+              gpid
             }
           }
         }
@@ -104,12 +105,13 @@ exports.createPages = async ({ graphql, actions }) => {
     }
 
     result.data.allAirtable.nodes.forEach(node => {
+      console.log("the slug:", `${node.data.slug}`)
       createPage({
         // Path for this page — required
         path: `${node.data.slug}`,
         component: productTemplate,
         context: {
-          id: node.data.id,
+          gpid: node.data.gpid,
         },
       })
     })

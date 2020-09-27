@@ -4,13 +4,20 @@ import { formatCurrencyString } from "use-shopping-cart"
 
 export const CartItem = ({ product, sku }) => (
   <div className="cart-item--wrapper">
-    <img alt={product.name} src={product.image} className="cart-item--image" />
+    {product.image ? (
+      <img
+        alt={product.name}
+        src={product.image}
+        className="cart-item--image"
+      />
+    ) : (
+      ""
+    )}
     <div className="cart-item--details">
       <div className="cart-item--product">
         <ProductName product={product} />
         <ProductSupplier product={product} />
         <ProductUnitPrice product={product} />
-        <StockLabel sku={sku} />
       </div>
       <ProductCumulativeTotal product={product} />
     </div>
@@ -27,11 +34,11 @@ const ProductSupplier = ({ product }) => (
 
 const ProductUnitPrice = ({ product }) => (
   <div className="cart-item--unit-price">
+    {`${product.unitQuantity} ${product.unitLabel} for `}
     {formatCurrencyString({
       value: product.price,
       currency: product.currency,
-    }).replace("US$", "")}{" "}
-    each
+    }).replace("US$", "")}
   </div>
 )
 
@@ -40,28 +47,3 @@ const ProductCumulativeTotal = ({ product }) => (
     {product.formattedValue.replace("US$", "")}
   </div>
 )
-
-// TODO: sort out logic, this can't be right surely
-const StockLabel = sku => {
-  if (sku) {
-    return <div className="in-stock-label">In Stock</div>
-  } else if (sku === "something else") {
-    return (
-      <div className="low-stock-label peach-highlight">
-        Only a few left!
-        <span>
-          <label className="low-stock-checkbox" htmlFor="allow-substitutions">
-            <input type="checkbox" id="allow-substitutions" />
-            (Allow Substitutions)
-          </label>
-        </span>
-      </div>
-    )
-  } else {
-    return (
-      <div className="out-of-stock-label peach-highlight">
-        Out of stock <Link to="/">find a substitute</Link>
-      </div>
-    )
-  }
-}
