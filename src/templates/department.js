@@ -22,12 +22,13 @@ import Footer from "../components/footer"
 import { FeatureFlags } from "../FeatureFlags"
 import ZipCodeModal from "../components/ZipCodeModal"
 import Breadcrumbs from "../components/Breadcrumbs"
+import PlaceholderImage1 from "../components/PlaceholderImage1"
 
 export const query = graphql`
-  query DepartmentPageQuery($id: Int!) {
+  query DepartmentPageQuery($name: String) {
     allAirtable(
       filter: {
-        data: { department: { elemMatch: { data: { id: { eq: $id } } } } }
+        data: { department: { eq: $name } }
         table: { eq: "productGroup" }
       }
     ) {
@@ -35,36 +36,36 @@ export const query = graphql`
         data {
           id
           name
-          subCategory
+          department
           category
+          subCategory
           multipleSupplierLabel
           slug
+          sortOrderCategories
           mainImage {
             id
             localFiles {
               url
               childImageSharp {
                 fluid(maxWidth: 400, maxHeight: 250) {
-                  ...GatsbyImageSharpFluid_tracedSVG
+                  ...GatsbyImageSharpFluid_withWebp
                 }
               }
             }
           }
-          department {
+          productv2 {
             data {
               name
-              slug
-            }
-          }
-          products {
-            data {
-              sku
-              sizeDescription
-              price
+              priceInCents
+              stripePriceId
+              unitQuantity
+              unitLabel
+              growingMethod
               supplier {
                 data {
                   name
                 }
+                id
               }
             }
           }
@@ -138,7 +139,7 @@ const FakeAddItemButtonRequiresZip = ({ cartItem, setShowModal }) => {
 
 const ProductCard = ({ productGroup }) => {
   const data = productGroup.data
-  const selectedProduct = productGroup?.data?.products?.[0]?.data
+  const selectedProduct = productGroup?.data?.productv2?.[0]?.data
   const {
     cartDetails,
     addItem,
@@ -152,8 +153,8 @@ const ProductCard = ({ productGroup }) => {
   const cartItem = {
     name: data.name,
     description: data.description,
-    sku: selectedProduct.sku,
-    price: selectedProduct.price,
+    sku: selectedProduct.stripePriceId,
+    price: selectedProduct.priceInCents,
     currency: "USD",
     image: get(data, "mainImage.localFiles.url", null),
   }
@@ -207,18 +208,22 @@ const ProductCard = ({ productGroup }) => {
     )
   }
 
+  const productImageFluidParams = get(
+    data,
+    "mainImage.localFiles[0].childImageSharp.fluid",
+    null
+  )
+  let productCardImage
+  if (productImageFluidParams) {
+    productCardImage = <Img fluid={productImageFluidParams} />
+  } else {
+    productCardImage = <PlaceholderImage1 />
+  }
+
   return (
     <div className="product-card">
       <div className="product-card--image-container">
-        <Link to={data.slug}>
-          <Img
-            fluid={get(
-              data,
-              "mainImage.localFiles[0].childImageSharp.fluid",
-              null
-            )}
-          />
-        </Link>
+        <Link to={data.slug}>{productCardImage}</Link>
         {FeatureFlags.FAVOURITES_FEATURE && (
           <button className="product-card--fav-btn"></button>
         )}
@@ -234,10 +239,10 @@ const ProductCard = ({ productGroup }) => {
 
         <div className="product-card--price-label">
           <span className="product-card--sizeDescription">
-            {selectedProduct.sizeDescription}
+            {`${selectedProduct.unitQuantity} ${selectedProduct.unitLabel}`}
           </span>
           <span className="product-card--price price-formatter--smaller">
-            <PriceFormatter priceInCents={selectedProduct.price} />
+            <PriceFormatter priceInCents={selectedProduct.priceInCents} />
           </span>
         </div>
       </Link>
@@ -248,7 +253,17 @@ const ProductCard = ({ productGroup }) => {
 export default function DepartmentPage({ data }) {
   const [activeItem, setActiveItem] = React.useState("")
   const [isNavigating, setNavigating] = React.useState(false)
-  const productMap = getProductMapMemoized(data.allAirtable.nodes)
+  const sortedAirtableNodes = [...data.allAirtable.nodes].sort((a, b) => {
+    if (a.data.sortOrderCategories[0] < b.data.sortOrderCategories[0]) {
+      return -1
+    } else if (
+      a.data.sortOrderCategories[0] === b.data.sortOrderCategories[0]
+    ) {
+      return 0
+    }
+    return 1
+  })
+  const productMap = getProductMapMemoized(sortedAirtableNodes)
   const sidebarEntries = getSidebarEntriesMemoized(productMap)
 
   const categorySection = Object.keys(productMap).map(category => {
@@ -316,7 +331,7 @@ const getProductMapMemoized = memoizeOne(getProductMap)
 function getProductMap(airTableNodes) {
   return airTableNodes.reduce((productMap, productGroup) => {
     const category = productGroup.data.category[0]
-    const family = productGroup.data.subCategory
+    const family = productGroup.data.subCategory || `All ${category}`
 
     // Create a new category if necessary
     if (!productMap[category]) {
@@ -353,7 +368,7 @@ function getDepartmentNameOrNull(productMap) {
     productFamilies => getFirstFromObject(productFamilies),
     productCategoryDictionary => getFirstFromObject(productCategoryDictionary),
     productCategories => head(productCategories),
-    firstProduct => firstProduct?.data?.department?.[0]?.data?.name || null
+    firstProduct => firstProduct?.data?.department || null
   )(productMap)
 }
 
