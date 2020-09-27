@@ -25,6 +25,7 @@ export const query = graphql`
         productBadges
         productv2 {
           data {
+            available
             name
             priceInCents
             stripePriceId
@@ -55,24 +56,24 @@ export const query = graphql`
   }
 `
 
-function DeliveryDateComponent({ date }) {
-  const dateJs = new Date(date)
-  const daysOfWeek = ["Mon", "Tue", "Wed", "Thurs", "Fri", "Sat", "Sun"]
-  const dayOfMonth = dateJs.getDate()
-  const month = dateJs.getMonth()
-  const dayOfWeek = daysOfWeek[dateJs.getDay()]
+// function DeliveryDateComponent({ date }) {
+//   const dateJs = new Date(date)
+//   const daysOfWeek = ["Mon", "Tue", "Wed", "Thurs", "Fri", "Sat", "Sun"]
+//   const dayOfMonth = dateJs.getDate()
+//   const month = dateJs.getMonth()
+//   const dayOfWeek = daysOfWeek[dateJs.getDay()]
 
-  return (
-    <div className="available-delivery-date">
-      <div className="delivered-on-led-container">
-        <span className="delivered-on-led"></span>
-      </div>
-      <div className="whats-good-item-label">
-        {dayOfWeek} {month}/{dayOfMonth}
-      </div>
-    </div>
-  )
-}
+//   return (
+//     <div className="available-delivery-date">
+//       <div className="delivered-on-led-container">
+//         <span className="delivered-on-led"></span>
+//       </div>
+//       <div className="whats-good-item-label">
+//         {dayOfWeek} {month}/{dayOfMonth}
+//       </div>
+//     </div>
+//   )
+// }
 
 const ProductDetailBreadcrumbs = ({
   name,
@@ -111,10 +112,16 @@ const ProductPriceContainers = ({ page }) => {
       currency: "USD",
       image: get(page, "mainImage.localFiles[0].url", ""),
     }
+    if (!product.data.available) {
+      console.info("PRODUCTS @@", JSON.stringify(get(page, "productv2", [])))
+      return ""
+    }
     return (
       <ProductPriceContainer
         price={product.data.priceInCents}
-        sizeDescription={`${product.data.unitQuantity} ${product.data.unitLabel}`}
+        sizeDescription={`${product.data.unitQuantity} ${
+          product.data.unitLabel || "each"
+        }`}
         is_market_deal={false}
         cartItem={cartItem}
         key={product.data.stripePriceId}

@@ -65,7 +65,7 @@ const CartContent = () => {
   if (cartCount === 0) {
     return (
       <div className="cart-content">
-        No items yet! <Link to="/">Why not try one of these?</Link>{" "}
+        No items yet! <Link to="/market/produce"> keep shopping</Link>{" "}
       </div>
     )
   }

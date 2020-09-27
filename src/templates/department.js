@@ -28,7 +28,10 @@ export const query = graphql`
   query DepartmentPageQuery($name: String) {
     allAirtable(
       filter: {
-        data: { department: { eq: $name } }
+        data: {
+          department: { eq: $name }
+          availabilityOfLinkedProducts: { in: true }
+        }
         table: { eq: "productGroup" }
       }
     ) {
@@ -55,6 +58,7 @@ export const query = graphql`
           }
           productv2 {
             data {
+              available
               name
               priceInCents
               stripePriceId
@@ -139,6 +143,7 @@ const FakeAddItemButtonRequiresZip = ({ cartItem, setShowModal }) => {
 
 const ProductCard = ({ productGroup }) => {
   const data = productGroup.data
+  //Todo: Show product variations instead of choosing the first one
   const selectedProduct = productGroup?.data?.productv2?.[0]?.data
   const {
     cartDetails,
@@ -239,7 +244,9 @@ const ProductCard = ({ productGroup }) => {
 
         <div className="product-card--price-label">
           <span className="product-card--sizeDescription">
-            {`${selectedProduct.unitQuantity} ${selectedProduct.unitLabel}`}
+            {`${selectedProduct.unitQuantity} ${
+              selectedProduct.unitLabel || "each"
+            }`}
           </span>
           <span className="product-card--price price-formatter--smaller">
             <PriceFormatter priceInCents={selectedProduct.priceInCents} />
@@ -269,6 +276,18 @@ export default function DepartmentPage({ data }) {
   const categorySection = Object.keys(productMap).map(category => {
     const familySection = Object.keys(productMap[category]).map(family => {
       const productGroups = productMap[category][family].map(productGroup => {
+        // Filter products to only those marked available
+        if (productGroup.data?.productv2.length) {
+          productGroup.data.productv2 = productGroup.data.productv2.filter(
+            product => product.data.available
+          )
+        }
+
+        // If no product are available return empty fragment
+        if (!productGroup.data?.productv2.length) {
+          return <></>
+        }
+
         return (
           <ProductCard
             productGroup={productGroup}
