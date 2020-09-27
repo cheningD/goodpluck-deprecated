@@ -5,15 +5,11 @@ import isNil from "lodash-es/isNil"
 
 const query = graphql`
   query DepartmentsQuery {
-    allAirtable {
+    allAirtable(filter: { table: { eq: "department_table" } }) {
       nodes {
         data {
-          department {
-            data {
-              name
-              slug
-            }
-          }
+          name
+          slug
         }
       }
     }
@@ -27,15 +23,14 @@ export function withDepartments(Component) {
   }
 }
 
+// Creates a Map { departmentName: "slug"}
 export function useDepartments() {
   const result = useStaticQuery(query)
   const departmentNames = reduce(
     result?.allAirtable?.nodes,
     (departments, graphQlResponse) => {
-      const dataOrNull = graphQlResponse?.data?.department?.[0]?.data
-
-      const departmentName = dataOrNull?.name
-      const slug = dataOrNull?.slug
+      const departmentName = graphQlResponse?.data?.name
+      const slug = graphQlResponse?.data?.slug
 
       if (isNil(departmentName) || isNil(slug)) return departments
 

@@ -11,18 +11,14 @@ import get from "lodash-es/get"
 import ZipCodeModal, { ZipInputPage } from "../components/ZipCodeModal"
 
 export const query = graphql`
-  query ProductGroupPage($id: Int) {
+  query ProductGroupPage($id: String) {
     airtable(table: { eq: "productGroup" }, data: { id: { eq: $id } }) {
       data {
         name
         slug
         description
-        department {
-          data {
-            name
-            slug
-          }
-        }
+        department
+        departmentSlug
         subCategory
         multipleSupplierLabel
         suppliersForProductGroup
@@ -48,7 +44,7 @@ export const query = graphql`
             url
             childImageSharp {
               fluid(maxWidth: 900) {
-                ...GatsbyImageSharpFluid_tracedSVG
+                ...GatsbyImageSharpFluid_withWebp
               }
             }
           }
@@ -187,8 +183,8 @@ export default function ProductDetailPage({ data }) {
       <ProductDetailBreadcrumbs
         name={page.name}
         slug={page.slug}
-        department={page.department[0].data.name}
-        departmentSlug={page.department[0].data.slug}
+        department={page.department}
+        departmentSlug={page.departmentSlug}
         family={page.subCategory}
         familySlug={`${page.department[0].data.slug}#${removeNonLetters(
           page.subCategory

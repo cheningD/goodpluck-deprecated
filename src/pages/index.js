@@ -1,10 +1,10 @@
 import React, { useState } from "react"
-import { Link, graphql } from "gatsby"
+import { Link } from "gatsby"
 import "./index.css"
 import Nav from "../components/Nav"
 import Footer from "../components/footer"
 import ZipCodeModal from "../components/ZipCodeModal"
-import {Menu} from "../components/Menu";
+import { Menu } from "../components/Menu"
 
 const ZipForm = ({ updateZipCode, setShowModal }) => {
   const [zip, setZip] = useState("")
@@ -39,7 +39,10 @@ export default function Home() {
           <Nav />
           <div className="hero-left">
             <div className="div1">
-              <Menu linkClassName="homepage-menu-link" className="homepage-menu menu" />
+              <Menu
+                linkClassName="homepage-menu-link"
+                className="homepage-menu menu"
+              />
               <div className="hero-text">
                 <h1 className="h11">
                   <div className="hero-line-1">

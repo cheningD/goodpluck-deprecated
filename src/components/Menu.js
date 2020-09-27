@@ -4,7 +4,7 @@ import { listToClass } from "../util"
 
 const query = graphql`
   query DepartmentQuery {
-    allAirtable(filter: { table: { eq: "department" } }) {
+    allAirtable(filter: { table: { eq: "department_table" } }) {
       nodes {
         data {
           name
