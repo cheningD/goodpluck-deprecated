@@ -12,11 +12,14 @@ import { CartItem } from "./CartItem"
 import { listToClass } from "../util"
 
 const suppliers = graphql`
-  query SupplierQuery {
-    allAirtable {
+  query productv2ForCartQuery {
+    allAirtable(filter: { table: { eq: "productv2" } }) {
       nodes {
         data {
-          sku
+          name
+          stripePriceId
+          unitLabel
+          unitQuantity
           supplier {
             id
             data {
@@ -136,17 +139,23 @@ const CartItems = React.memo(() => {
   const cartDetailKeys = Object.keys(cartDetails)
 
   const queryResult = useStaticQuery(suppliers)
-  const supplierMap = queryResult.allAirtable.nodes.reduce(
-    (supplierMap, node) => {
-      const id = node?.data?.sku
-      if (isNil(id)) return supplierMap
+  const extraCartDetailsMap = queryResult.allAirtable.nodes.reduce(
+    (extraCartDetailsMap, node) => {
+      const sku = node?.data?.stripePriceId
+      if (isNil(sku)) return extraCartDetailsMap
 
       const supplierName = node?.data?.supplier?.[0]?.data?.name
-      if (isNil(supplierName)) return supplierMap
+      if (isNil(supplierName)) return extraCartDetailsMap
 
-      supplierMap.set(id, supplierName)
+      const extraCartDetails = {
+        supplier: supplierName,
+        unitLabel: node?.data?.unitLabel,
+        unitQuantity: node?.data?.unitQuantity,
+      }
 
-      return supplierMap
+      extraCartDetailsMap.set(sku, extraCartDetails)
+
+      return extraCartDetailsMap
     },
     new Map()
   )
@@ -170,9 +179,11 @@ const CartItems = React.memo(() => {
   }
 
   return cartDetailKeys.map(sku => {
-    const product = Object.assign({}, cartDetails[sku], {
-      supplier: supplierMap.get(sku),
-    })
+    const product = Object.assign(
+      {},
+      cartDetails[sku],
+      extraCartDetailsMap.get(sku)
+    )
 
     return (
       <div key={sku}>

@@ -27,18 +27,6 @@ const PlaceholderImage = () => {
       }
     }
   `)
-  console.log(
-    "L@@K at what we gots",
-    JSON.stringify(
-      get(
-        data.airtable.data,
-        "placeholderImage.localFiles[0].childImageSharp.fluid",
-        null
-      ),
-      null,
-      1
-    )
-  )
   return (
     <Img
       fluid={get(
