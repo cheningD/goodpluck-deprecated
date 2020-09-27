@@ -113,7 +113,6 @@ const ProductPriceContainers = ({ page }) => {
       image: get(page, "mainImage.localFiles[0].url", ""),
     }
     if (!product.data.available) {
-      console.info("PRODUCTS @@", JSON.stringify(get(page, "productv2", [])))
       return ""
     }
     return (
