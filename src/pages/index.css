@@ -53,6 +53,28 @@ body {
   text-decoration: underline;
 }
 
+.department-menu {
+  min-width: 160px;
+  display: flex;
+  flex-direction: row;
+  padding: 0 1rem 1rem 1rem;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  background: #788474;
+}
+
+.department-menu-link {
+  margin-top: 1rem;
+  font-weight: 600;
+  text-decoration: none;
+  color: #fff;
+}
+
+.department-menu-link:hover {
+  color: #f7c59f;
+  text-decoration: underline;
+}
+
 .social-icons {
   height: 20px;
   width: 100px;

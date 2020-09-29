@@ -3,6 +3,7 @@ import reduce from "lodash-es/reduce"
 import forEach from "lodash-es/forEach"
 import omit from "lodash-es/omit"
 import memoizeOne from "memoize-one"
+import { Link } from "gatsby"
 
 import "./Breadcrumbs.css"
 import { listToClass, removeNonLetters } from "../util"
@@ -108,14 +109,14 @@ const BreadCrumbMenu = props => (
   >
     <div className="product--bread-crumb--menu">
       {props.products.map(product => (
-        <a
+        <Link
           onClick={props.onClick}
           className="product--bread-crumb--menu__link"
           key={product.link}
-          href={product.link}
+          to={product.link}
         >
           {product.title}
-        </a>
+        </Link>
       ))}
     </div>
   </Portal>

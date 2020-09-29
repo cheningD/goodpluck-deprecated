@@ -23,6 +23,9 @@ import { FeatureFlags } from "../FeatureFlags"
 import ZipCodeModal from "../components/ZipCodeModal"
 import Breadcrumbs from "../components/Breadcrumbs"
 import PlaceholderImage1 from "../components/PlaceholderImage1"
+import ProductRequestForm from "../components/ProductRequestForm"
+import DepartmentZeroState from "../components/DepartmentZeroState"
+import { Menu } from "../components/Menu"
 
 export const query = graphql`
   query DepartmentPageQuery($name: String) {
@@ -257,7 +260,7 @@ const ProductCard = ({ productGroup }) => {
   )
 }
 
-export default function DepartmentPage({ data }) {
+export default function DepartmentPage({ data, pageContext }) {
   const [activeItem, setActiveItem] = React.useState("")
   const [isNavigating, setNavigating] = React.useState(false)
   const sortedAirtableNodes = [...data.allAirtable.nodes].sort((a, b) => {
@@ -320,6 +323,10 @@ export default function DepartmentPage({ data }) {
     <div className="department--page">
       <nav className="product-navigation--wrapper">
         <Nav />
+        <Menu
+          linkClassName="department-menu-link"
+          className="department-menu menu"
+        />
         <Breadcrumbs activeItem={activeItem} sideBarLinks={sidebarEntries} />
       </nav>
       <section className="department--page-wrapper">
@@ -329,9 +336,17 @@ export default function DepartmentPage({ data }) {
           <div className="leftPanel">
             <ConnectedSidebar sideBarLinks={sidebarEntries} />
           </div>
-          <div className="rightPanel">{categorySection}</div>
+          <div className="rightPanel">
+            {categorySection}
+            {pageContext.name !== "Produce" ? (
+              <DepartmentZeroState departmentName={pageContext.name} />
+            ) : (
+              ""
+            )}
+          </div>
         </ActiveSidebarContext.Provider>
       </section>
+      <ProductRequestForm />
       <Footer />
     </div>
   )
