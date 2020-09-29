@@ -7,7 +7,7 @@
   flex-direction: row;
   padding-bottom: 40px;
   scroll-behavior: smooth;
-  padding-top: 100px;
+  padding-top: 150px;
 }
 
 .leftPanel {
@@ -37,7 +37,7 @@
   font-family: Bebas Neue, sans-serif;
   line-height: 1;
   margin: 2rem 0 0 0;
-  color: #799474;
+  color: #788474;
   letter-spacing: 0.2rem;
 }
 
@@ -46,7 +46,7 @@
   font-family: Bebas Neue, sans-serif;
   line-height: 1;
   margin: 1.5rem 0 0.5rem 0;
-  color: #799474;
+  color: #788474;
   letter-spacing: 0.1rem;
 }
 
@@ -244,8 +244,6 @@
     visibility: hidden;
     display: none;
   }
-
-
 
   .product--bread-crumbs {
     visibility: visible;
