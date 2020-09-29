@@ -15,6 +15,7 @@ import {
   getCountyForZipCode,
 } from "../zipcodes"
 import { Portal } from "./Portal"
+import { FeatureFlags } from "../FeatureFlags"
 
 const zipSchema = yup.object().shape({
   zip: yup
@@ -246,12 +247,16 @@ const ZipCodeModal = ({
           <Link className="gp-button-link zipcode-modal-link" to="/howitworks">
             How it works
           </Link>
-          <span>
-            Already have an account?{" "}
-            <Link className="gp-button-link zipcode-modal-link" to="/signin">
-              Sign In
-            </Link>
-          </span>
+          {FeatureFlags.SIGN_IN_FEATURE ? (
+            <span>
+              Already have an account?{" "}
+              <Link className="gp-button-link zipcode-modal-link" to="/signin">
+                Sign In
+              </Link>
+            </span>
+          ) : (
+            ""
+          )}
         </div>
       </div>
     </Portal>

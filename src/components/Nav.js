@@ -32,7 +32,11 @@ const Nav = () => {
           <Link to="/" className="brand">
             GOODPLUCK
           </Link>
-          <SearchBar toggleSearchBar={toggleSearchBar} />
+          {FeatureFlags.SEARCH_FEATURE ? (
+            <SearchBar toggleSearchBar={toggleSearchBar} />
+          ) : (
+            ""
+          )}
         </div>
         <div className="nav-items">
           {(!showSearchBar || isMobileNavOpen) && (
@@ -67,12 +71,16 @@ const Links = ({ isMobileNavOpen }) => {
         </div>
       )}
       <div className="header-link--wrapper">
-        <Link
-          to="/signin"
-          className={listToClass(["header-link", linkIsActive("/signin")])}
-        >
-          Sign in
-        </Link>
+        {FeatureFlags.SIGN_IN_FEATURE ? (
+          <Link
+            to=" "
+            className={listToClass(["header-link", linkIsActive("/signin")])}
+          >
+            Sign in
+          </Link>
+        ) : (
+          ""
+        )}
       </div>
       <div className="header-link--wrapper">
         <Link
