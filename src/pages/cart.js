@@ -92,14 +92,17 @@ const CartContent = () => {
             })}
           </span>
         </div>
-        {isInEligibleForFreeShipping && (
+        <div className="cart-shipping--warning">
+          Shipping is free until Halloween!
+        </div>
+        {/* {isInEligibleForFreeShipping && (
           <div className="cart-shipping--warning">
             {`Add ${formatCurrencyString({
               value: minPriceForFreehipping - totalPrice,
               currency: "USD",
             })} for free shipping`}
           </div>
-        )}
+        )} */}
         <div className="cart-checkout--wrapper">
           <div className="cart-checkout--btn--wrapper">
             <button className="cart-checkout--btn" onClick={handleCheckout}>
