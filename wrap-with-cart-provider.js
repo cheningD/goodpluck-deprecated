@@ -9,8 +9,8 @@ export default ({ element }) => {
     <CartProvider
       mode="client-only"
       stripe={stripePromise}
-      successUrl="https://goodpluck.com"
-      cancelUrl="https://goodpluck.com"
+      successUrl="https://goodpluck.com/checkoutsuccess?session_id={CHECKOUT_SESSION_ID}"
+      cancelUrl="https://goodpluck.com/cart?cancel=1"
       currency="USD"
       allowedCountries={["US"]}
       billingAddressCollection={true}

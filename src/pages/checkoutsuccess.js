@@ -4,6 +4,7 @@ import axios from "axios"
 import { useShoppingCart, formatCurrencyString } from "use-shopping-cart"
 
 import Footer from "../components/footer"
+import DeliveryForm from "../components/DeliveryForm"
 
 import "./cart.css"
 import Nav from "../components/Nav"
@@ -58,7 +59,7 @@ const CheckoutSucessContent = ({ data, checkoutData }) => {
       <div className="cart-content">
         <div className="cart-content--overview">
           {`Your payment of ${formatCurrencyString({
-            value: checkoutData.amount_total,
+            value: checkoutData.amountTotal,
             currency: checkoutData.currency,
           })} was not successful. Please try `}
           <Link to="/cart">checking out one more time...</Link>
@@ -142,13 +143,20 @@ const CheckoutSucessContent = ({ data, checkoutData }) => {
   return (
     <div className="cart-content">
       <div className="cart-content--overview">
-        <h2 className="cart-items--overview-header subheader--font">
-          Thanks for your order!
-        </h2>
+        <h2 className="subheader--font">Thanks for your order!</h2>
+        <p>
+          {checkoutData.lineItems.length
+            ? `${checkoutData.lineItems.length} items (${formatCurrencyString({
+                value: checkoutData.amountTotal,
+                currency: checkoutData.currency,
+              })})`
+            : ""}
+        </p>
         {arrivalDateComponent}
         {shippingLabel}
       </div>
       <div className="cart-item-list--wrapper">
+        <DeliveryForm />
         <h2 className="cart-items--produce-header">What's in the box:</h2>
         {lineItems}
       </div>
@@ -179,8 +187,14 @@ export default function CheckoutSuccess({ data }) {
     fetchData()
   }, [])
 
-  if (checkoutData.payment_status === "paid") {
+  if (checkoutData.paymentStatus === "paid") {
     clearCart()
+    console.info("Payment success, Clearing cart", checkoutData)
+  } else {
+    console.info(
+      "Payment not finished, please go to cart to try again",
+      checkoutData
+    )
   }
 
   return (
