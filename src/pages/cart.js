@@ -8,7 +8,7 @@ import Footer from "../components/footer"
 
 import "./cart.css"
 import Nav from "../components/Nav"
-import { CartItem } from "./CartItem"
+import CartItem from "../components/CartItem"
 import { listToClass } from "../util"
 
 const suppliers = graphql`
@@ -113,7 +113,7 @@ const CartContent = () => {
         </div>
       </div>
       <div className="cart-item-list--wrapper">
-        <h2 className="cart-items--produce-header">Produce</h2>
+        <h2 className="cart-items--produce-header">What's in the box:</h2>
         <CartItems />
       </div>
     </div>
@@ -191,7 +191,17 @@ const CartItems = React.memo(() => {
       <div key={sku}>
         <div className="cart-item-card">
           <div className="cart-item-info">
-            <CartItem product={product} sku={sku} />
+            <CartItem
+              product={product}
+              name={product.name}
+              image={product.image}
+              supplier={product.supplier}
+              unitQuantity={product.unitQuantity}
+              unitLabel={product.unitLabel}
+              unitPrice={product.price}
+              currency={product.currency}
+              formattedTotal={product.formattedValue}
+            />
           </div>
 
           <div className="cart-item-controls">
