@@ -192,7 +192,6 @@ const CartItems = React.memo(() => {
         <div className="cart-item-card">
           <div className="cart-item-info">
             <CartItem
-              product={product}
               name={product.name}
               image={product.image}
               supplier={product.supplier}
