@@ -10,6 +10,7 @@ import "./cart.css"
 import Nav from "../components/Nav"
 import CartItem from "../components/CartItem"
 import { listToClass } from "../util"
+import DeliveryDateSelector from "../components/DeliveryDateSelector"
 
 const suppliers = graphql`
   query productv2ForCartQuery {
@@ -78,6 +79,7 @@ const CartContent = () => {
         <h2 className="cart-items--overview-header subheader--font">
           Your order
         </h2>
+        <DeliveryDateSelector />
         <div>
           Subtotal ({cartCount} items):{" "}
           <span
@@ -103,6 +105,7 @@ const CartContent = () => {
             })} for free shipping`}
           </div>
         )} */}
+
         <div className="cart-checkout--wrapper">
           <div className="cart-checkout--btn--wrapper">
             <button className="cart-checkout--btn" onClick={handleCheckout}>

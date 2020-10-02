@@ -9,6 +9,7 @@ import { listToClass } from "../util"
 import { Hamburger } from "./Hamburger"
 import { FeatureFlags } from "../FeatureFlags"
 import { Menu } from "./Menu"
+import DeliveryDateSelector from "./DeliveryDateSelector"
 
 const Nav = () => {
   const [isMobileNavOpen, setMobileNavIsOpen] = React.useState()
@@ -32,6 +33,11 @@ const Nav = () => {
           <Link to="/" className="brand">
             GOODPLUCK
           </Link>
+          {window.location.pathname.startsWith("/market") ? (
+            <DeliveryDateSelector />
+          ) : (
+            ""
+          )}
           {FeatureFlags.SEARCH_FEATURE ? (
             <SearchBar toggleSearchBar={toggleSearchBar} />
           ) : (

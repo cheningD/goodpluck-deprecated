@@ -30,7 +30,7 @@ export const query = graphql`
     }
   }
 `
-const CheckoutSucessContent = ({ data, checkoutData }) => {
+const CheckoutSucessContent = ({ data, deliveryDate, checkoutData }) => {
   if (checkoutData.loading) {
     return (
       <div className="cart-content">
@@ -70,11 +70,11 @@ const CheckoutSucessContent = ({ data, checkoutData }) => {
 
   let arrivalDateComponent = ""
 
-  if (true) {
+  if (deliveryDate) {
     arrivalDateComponent = (
       <>
         <h3>Arriving on:</h3>
-        <p>Saturday morning</p>
+        <p>{deliveryDate}</p>
       </>
     )
   }
@@ -171,6 +171,8 @@ export default function CheckoutSuccess({ data }) {
     error: false,
   })
 
+  const [expectedDeliveryDate, setDeliveryDate] = useState()
+
   useEffect(() => {
     const fetchData = async () => {
       const result = await axios(
@@ -182,10 +184,30 @@ export default function CheckoutSuccess({ data }) {
       } else {
         setCheckoutData({ loading: false, error: true })
       }
+
+      const deliveryDate = localStorage.getItem("goodpluck_delivery_date")
+
+      // Todo: This is a temporary measure so we can get the delivery date since use-shopping-cart doesn't allow passing metadata... Get rid of it ASAP
+      const urlParams = new URLSearchParams(window.location.search)
+      const sessionId = urlParams.get("session_id")
+      const result2 = await axios(
+        `https://updateordersairtable.pluck.workers.dev?sessionId=${sessionId}&deliveryDate=${deliveryDate}`
+      )
+
+      console.info("Updating delivery date", result2.data, deliveryDate)
+
+      if (result2.data && !result2.data.error) {
+        if (deliveryDate.startsWith("Tue") || deliveryDate.startsWith("Sat")) {
+          setDeliveryDate(deliveryDate)
+          console.info("Updating delivery date for real", result2.data)
+        }
+      }
     }
 
     fetchData()
   }, [])
+
+  console.info(" delivery date is now", expectedDeliveryDate)
 
   if (checkoutData.paymentStatus === "paid") {
     clearCart()
@@ -201,7 +223,11 @@ export default function CheckoutSuccess({ data }) {
     <>
       <Nav />
       <div className="cart">
-        <CheckoutSucessContent data={data} checkoutData={checkoutData} />
+        <CheckoutSucessContent
+          data={data}
+          deliveryDate={expectedDeliveryDate}
+          checkoutData={checkoutData}
+        />
       </div>
       <Footer />
     </>

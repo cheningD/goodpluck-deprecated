@@ -1,0 +1,29 @@
+
+# This function finds the `Tuesday` closest to delivery_date_anchor
+# Where {`Tuesday`} is a number from 0-6 that represents a day of the week. (Sunday=0, Monday = 1, Tuesday = 2  etc.)
+DATETIME_FORMAT(
+    SET_TIMEZONE(
+        IF(
+        {Tuesday} = WEEKDAY(DATEADD({delivery_date_anchor}, -3, 'day')),
+        DATEADD({delivery_date_anchor}, -3, 'day'),
+        IF(
+        {Tuesday} = WEEKDAY(DATEADD({delivery_date_anchor}, -2, 'day')),
+        DATEADD({delivery_date_anchor}, -2, 'day'),
+        IF(
+        {Tuesday} = WEEKDAY(DATEADD({delivery_date_anchor}, -1, 'day')),
+        DATEADD({delivery_date_anchor}, -1, 'day'),
+        IF(
+        {Tuesday} = WEEKDAY(DATEADD({delivery_date_anchor}, 0, 'day')),
+        DATEADD({delivery_date_anchor}, 0, 'day'),
+        IF(
+        {Tuesday} = WEEKDAY(DATEADD({delivery_date_anchor}, 1, 'day')),
+        DATEADD({delivery_date_anchor}, 1, 'day'),
+        IF(
+        {Tuesday} = WEEKDAY(DATEADD({delivery_date_anchor}, 2, 'day')),
+        DATEADD({delivery_date_anchor}, 2, 'day'),
+        IF(
+        {Tuesday} = WEEKDAY(DATEADD({delivery_date_anchor}, 3, 'day')),
+        DATEADD({delivery_date_anchor}, 3, 'day'),
+        "no date found"
+        )))))))
+        
