@@ -193,10 +193,6 @@ export default function ProductDetailPage({ data }) {
     )
   })
 
-  if (!page.departmentSlug) {
-    console.log("\n\n \tL@@K departmentSlug", JSON.stringify(page, null, 2))
-  }
-
   return (
     <>
       <Nav />
