@@ -17,7 +17,7 @@ const DeliveryDateSelector = () => {
         table: { eq: "site_defaults" }
       ) {
         data {
-          nextTuesdayDeliveryDate
+          nextNextSaturdayDeliveryDate
           nextSaturdayDeliveryDate
         }
       }
@@ -26,11 +26,9 @@ const DeliveryDateSelector = () => {
 
   const options = [
     {
-      chipLabel: `Shopping for ${
-        data.airtable.data.nextTuesdayDeliveryDate.split(",")[0]
-      }`,
-      label: data.airtable.data.nextTuesdayDeliveryDate,
-      value: data.airtable.data.nextTuesdayDeliveryDate,
+      chipLabel: `Shopping for ${data.airtable.data.nextNextSaturdayDeliveryDate}`,
+      label: data.airtable.data.nextNextSaturdayDeliveryDate,
+      value: data.airtable.data.nextNextSaturdayDeliveryDate,
     },
     {
       chipLabel: `Shopping for ${
@@ -58,7 +56,8 @@ const DeliveryDateSelector = () => {
       "background-color": "#788474",
       border: "none",
       margin: "1rem 0 1rem 0",
-      width: "14rem",
+      width: "15rem",
+      "font-size": "0.9rem",
     }),
     singleValue: provided => ({
       ...provided,
@@ -89,7 +88,7 @@ const DeliveryDateSelector = () => {
         SingleValue: SingleValue,
       }}
       value={{
-        chipLabel: `Shopping for ${selectedDeliveryDate.split(",")[0]}`,
+        chipLabel: `Shopping for ${selectedDeliveryDate}`,
         label: selectedDeliveryDate,
         value: selectedDeliveryDate,
       }}
