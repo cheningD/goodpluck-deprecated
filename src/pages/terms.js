@@ -2,7 +2,11 @@ import React from "react"
 import Nav from "../components/Nav"
 import Footer from "../components/footer"
 
-export default function Privacy() {
+export default function Terms() {
+  //Check document is defined for SSR
+  if (typeof document === `undefined`) {
+    return ""
+  }
   return (
     <>
       <Nav />

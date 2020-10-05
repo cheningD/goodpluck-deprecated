@@ -182,10 +182,17 @@ export default function CheckoutSuccess({ data }) {
       if (result.data) {
         setCheckoutData(result.data)
       } else {
-        setCheckoutData({ loading: false, error: true })
+        setCheckoutData({
+          loading: false,
+          error: true,
+        })
       }
 
-      const deliveryDate = localStorage.getItem("goodpluck_delivery_date")
+      let deliveryDate = ""
+      //Check localStorage is defined for SSR
+      if (typeof localStorage !== `undefined`) {
+        deliveryDate = localStorage.getItem("goodpluck_delivery_date")
+      }
 
       // Todo: This is a temporary measure so we can get the delivery date since use-shopping-cart doesn't allow passing metadata... Get rid of it ASAP
       const urlParams = new URLSearchParams(window.location.search)
@@ -207,16 +214,16 @@ export default function CheckoutSuccess({ data }) {
     fetchData()
   }, [])
 
-  console.info(" delivery date is now", expectedDeliveryDate)
+  // console.info(" delivery date is now", expectedDeliveryDate)
 
   if (checkoutData.paymentStatus === "paid") {
     clearCart()
-    console.info("Payment success, Clearing cart", checkoutData)
+    // console.info("Payment success, Clearing cart", checkoutData)
   } else {
-    console.info(
-      "Payment not finished, please go to cart to try again",
-      checkoutData
-    )
+    // console.info(
+    //   "Payment not finished, please go to cart to try again",
+    //   checkoutData
+    // )
   }
 
   return (
