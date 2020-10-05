@@ -6,6 +6,7 @@ const ProductRequestForm = () => {
     <>
       <ScriptTag src="https://static.airtable.com/js/embed/embed_snippet_v1.js"></ScriptTag>
       <iframe
+        title="Product Request Form"
         className="airtable-embed airtable-dynamic-height"
         src="https://airtable.com/embed/shrbZGUlmqB0RZrO4?backgroundColor=green"
         frameborder="0"

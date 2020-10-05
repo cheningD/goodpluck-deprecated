@@ -39,8 +39,16 @@ const DeliveryDateSelector = () => {
     },
   ]
 
+  let goodpluck_delivery_date_from_localStorage
+  //Check localStorage is defined for SSR
+  if (typeof localStorage !== `undefined`) {
+    goodpluck_delivery_date_from_localStorage = localStorage.getItem(
+      "goodpluck_delivery_date"
+    )
+  }
+
   const [selectedDeliveryDate, setSelectedDeliveryDate] = useState(
-    localStorage.getItem("goodpluck_delivery_date") ||
+    goodpluck_delivery_date_from_localStorage ||
       data.airtable.data.nextSaturdayDeliveryDate
   )
 

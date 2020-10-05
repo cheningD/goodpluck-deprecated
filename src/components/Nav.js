@@ -23,6 +23,11 @@ const Nav = () => {
     setShowSearchBar(!showSearchBar)
   }, [showSearchBar])
 
+  let deliveryDateSelector = ""
+  if (typeof window !== `undefined`) {
+    deliveryDateSelector = <DeliveryDateSelector />
+  }
+
   return (
     <div
       className={listToClass(["nav", isMobileNavOpen && "nav__mobile-open"])}
@@ -33,11 +38,7 @@ const Nav = () => {
           <Link to="/" className="brand">
             GOODPLUCK
           </Link>
-          {window.location.pathname.startsWith("/market") ? (
-            <DeliveryDateSelector />
-          ) : (
-            ""
-          )}
+          {deliveryDateSelector}
           {FeatureFlags.SEARCH_FEATURE ? (
             <SearchBar toggleSearchBar={toggleSearchBar} />
           ) : (
@@ -106,7 +107,10 @@ const Links = ({ isMobileNavOpen }) => {
 }
 
 function linkIsActive(path) {
-  return window.location.pathname === path
+  if (typeof window !== `undefined`) {
+    return window.location.pathname === path
+  }
+  return false
 }
 
 export default Nav

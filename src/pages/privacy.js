@@ -3,6 +3,11 @@ import Nav from "../components/Nav"
 import Footer from "../components/footer"
 
 export default function Privacy() {
+  //Check document is defined for SSR
+  if (typeof document === `undefined`) {
+    return ""
+  }
+
   return (
     <>
       <Nav />

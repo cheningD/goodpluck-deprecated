@@ -15,7 +15,11 @@ export const removeNonNumbers = string =>
   string ? string.replace(/[^0-9]/gi, "") : ""
 
 export const getAndValidateZipFromLocalStorage = () => {
-  let zip = localStorage.getItem("goodpluck_data_zip")
+  let zip = ""
+  //Check localStorage is defined for SSR
+  if (typeof localStorage !== `undefined`) {
+    zip = localStorage.getItem("goodpluck_data_zip")
+  }
 
   if (zip && zip.match(VALID_EMAIL_PATTERN)) {
     return zip
@@ -24,7 +28,9 @@ export const getAndValidateZipFromLocalStorage = () => {
 }
 
 export const setZipToLocalStorage = zip => {
-  localStorage.setItem("goodpluck_data_zip", zip)
+  if (typeof localStorage !== `undefined`) {
+    localStorage.setItem("goodpluck_data_zip", zip)
+  }
 }
 
 // get first element from an object
