@@ -1,0 +1,29 @@
+name: Deploy to Workers Staging
+
+on:
+  push:
+    branches:
+      - 'staging/*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@master
+      
+      - uses: actions/setup-node@v1
+        with:
+          node-version: "14.x"
+
+      - name: Install Gatsby
+        run: sudo npm i gatsby-cli -g
+
+      - name: Install Wrangler
+        run: sudo npm i @cloudflare/wrangler -g
+
+      - name: Build Gatsby Site
+        run:  AIRTABLE_API_KEY=${{secrets.AIRTABLE_API_KEY}} AIRTABLE_BASE_ID=${{secrets.AIRTABLE_BASE_ID}} GATSBY_STRIPE_API_PUBLIC_KEY=${{secrets.STAGING_GATSBY_STRIPE_API_PUBLIC_KEY}}  gatsby build
+
+      - name: config wrangler
+        run: CF_API_TOKEN_WORKERS_SITES=${{ secrets.CF_API_TOKEN_WORKERS_SITES }} wrangler publish --env staging
