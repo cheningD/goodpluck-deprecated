@@ -13,7 +13,11 @@ import { useShoppingCart } from "use-shopping-cart"
 const Nav = () => {
   const [isMobileNavOpen, setMobileNavIsOpen] = React.useState()
   const [showSearchBar, setShowSearchBar] = React.useState()
-  const { cartCount } = useShoppingCart()
+  const { cartDetails } = useShoppingCart()
+
+  const realCartCount = Object.keys(cartDetails).filter(
+    priceID => priceID !== process.env.GATSBY_STRIPE_SHIPPING_LINE_ITEM_PRICE_ID
+  ).length
 
   const toggleMobileNavOpen = React.useCallback(() => {
     setMobileNavIsOpen(!isMobileNavOpen)
@@ -35,7 +39,7 @@ const Nav = () => {
           </Link>
           <Link to="/cart" className="cart-link">
             <Emoji symbol="🧺" label="cart" />{" "}
-            <span className="cart-count">{`${cartCount - 1}`}</span>
+            <span className="cart-count">{`${realCartCount}`}</span>
           </Link>
           {FeatureFlags.SEARCH_FEATURE ? (
             <SearchBar toggleSearchBar={toggleSearchBar} />

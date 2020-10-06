@@ -8,7 +8,7 @@ bucket = "./public"
 entry-point = "workers-site"
 
 [env.staging]
-route = "staging.goodpluck.com/*"
+route = "https://staging.goodpluck.com/*"
 
 [env.production]
-route = "test.goodpluck.com/*"
+route = "https://test.goodpluck.com/*"
