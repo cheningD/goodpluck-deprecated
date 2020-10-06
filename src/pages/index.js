@@ -6,7 +6,7 @@ import Footer from "../components/footer"
 import { Link } from "gatsby"
 import { Menu } from "../components/Menu"
 import Nav from "../components/Nav"
-import SEO from "..//components/SEO"
+import SEO from "../components/SEO
 import ZipCodeModal from "../components/ZipCodeModal"
 
 const ZipForm = ({ updateZipCode, setShowModal }) => {
@@ -15,7 +15,6 @@ const ZipForm = ({ updateZipCode, setShowModal }) => {
     <form
       className="cta-form"
       onSubmit={event => {
-        console.log(" updateZipCode(zipObject)", zip)
         event.preventDefault()
         updateZipCode(zip)
         setShowModal(true)
