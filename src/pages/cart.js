@@ -66,7 +66,6 @@ const CartContent = () => {
   const [status, setStatus] = useState("idle")
   const {
     totalPrice,
-    cartCount,
     redirectToCheckout,
     cartDetails,
     addItem,
@@ -75,6 +74,9 @@ const CartContent = () => {
   } = useShoppingCart()
 
   console.info(`Cart is ${status}`)
+  const realCartCount = Object.keys(cartDetails).filter(
+    priceID => priceID !== process.env.GATSBY_STRIPE_SHIPPING_LINE_ITEM_PRICE_ID
+  ).length
   const isInEligibleForFreeShipping = totalPrice < minPriceForFreehipping
 
   useEffect(() => {
@@ -127,7 +129,7 @@ const CartContent = () => {
         </h2>
         <DeliveryDateSelector />
         <div className="Rtable Rtable--2cols">
-          <div className="Rtable-cell">Subtotal ({cartCount} items)</div>
+          <div className="Rtable-cell">Subtotal ({realCartCount} items)</div>
           <div className="Rtable-cell">
             <span
               className={listToClass([
