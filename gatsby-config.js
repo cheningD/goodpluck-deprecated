@@ -17,7 +17,7 @@ module.exports = {
     titleTemplate: "%s",
     description:
       "Goodpluck delivers groceries direct from local farms every saturday",
-    url: "https://www.goodpluck.com", // No trailing slash allowed!
+    siteUrl: "https://www.goodpluck.com", // No trailing slash allowed!
     image: "/static/shareimage.png", // Path to your image you placed in the 'static' folder
     twitterUsername: "@goodpluckgrows",
   },
