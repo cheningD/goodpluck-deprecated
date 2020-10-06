@@ -24,7 +24,7 @@ const Nav = () => {
   }, [showSearchBar])
 
   let deliveryDateSelector = ""
-  if (typeof window !== `undefined`) {
+  if (typeof window !== `undefined` && window.location.pathname.startsWith("/market")) {
     deliveryDateSelector = <DeliveryDateSelector />
   }
 
@@ -38,9 +38,7 @@ const Nav = () => {
           <Link to="/" className="brand">
             GOODPLUCK
           </Link>
-          {window.location.pathname.startsWith("/market")
-            ? deliveryDateSelector
-            : ""}
+          {deliveryDateSelector}
           {FeatureFlags.SEARCH_FEATURE ? (
             <SearchBar toggleSearchBar={toggleSearchBar} />
           ) : (
