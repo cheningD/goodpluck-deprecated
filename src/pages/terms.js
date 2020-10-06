@@ -2,7 +2,7 @@ import Footer from "../components/footer"
 import { Helmet } from "react-helmet"
 import Nav from "../components/Nav"
 import React from "react"
-import SEO from "../components/SEO
+import SEO from "../components/SEO"
 
 export default function Terms() {
   //Check document is defined for SSR
