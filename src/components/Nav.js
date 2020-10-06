@@ -38,7 +38,9 @@ const Nav = () => {
           <Link to="/" className="brand">
             GOODPLUCK
           </Link>
-          {deliveryDateSelector}
+          {window.location.pathname.startsWith("/market")
+            ? deliveryDateSelector
+            : ""}
           {FeatureFlags.SEARCH_FEATURE ? (
             <SearchBar toggleSearchBar={toggleSearchBar} />
           ) : (
