@@ -47,6 +47,21 @@ const Cart = () => {
   )
 }
 
+const check1 = process.env.GATSBY_STRIPE_API_PUBLIC_KEY
+const check2 = process.env.GATSBY_STRIPE_SHIPPING_LINE_ITEM_PRICE_ID
+
+console.log("check1", check1)
+console.log("check2", check2)
+
+const shippingLineItem = {
+  name: "Local Delivery",
+  description: "",
+  sku: process.env.GATSBY_STRIPE_SHIPPING_LINE_ITEM_PRICE_ID, //Update depending on
+  price: 0, //Must be 0 or will interfere with cart calculations. Real price on server
+  currency: "USD",
+  image: null,
+}
+
 const CartContent = () => {
   const [status, setStatus] = useState("idle")
   const {
@@ -63,17 +78,9 @@ const CartContent = () => {
   const isInEligibleForFreeShipping = totalPrice < minPriceForFreehipping
 
   useEffect(() => {
-    const shippingLineItem = {
-      name: "Local Delivery",
-      description: "",
-      sku: process.env.GATSBY_STRIPE_SHIPPING_LINE_ITEM_PRICE_ID, //Update depending on
-      price: 0, //Must be 0 or will interfere with cart calculations. Real price on server
-      currency: "USD",
-      image: null,
-    }
-
     if (totalPrice < minPriceForFreehipping) {
       console.log("Not Free Shipping!")
+      console.log("shippingLineItem", shippingLineItem)
       addItem(shippingLineItem)
       setItemQuantity(shippingLineItem.sku, 1)
     }
@@ -84,11 +91,11 @@ const CartContent = () => {
         removeItem(shippingLineItem.sku)
       }
     }
-  }, [totalPrice, addItem, cartDetails, removeItem, setItemQuantity])
+  }, [totalPrice])
 
   async function handleCheckout(event) {
     event.preventDefault()
-    if (cartCount > 0) {
+    if (totalPrice > 0) {
       setStatus("idle")
       const error = await redirectToCheckout()
       if (error) setStatus("redirect-error")
@@ -97,7 +104,7 @@ const CartContent = () => {
     }
   }
 
-  if (cartCount === 0) {
+  if (totalPrice === 0) {
     return (
       <div className="cart-content">
         <Link to="/market/produce">
@@ -250,6 +257,9 @@ const CartItems = React.memo(() => {
       extraCartDetailsMap.get(sku)
     )
 
+    if (sku === shippingLineItem.sku) {
+      return ""
+    }
     return (
       <div key={sku}>
         <div className="cart-item-card">

@@ -1,21 +1,24 @@
-import React, { useState, useEffect } from "react"
-import { Link } from "gatsby"
 import "./ZipCodeModal.css"
-import { Formik, Form, Field, ErrorMessage } from "formik"
+
 import * as yup from "yup"
+
+import { ErrorMessage, Field, Form, Formik } from "formik"
+import React, { useEffect, useState } from "react"
 import {
+  VALID_EMAIL_PATTERN,
+  getAndValidateZipFromLocalStorage,
   removeNonNumbers,
   setZipToLocalStorage,
-  getAndValidateZipFromLocalStorage,
-  VALID_EMAIL_PATTERN,
 } from "../util"
 import {
-  isAllowedZipcode,
-  getLabelForZipCode,
   getCountyForZipCode,
+  getLabelForZipCode,
+  isAllowedZipcode,
 } from "../zipcodes"
-import { Portal } from "./Portal"
+
 import { FeatureFlags } from "../FeatureFlags"
+import { Link } from "gatsby"
+import { Portal } from "./Portal"
 
 const zipSchema = yup.object().shape({
   zip: yup
@@ -141,7 +144,7 @@ const ZipCodeModal = ({
   const [zipCode, setZipCode] = useState(getAndValidateZipFromLocalStorage())
 
   // Check component zipcode data is fresh when component mounts/updates
-  useEffect(() => setZipCode(getAndValidateZipFromLocalStorage()), [])
+  useEffect(() => setZipCode(getAndValidateZipFromLocalStorage()))
 
   /** Update the zipcode and  trigger a page re-render
    *

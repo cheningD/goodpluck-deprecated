@@ -96,6 +96,10 @@
   text-decoration: none;
 }
 
+.cart-count {
+  padding: 0 0.5rem;
+}
+
 .current-link {
   border-style: none;
   border-bottom: 2px solid #fff;
