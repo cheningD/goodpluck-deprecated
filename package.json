@@ -16,7 +16,6 @@
   "dependencies": {
     "@stripe/stripe-js": "^1.9.0",
     "axios": "^0.20.0",
-    "faunadb": "^2.14.2",
     "formik": "^2.1.5",
     "gatsby": "^2.23.12",
     "gatsby-cli": "^2.12.101",
