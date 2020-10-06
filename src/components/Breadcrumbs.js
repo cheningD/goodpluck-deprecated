@@ -1,14 +1,16 @@
-import * as React from "react"
-import reduce from "lodash-es/reduce"
-import forEach from "lodash-es/forEach"
-import omit from "lodash-es/omit"
-import memoizeOne from "memoize-one"
-import { Link } from "gatsby"
-
 import "./Breadcrumbs.css"
+
+import * as React from "react"
+
 import { listToClass, removeNonLetters } from "../util"
+
+import { Link } from "gatsby"
 import { Portal } from "./Portal"
 import { ToggleableChevron } from "./ToggleableChevron"
+import forEach from "lodash-es/forEach"
+import memoizeOne from "memoize-one"
+import omit from "lodash-es/omit"
+import reduce from "lodash-es/reduce"
 import { withDepartments } from "../hooks/useDepartments"
 
 export class Breadcrumbs extends React.PureComponent {
@@ -68,19 +70,10 @@ export class Breadcrumbs extends React.PureComponent {
             classNames="product--bread-crumb__light-background"
             parentRef={this.productMenuRef}
             onClick={this.toggleProductMenu}
-            isOpen={this.state.productMenuOpen}
+            isOpen={false}
+            hideChevron={true}
           >
             <span>{activeNode.product.title}</span>
-            {this.state.productMenuOpen && (
-              <BreadCrumbMenu
-                onClick={this.toggleProductMenu}
-                products={activeNode.product.children}
-                top={
-                  this.productMenuRef.current?.getBoundingClientRect().bottom ||
-                  0
-                }
-              />
-            )}
           </BreadCrumb>
         </div>
       </div>
@@ -95,10 +88,14 @@ const BreadCrumb = props => (
     className={listToClass(["product--bread-crumb", props.classNames])}
   >
     {props.children}
-    <ToggleableChevron
-      classNames={"product--bread-crumb--chevron"}
-      isUpArrow={props.isOpen}
-    />
+    {props.hideChevron ? (
+      ""
+    ) : (
+      <ToggleableChevron
+        classNames={"product--bread-crumb--chevron"}
+        isUpArrow={props.isOpen}
+      />
+    )}
   </button>
 )
 

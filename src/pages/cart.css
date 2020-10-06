@@ -1,3 +1,38 @@
+/* Tables
+================================== */
+.Rtable {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 1rem auto;
+  padding: 0;
+}
+.Rtable-cell {
+  box-sizing: border-box;
+  flex-grow: 1;
+  width: 100%;
+  padding: 0.1em 0rem;
+  overflow: hidden;
+  list-style: none;
+}
+
+/* Table column sizing
+================================== */
+.Rtable--2cols > .Rtable-cell {
+  width: 50%;
+}
+.Rtable--3cols > .Rtable-cell {
+  width: 33.33%;
+}
+.Rtable--4cols > .Rtable-cell {
+  width: 25%;
+}
+.Rtable--5cols > .Rtable-cell {
+  width: 20%;
+}
+.Rtable--6cols > .Rtable-cell {
+  width: 16.6%;
+}
+
 .cart-content {
   padding: 0px 32px 32px 32px;
   font-family: Arial, sans-serif;
@@ -73,6 +108,11 @@
   justify-content: center;
   font-size: 1.2em;
   width: 80%;
+}
+
+.cart-checkout--btn:disabled {
+  background-color: #cccccc;
+  color: #666666;
 }
 
 .cart-checkout--btn > span {

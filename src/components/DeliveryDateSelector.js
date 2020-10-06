@@ -1,11 +1,13 @@
-import React, { useState, useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import Select, { components } from "react-select"
+import { graphql, useStaticQuery } from "gatsby"
 
-import { useStaticQuery, graphql } from "gatsby"
+import Emoji from "./Emoji"
 
 const SingleValue = props => (
   <components.SingleValue {...props}>
-    {props.data.chipLabel}
+    <Emoji symbol="🍇" label="Arrives on icon" />
+    Shopping for {props.data.chipLabel}
   </components.SingleValue>
 )
 
@@ -26,16 +28,14 @@ const DeliveryDateSelector = () => {
 
   const options = [
     {
-      chipLabel: `Shopping for ${data.airtable.data.nextNextSaturdayDeliveryDate}`,
-      label: data.airtable.data.nextNextSaturdayDeliveryDate,
-      value: data.airtable.data.nextNextSaturdayDeliveryDate,
+      label: `Shopping for this ${data.airtable.data.nextSaturdayDeliveryDate}`,
+      chipLabel: data.airtable.data.nextSaturdayDeliveryDate,
+      value: data.airtable.data.nextSaturdayDeliveryDate,
     },
     {
-      chipLabel: `Shopping for ${
-        data.airtable.data.nextSaturdayDeliveryDate.split(",")[0]
-      }`,
-      label: data.airtable.data.nextSaturdayDeliveryDate,
-      value: data.airtable.data.nextSaturdayDeliveryDate,
+      label: `Shopping for ${data.airtable.data.nextNextSaturdayDeliveryDate}`,
+      chipLabel: data.airtable.data.nextNextSaturdayDeliveryDate,
+      value: data.airtable.data.nextNextSaturdayDeliveryDate,
     },
   ]
 
@@ -63,8 +63,8 @@ const DeliveryDateSelector = () => {
       ...provided,
       "background-color": "#788474",
       border: "none",
-      margin: "1rem 0 1rem 0",
-      width: "15rem",
+      margin: "1rem auto 1rem auto",
+      width: "16rem",
       "font-size": "0.9rem",
     }),
     singleValue: provided => ({
@@ -84,8 +84,13 @@ const DeliveryDateSelector = () => {
     },
   }
 
+  if (typeof window === `undefined`) {
+    return ""
+  }
+
   return (
     <Select
+      className="delivery-date-selector"
       styles={customStyles}
       options={options}
       onChange={option => setSelectedDeliveryDate(option.value)}
@@ -96,8 +101,8 @@ const DeliveryDateSelector = () => {
         SingleValue: SingleValue,
       }}
       value={{
-        chipLabel: `Shopping for ${selectedDeliveryDate}`,
-        label: selectedDeliveryDate,
+        label: `Shopping for ${selectedDeliveryDate}`,
+        chipLabel: selectedDeliveryDate,
         value: selectedDeliveryDate,
       }}
     />

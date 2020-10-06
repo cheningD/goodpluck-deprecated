@@ -1,19 +1,19 @@
-import React from "react"
-import { Link } from "gatsby"
 import "./Nav.css"
-import { useShoppingCart } from "use-shopping-cart"
-import Select from "react-select"
 
-import { listToClass } from "../util"
-
-import { Hamburger } from "./Hamburger"
+import Emoji from "./Emoji"
 import { FeatureFlags } from "../FeatureFlags"
+import { Hamburger } from "./Hamburger"
+import { Link } from "gatsby"
 import { Menu } from "./Menu"
-import DeliveryDateSelector from "./DeliveryDateSelector"
+import React from "react"
+import Select from "react-select"
+import { listToClass } from "../util"
+import { useShoppingCart } from "use-shopping-cart"
 
 const Nav = () => {
   const [isMobileNavOpen, setMobileNavIsOpen] = React.useState()
   const [showSearchBar, setShowSearchBar] = React.useState()
+  const { cartCount } = useShoppingCart()
 
   const toggleMobileNavOpen = React.useCallback(() => {
     setMobileNavIsOpen(!isMobileNavOpen)
@@ -22,11 +22,6 @@ const Nav = () => {
   const toggleSearchBar = React.useCallback(() => {
     setShowSearchBar(!showSearchBar)
   }, [showSearchBar])
-
-  let deliveryDateSelector = ""
-  if (typeof window !== `undefined` && window.location.pathname.startsWith("/market")) {
-    deliveryDateSelector = <DeliveryDateSelector />
-  }
 
   return (
     <div
@@ -38,7 +33,10 @@ const Nav = () => {
           <Link to="/" className="brand">
             GOODPLUCK
           </Link>
-          {deliveryDateSelector}
+          <Link to="/cart" className="cart-link">
+            <Emoji symbol="🧺" label="cart" />
+            Cart: {`${cartCount}`}
+          </Link>
           {FeatureFlags.SEARCH_FEATURE ? (
             <SearchBar toggleSearchBar={toggleSearchBar} />
           ) : (
@@ -56,7 +54,6 @@ const Nav = () => {
 }
 
 const Links = ({ isMobileNavOpen }) => {
-  const { cartCount } = useShoppingCart()
   return (
     <div
       className={listToClass([
@@ -80,7 +77,7 @@ const Links = ({ isMobileNavOpen }) => {
       <div className="header-link--wrapper">
         {FeatureFlags.SIGN_IN_FEATURE ? (
           <Link
-            to=" "
+            to="/signin"
             className={listToClass(["header-link", linkIsActive("/signin")])}
           >
             Sign in
@@ -89,15 +86,6 @@ const Links = ({ isMobileNavOpen }) => {
           ""
         )}
       </div>
-      <div className="header-link--wrapper">
-        <Link
-          to="/cart"
-          className={listToClass(["header-link", linkIsActive("/cart")])}
-        >
-          Cart: {`${cartCount}`}
-        </Link>
-      </div>
-      <hr className="nav--mobile-divider" />
       <Menu
         className="menu"
         linkClassName="menu-category header-link--wrapper header-link"

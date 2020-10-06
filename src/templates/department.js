@@ -1,31 +1,33 @@
-import React from "react"
-import Nav from "../components/Nav"
-import ConnectedSidebar from "../components/ConnectedSidebar"
+import "./department.css"
+
 import { Link, graphql } from "gatsby"
+import { getFirstFromObject, removeNonLetters } from "../util"
+
+import AddIcon from "../images/icons/add.svg"
+import Breadcrumbs from "../components/Breadcrumbs"
+import ConnectedSidebar from "../components/ConnectedSidebar"
+import DeliveryDateSelector from "../components/DeliveryDateSelector"
+import DepartmentZeroState from "../components/DepartmentZeroState"
+import { FeatureFlags } from "../FeatureFlags"
+import Footer from "../components/footer"
 import Img from "gatsby-image"
 import { InView } from "react-intersection-observer"
-import { useShoppingCart } from "use-shopping-cart"
-import memoizeOne from "memoize-one"
+import { Menu } from "../components/Menu"
+import MinusIcon from "../images/icons/minus.svg"
+import Nav from "../components/Nav"
+import PlaceholderImage1 from "../components/PlaceholderImage1"
+import PriceFormatter from "../components/PriceFormatter"
+import ProductRequestForm from "../components/ProductRequestForm"
+import React from "react"
+import ZipCodeModal from "../components/ZipCodeModal"
+import flow from "lodash-es/flow"
 import get from "lodash-es/get"
-import noop from "lodash-es/noop"
-import throttle from "lodash-es/throttle"
 import head from "lodash-es/head"
 import isNil from "lodash-es/isNil"
-import flow from "lodash-es/flow"
-
-import "./department.css"
-import AddIcon from "../images/icons/add.svg"
-import MinusIcon from "../images/icons/minus.svg"
-import { getFirstFromObject, removeNonLetters } from "../util"
-import PriceFormatter from "../components/PriceFormatter"
-import Footer from "../components/footer"
-import { FeatureFlags } from "../FeatureFlags"
-import ZipCodeModal from "../components/ZipCodeModal"
-import Breadcrumbs from "../components/Breadcrumbs"
-import PlaceholderImage1 from "../components/PlaceholderImage1"
-import ProductRequestForm from "../components/ProductRequestForm"
-import DepartmentZeroState from "../components/DepartmentZeroState"
-import { Menu } from "../components/Menu"
+import memoizeOne from "memoize-one"
+import noop from "lodash-es/noop"
+import throttle from "lodash-es/throttle"
+import { useShoppingCart } from "use-shopping-cart"
 
 export const query = graphql`
   query DepartmentPageQuery($name: String) {
@@ -337,6 +339,7 @@ export default function DepartmentPage({ data, pageContext }) {
             <ConnectedSidebar sideBarLinks={sidebarEntries} />
           </div>
           <div className="rightPanel">
+            <DeliveryDateSelector />
             {categorySection}
             {pageContext.name !== "Produce" ? (
               <DepartmentZeroState departmentName={pageContext.name} />

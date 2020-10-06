@@ -1,7 +1,7 @@
 import "./cart.css"
 
 import { Link, graphql, useStaticQuery } from "gatsby"
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { formatCurrencyString, useShoppingCart } from "use-shopping-cart"
 
 import CartItem from "../components/CartItem"
@@ -49,10 +49,42 @@ const Cart = () => {
 
 const CartContent = () => {
   const [status, setStatus] = useState("idle")
-  const { totalPrice, cartCount, redirectToCheckout } = useShoppingCart()
+  const {
+    totalPrice,
+    cartCount,
+    redirectToCheckout,
+    cartDetails,
+    addItem,
+    removeItem,
+    setItemQuantity,
+  } = useShoppingCart()
 
   console.info(`Cart is ${status}`)
   const isInEligibleForFreeShipping = totalPrice < minPriceForFreehipping
+
+  useEffect(() => {
+    const shippingLineItem = {
+      name: "Local Delivery",
+      description: "",
+      sku: process.env.GATSBY_STRIPE_SHIPPING_LINE_ITEM_PRICE_ID, //Update depending on
+      price: 0, //Must be 0 or will interfere with cart calculations. Real price on server
+      currency: "USD",
+      image: null,
+    }
+
+    if (totalPrice < minPriceForFreehipping) {
+      console.log("Not Free Shipping!")
+      addItem(shippingLineItem)
+      setItemQuantity(shippingLineItem.sku, 1)
+    }
+
+    if (cartDetails[shippingLineItem.sku]) {
+      if (totalPrice >= minPriceForFreehipping) {
+        console.log("Free Shipping!")
+        removeItem(shippingLineItem.sku)
+      }
+    }
+  }, [totalPrice, addItem, cartDetails, removeItem, setItemQuantity])
 
   async function handleCheckout(event) {
     event.preventDefault()
@@ -75,6 +107,11 @@ const CartContent = () => {
     )
   }
 
+  let totalPriceWithShipping = totalPrice
+  if (isInEligibleForFreeShipping) {
+    totalPriceWithShipping = totalPrice + 1000
+  }
+
   return (
     <div className="cart-content">
       <div className="cart-content--overview">
@@ -82,31 +119,48 @@ const CartContent = () => {
           Your order
         </h2>
         <DeliveryDateSelector />
-        <div>
-          Subtotal ({cartCount} items):{" "}
-          <span
-            className={listToClass([
-              isInEligibleForFreeShipping && "cart-subtotal--count__warning",
-              "cart-subtotal--count",
-            ])}
-          >
-            {formatCurrencyString({
-              value: totalPrice,
+        <div className="Rtable Rtable--2cols">
+          <div className="Rtable-cell">Subtotal ({cartCount} items)</div>
+          <div className="Rtable-cell">
+            <span
+              className={listToClass([
+                isInEligibleForFreeShipping && "cart-subtotal--count__warning",
+                "cart-subtotal--count",
+              ])}
+            >
+              {formatCurrencyString({
+                value: totalPrice,
+                currency: "USD",
+              })}
+            </span>
+          </div>
+
+          <div className="Rtable-cell">Local Delivery</div>
+          <div className="Rtable-cell">
+            {isInEligibleForFreeShipping ? "$10.00" : "Free"}
+          </div>
+
+          <div className="Rtable-cell">Total</div>
+
+          <div className="Rtable-cell">
+            {`${formatCurrencyString({
+              value: totalPriceWithShipping,
               currency: "USD",
-            })}
-          </span>
+            })}`}
+          </div>
         </div>
-        <div className="cart-shipping--warning">
-          Shipping is free until Halloween!
-        </div>
-        {/* {isInEligibleForFreeShipping && (
+
+        {isInEligibleForFreeShipping && (
           <div className="cart-shipping--warning">
             {`Add ${formatCurrencyString({
               value: minPriceForFreehipping - totalPrice,
               currency: "USD",
-            })} for free shipping`}
+            })} for free delivery (${formatCurrencyString({
+              value: minPriceForFreehipping,
+              currency: "USD",
+            })})`}
           </div>
-        )} */}
+        )}
 
         <div className="cart-checkout--wrapper">
           <div className="cart-checkout--btn--wrapper">
@@ -120,6 +174,7 @@ const CartContent = () => {
           </div>
         </div>
       </div>
+
       <div className="cart-item-list--wrapper">
         <h2 className="cart-items--produce-header">What's in the box:</h2>
         <CartItems />
@@ -129,7 +184,7 @@ const CartContent = () => {
 }
 
 // Get min price from server
-const minPriceForFreehipping = 3500
+const minPriceForFreehipping = 2500
 
 const quantityOptions = [
   { value: 0, label: "0 (Delete)" },
