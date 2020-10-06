@@ -32,6 +32,21 @@ module.exports = {
     `gatsby-plugin-react-helmet`,
     `gatsby-plugin-sitemap`,
     {
+      resolve: "gatsby-plugin-preconnect",
+      options: {
+        domains: [
+          "https://m.stripe.com",
+          "https://m.stripe.network",
+          "https://js.stripe.com",
+          "https://auth.missiveapp.com",
+          "https://webchat.missiveapp.com",
+          "https://www.gstatic.com",
+          "https://cdnjs.cloudflare.com",
+          "https://www.google.com",
+        ],
+      },
+    },
+    {
       resolve: `gatsby-plugin-purgecss`,
       options: {
         printRejected: false, // Print removed selectors and processed file names
