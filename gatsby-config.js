@@ -22,8 +22,16 @@ module.exports = {
     twitterUsername: "@goodpluckgrows",
   },
   plugins: [
+    `gatsby-plugin-webpack-bundle-analyser-v2`,
     `gatsby-plugin-react-helmet`,
     `gatsby-plugin-sitemap`,
+    {
+      resolve: `gatsby-plugin-purgecss`,
+      options: {
+        printRejected: true, // Print removed selectors and processed file names
+        develop: true, // Enable while using `gatsby develop`
+      },
+    },
     {
       resolve: "gatsby-plugin-robots-txt",
       options: {
