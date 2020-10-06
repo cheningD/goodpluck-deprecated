@@ -46,7 +46,7 @@ export default function Home() {
               <div className="hero-text">
                 <h1 className="h11">
                   <div className="hero-line-1">
-                    <span className="span1">SUPER FRESH </span>
+                    <span className="span1">SUPER-FRESH </span>
                     FOOD FROM
                   </div>
                   <div className="hero-line-1">
