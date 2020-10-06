@@ -4,13 +4,11 @@ account_id = "b8cd4cd6c22746871556c8214a712815"
 zone_id = "8c1bebe51808c902a4fe76fc18397f3f"
 
 [site]
-bucket = "./public"
+bucket = "./static"
 entry-point = "workers-site"
 
 [env.staging]
-vars = { ENVIRONMENT = "staging" }
 route = "staging.goodpluck.com/*"
 
 [env.production]
-vars = { ENVIRONMENT = "production" }
 route = "test.goodpluck.com/*"
