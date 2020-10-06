@@ -45,7 +45,6 @@
   },
   "devDependencies": {
     "gatsby-plugin-purgecss": "^5.0.0",
-    "gatsby-plugin-webpack-bundle-analyser-v2": "^1.1.13",
     "prettier": "2.0.5"
   },
   "repository": {

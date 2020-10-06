@@ -22,13 +22,20 @@ module.exports = {
     twitterUsername: "@goodpluckgrows",
   },
   plugins: [
+    {
+      resolve: `gatsby-source-filesystem`,
+      options: {
+        name: `images`,
+        path: path.join(__dirname, `src`, `images`),
+      },
+    },
     `gatsby-plugin-webpack-bundle-analyser-v2`,
     `gatsby-plugin-react-helmet`,
     `gatsby-plugin-sitemap`,
     {
       resolve: `gatsby-plugin-purgecss`,
       options: {
-        printRejected: true, // Print removed selectors and processed file names
+        printRejected: false, // Print removed selectors and processed file names
         develop: true, // Enable while using `gatsby develop`
       },
     },
@@ -75,13 +82,6 @@ module.exports = {
         rule: {
           include: path.join(__dirname, `src`, `images/icons`),
         },
-      },
-    },
-    {
-      resolve: `gatsby-source-filesystem`,
-      options: {
-        name: `images`,
-        path: path.join(__dirname, `src`, `images`),
       },
     },
     `gatsby-plugin-sharp`,
