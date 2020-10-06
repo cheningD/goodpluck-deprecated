@@ -16,8 +16,8 @@ jobs:
         with:
           node-version: "14.x"
 
-      - name: Install Gatsby
-        run: sudo npm i gatsby-cli -g
+      - name: Install Node Modules
+        run: sudo npm install
 
       - name: Install Wrangler
         run: sudo npm i @cloudflare/wrangler -g
