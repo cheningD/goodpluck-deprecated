@@ -15,12 +15,12 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: "14.x"
-
-      - name: Install Node Modules
-        run: sudo npm install
-
+          
       - name: Install Wrangler
         run: sudo npm i @cloudflare/wrangler -g
+
+      - name: Install Node Modules
+        run: sudo npm install -g
 
       - name: Build Gatsby Site
         run:  AIRTABLE_API_KEY=${{secrets.AIRTABLE_API_KEY}} AIRTABLE_BASE_ID=${{secrets.AIRTABLE_BASE_ID}} GATSBY_STRIPE_API_PUBLIC_KEY=${{secrets.STAGING_GATSBY_STRIPE_API_PUBLIC_KEY}}  gatsby build
