@@ -1,6 +1,7 @@
-import React from "react"
-import Nav from "../components/Nav"
 import Footer from "../components/footer"
+import Nav from "../components/Nav"
+import React from "react"
+import SEO from "../components/Seo"
 
 export default function Terms() {
   //Check document is defined for SSR
@@ -9,6 +10,7 @@ export default function Terms() {
   }
   return (
     <>
+      <SEO title="terms" />
       <Nav />
 
       <div

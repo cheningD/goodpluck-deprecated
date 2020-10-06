@@ -1,14 +1,15 @@
-import React, { useState, useEffect } from "react"
-import { graphql, Link } from "gatsby"
-import axios from "axios"
-import { useShoppingCart, formatCurrencyString } from "use-shopping-cart"
-
-import Footer from "../components/footer"
-import DeliveryForm from "../components/DeliveryForm"
-
 import "./cart.css"
-import Nav from "../components/Nav"
+
+import { Link, graphql } from "gatsby"
+import React, { useEffect, useState } from "react"
+import { formatCurrencyString, useShoppingCart } from "use-shopping-cart"
+
 import CartItem from "../components/CartItem"
+import DeliveryForm from "../components/DeliveryForm"
+import Footer from "../components/footer"
+import Nav from "../components/Nav"
+import SEO from "../components/SEO"
+import axios from "axios"
 
 export const query = graphql`
   query productsForCheckoutSuccess {
@@ -228,6 +229,7 @@ export default function CheckoutSuccess({ data }) {
 
   return (
     <>
+      <SEO title="Thank You | Goodpluck" />
       <Nav />
       <div className="cart">
         <CheckoutSucessContent

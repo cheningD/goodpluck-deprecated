@@ -12,7 +12,37 @@ require("dotenv").config({
 
 module.exports = {
   /* Your site config here */
+  siteMetadata: {
+    title: "Goodpluck: Local Farm Groceries Delivered | Detroit",
+    titleTemplate: "%s",
+    description:
+      "Goodpluck delivers groceries direct from local farms every saturday",
+    url: "https://www.goodpluck.com", // No trailing slash allowed!
+    image: "/static/shareimage.png", // Path to your image you placed in the 'static' folder
+    twitterUsername: "@goodpluckgrows",
+  },
   plugins: [
+    `gatsby-plugin-react-helmet`,
+    `gatsby-plugin-sitemap`,
+    {
+      resolve: "gatsby-plugin-robots-txt",
+      options: {
+        env: {
+          development: {
+            policy: [{ userAgent: "*", disallow: ["/"] }],
+          },
+          production: {
+            policy: [{ userAgent: "*", allow: "/" }],
+          },
+        },
+      },
+    },
+    {
+      resolve: `gatsby-plugin-google-analytics`,
+      options: {
+        trackingId: process.env.GOOGLE_ANALYTICS_TRACKING_ID,
+      },
+    },
     {
       resolve: "gatsby-plugin-react-svg",
       options: {

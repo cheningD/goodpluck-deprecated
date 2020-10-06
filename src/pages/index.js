@@ -1,10 +1,13 @@
-import React, { useState } from "react"
-import { Link } from "gatsby"
 import "./index.css"
-import Nav from "../components/Nav"
+
+import React, { useState } from "react"
+
 import Footer from "../components/footer"
-import ZipCodeModal from "../components/ZipCodeModal"
+import { Link } from "gatsby"
 import { Menu } from "../components/Menu"
+import Nav from "../components/Nav"
+import SEO from "../components/Seo"
+import ZipCodeModal from "../components/ZipCodeModal"
 
 const ZipForm = ({ updateZipCode, setShowModal }) => {
   const [zip, setZip] = useState("")
@@ -19,6 +22,8 @@ const ZipForm = ({ updateZipCode, setShowModal }) => {
       }}
     >
       <input
+        id="zip-input"
+        aria-label="Enter your zip code"
         type="text"
         placeholder="zip code"
         className="cta-input"
@@ -34,6 +39,7 @@ const ZipForm = ({ updateZipCode, setShowModal }) => {
 export default function Home() {
   return (
     <div className="body1">
+      <SEO />
       <div className="section-1">
         <div className="homepage-left-side">
           <Nav />
@@ -147,12 +153,12 @@ export default function Home() {
               super-fresh produce &amp; foods from smaller farms every day of
               the year.
             </p>
-            <h3 className="chat-header">
+            <span className="chat-header">
               Have a question?&nbsp;
               <Link to="#chat" className="go-to-chat-link">
                 Chat with us
               </Link>
-            </h3>
+            </span>
             <p></p>
             <h3 className="how-it-works-heading">
               Order exactly what you want

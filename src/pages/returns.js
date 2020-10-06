@@ -1,10 +1,12 @@
-import React from "react"
-import Nav from "../components/Nav"
 import Footer from "../components/footer"
+import Nav from "../components/Nav"
+import React from "react"
+import SEO from "../components/Seo"
 
-export default function Privacy() {
+export default function Returns() {
   return (
     <>
+      <SEO title="Returns | Goodpluck" />
       <Nav />
       <h1>Returns, Refunds and Credits Policy</h1>
       <p>
