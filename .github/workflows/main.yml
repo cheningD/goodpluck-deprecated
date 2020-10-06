@@ -20,15 +20,11 @@ jobs:
       - name: Install dependencies
         run: yarn install --prod --pure-lockfile
 
-      - name: Lint
-        run: yarn run lint
-
       - name: Build
         run: yarn run build
         env:
           AIRTABLE_API_KEY: ${{secrets.AIRTABLE_API_KEY}} 
           AIRTABLE_BASE_ID: ${{ secrets.AIRTABLE_BASE_ID }}
-          GATSBY_ENV: "prod"
           GATSBY_STRIPE_API_PUBLIC_KEY: ${{secrets.STAGING_GATSBY_STRIPE_API_PUBLIC_KEY}}
 
       - name: config wrangler
