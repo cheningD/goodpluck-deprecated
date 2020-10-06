@@ -62,7 +62,8 @@
   display: flex;
 }
 
-.header-link {
+.header-link,
+.cart-link {
   color: #fff;
   text-decoration-line: none;
   margin-left: 24px;
@@ -75,7 +76,8 @@
   justify-content: center;
 }
 
-.header-link:hover {
+.header-link:hover,
+.cart-link:hover {
   font-weight: 600;
   border-width: 2px;
   border-style: none;
@@ -83,7 +85,8 @@
   text-decoration: none;
 }
 
-.header-link:focus {
+.header-link:focus,
+.cart-link:focus {
   font-weight: 600;
   border-width: 2px;
   border-style: none;
@@ -150,6 +153,10 @@
 }
 
 .nav-search__value-container {
+}
+
+.delivery-date-selector {
+  align-self: center;
 }
 
 /* end */
