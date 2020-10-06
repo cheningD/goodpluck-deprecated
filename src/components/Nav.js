@@ -34,8 +34,8 @@ const Nav = () => {
             GOODPLUCK
           </Link>
           <Link to="/cart" className="cart-link">
-            <Emoji symbol="🧺" label="cart" />
-            Cart: {`${cartCount}`}
+            <Emoji symbol="🧺" label="cart" />{" "}
+            <span className="cart-count">{`${cartCount - 1}`}</span>
           </Link>
           {FeatureFlags.SEARCH_FEATURE ? (
             <SearchBar toggleSearchBar={toggleSearchBar} />
