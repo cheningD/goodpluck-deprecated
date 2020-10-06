@@ -291,11 +291,12 @@ body {
 }
 .how-it-works-heading {
   margin: 0;
-  color: #df928e;
+  color: #788474;
+  font-weight: 600;
   font-size: 1.1rem;
 }
 .chat-header {
-  color: #df928e;
+  color: #788474;
   font-weight: 600;
   font-size: 1rem;
   margin: 0 0 16px 0;
