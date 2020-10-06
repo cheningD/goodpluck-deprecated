@@ -6,7 +6,7 @@ import { ErrorMessage, Field, Form, Formik } from "formik"
 import React, { useState } from "react"
 
 import Nav from "../components/Nav"
-import SEO from "../components/Seo"
+import SEO from "..//components/SEO"
 import { listToClass } from "../util"
 
 export default function SignIn() {
