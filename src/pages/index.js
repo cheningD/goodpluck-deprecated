@@ -160,19 +160,19 @@ export default function Home() {
               </Link>
             </span>
             <p></p>
-            <h3 className="how-it-works-heading">
+            <div className="how-it-works-heading">
               Order exactly what you want
-            </h3>
+            </div>
             <p className="how-it-works-paragraph">
               We deliver twice a week so the goods are always freshly picked,
               baked or plucked.
             </p>
-            <h3 className="how-it-works-heading">Support smaller farms</h3>
+            <div className="how-it-works-heading">Support smaller farms</div>
             <p className="how-it-works-paragraph">
               It puts more money in our communities and helps secure fair pay
               for food workers.
             </p>
-            <h3 className="how-it-works-heading">Local first</h3>
+            <div className="how-it-works-heading">Local first</div>
             <p className="how-it-works-paragraph">
               We find the best of what's growing in and around Detroit, and only
               source what cant be grown here from our small, sustainable sister
