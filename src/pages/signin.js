@@ -1,10 +1,13 @@
-import React, { useState } from "react"
-import { Formik, Form, Field, ErrorMessage } from "formik"
+import "./signin.css"
+
 import * as yup from "yup"
 
-import "./signin.css"
-import { listToClass } from "../util"
+import { ErrorMessage, Field, Form, Formik } from "formik"
+import React, { useState } from "react"
+
 import Nav from "../components/Nav"
+import SEO from "../components/Seo"
+import { listToClass } from "../util"
 
 export default function SignIn() {
   const [isSignUp, setIsSignUp] = useState(true)
@@ -12,6 +15,7 @@ export default function SignIn() {
 
   return (
     <div className="sign-in-page">
+      <SEO title="Sign In | Goodpluck" />
       <div className="sign-in__left-panel">
         <Nav />
         <div className="sign-in--form__wrapper">

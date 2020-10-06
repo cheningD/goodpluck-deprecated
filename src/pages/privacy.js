@@ -1,6 +1,7 @@
-import React from "react"
-import Nav from "../components/Nav"
 import Footer from "../components/footer"
+import Nav from "../components/Nav"
+import React from "react"
+import SEO from "../components/Seo"
 
 export default function Privacy() {
   //Check document is defined for SSR
@@ -10,6 +11,7 @@ export default function Privacy() {
 
   return (
     <>
+      <SEO title="Privacy | Goodpluck" />
       <Nav />
 
       <div

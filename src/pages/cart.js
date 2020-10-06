@@ -1,16 +1,17 @@
-import React, { useState } from "react"
-import { graphql, Link, useStaticQuery } from "gatsby"
-import isNil from "lodash-es/isNil"
-
-import { useShoppingCart, formatCurrencyString } from "use-shopping-cart"
-import Select from "react-select"
-import Footer from "../components/footer"
-
 import "./cart.css"
-import Nav from "../components/Nav"
+
+import { Link, graphql, useStaticQuery } from "gatsby"
+import React, { useState } from "react"
+import { formatCurrencyString, useShoppingCart } from "use-shopping-cart"
+
 import CartItem from "../components/CartItem"
-import { listToClass } from "../util"
 import DeliveryDateSelector from "../components/DeliveryDateSelector"
+import Footer from "../components/footer"
+import Nav from "../components/Nav"
+import SEO from "../components/Seo"
+import Select from "react-select"
+import isNil from "lodash-es/isNil"
+import { listToClass } from "../util"
 
 const suppliers = graphql`
   query productv2ForCartQuery {
@@ -36,6 +37,7 @@ const suppliers = graphql`
 const Cart = () => {
   return (
     <>
+      <SEO title="Cart | Goodpluck" />
       <div className="cart">
         <Nav />
         <CartContent />
