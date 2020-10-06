@@ -1,10 +1,15 @@
+import { Helmet } from "react-helmet"
 import React from "react"
-import ScriptTag from "react-script-tag"
 
 const DeliveryForm = () => {
   return (
     <>
-      <ScriptTag src="https://static.airtable.com/js/embed/embed_snippet_v1.js"></ScriptTag>
+      <Helmet>
+        <script
+          defer
+          src="https://static.airtable.com/js/embed/embed_snippet_v1.js"
+        ></script>
+      </Helmet>
       <iframe
         title="deliveryPreferences"
         className="airtable-embed airtable-dynamic-height"

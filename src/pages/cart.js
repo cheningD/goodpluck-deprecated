@@ -8,7 +8,7 @@ import CartItem from "../components/CartItem"
 import DeliveryDateSelector from "../components/DeliveryDateSelector"
 import Footer from "../components/footer"
 import Nav from "../components/Nav"
-import SEO from "..//components/SEO"
+import SEO from "../components/SEO
 import Select from "react-select"
 import isNil from "lodash-es/isNil"
 import { listToClass } from "../util"
@@ -47,12 +47,6 @@ const Cart = () => {
   )
 }
 
-const check1 = process.env.GATSBY_STRIPE_API_PUBLIC_KEY
-const check2 = process.env.GATSBY_STRIPE_SHIPPING_LINE_ITEM_PRICE_ID
-
-console.log("check1", check1)
-console.log("check2", check2)
-
 const shippingLineItem = {
   name: "Local Delivery",
   description: "",
@@ -81,15 +75,12 @@ const CartContent = () => {
 
   useEffect(() => {
     if (totalPrice < minPriceForFreehipping) {
-      console.log("Not Free Shipping!")
-      console.log("shippingLineItem", shippingLineItem)
       addItem(shippingLineItem)
       setItemQuantity(shippingLineItem.sku, 1)
     }
 
     if (cartDetails[shippingLineItem.sku]) {
       if (totalPrice >= minPriceForFreehipping) {
-        console.log("Free Shipping!")
         removeItem(shippingLineItem.sku)
       }
     }
