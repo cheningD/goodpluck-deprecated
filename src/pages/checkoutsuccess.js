@@ -8,7 +8,7 @@ import CartItem from "../components/CartItem"
 import DeliveryForm from "../components/DeliveryForm"
 import Footer from "../components/footer"
 import Nav from "../components/Nav"
-import SEO from "../components/SEO"
+import SEO from "..//components/SEO"
 import axios from "axios"
 
 export const query = graphql`

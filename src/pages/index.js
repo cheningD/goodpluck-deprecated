@@ -6,7 +6,7 @@ import Footer from "../components/footer"
 import { Link } from "gatsby"
 import { Menu } from "../components/Menu"
 import Nav from "../components/Nav"
-import SEO from "../components/Seo"
+import SEO from "..//components/SEO"
 import ZipCodeModal from "../components/ZipCodeModal"
 
 const ZipForm = ({ updateZipCode, setShowModal }) => {
