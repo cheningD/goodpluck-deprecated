@@ -27,5 +27,8 @@ jobs:
           AIRTABLE_BASE_ID: ${{ secrets.AIRTABLE_BASE_ID }}
           GATSBY_STRIPE_API_PUBLIC_KEY: ${{secrets.STAGING_GATSBY_STRIPE_API_PUBLIC_KEY}}
 
+      - name: Install Wrangler
+        run: sudo npm i @cloudflare/wrangler -g
+        
       - name: config wrangler
         run: CF_API_TOKEN_WORKERS_SITES=${{ secrets.CF_API_TOKEN_WORKERS_SITES }} wrangler publish --env staging
