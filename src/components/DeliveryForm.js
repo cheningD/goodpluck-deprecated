@@ -15,7 +15,7 @@ const DeliveryForm = () => {
         className="airtable-embed airtable-dynamic-height"
         src="https://airtable.com/embed/shrUbcGmKiRrXxeBi?backgroundColor=green"
         frameborder="0"
-        onmousewheel=""
+        onmousewheel={() => {}}
         width="100%"
         height="977"
         style={{ background: "transparent", border: "0px solid #ccc" }}

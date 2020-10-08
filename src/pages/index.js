@@ -2,6 +2,7 @@ import "./index.css"
 
 import React, { useState } from "react"
 
+import Banner from "../components/Banner"
 import Footer from "../components/footer"
 import { Link } from "gatsby"
 import { Menu } from "../components/Menu"
@@ -38,6 +39,7 @@ const ZipForm = ({ updateZipCode, setShowModal }) => {
 export default function Home() {
   return (
     <div className="body1">
+      <Banner />
       <SEO />
       <div className="section-1">
         <div className="homepage-left-side">
