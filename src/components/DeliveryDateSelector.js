@@ -61,11 +61,11 @@ const DeliveryDateSelector = () => {
   const customStyles = {
     control: (provided, _) => ({
       ...provided,
-      "background-color": "#788474",
+      backgroundColor: "#788474",
       border: "none",
       margin: "1rem auto 1rem auto",
       width: "16rem",
-      "font-size": "0.9rem",
+      fontSize: "0.9rem",
     }),
     singleValue: provided => ({
       ...provided,

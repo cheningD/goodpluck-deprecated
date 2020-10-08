@@ -69,11 +69,14 @@
   margin-left: 24px;
   border-style: none;
   border-bottom: 2px solid transparent;
-  min-width: 64px;
   display: flex;
   height: 33px;
   align-items: center;
   justify-content: center;
+}
+
+.header-link {
+  min-width: 64px;
 }
 
 .header-link:hover,
@@ -97,7 +100,7 @@
 }
 
 .cart-count {
-  padding: 0 0.5rem;
+  padding: 0 0 0 0.5rem;
 }
 
 .current-link {

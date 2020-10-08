@@ -1,14 +1,17 @@
-import React from "react"
 import "./product.css"
-import ProductPriceContainer from "../components/ProductPriceContainer"
-import Nav from "../components/Nav"
-import { Link } from "gatsby"
-import { removeNonLetters } from "../util"
-import { graphql } from "gatsby"
-import Img from "gatsby-image"
-import Footer from "../components/footer"
-import get from "lodash-es/get"
+
 import ZipCodeModal, { ZipInputPage } from "../components/ZipCodeModal"
+
+import Banner from "../components/Banner"
+import Footer from "../components/footer"
+import Img from "gatsby-image"
+import { Link } from "gatsby"
+import Nav from "../components/Nav"
+import ProductPriceContainer from "../components/ProductPriceContainer"
+import React from "react"
+import get from "lodash-es/get"
+import { graphql } from "gatsby"
+import { removeNonLetters } from "../util"
 
 export const query = graphql`
   query ProductGroupPage($gpid: Int) {
@@ -195,6 +198,7 @@ export default function ProductDetailPage({ data }) {
 
   return (
     <>
+      <Banner />
       <Nav />
       <ProductDetailBreadcrumbs
         name={page.name}
