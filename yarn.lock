@@ -7070,6 +7070,13 @@ gatsby-plugin-preconnect@^1.1.54:
   dependencies:
     "@babel/runtime" "^7.4.3"
 
+gatsby-plugin-purge-cloudflare-cache@^0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/gatsby-plugin-purge-cloudflare-cache/-/gatsby-plugin-purge-cloudflare-cache-0.0.2.tgz#c42046f473e669127ac8bdc7fbce16630c6260a1"
+  integrity sha512-GGFPZ8cOTcd7CL4WxXeuA1dQYs94Ttl43dvRHqDTNDqRUKgMxUxTSMT+Wt11nuuhPgPYKp76zQxF/EEwdu2YFw==
+  dependencies:
+    node-fetch "^2.6.0"
+
 gatsby-plugin-purgecss@^5.0.0:
   version "5.0.0"
   resolved "https://registry.yarnpkg.com/gatsby-plugin-purgecss/-/gatsby-plugin-purgecss-5.0.0.tgz#ff94f815e908ca568cb8c2f6803d467f4f72b806"
