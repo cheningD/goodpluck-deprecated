@@ -10,6 +10,16 @@ require("dotenv").config({
   path: `.env.${process.env.NODE_ENV}`,
 })
 
+if (!process.env.CLOUDFLARE_PURGE_CACHE_API_TOKEN) {
+  throw new Error(
+    "Missing required env variable: CLOUDFLARE_PURGE_CACHE_API_TOKEN"
+  )
+}
+
+if (!process.env.CLOUDFLARE_ZONE_ID) {
+  throw new Error("Missing required env variable: CLOUDFLARE_ZONE_ID")
+}
+
 module.exports = {
   /* Your site config here */
   siteMetadata: {
@@ -83,6 +93,19 @@ module.exports = {
         // If you do not provide a crossOrigin option, it will skip CORS for manifest.
         // Any invalid keyword or empty string defaults to `anonymous`
         crossOrigin: `use-credentials`,
+      },
+    },
+    {
+      resolve: `gatsby-plugin-purge-cloudflare-cache`,
+      options: {
+        token: process.env.CLOUDFLARE_PURGE_CACHE_API_TOKEN,
+        zoneId: process.env.CLOUDFLARE_ZONE_ID,
+        condition: (api, options) => {
+          return (
+            process.env.GATSBY_DEPLOY_ENVIRONMENT === "STAGING" ||
+            process.env.GATSBY_DEPLOY_ENVIRONMENT === "PRODUCTION"
+          )
+        },
       },
     },
     {
