@@ -10,9 +10,9 @@ export function listToClass(className) {
 
 //Returns a string with all non letters [a-z] removed
 export const removeNonLetters = string =>
-  string ? string.replace(/[^a-z]/gi, "") : ""
+  string && string.replace ? string.replace(/[^a-z]/gi, "") : ""
 export const removeNonNumbers = string =>
-  string ? string.replace(/[^0-9]/gi, "") : ""
+  string && string.replace ? string.replace(/[^0-9]/gi, "") : ""
 
 export const getAndValidateZipFromLocalStorage = () => {
   let zip = ""
