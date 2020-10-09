@@ -3,6 +3,7 @@ import "./index.css"
 import React, { useState } from "react"
 
 import Banner from "../components/Banner"
+import Emoji from "../components/Emoji"
 import Footer from "../components/footer"
 import { Link } from "gatsby"
 import { Menu } from "../components/Menu"
@@ -149,10 +150,8 @@ export default function Home() {
         <div className="section-3-content">
           <div className="how-it-works-image"></div>
           <div className="how-it-works-text">
-            <p className="how-it-works-paragraph">
-              Goodpluck is part of a new food system that makes it easy to get
-              super-fresh produce &amp; foods from smaller farms every day of
-              the year.
+            <p className="how-it-works-subheading">
+              Get your groceries from farmers in your community.
             </p>
             <span className="chat-header">
               <button
@@ -161,30 +160,43 @@ export default function Home() {
                   window.MissiveChat.open()
                 }}
               >
-                Have a Question? Chat with us
+                Ask us anything...
               </button>
             </span>
             <p></p>
             <div className="how-it-works-heading">
-              Order exactly what you want
+              <Emoji symbol="🛵" label="fast scooter"></Emoji> Farm to you
+              within hours
+            </div>
+            <p className="how-it-works-paragraph">
+              Goodpluck finds super-local, just-harvested, sustainably-grown
+              produce and leaves it on your doorstep the same day.
+            </p>
+            <div className="how-it-works-heading">
+              <Emoji symbol="🥬" label="kale"></Emoji> Order exactly what you
+              want
             </div>
             <p className="how-it-works-paragraph">
               Unlike a subscription produce box, the choice is yours. We won't
               send you 20 pounds of kale unless you want it.
             </p>
-            <div className="how-it-works-heading">Local First</div>
+            <div className="how-it-works-heading">
+              <Emoji symbol="📍" label="super local"></Emoji> Support Local
+              First
+            </div>
             <p className="how-it-works-paragraph">
-              We source first from small local farms in Detroit. If we can't
-              find an item we move to regional farms in Michigan. In winter, we
-              source some essentials from farms further south.
+              There is delicious, sustainably-grown food all around us. Unlike
+              food stores, Goodpluck is built to support small, super-local
+              farms (including urban farms) so that's where we look first.
             </p>
-            <div className="how-it-works-heading">Support small farms</div>
-            <p className="how-it-works-paragraph">
-              Grocery stores don't work for small local farms, that's a pity -
-              because small farms are creating some of the most delicious,
-              sustainable and equitable food in Detroit. We are building a model
-              for local food that supports growing food in your community.
+            <p>
+              {" "}
+              As we enter winter, we will source some essentials that can't be
+              grown here from sustainable farms in other regions. (We'll make
+              these items easy to spot!)
             </p>
+            <p className="how-it-works-paragraph"></p>
+
             <p className="how-it-works-paragraph">
               It's October! We are wrapping up the summer produce and welcoming
               a mountain of delicious apples, squashes, greens and more. &nbsp;
