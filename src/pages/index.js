@@ -156,9 +156,14 @@ export default function Home() {
             </p>
             <span className="chat-header">
               Have a question?&nbsp;
-              <Link to="#chat" className="go-to-chat-link">
+              <button
+                className="gp-button-link"
+                onClick={() => {
+                  window.MissiveChat.open()
+                }}
+              >
                 Chat with us
-              </Link>
+              </button>
             </span>
             <p></p>
             <div className="how-it-works-heading">
