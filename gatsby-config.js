@@ -11,13 +11,11 @@ require("dotenv").config({
 })
 
 if (!process.env.CLOUDFLARE_PURGE_CACHE_API_TOKEN) {
-  throw new Error(
-    "Missing required env variable: CLOUDFLARE_PURGE_CACHE_API_TOKEN"
-  )
+  throw new Error("Missing env variable: CLOUDFLARE_PURGE_CACHE_API_TOKEN")
 }
 
 if (!process.env.CLOUDFLARE_ZONE_ID) {
-  throw new Error("Missing required env variable: CLOUDFLARE_ZONE_ID")
+  throw new Error("Missing env variable: CLOUDFLARE_ZONE_ID")
 }
 
 module.exports = {
