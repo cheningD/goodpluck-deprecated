@@ -11,4 +11,4 @@ entry-point = "workers-site"
 route = "https://staging.goodpluck.com/*"
 
 [env.production]
-route = "https://goodpluck.com/*"
+routes = ["http://goodpluck.com/*", "http://www.goodpluck.com"]
