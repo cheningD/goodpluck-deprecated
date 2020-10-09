@@ -295,6 +295,15 @@ body {
   font-weight: 600;
   font-size: 1.1rem;
 }
+
+.how-it-works-subheading {
+  margin: 0;
+  color: #788474;
+  font-weight: bold;
+  font-size: 1.5rem;
+  font-family: "Arial Narrow", Arial, sans-serif;
+}
+
 .chat-header {
   color: #788474;
   font-weight: 600;
