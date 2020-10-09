@@ -155,14 +155,13 @@ export default function Home() {
               the year.
             </p>
             <span className="chat-header">
-              Have a question?&nbsp;
               <button
                 className="gp-button-link"
                 onClick={() => {
                   window.MissiveChat.open()
                 }}
               >
-                Chat with us
+                Have a Question? Chat with us
               </button>
             </span>
             <p></p>
@@ -170,23 +169,26 @@ export default function Home() {
               Order exactly what you want
             </div>
             <p className="how-it-works-paragraph">
-              We deliver twice a week so the goods are always freshly picked,
-              baked or plucked.
+              Unlike a subscription produce box, the choice is yours. We won't
+              send you 20 pounds of kale unless you want it.
             </p>
-            <div className="how-it-works-heading">Support smaller farms</div>
+            <div className="how-it-works-heading">Local First</div>
             <p className="how-it-works-paragraph">
-              It puts more money in our communities and helps secure fair pay
-              for food workers.
+              We source first from small local farms in Detroit. If we can't
+              find an item we move to regional farms in Michigan. In winter, we
+              source some essentials from farms further south.
             </p>
-            <div className="how-it-works-heading">Local first</div>
+            <div className="how-it-works-heading">Support small farms</div>
             <p className="how-it-works-paragraph">
-              We find the best of what's growing in and around Detroit, and only
-              source what cant be grown here from our small, sustainable sister
-              farms
+              Grocery stores don't work for small local farms, that's a pity -
+              because small farms are creating some of the most delicious,
+              sustainable and equitable food in Detroit. We are building a model
+              for local food that supports growing food in your community.
             </p>
             <p className="how-it-works-paragraph">
-              It's September! We are in the peak of the late summer and early
-              fall crops, theres a bounty of produce comingh out of the ground.
+              It's October! We are wrapping up the summer produce and welcoming
+              a mountain of delicious apples, squashes, greens and more. &nbsp;
+              <Link to="/market/produce">Check it out!</Link>
             </p>
           </div>
         </div>
