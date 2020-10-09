@@ -371,7 +371,7 @@ const getProductMapMemoized = memoizeOne(getProductMap)
 function getProductMap(airTableNodes) {
   return airTableNodes.reduce((productMap, productGroup) => {
     const category = productGroup.data.category[0]
-    const family = productGroup.data.subCategory || `All ${category}`
+    const family = productGroup.data.subCategory[0] || `All ${category}`
 
     // Create a new category if necessary
     if (!productMap[category]) {

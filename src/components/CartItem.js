@@ -1,4 +1,5 @@
 import * as React from "react"
+
 import { formatCurrencyString } from "use-shopping-cart"
 
 const getQuanityPurchasedLabel = quanityPurchased => {
@@ -45,7 +46,7 @@ const ProductUnitPrice = ({
   currency,
 }) => (
   <div className="cart-item--unit-price">
-    {`${unitQuantity} ${unitLabel} for 
+    {`${unitQuantity} ${unitLabel ? unitLabel : ""} for 
     ${formatCurrencyString({
       value: unitPrice,
       currency: currency,
