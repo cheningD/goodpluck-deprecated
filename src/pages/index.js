@@ -8,6 +8,7 @@ import Footer from "../components/footer"
 import { Link } from "gatsby"
 import { Menu } from "../components/Menu"
 import Nav from "../components/Nav"
+import Notification from "../components/Notification"
 import SEO from "../components/SEO"
 import ZipCodeModal from "../components/ZipCodeModal"
 
@@ -40,7 +41,7 @@ const ZipForm = ({ updateZipCode, setShowModal }) => {
 export default function Home() {
   return (
     <div className="body1">
-      <Banner />
+      <Notification />
       <SEO />
       <div className="section-1">
         <div className="homepage-left-side">
