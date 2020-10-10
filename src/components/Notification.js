@@ -18,7 +18,7 @@ const LinkWrapper = styled(Link)`
 `
 
 const TopNotification = styled.div`
-  background-color: #18181d;
+  background-color: #3f3a40;
   text-align: center;
 `
 
