@@ -70,11 +70,15 @@
   border-style: none;
   border-bottom: 2px solid transparent;
   display: flex;
-  height: 33px;
+  height: 43px;
   align-items: center;
   justify-content: center;
 }
 
+.cart-link {
+  font-size: 1.25rem;
+  height: 43px;
+}
 .header-link {
   min-width: 64px;
 }

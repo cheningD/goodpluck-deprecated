@@ -1,164 +1,168 @@
 import "./Nav.css"
 
-import Emoji from "./Emoji"
+import { ButtonSmall } from "../components/StyledComponentLib"
 import { FeatureFlags } from "../FeatureFlags"
 import { Hamburger } from "./Hamburger"
+import Image from "./Image"
 import { Link } from "gatsby"
 import { Menu } from "./Menu"
 import React from "react"
-import Select from "react-select"
 import { listToClass } from "../util"
+import styled from "styled-components"
 import { useShoppingCart } from "use-shopping-cart"
+
+const BrandLink = styled(Link)`
+  margin-right: auto;
+  justify-self: flex-start;
+  font-family: Bebas Neue, sans-serif;
+  color: #fff;
+  font-size: 32px;
+  text-decoration: none;
+  @media screen and (max-width: 786px) {
+    justify-self: center;
+    margin-right: 0;
+  }
+`
+
+const NavMenu = styled.div`
+  visibility: ${props => (props.isMobileNavOpen ? "visible" : "hidden")};
+  display: ${props => (props.isMobileNavOpen ? "block" : "none")};
+  background: #788474;
+  height: 100vh;
+  width: 100vw;
+  padding: 16px 0;
+`
+const PrimaryButton = styled(ButtonSmall)`
+  background-color: #fffd82;
+  border-radius: 4px;
+  border: 2px solid #3f3a40;
+  color: #3f3a40;
+  margin: 16px auto;
+  max-width: 300px;
+`
+
+const GetStartedLink = styled(PrimaryButton)`
+  font-size: 1.125rem;
+  padding: 8px 16px;
+  margin: 0 16px;
+  text-transform: none;
+  @media screen and (max-width: 786px) {
+    visibility: hidden;
+    display: none;
+  }
+`
+const SignInLink = styled(Link)`
+  font-size: 1.125rem;
+  color: #fff;
+  text-decoration-line: none;
+  margin: 0 16px;
+  line-height: 43px;
+  &:hover {
+    font-weight: 600;
+    border-width: 2px;
+    border-style: none;
+    border-bottom: 2px solid #fff;
+    text-decoration: none;
+  }
+  &:focus {
+    font-weight: 600;
+    border-width: 2px;
+    border-style: none;
+    border-color: #333;
+    border-bottom: 2px solid #f7c59f;
+    color: #f7c59f;
+    text-decoration: none;
+  }
+  @media screen and (max-width: 786px) {
+    visibility: hidden;
+    display: none;
+  }
+`
+const SecondaryButton = styled(ButtonSmall)`
+  background-color: #fff;
+  border-radius: 4px;
+  border: 2px solid #3f3a40;
+  color: #3f3a40;
+  margin: 16px auto;
+  max-width: 300px;
+`
 
 const Nav = () => {
   const [isMobileNavOpen, setMobileNavIsOpen] = React.useState()
-  const [showSearchBar, setShowSearchBar] = React.useState()
+
+  const toggleMobileNavOpen = React.useCallback(() => {
+    setMobileNavIsOpen(!isMobileNavOpen)
+  }, [isMobileNavOpen])
+
+  return (
+    <>
+      <div className="nav">
+        <div className="nav--wrapper">
+          <div className="brand--wrapper">
+            <Hamburger isOpen={isMobileNavOpen} onClick={toggleMobileNavOpen} />
+            <BrandLink to="/">GOODPLUCK</BrandLink>
+            <SignInLink to="/signin">Sign In</SignInLink>
+            <GetStartedLink to="/getstarted">Get Started</GetStartedLink>
+            <CartLink />
+          </div>
+        </div>
+      </div>
+      <NavMenu isMobileNavOpen={isMobileNavOpen}>
+        <PrimaryButton to="/getstarted">Get Started</PrimaryButton>
+        <SecondaryButton to="/signin">Sign In</SecondaryButton>
+      </NavMenu>
+    </>
+  )
+}
+
+const CartLink = () => {
   const { cartDetails } = useShoppingCart()
 
   const realCartCount = Object.keys(cartDetails).filter(
     priceID => priceID !== process.env.GATSBY_STRIPE_SHIPPING_LINE_ITEM_PRICE_ID
   ).length
 
-  const toggleMobileNavOpen = React.useCallback(() => {
-    setMobileNavIsOpen(!isMobileNavOpen)
-  }, [isMobileNavOpen])
+  const Cart = styled(Link)`
+    align-items: center;
+    border-bottom: 2px solid transparent;
+    border-style: none;
+    color: #fff;
+    display: flex;
+    font-size: 1.125rem;
+    height: 43px;
+    justify-content: center;
+    margin-left: 24px;
+    text-decoration-line: none;
 
-  const toggleSearchBar = React.useCallback(() => {
-    setShowSearchBar(!showSearchBar)
-  }, [showSearchBar])
+    &:hover {
+      font-weight: 600;
+      border-width: 2px;
+      border-style: none;
+      border-bottom: 2px solid #fff;
+      text-decoration: none;
+    }
+
+    &:focus {
+      font-weight: 600;
+      border-width: 2px;
+      border-style: none;
+      border-color: #333;
+      border-bottom: 2px solid #f7c59f;
+      color: #f7c59f;
+      text-decoration: none;
+    }
+  `
 
   return (
-    <div
-      className={listToClass(["nav", isMobileNavOpen && "nav__mobile-open"])}
-    >
-      <div className="nav--wrapper">
-        <div className="brand--wrapper">
-          <Hamburger isOpen={isMobileNavOpen} onOpen={toggleMobileNavOpen} />
-          <Link to="/" className="brand">
-            GOODPLUCK
-          </Link>
-          <Link to="/cart" className="cart-link">
-            <Emoji symbol="🧺" label="cart" />{" "}
-            <span className="cart-count">{`${realCartCount}`}</span>
-          </Link>
-          {FeatureFlags.SEARCH_FEATURE ? (
-            <SearchBar toggleSearchBar={toggleSearchBar} />
-          ) : (
-            ""
-          )}
-        </div>
-        <div className="nav-items">
-          {(!showSearchBar || isMobileNavOpen) && (
-            <Links isMobileNavOpen={isMobileNavOpen} />
-          )}
-        </div>
-      </div>
-    </div>
-  )
-}
-
-const Links = ({ isMobileNavOpen }) => {
-  return (
-    <div
-      className={listToClass([
-        "header-links--list",
-        isMobileNavOpen && "header-links--list__open",
-      ])}
-    >
-      {FeatureFlags.MY_LISTS_FEATURE && (
-        <div className="header-link--wrapper">
-          <Link
-            to="/mylists"
-            className={listToClass([
-              "header-link",
-              linkIsActive("/mylists") && "current-link",
-            ])}
-          >
-            My Lists
-          </Link>
-        </div>
-      )}
-      <div className="header-link--wrapper">
-        {FeatureFlags.SIGN_IN_FEATURE ? (
-          <Link
-            to="/signin"
-            className={listToClass(["header-link", linkIsActive("/signin")])}
-          >
-            Sign in
-          </Link>
-        ) : (
-          ""
-        )}
-      </div>
-      <Menu
-        className="menu"
-        linkClassName="menu-category header-link--wrapper header-link"
+    <Cart to="/cart" className="cart-link">
+      <Image
+        src="cart_icon_green.png"
+        alt="cart"
+        style={{ height: "35px", width: "35px" }}
       />
-    </div>
+      <span className="cart-count">{`${realCartCount}`}</span>
+    </Cart>
   )
-}
-
-function linkIsActive(path) {
-  if (typeof window !== `undefined`) {
-    return window.location.pathname === path
-  }
-  return false
 }
 
 export default Nav
-
-const SearchBar = React.memo(({ toggleSearchBar }) => {
-  const [isFocused, setFocused] = React.useState(false)
-
-  const shouldCloseMenuOnScroll = e => {
-    if (e.target instanceof HTMLElement) {
-      return !e.target.className.includes("nav-search")
-    }
-    return false
-  }
-
-  const toggleFocused = () => {
-    setFocused(!isFocused)
-    toggleSearchBar()
-  }
-
-  return (
-    <Select
-      backspaceRemovesValue={true}
-      menuShouldScrollIntoView={false}
-      openMenuOnFocus={false}
-      openMenuOnClick={false}
-      noOptionsMessage={() => "No items match search"}
-      className={listToClass([
-        "nav-search--wrapper",
-        isFocused && "nav-search--wrapper__focused",
-      ])}
-      classNamePrefix="nav-search"
-      onFocus={toggleFocused}
-      onBlur={toggleFocused}
-      menuPortalTarget={document.body}
-      closeMenuOnScroll={shouldCloseMenuOnScroll}
-      options={[{ label: "1", value: 1 }]}
-      placeholder={
-        <>
-          <span style={{ marginRight: "5px" }} className="fas fa-solid">
-            
-          </span>
-          {!isFocused && (
-            <span className="nav-search--placeholder-text">Search</span>
-          )}
-        </>
-      }
-      components={{
-        IndicatorSeparator: null,
-        DropdownIndicator: null,
-      }}
-      styles={{
-        menuPortal: style => ({
-          ...style,
-          zIndex: 2,
-        }),
-      }}
-    />
-  )
-})
