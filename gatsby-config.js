@@ -37,9 +37,12 @@ module.exports = {
         path: path.join(__dirname, `src`, `images`),
       },
     },
+    `gatsby-plugin-sharp`,
+    `gatsby-transformer-sharp`,
     `gatsby-plugin-preact`,
     `gatsby-plugin-react-helmet`,
     `gatsby-plugin-sitemap`,
+    `gatsby-plugin-styled-components`,
     {
       resolve: "gatsby-plugin-preconnect",
       options: {
@@ -60,12 +63,6 @@ module.exports = {
       options: {
         printRejected: false, // Print removed selectors and processed file names
         develop: true, // Enable while using `gatsby develop`
-      },
-    },
-    {
-      resolve: `gatsby-plugin-styled-components`,
-      options: {
-        // Add any options here
       },
     },
     {
@@ -126,8 +123,6 @@ module.exports = {
         },
       },
     },
-    `gatsby-plugin-sharp`,
-    `gatsby-transformer-sharp`,
     {
       resolve: `gatsby-source-airtable`,
       options: {

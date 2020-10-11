@@ -120,7 +120,7 @@ const NotificationContent = styled.div`
   -ms-flex-align: center;
   align-items: center;
   color: #fff;
-  font-size: 14px;
+  font-size: 1rem;
   line-height: 24px;
 
   -ms-grid-row: span 1;
@@ -134,10 +134,9 @@ const NotificationContent = styled.div`
 `
 
 const NotificationText = styled.div`
-  font-size: 11px;
+  font-size: 1rem;
   line-height: 22px;
   font-weight: 600;
-  text-transform: uppercase;
 `
 const WhiteArrow = styled(Arrow)`
   display: inline-block;
@@ -155,9 +154,7 @@ const Notification = () => {
         <Section>
           <Grid>
             <NotificationContent>
-              <NotificationText>
-                New Customers in detroit: GET $30 off your first 3 orders
-              </NotificationText>
+              <NotificationText>Now Delivering to Detroit!</NotificationText>
               <WhiteArrow />
             </NotificationContent>
           </Grid>

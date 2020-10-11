@@ -7,7 +7,7 @@ import { listToClass } from "../util"
 export const Hamburger = React.memo(props => (
   <button
     aria-label="toggle menu"
-    onClick={props.onOpen}
+    onClick={props.onClick}
     className={listToClass(["hamburger", props.isOpen && "hamburger__open"])}
   >
     <span className="hamburger-line hamburger--line-top" />

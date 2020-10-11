@@ -1,96 +1,21 @@
 import "./index.css"
 
-import React, { useState } from "react"
-
-import Banner from "../components/Banner"
 import Emoji from "../components/Emoji"
 import Footer from "../components/footer"
+import HeroSection from "../components/HeroSection"
 import { Link } from "gatsby"
-import { Menu } from "../components/Menu"
 import Nav from "../components/Nav"
 import Notification from "../components/Notification"
+import React from "react"
 import SEO from "../components/SEO"
-import ZipCodeModal from "../components/ZipCodeModal"
-
-const ZipForm = ({ updateZipCode, setShowModal }) => {
-  const [zip, setZip] = useState("")
-  return (
-    <form
-      className="cta-form"
-      onSubmit={event => {
-        event.preventDefault()
-        updateZipCode(zip)
-        setShowModal(true)
-      }}
-    >
-      <input
-        id="zip-input"
-        aria-label="Enter your zip code"
-        type="text"
-        placeholder="zip code"
-        className="cta-input"
-        onChange={event => setZip(event.target.value)}
-      />
-      <button className="cta-button" type="submit">
-        Get Started
-      </button>
-    </form>
-  )
-}
 
 export default function Home() {
   return (
     <div className="body1">
       <Notification />
       <SEO />
-      <div className="section-1">
-        <div className="homepage-left-side">
-          <Nav />
-          <div className="hero-left">
-            <div className="div1">
-              <Menu
-                linkClassName="homepage-menu-link"
-                className="homepage-menu menu"
-              />
-              <div className="hero-text">
-                <h1 className="h11">
-                  <div className="hero-line-1">
-                    <span className="span1">SUPER FRESH </span>
-                    FOOD FROM
-                  </div>
-                  <div className="hero-line-1">
-                    <span className="span1">SMALL FARMERS</span>
-                    &nbsp;in&nbsp; &nbsp;
-                  </div>
-                  <button className="hero-dropdown">DETROIT</button>
-                </h1>
-                <ZipCodeModal
-                  WrappedComponentNeedsZip={ZipForm}
-                  wrappedComponentNeedsZipProps={{}}
-                  WrappedComponentZipIsAllowed={null}
-                  wrappedComponentZipIsAllowedProps={{}}
-                  showDeliveryMessageWhenZipAllowed={true}
-                  showDeliveryMessageWhenZipNotAllowed={true}
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="hero-right">
-          <Link to="#how-it-works" className="hero-link">
-            How It Works
-          </Link>
-          <a
-            href="https://cead433923.typeform.com/to/vfu8Ipdm"
-            className="new-ways-to-save-link hero-link"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Is It Expensive?
-          </a>
-        </div>
-      </div>
-
+      <Nav />
+      <HeroSection />
       <div className="section2">
         <div className="section-header">What To Expect</div>
         <div className="feature-container">
