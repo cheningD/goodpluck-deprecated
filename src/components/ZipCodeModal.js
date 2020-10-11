@@ -5,7 +5,7 @@ import * as yup from "yup"
 import { ErrorMessage, Field, Form, Formik } from "formik"
 import React, { useEffect, useState } from "react"
 import {
-  VALID_EMAIL_PATTERN,
+  VALID_ZIP_PATTERN,
   getAndValidateZipFromLocalStorage,
   removeNonNumbers,
   setZipToLocalStorage,
@@ -26,7 +26,7 @@ const zipSchema = yup.object().shape({
     .required("We need your 5 digit zip!")
     // ##### and #####-#### format zip codes
     .matches(
-      VALID_EMAIL_PATTERN,
+      VALID_ZIP_PATTERN,
       `That doesn't look quite right. Please enter your 5-digit zip code.`
     ),
 })

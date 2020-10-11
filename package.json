@@ -46,6 +46,7 @@
     "react-select": "^3.1.0",
     "react-select-search": "^2.0.4",
     "styled-components": "^5.2.0",
+    "use-local-storage-state": "^5.0.0",
     "use-shopping-cart": "^2.1.0",
     "yup": "^0.29.3"
   },
