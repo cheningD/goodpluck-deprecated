@@ -112,11 +112,6 @@ const HeroParagraph = styled.p`
   font-weight: 600;
 `
 
-const CTAButton = styled(ButtonSmall)`
-  max-width: 100%;
-  display: inline-block;
-`
-
 const CTAButtonText = styled.div`
   display: inline-block;
 `

@@ -15198,6 +15198,11 @@ use-callback-ref@^1.2.1, use-callback-ref@^1.2.3:
   resolved "https://registry.yarnpkg.com/use-callback-ref/-/use-callback-ref-1.2.4.tgz#d86d1577bfd0b955b6e04aaf5971025f406bea3c"
   integrity sha512-rXpsyvOnqdScyied4Uglsp14qzag1JIemLeTWGKbwpotWht57hbP78aNT+Q4wdFKQfQibbUX4fb6Qb4y11aVOQ==
 
+use-local-storage-state@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/use-local-storage-state/-/use-local-storage-state-5.0.0.tgz#609bb1413dd7e5bba9f1ad7cfb53dc148eb00c6d"
+  integrity sha512-o1zBlKZQr/JQkdFRa1EzJzRim9a5cS0C9L2fH7iGO+lYJ4qfhMWDQb5UEa8D4SfYzJdZ5N3asihh3plo8moEzA==
+
 use-shopping-cart@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/use-shopping-cart/-/use-shopping-cart-2.1.0.tgz#93e2ec5a4ca19144d98e146948377ca8821970a9"

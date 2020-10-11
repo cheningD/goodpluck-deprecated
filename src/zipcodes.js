@@ -1,4 +1,4 @@
-import { VALID_EMAIL_PATTERN } from "./util"
+import { VALID_ZIP_PATTERN } from "./util"
 
 // ZIP_CODE_TO_INFO
 const ZIP_CODE_TO_INFO = {
@@ -1175,7 +1175,7 @@ const ZIP_CODE_TO_INFO = {
 
 // Lets start with wayne county & Ferndale
 export const isAllowedZipcode = zipcode => {
-  if (!zipcode.match(VALID_EMAIL_PATTERN)) {
+  if (!zipcode.match(VALID_ZIP_PATTERN)) {
     return false
   }
 

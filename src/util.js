@@ -1,7 +1,7 @@
 import isNil from "lodash-es/isNil"
 import isObject from "lodash-es/isObject"
 
-export const VALID_EMAIL_PATTERN = /^[0-9]{5}(?:-[0-9]{4})?$/
+export const VALID_ZIP_PATTERN = /^[0-9]{5}(?:-[0-9]{4})?$/
 
 export function listToClass(className) {
   const classNames = Array.isArray(className) ? className : [className]
@@ -21,7 +21,7 @@ export const getAndValidateZipFromLocalStorage = () => {
     zip = localStorage.getItem("goodpluck_data_zip")
   }
 
-  if (zip && zip.match(VALID_EMAIL_PATTERN)) {
+  if (zip && zip.match(VALID_ZIP_PATTERN)) {
     return zip
   }
   return null

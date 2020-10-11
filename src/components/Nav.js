@@ -1,13 +1,10 @@
 import "./Nav.css"
 
 import { ButtonSmall } from "../components/StyledComponentLib"
-import { FeatureFlags } from "../FeatureFlags"
 import { Hamburger } from "./Hamburger"
 import Image from "./Image"
 import { Link } from "gatsby"
-import { Menu } from "./Menu"
 import React from "react"
-import { listToClass } from "../util"
 import styled from "styled-components"
 import { useShoppingCart } from "use-shopping-cart"
 
@@ -87,6 +84,37 @@ const SecondaryButton = styled(ButtonSmall)`
   max-width: 300px;
 `
 
+const Cart = styled(Link)`
+  align-items: center;
+  border-bottom: 2px solid transparent;
+  border-style: none;
+  color: #fff;
+  display: flex;
+  font-size: 1.125rem;
+  height: 43px;
+  justify-content: center;
+  margin-left: 24px;
+  text-decoration-line: none;
+
+  &:hover {
+    font-weight: 600;
+    border-width: 2px;
+    border-style: none;
+    border-bottom: 2px solid #fff;
+    text-decoration: none;
+  }
+
+  &:focus {
+    font-weight: 600;
+    border-width: 2px;
+    border-style: none;
+    border-color: #333;
+    border-bottom: 2px solid #f7c59f;
+    color: #f7c59f;
+    text-decoration: none;
+  }
+`
+
 const Nav = () => {
   const [isMobileNavOpen, setMobileNavIsOpen] = React.useState()
 
@@ -122,43 +150,12 @@ const CartLink = () => {
     priceID => priceID !== process.env.GATSBY_STRIPE_SHIPPING_LINE_ITEM_PRICE_ID
   ).length
 
-  const Cart = styled(Link)`
-    align-items: center;
-    border-bottom: 2px solid transparent;
-    border-style: none;
-    color: #fff;
-    display: flex;
-    font-size: 1.125rem;
-    height: 43px;
-    justify-content: center;
-    margin-left: 24px;
-    text-decoration-line: none;
-
-    &:hover {
-      font-weight: 600;
-      border-width: 2px;
-      border-style: none;
-      border-bottom: 2px solid #fff;
-      text-decoration: none;
-    }
-
-    &:focus {
-      font-weight: 600;
-      border-width: 2px;
-      border-style: none;
-      border-color: #333;
-      border-bottom: 2px solid #f7c59f;
-      color: #f7c59f;
-      text-decoration: none;
-    }
-  `
-
   return (
     <Cart to="/cart" className="cart-link">
       <Image
         src="cart_icon_green.png"
         alt="cart"
-        style={{ height: "35px", width: "35px" }}
+        style={{ height: "30px", width: "30px" }}
       />
       <span className="cart-count">{`${realCartCount}`}</span>
     </Cart>
