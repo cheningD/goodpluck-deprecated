@@ -4,7 +4,6 @@ import { Link, graphql, useStaticQuery } from "gatsby"
 import React, { useEffect, useState } from "react"
 import { formatCurrencyString, useShoppingCart } from "use-shopping-cart"
 
-import Banner from "../components/Banner"
 import CartItem from "../components/CartItem"
 import DeliveryDateSelector from "../components/DeliveryDateSelector"
 import Footer from "../components/footer"
@@ -39,7 +38,6 @@ const Cart = () => {
   return (
     <>
       <SEO title="Cart | Goodpluck" />
-      <Banner />
       <div className="cart">
         <Nav />
         <CartContent />

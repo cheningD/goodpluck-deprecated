@@ -2,7 +2,6 @@ import "./product.css"
 
 import ZipCodeModal, { ZipInputPage } from "../components/ZipCodeModal"
 
-import Banner from "../components/Banner"
 import Footer from "../components/footer"
 import Img from "gatsby-image"
 import { Link } from "gatsby"
@@ -198,7 +197,6 @@ export default function ProductDetailPage({ data }) {
 
   return (
     <>
-      <Banner />
       <Nav />
       <ProductDetailBreadcrumbs
         name={page.name}
