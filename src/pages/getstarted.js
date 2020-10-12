@@ -12,6 +12,25 @@ import { VALID_ZIP_PATTERN } from "../util"
 import styled from "styled-components"
 import useLocalStorageState from "use-local-storage-state"
 
+const ProgressBar = ({ percentComplete, color, bkcolor }) => {
+  return (
+    <div
+      style={{
+        backgroundColor: `${bkcolor}`,
+        margin: "16px 0",
+      }}
+    >
+      <div
+        style={{
+          height: "4px",
+          width: `${percentComplete}%`,
+          backgroundColor: `${color}`,
+        }}
+      />
+    </div>
+  )
+}
+
 const Wrapper = styled.div`
   background-color: #6c7668;
   font-family: Bebas Neue, sans-serif;
@@ -75,6 +94,7 @@ const TermsLink = styled(Link)`
 const Submit = styled(ButtonSmall)`
   font-family: Bebas Neue, sans-serif;
   background-color: #fffd82;
+  background-color: #f7c59f;
   border-radius: 4;
   border: 2px solid #fff;
   width: 100%;
@@ -112,23 +132,83 @@ const GetStarted = () => {
     "goodpluck-new-user-form",
     {}
   )
-  const [formStep, setFormStep] = useState("email")
+  // const [formStep, setFormStep] = useState("email")
+  const [formStep, setFormStep] = useState("shoppingForQuiz")
 
   const onSubmitHandler = (values, { setSubmitting }) => {
     setFormData(Object.assign({}, formData, values))
-    if (formStep === "email") {
-      setFormStep("quiz")
-    } else if (formStep === "quiz") {
-      navigate(`/cart`)
-    }
+    formSteps[formStep].next()
+    setSubmitting(false)
   }
 
   const formSteps = {
-    email: <EmailZipForm onSubmit={onSubmitHandler} />,
-    quiz: <QuizForm onSubmit={onSubmitHandler} />,
+    email: {
+      component: (
+        <EmailZipForm onSubmit={onSubmitHandler} percentComplete="0" />
+      ),
+      next: () => {
+        setFormStep("shoppingForQuiz")
+      },
+    },
+    shoppingForQuiz: {
+      component: (
+        <QuizForm
+          onSubmit={onSubmitHandler}
+          question="Who do you normally shop for?"
+          items={[
+            "Myself",
+            "Spouse or Partner",
+            "Kids",
+            "Babies",
+            "Extended Family",
+            "Pets",
+            "All of these",
+          ]}
+          percentComplete="25"
+        />
+      ),
+      next: () => setFormStep("valuesQuiz"),
+    },
+    valuesQuiz: {
+      component: (
+        <QuizForm
+          onSubmit={onSubmitHandler}
+          question="What values are most important to you?"
+          items={[
+            "Organic",
+            "Sustainability",
+            "Animal Welfare",
+            "Food Access",
+            "Fair Trade",
+            "Regenerative Agriculture",
+          ]}
+          percentComplete="50"
+        />
+      ),
+      next: () => setFormStep("shoppingListQuiz"),
+    },
+    shoppingListQuiz: {
+      component: (
+        <QuizForm
+          onSubmit={onSubmitHandler}
+          question="What's on your typical shopping list?"
+          items={[
+            "Fresh Fruit & Veg",
+            "Fresh Herbs & Spices",
+            "Fresh Baked Bread or Pastries",
+            "Eggs & Dairy Products",
+            "Meat & Seafood",
+            "Snacks",
+            "Cooking or Pantry Essentials",
+          ]}
+          percentComplete="75"
+        />
+      ),
+      next: () => navigate(`/cart`),
+    },
   }
 
-  let currentForm = formSteps[formStep]
+  let currentForm = formSteps[formStep].component
 
   return (
     <>
@@ -140,12 +220,86 @@ const GetStarted = () => {
 }
 export default GetStarted
 
-const QuizForm = ({ onSubmit }) => {
-  const formContent = ({ isSubmitting, errors, touched }) => (
-    <>
+const Checkbox = styled(Field)`
+  display: none;
+`
+
+const CheckboxLabel = styled.label`
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 20px;
+  font-family: Raleway, sans-serif;
+  font-size: 1.25rem;
+  line-height: 1.5rem;
+  color: #fff;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  &:before {
+    content: "";
+    display: block;
+    width: 20px;
+    height: 20px;
+    border: 1px solid #fff;
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0.6;
+    -webkit-transition: all 0.12s, border-color 0.08s;
+    transition: all 0.12s, border-color 0.08s;
+  }
+
+  ${({ isChecked }) => {
+    if (isChecked) {
+      return `
+
+    &:before {
+    width: 10px;
+    top: -5px;
+    left: 5px;
+    border-radius: 0;
+    opacity: 1;
+    border-top-color: transparent;
+    border-left-color: transparent;
+    -webkit-transform: rotate(45deg);
+    transform: rotate(45deg);
+  }
+      
+    `
+    }
+  }}
+`
+
+const QuizForm = ({ onSubmit, question, items, percentComplete }) => {
+  const initialValues = {}
+  items.forEach(item => {
+    initialValues[item] = false
+  })
+  const formContent = ({ values, isSubmitting }) => {
+    const checkboxes = items.map(item => {
+      return (
+        <CheckboxLabel htmlFor={`${item}`} isChecked={values[item]}>
+          <Checkbox type="checkbox" id={`${item}`} name={`${item}`}></Checkbox>
+          {`${item}`}
+        </CheckboxLabel>
+      )
+    })
+    return (
       <StyledForm>
-        <Blurb>Step 2 of 2</Blurb>
-        <Header>Great, what will you be shopping for?</Header>
+        <ProgressBar
+          color="#f7c59f"
+          bkcolor="#788474"
+          percentComplete={percentComplete}
+        />
+        <Header>{question}</Header>
+        {checkboxes}
         <FieldWrapper>
           <Submit as="button" type="submit" disabled={isSubmitting}>
             Continue
@@ -153,12 +307,14 @@ const QuizForm = ({ onSubmit }) => {
           </Submit>
         </FieldWrapper>
       </StyledForm>
-    </>
-  )
+    )
+  }
 
   return (
     <Wrapper>
-      <Formik>{formContent}</Formik>
+      <Formik initialValues={initialValues} onSubmit={onSubmit}>
+        {formContent}
+      </Formik>
     </Wrapper>
   )
 }
@@ -178,7 +334,7 @@ const EmailZipForm = ({ onSubmit }) => {
   const formContent = ({ isSubmitting, errors, touched }) => {
     return (
       <StyledForm>
-        <Blurb>Step 1 of 2</Blurb>
+        <ProgressBar color="blue" percentComplete="1" />
         <Header>First, let's check if we deliver to you...</Header>
         <FieldWrapper>
           <StyledField type="text" name="email" placeholder="Email" />
