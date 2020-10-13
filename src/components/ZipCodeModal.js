@@ -144,6 +144,7 @@ const ZipCodeModal = ({
   const [zipCode, setZipCode] = useState(getAndValidateZipFromLocalStorage())
 
   // Check component zipcode data is fresh when component mounts/updates
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => setZipCode(getAndValidateZipFromLocalStorage()))
 
   /** Update the zipcode and  trigger a page re-render
