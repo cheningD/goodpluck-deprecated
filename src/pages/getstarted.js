@@ -5,6 +5,7 @@ import React, { useState } from "react"
 
 import Arrow from "../images/icons/arrow.svg"
 import { ButtonSmall } from "../components/StyledComponentLib"
+import DeliveryDateSelector from "../components/DeliveryDateSelector"
 import Image from "../components/Image"
 import Nav from "../components/Nav"
 import SEO from "../components/SEO"
@@ -219,7 +220,7 @@ const GetStarted = () => {
             "Pets",
             "All of these",
           ]}
-          percentComplete="25"
+          percentComplete="20"
         />
       ),
       next: () => setFormStep("valuesQuiz"),
@@ -238,7 +239,7 @@ const GetStarted = () => {
             "Food Access",
             "Regenerative Agriculture",
           ]}
-          percentComplete="50"
+          percentComplete="40"
         />
       ),
       next: () => setFormStep("chooseYourStarter"),
@@ -249,7 +250,18 @@ const GetStarted = () => {
           goBackFunction={() => setFormStep("valuesQuiz")}
           onSubmit={onSubmitHandler}
           header="Choose a starter basket"
-          percentComplete="75"
+          percentComplete="60"
+        />
+      ),
+      next: () => setFormStep("deliveryPreferences"),
+    },
+    deliveryPreferences: {
+      component: (
+        <DeliveryPreferencesQuiz
+          goBackFunction={() => setFormStep("chooseYourStarter")}
+          onSubmit={onSubmitHandler}
+          header="Choose your delivery preferences"
+          percentComplete="80"
         />
       ),
       next: () => navigate(`/cart`),
@@ -570,6 +582,36 @@ const ChooseYourStarterForm = ({
     <FormWrapper
       initialValues={{ customBox: false, localStarter: false }}
       validationSchema={starterSchema}
+      onSubmit={onSubmit}
+      FormContent={FormContent}
+      header={header}
+      percentComplete={percentComplete}
+      goBackFunction={goBackFunction}
+    />
+  )
+}
+
+const DeliveryPreferencesQuiz = ({
+  onSubmit,
+  header,
+  percentComplete,
+  goBackFunction,
+}) => {
+  const FormContent = ({ values }) => {
+    return (
+      <>
+        <Header2>Prefered delivery for 48206: Saturday</Header2>
+        <Header2>Delivery Frequency: Every Week</Header2>
+      </>
+    )
+  }
+
+  return (
+    <FormWrapper
+      initialValues={{
+        preferredDeliveryDate: "Saturday",
+        deliveryFrequency: "",
+      }}
       onSubmit={onSubmit}
       FormContent={FormContent}
       header={header}
