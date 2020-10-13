@@ -1,13 +1,11 @@
 import * as yup from "yup"
 
+import { ButtonSmall, Header, Header2 } from "../components/StyledComponentLib"
 import { ErrorMessage, Field, Form, Formik } from "formik"
 import React, { useState } from "react"
 
 import Arrow from "../images/icons/arrow.svg"
-import { ButtonSmall } from "../components/StyledComponentLib"
-import DeliveryDateSelector from "../components/DeliveryDateSelector"
 import Image from "../components/Image"
-import Nav from "../components/Nav"
 import SEO from "../components/SEO"
 import { VALID_ZIP_PATTERN } from "../util"
 import { navigate } from "gatsby"
@@ -31,32 +29,6 @@ const StyledForm = styled(Form)`
     width: 100%;
     padding-left: 16px;
     padding-right: 16px;
-  }
-`
-const Header = styled.div`
-  color: #fff;
-  font-family: Raleway, sans-serif;
-  font-size: 2rem;
-  font-weight: 600;
-  line-height: 3rem;
-  margin-bottom: 32px;
-
-  @media screen and (max-width: 479px) {
-    font-size: 1.5rem;
-    line-height: 2rem;
-  }
-`
-const Header2 = styled.div`
-  color: #fff;
-  font-family: Raleway, sans-serif;
-  font-size: 1.5rem;
-  font-weight: 600;
-  line-height: 2rem;
-  margin: 32px 16px 0 16px;
-
-  @media screen and (max-width: 479px) {
-    font-size: 1.25rem;
-    line-height: 1.5rem;
   }
 `
 const FieldWrapper = styled.div`
@@ -152,7 +124,7 @@ const CheckboxLabel = styled.label`
     border: 1px solid #fff;
     position: absolute;
     left: 0;
-    top: 0;
+    top: 3px;
     opacity: 0.6;
     -webkit-transition: all 0.12s, border-color 0.08s;
     transition: all 0.12s, border-color 0.08s;
@@ -164,7 +136,7 @@ const CheckboxLabel = styled.label`
 
     &:before {
     width: 10px;
-    top: -5px;
+    top: 0;
     left: 5px;
     border-radius: 0;
     opacity: 1;
@@ -211,14 +183,15 @@ const GetStarted = () => {
           goBackFunction={() => setFormStep("email")}
           onSubmit={onSubmitHandler}
           header="Who do you normally shop for?"
+          blurb="Why we ask? To make better basket recommendations!"
           items={[
             "Myself",
             "Spouse or Partner",
             "Kids",
             "Babies",
             "Extended Family",
+            "Friends or Roommates",
             "Pets",
-            "All of these",
           ]}
           percentComplete="20"
         />
@@ -231,6 +204,7 @@ const GetStarted = () => {
           goBackFunction={() => setFormStep("shoppingForQuiz")}
           onSubmit={onSubmitHandler}
           header="What values are most important to you?"
+          blurb="Why we ask? It helps us source great items!"
           items={[
             "Eating Organic",
             "Living Sustainably",
@@ -433,6 +407,7 @@ const QuizForm = ({
   items,
   percentComplete,
   goBackFunction,
+  blurb,
 }) => {
   const initialValues = {}
   items.forEach(item => {
@@ -459,6 +434,7 @@ const QuizForm = ({
       header={header}
       percentComplete={percentComplete}
       goBackFunction={goBackFunction}
+      blurb={blurb}
     />
   )
 }
@@ -549,7 +525,7 @@ const ChooseYourStarterForm = ({
             Our best produce this week
           </ImageCardDetails>
           <ImageCardDetails>12 types of produce</ImageCardDetails>
-          <ImageCardDetails>2-4 portions each</ImageCardDetails>
+          <ImageCardDetails>2-3 portions per type </ImageCardDetails>
           <ImageCardDetails>Free Shipping</ImageCardDetails>
         </ImageLabel>
         <ImageLabel
@@ -600,8 +576,44 @@ const DeliveryPreferencesQuiz = ({
   const FormContent = ({ values }) => {
     return (
       <>
-        <Header2>Prefered delivery for 48206: Saturday</Header2>
-        <Header2>Delivery Frequency: Every Week</Header2>
+        <Header2>Your Delivery Day: Saturday</Header2>
+
+        <CheckboxLabel
+          htmlFor="notify_moreDeliveryDates"
+          isChecked={values.notify_moreDeliveryDates}
+        >
+          <Checkbox
+            type="checkbox"
+            id="notify_moreDeliveryDates"
+            name="notify_moreDeliveryDates"
+          ></Checkbox>
+          Let me know when more delivery dates are available
+        </CheckboxLabel>
+        <Header2>Delivery Frequency</Header2>
+        <CheckboxLabel
+          htmlFor="everyWeek"
+          isChecked={values.deliveryFrequency === "everyWeek"}
+        >
+          <Checkbox
+            type="radio"
+            id="everyWeek"
+            name="deliveryFrequency"
+            value="everyWeek"
+          ></Checkbox>
+          Every Week
+        </CheckboxLabel>
+        <CheckboxLabel
+          htmlFor="everyOtherWeek"
+          isChecked={values.deliveryFrequency === "everyOtherWeek"}
+        >
+          <Checkbox
+            type="radio"
+            id="everyOtherWeek"
+            name="deliveryFrequency"
+            value="everyOtherWeek"
+          ></Checkbox>
+          Every Other Week
+        </CheckboxLabel>
       </>
     )
   }
@@ -609,8 +621,8 @@ const DeliveryPreferencesQuiz = ({
   return (
     <FormWrapper
       initialValues={{
-        preferredDeliveryDate: "Saturday",
-        deliveryFrequency: "",
+        notify_moreDeliveryDates: false,
+        deliveryFrequency: "everyweek",
       }}
       onSubmit={onSubmit}
       FormContent={FormContent}

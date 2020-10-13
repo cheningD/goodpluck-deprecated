@@ -84,6 +84,7 @@ const CartContent = () => {
         removeItem(shippingLineItem.sku)
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [totalPrice])
 
   async function handleCheckout(event) {

@@ -46,3 +46,30 @@ export const ButtonSmall = styled(Link)`
     background-color: #df928e;
   }
 `
+
+export const Header = styled.div`
+  color: #fff;
+  font-family: Raleway, sans-serif;
+  font-size: 2rem;
+  font-weight: 600;
+  line-height: 3rem;
+  margin-bottom: 32px;
+
+  @media screen and (max-width: 479px) {
+    font-size: 1.5rem;
+    line-height: 2rem;
+  }
+`
+export const Header2 = styled.div`
+  color: #fff;
+  font-family: Raleway, sans-serif;
+  font-size: 1.5rem;
+  font-weight: 600;
+  line-height: 2rem;
+  margin: 32px 0 16px 0;
+
+  @media screen and (max-width: 479px) {
+    font-size: 1.25rem;
+    line-height: 1.5rem;
+  }
+`
