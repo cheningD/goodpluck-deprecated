@@ -17,7 +17,9 @@ export default function Home() {
       <Nav />
       <HeroSection />
       <div className="section2">
-        <div className="section-header">What To Expect</div>
+        <div className="section-header">
+          Building a better way to get your food
+        </div>
         <div className="feature-container">
           <div className="feature">
             <div className="feature-heading">
@@ -28,8 +30,8 @@ export default function Home() {
               </span>
             </div>
             <div className="div4">
-              Our farmers pick your produce as close to your delivery day as
-              possible.
+              We order in advance from local farms which means produce is
+              harvested to order, and less is wasted.
             </div>
           </div>
           <div className="feature">
@@ -41,17 +43,18 @@ export default function Home() {
               </span>
             </div>
             <div className="div4">
-              <span>We are creating </span>
+              <span>
+                We are making super-fresh sustainable food more affordable.
+              </span>
+              Help us by taking our quick{" "}
               <a
                 href="https://cead433923.typeform.com/to/vfu8Ipdm"
                 className="new-ways-to-save-link"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                new ways to save
+                survey
               </a>
-
-              <span> to help make super-fresh food more affordable.</span>
             </div>
           </div>
           <div className="feature">
@@ -65,14 +68,14 @@ export default function Home() {
               DEFAULT
             </div>
             <div className="div4">
-              From sustainable packaging to fair pay - were making the right
-              thing to do also the easiest thing to do.
+              Sustainable packaging and sustainable farming methods are the norm
+              round here.
             </div>
           </div>
         </div>
       </div>
       <div className="section-3" id="how-it-works">
-        <div className="section-header">HoW IT Works</div>
+        <div className="section-header">How it works</div>
         <div className="section-3-content">
           <div className="how-it-works-image"></div>
           <div className="how-it-works-text">

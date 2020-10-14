@@ -1,16 +1,25 @@
-import { CardElement, Elements } from "@stripe/react-stripe-js"
+import * as yup from "yup"
 
-import { Header } from "../components/StyledComponentLib"
+import { CardElement, Elements } from "@stripe/react-stripe-js"
+import { Form, Formik } from "formik"
+import {
+  Header,
+  StyledErrorMessage,
+  StyledField,
+  SubmitButton,
+} from "../components/StyledComponentLib"
+
 import Nav from "../components/Nav"
 import React from "react"
 import SEO from "../components/SEO"
+import { VALID_ZIP_PATTERN } from "../util"
 import { loadStripe } from "@stripe/stripe-js"
 import styled from "styled-components"
 
 const Columns = styled.div`
   height: 100%;
   width: 100%;
-  background-colour: #788474;
+  background-color: #6c7668;
   display: flex;
   flex-flow: row wrap;
   justify-content: space-between;
@@ -21,6 +30,7 @@ const Columns = styled.div`
 `
 
 const Column = styled.div`
+max-width: 500px;
 width: calc(50% - 16px);
 height: 100%
 &:last-child {
@@ -28,6 +38,7 @@ height: 100%
 }
 
 @media screen and (max-width: 767px) {
+  margin: 0 auto;
   width: 100%;
   &:last-child {
     margin-top: 16px;
@@ -35,133 +46,42 @@ height: 100%
 }
 `
 
-const H1 = styled(Header)`
-  color: #333;
-`
-
 const Fieldset = styled.fieldset`
-  margin: 0 15px 20px;
-  padding: 0;
-  border-style: none;
-  background-color: #7795f8;
-  box-shadow: 0 6px 9px rgba(50, 50, 93, 0.06), 0 2px 5px rgba(0, 0, 0, 0.08),
-    inset 0 1px 0 #829fff;
+  margin: 32px 0;
   border-radius: 4px;
+  border: none;
+  padding: 0;
+  width: 95%;
+  background-color: #fff;
+  color: #3f3a40;
+  font-size: 1.125rem;
+  overflow: hidden;
 `
 
 const Row = styled.div`
+  margin-left: 16px;
   display: -ms-flexbox;
   display: flex;
   -ms-flex-align: center;
   align-items: center;
-  border-top: 1px solid #819efc;
+  border-top: 1px solid #333;
 
   &:first-child {
     border-top: none;
   }
 `
 
-const CardElementStyle = {
-  base: {
-    iconColor: "#c4f0ff",
-    color: "#fff",
-    fontWeight: 500,
-    fontFamily: "Raleway, Arial, sans-serif",
-    fontSize: "16px",
-    fontSmoothing: "antialiased",
-
-    ":-webkit-autofill": {
-      color: "#fce883",
-    },
-    "::placeholder": {
-      color: "#87BBFD",
-    },
-  },
-  invalid: {
-    iconColor: "#FFC7EE",
-    color: "#FFC7EE",
-  },
-}
-
-const Label = styled.label`
-  width: 15%;
-  min-width: 70px;
-  padding: 11px 0;
-  color: #c4f0ff;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-`
-
-const Input = styled.input`
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  outline: none;
-  border-style: none;
-
-  &:-webkit-autofill {
-    -webkit-text-fill-color: #fce883;
-    transition: background-color 100000000s;
-    -webkit-animation: 1ms void-animation-out;
-  }
-
-  .StripeElement--webkit-autofill {
-    background: transparent !important;
-  }
-
-  .StripeElement {
-    width: 100%;
-    padding: 11px 15px 11px 0;
-  }
-
+const FieldWrapper = styled.div`
   width: 100%;
-  padding: 11px 15px 11px 0;
-  color: #fff;
-  background-color: transparent;
-  -webkit-animation: 1ms void-animation-out;
-
-  &::-webkit-input-placeholder {
-    color: #87bbfd;
-  }
-
-  &::-moz-placeholder {
-    color: #87bbfd;
-  }
-
-  &:-ms-input-placeholder {
-    color: #87bbfd;
-  }
+  border-top: 1px solid #eaeaea;
+  margin-left: 16px;
 `
 
-const Button = styled.button`
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  outline: none;
-  border-style: none;
-
-  display: block;
-  width: calc(100% - 30px);
-  height: 40px;
-  margin: 40px 15px 0;
-  background-color: #f6a4eb;
-  box-shadow: 0 6px 9px rgba(50, 50, 93, 0.06), 0 2px 5px rgba(0, 0, 0, 0.08),
-    inset 0 1px 0 #ffb9f6;
-  border-radius: 4px;
-  color: #fff;
-  font-weight: 600;
-  cursor: pointer;
-
-  &:active {
-    background-color: #d782d9;
-    box-shadow: 0 6px 9px rgba(50, 50, 93, 0.06), 0 2px 5px rgba(0, 0, 0, 0.08),
-      inset 0 1px 0 #e298d8;
-  }
-`
-
-const CardRow = styled(Row)`
-  padding: 11px 15px 11px 0;
+const CardFieldset = styled(Fieldset)`
+  padding: 11px 16px 11px 16px;
+  margin-bottom: 0px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
 
   .StripeElement--webkit-autofill2 {
     background: transparent !important;
@@ -172,78 +92,211 @@ const CardRow = styled(Row)`
   }
 `
 
-const CheckoutForm = () => {
+const TextInput = styled(StyledField)`
+  border-radius: 0;
+`
+
+const ErrorMessage = styled(StyledErrorMessage)`
+  color: #a5342f;
+`
+
+const CardElementStyle = {
+  base: {
+    iconColor: "#788474",
+    color: "#333",
+    fontWeight: 500,
+    fontFamily: "Raleway, Arial, sans-serif",
+    fontSize: "18px",
+    fontSmoothing: "antialiased",
+
+    ":-webkit-autofill": {
+      color: "#fce883",
+    },
+    "::placeholder": {
+      color: "#333",
+    },
+  },
+  invalid: {
+    iconColor: "#CE5852",
+    color: "#CE5852",
+  },
+}
+
+const DisplayNoneIfScreenAbove767 = styled.div`
+  display: none;
+  @media screen and (max-width: 767px) {
+    display: block;
+  }
+`
+
+const DisplayNoneIfScreenUnder767 = styled.div`
+  display: block;
+  @media screen and (max-width: 767px) {
+    display: none;
+  }
+`
+
+const FormField = ({ name, placeholder }) => (
+  <FieldWrapper>
+    <TextInput type="text" name={name} placeholder={placeholder} />
+    <ErrorMessage name={name} component="div" />
+  </FieldWrapper>
+)
+
+const OrderDetail = styled.div`
+  width: 100%;
+  border: 1px solid #eaeaea;
+  border-radius: 4px;
+  background-color: #fff;
+  padding: 16px;
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 32px;
+`
+
+const OrderDetailTitle = styled.div`
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 16px;
+  width: 100%;
+`
+
+const DetailCell = styled.div`
+  box-sizing: border-box;
+  flex-grow: 1;
+  flex-shrink: 2;
+  width: 100%;
+  padding: 0.1em 0rem;
+  overflow: hidden;
+  list-style: none;
+
+  ${({ bold }) => (bold ? "font-weight: 600;" : "")}
+
+  ${({ right }) => (right ? "text-align: right;" : "")}
+`
+
+const DetailCell2 = styled(DetailCell)`
+  width: 50%;
+`
+
+const LineBreak = styled.div`
+  width: 100%;
+  height: 2px;
+  background-color: #eaeaea;
+  margin: 0 auto 16px auto;
+`
+
+const Note = styled.div`
+  width: 100%;
+  background-color: #fbf2f2;
+  color: #333;
+  padding: 8px 16px;
+  margin-bottom: 32px;
+  border-bottom-right-radius: 4px;
+  border-bottom-left-radius: 4px;
+`
+
+const OrderSummary = ({ nextChargeDate }) => {
   return (
     <>
-      <H1>Create An Account</H1>
-      <div className="cell example example1" id="example-1">
-        <form>
-          <Fieldset>
-            <Row>
-              <Label
-                htmlFor="example1-name"
-                data-tid="elements_examples.form.name_label"
-              >
-                Name
-              </Label>
-              <Input
-                id="example1-name"
-                data-tid="elements_examples.form.name_placeholder"
-                type="text"
-                placeholder="Jane Doe"
-                required
-                autoComplete="name"
-              />
-            </Row>
-            <Row>
-              <Label
-                htmlFor="example1-email"
-                data-tid="elements_examples.form.email_label"
-              >
-                Email
-              </Label>
-              <Input
-                id="example1-email"
-                data-tid="elements_examples.form.email_placeholder"
-                type="email"
-                placeholder="janedoe@gmail.com"
-                required
-                autoComplete="email"
-              />
-            </Row>
-            <Row>
-              <Label
-                htmlFor="example1-phone"
-                data-tid="elements_examples.form.phone_label"
-              >
-                Phone
-              </Label>
-              <Input
-                id="example1-phone"
-                data-tid="elements_examples.form.phone_placeholder"
-                type="tel"
-                placeholder="(941) 555-0123"
-                required
-                autoComplete="tel"
-              />
-            </Row>
-          </Fieldset>
-          <Fieldset>
-            <CardRow>
-              <CardElement options={{ style: CardElementStyle }} />
-            </CardRow>
-          </Fieldset>
-          <Button type="submit" data-tid="elements_examples.form.pay_button">
-            Confirm Order
-          </Button>
-        </form>
-      </div>
+      <Header>Order Summary</Header>
+      <OrderDetail>
+        <OrderDetailTitle>The Local Pluck Subscription</OrderDetailTitle>
+        <DetailCell2>Your Day:</DetailCell2>
+        <DetailCell2 right>Saturday</DetailCell2>
+        <DetailCell2>Order Frequency:</DetailCell2>
+        <DetailCell2 right>Every Week</DetailCell2>
+        <DetailCell2>Quantity:</DetailCell2>
+        <DetailCell2 right>1</DetailCell2>
+        <LineBreak />
+        <DetailCell2>Extra Items:</DetailCell2>
+        <DetailCell2 right>none yet</DetailCell2>
+        <LineBreak />
+        <DetailCell2>Subtotal:</DetailCell2>
+        <DetailCell2 right>$25.00</DetailCell2>
+        <DetailCell2>Shipping:</DetailCell2>
+        <DetailCell2 right>Free</DetailCell2>
+        <LineBreak />
+
+        <DetailCell2 bold>Total:</DetailCell2>
+        <DetailCell2 bold right>
+          $25.00
+        </DetailCell2>
+      </OrderDetail>
     </>
   )
 }
 
-const OrderSummary = () => {
-  return <div>Order Summary</div>
+const CheckoutForm = ({ onSubmit }) => {
+  const nextChargeDate = "//Todo: Fill me in:"
+
+  const checkoutSchema = yup.object().shape({
+    first: yup.string().required("Please enter your first name"),
+    last: yup.string().required("Please enter your last name"),
+    email: yup
+      .string()
+      .required("Please enter your email")
+      .email(`That email doesn't look right`),
+    addressLine1: yup.string().required("Where should we send your box?"),
+    addressLine2: yup.string(),
+    phone: yup.string().required("Only required for delivery updates"),
+    zip: yup
+      .string()
+      .required("We need your 5 digit zip!")
+      .matches(
+        VALID_ZIP_PATTERN,
+        `That doesn't look quite right. Please enter your 5-digit zip code.`
+      ),
+  })
+
+  return (
+    <Formik
+      initialValues={{
+        first: "",
+        last: "",
+        email: "",
+        addressLine1: "",
+        addressLine2: "",
+        phone: "",
+        zip: "",
+      }}
+      validationSchema={checkoutSchema}
+      onSubmit={onSubmit}
+    >
+      {({ isSubmitting, errors, touched }) => {
+        return (
+          <Form>
+            <Header>Create Your Account</Header>
+            <Fieldset>
+              <FormField name="first" placeholder="First name*" />
+              <FormField name="last" placeholder="Last name*" />
+              <FormField name="email" placeholder="Email*" />
+            </Fieldset>
+            <Header>Shipping Information</Header>
+            <Fieldset>
+              <FormField name="addressLine1" placeholder="Address*" />
+              <FormField name="addressLine2" placeholder="Apt, suite, etc" />
+              <FormField name="zip" placeholder="Zipcode*" />
+              <FormField name="phone" placeholder="Phone number*" />
+            </Fieldset>
+            <Header>Billing Information</Header>
+            <CardFieldset>
+              <CardElement options={{ style: CardElementStyle }} />
+            </CardFieldset>
+            <Note>{`Please note, you will be charged on ${nextChargeDate}`}</Note>
+
+            <DisplayNoneIfScreenAbove767>
+              <OrderSummary />
+            </DisplayNoneIfScreenAbove767>
+
+            <SubmitButton as="button" type="submit" disabled={isSubmitting}>
+              Confirm Order
+            </SubmitButton>
+          </Form>
+        )
+      }}
+    </Formik>
+  )
 }
 
 const stripePromise = loadStripe(
@@ -263,7 +316,9 @@ const Checkout = () => {
           </Elements>
         </Column>
         <Column>
-          <OrderSummary />
+          <DisplayNoneIfScreenUnder767>
+            <OrderSummary />
+          </DisplayNoneIfScreenUnder767>
         </Column>
       </Columns>
     </>
