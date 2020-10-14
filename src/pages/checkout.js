@@ -1,13 +1,14 @@
 import * as yup from "yup"
 
-import { CardElement, Elements } from "@stripe/react-stripe-js"
-import { Form, Formik } from "formik"
 import {
+  Card,
   Header,
   StyledErrorMessage,
   StyledField,
   SubmitButton,
 } from "../components/StyledComponentLib"
+import { CardElement, Elements } from "@stripe/react-stripe-js"
+import { Form, Formik } from "formik"
 import { VALID_ZIP_PATTERN, getMaxlengthFunc } from "../util"
 
 import Nav from "../components/Nav"
@@ -56,19 +57,7 @@ const Fieldset = styled.fieldset`
   color: #3f3a40;
   font-size: 1.125rem;
   overflow: hidden;
-`
-
-const Row = styled.div`
-  margin-left: 16px;
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-align: center;
-  align-items: center;
-  border-top: 1px solid #333;
-
-  &:first-child {
-    border-top: none;
-  }
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 `
 
 const FieldWrapper = styled.div`
@@ -143,18 +132,7 @@ const FormField = ({ name, placeholder }) => (
   </FieldWrapper>
 )
 
-const OrderDetail = styled.div`
-  width: 100%;
-  border: 1px solid #eaeaea;
-  border-radius: 4px;
-  background-color: #fff;
-  padding: 16px;
-  display: flex;
-  flex-wrap: wrap;
-  margin-bottom: 32px;
-`
-
-const OrderDetailTitle = styled.div`
+const CardTitle = styled.div`
   font-size: 1.25rem;
   font-weight: 600;
   margin-bottom: 16px;
@@ -200,8 +178,8 @@ const OrderSummary = ({ nextChargeDate }) => {
   return (
     <>
       <Header>Order Summary</Header>
-      <OrderDetail>
-        <OrderDetailTitle>The Local Pluck Subscription</OrderDetailTitle>
+      <Card>
+        <CardTitle>The Local Pluck Subscription</CardTitle>
         <DetailCell2>Your Day:</DetailCell2>
         <DetailCell2 right>Saturday</DetailCell2>
         <DetailCell2>Order Frequency:</DetailCell2>
@@ -222,7 +200,7 @@ const OrderSummary = ({ nextChargeDate }) => {
         <DetailCell2 bold right>
           $25.00
         </DetailCell2>
-      </OrderDetail>
+      </Card>
     </>
   )
 }
