@@ -1,6 +1,16 @@
 import isNil from "lodash-es/isNil"
 import isObject from "lodash-es/isObject"
 
+export const getMaxlengthFunc = max => {
+  const func = val => {
+    if (val && val.length) {
+      return val.length < max
+    }
+    return true //If string is null, its not too long
+  }
+  return func
+}
+
 export const VALID_ZIP_PATTERN_5_DIGITS = /^[0-9]{5}$/
 export const VALID_ZIP_PATTERN = /^[0-9]{5}(?:-[0-9]{4})?$/
 
