@@ -8,11 +8,11 @@ import {
   StyledField,
   SubmitButton,
 } from "../components/StyledComponentLib"
+import { VALID_ZIP_PATTERN, getMaxlengthFunc } from "../util"
 
 import Nav from "../components/Nav"
 import React from "react"
 import SEO from "../components/SEO"
-import { VALID_ZIP_PATTERN } from "../util"
 import { loadStripe } from "@stripe/stripe-js"
 import styled from "styled-components"
 
@@ -51,7 +51,7 @@ const Fieldset = styled.fieldset`
   border-radius: 4px;
   border: none;
   padding: 0;
-  width: 95%;
+  width: 100%;
   background-color: #fff;
   color: #3f3a40;
   font-size: 1.125rem;
@@ -74,7 +74,7 @@ const Row = styled.div`
 const FieldWrapper = styled.div`
   width: 100%;
   border-top: 1px solid #eaeaea;
-  margin-left: 16px;
+  padding: 0 16px;
 `
 
 const CardFieldset = styled(Fieldset)`
@@ -231,15 +231,28 @@ const CheckoutForm = ({ onSubmit }) => {
   const nextChargeDate = "//Todo: Fill me in:"
 
   const checkoutSchema = yup.object().shape({
-    first: yup.string().required("Please enter your first name"),
-    last: yup.string().required("Please enter your last name"),
+    first: yup
+      .string()
+      .required("Please enter your first name")
+      .test("len", "Too Long!", getMaxlengthFunc(100)),
+    last: yup
+      .string()
+      .required("Please enter your last name")
+      .test("len", "Too Long!", getMaxlengthFunc(100)),
     email: yup
       .string()
       .required("Please enter your email")
-      .email(`That email doesn't look right`),
-    addressLine1: yup.string().required("Where should we send your box?"),
-    addressLine2: yup.string(),
-    phone: yup.string().required("Only required for delivery updates"),
+      .email(`That email doesn't look right`)
+      .test("len", "Too Long!", getMaxlengthFunc(300)),
+    addressLine1: yup
+      .string()
+      .required("Where should we send your box?")
+      .test("len", "Too Long!", getMaxlengthFunc(100)),
+    addressLine2: yup.string().test("len", "Too Long!", getMaxlengthFunc(100)),
+    phone: yup
+      .string()
+      .required("Only required for delivery updates")
+      .test("len", "Too Long!", getMaxlengthFunc(100)),
     zip: yup
       .string()
       .required("We need your 5 digit zip!")
