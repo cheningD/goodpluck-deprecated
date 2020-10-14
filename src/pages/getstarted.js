@@ -1,7 +1,14 @@
 import * as yup from "yup"
 
-import { ButtonSmall, Header, Header2 } from "../components/StyledComponentLib"
-import { ErrorMessage, Field, Form, Formik } from "formik"
+import { Field, Formik } from "formik"
+import {
+  Header,
+  Header2,
+  StyledErrorMessage,
+  StyledField,
+  StyledForm,
+  SubmitButton,
+} from "../components/StyledComponentLib"
 import React, { useState } from "react"
 
 import Arrow from "../images/icons/arrow.svg"
@@ -19,37 +26,12 @@ const Wrapper = styled.div`
   min-height: calc(100vh + 32px);
   padding-bottom: 32px;
 `
-const StyledForm = styled(Form)`
-  font-family: Bebas Neue, sans-serif;
-  width: 500px;
-  padding-top: 16px;
-  margin: 0 auto;
 
-  @media screen and (max-width: 479px) {
-    width: 100%;
-    padding-left: 16px;
-    padding-right: 16px;
-  }
-`
 const FieldWrapper = styled.div`
   margin: 36px 0;
   width: 100%;
 `
-const StyledField = styled(Field)`
-  border-radius: 4px;
-  border: none;
-  padding: 10px;
-  width: 100%;
-  background-color: #fff;
-  color: #3f3a40;
-  font-size: 1.125rem;
-`
-const StyledErrorMessage = styled(ErrorMessage)`
-  color: #fff;
-  font-family: Raleway, sans-serif;
-  font-size: 1rem;
-  width: 100%;
-`
+
 const Blurb = styled.div`
   font-family: Raleway, sans-serif;
   color: #fff;
@@ -58,31 +40,6 @@ const TermsLink = styled.a`
   font-family: Raleway, sans-serif;
   color: #fffd82;
   text-decoration: underline;
-`
-const Submit = styled(ButtonSmall)`
-  font-family: Bebas Neue, sans-serif;
-  background-color: #f7c59f;
-  border-radius: 4;
-  border: 2px solid #fff;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.5rem;
-  color: #000;
-
-  &:hover,
-  :focus {
-    color: #000;
-  }
-
-  :disabled {
-    background-color: #ccc;
-  }
-
-  @media only screen and (max-width: 479px) {
-    width: 100%;
-  }
 `
 const ButtonArrow = styled(Arrow)`
   display: inline-block;
@@ -238,7 +195,7 @@ const GetStarted = () => {
           percentComplete="80"
         />
       ),
-      next: () => navigate(`/cart`),
+      next: () => navigate(`/checkout`),
     },
   }
 
@@ -319,10 +276,10 @@ const FormWrapper = ({
         <Header>{header}</Header>
         <FormContent isSubmitting={isSubmitting} {...rest} />
         <FieldWrapper>
-          <Submit as="button" type="submit" disabled={isSubmitting}>
+          <SubmitButton as="button" type="submit" disabled={isSubmitting}>
             Continue
             <ButtonArrow />
-          </Submit>
+          </SubmitButton>
         </FieldWrapper>
         {blurb ? <Blurb>{blurb}</Blurb> : ""}
       </StyledForm>
@@ -547,7 +504,7 @@ const ChooseYourStarterForm = ({
           <ImageCardDetails>Free Shipping over $35</ImageCardDetails>
         </ImageLabel>
         <Header2>
-          You can add, remove or swap any item with either choice before
+          You can add, remove or swap any item with either choice after
           checkout.
         </Header2>
       </ImageContainer>

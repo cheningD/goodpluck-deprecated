@@ -1,3 +1,5 @@
+import { ErrorMessage, Field, Form } from "formik"
+
 import { Link } from "gatsby"
 import styled from "styled-components"
 
@@ -46,6 +48,31 @@ export const ButtonSmall = styled(Link)`
     background-color: #df928e;
   }
 `
+export const SubmitButton = styled(ButtonSmall)`
+  font-family: Bebas Neue, sans-serif;
+  background-color: #f7c59f;
+  border-radius: 4;
+  border: 2px solid #fff;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  color: #000;
+
+  &:hover,
+  :focus {
+    color: #000;
+  }
+
+  :disabled {
+    background-color: #ccc;
+  }
+
+  @media only screen and (max-width: 479px) {
+    width: 100%;
+  }
+`
 
 export const Header = styled.div`
   color: #fff;
@@ -71,5 +98,33 @@ export const Header2 = styled.div`
   @media screen and (max-width: 479px) {
     font-size: 1.25rem;
     line-height: 1.5rem;
+  }
+`
+
+export const StyledField = styled(Field)`
+  border-radius: 4px;
+  border: none;
+  padding: 10px;
+  width: 100%;
+  background-color: #fff;
+  color: #3f3a40;
+  font-size: 1.125rem;
+`
+export const StyledErrorMessage = styled(ErrorMessage)`
+  color: #fff;
+  font-family: Raleway, sans-serif;
+  font-size: 1rem;
+  width: 100%;
+`
+export const StyledForm = styled(Form)`
+  font-family: Bebas Neue, sans-serif;
+  width: 500px;
+  padding-top: 16px;
+  margin: 0 auto;
+
+  @media screen and (max-width: 479px) {
+    width: 100%;
+    padding-left: 16px;
+    padding-right: 16px;
   }
 `
