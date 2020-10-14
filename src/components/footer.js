@@ -1,6 +1,7 @@
-import React from "react"
-import { Link } from "gatsby"
 import "./footer.css"
+
+import { Link } from "gatsby"
+import React from "react"
 
 export default function Footer() {
   return (
@@ -36,11 +37,6 @@ export default function Footer() {
           Returns, Refunds & Credits
         </Link>
       </div>
-      <iframe
-        title="newsletter-signup"
-        className="footer-newsletter-signup"
-        src="https://cdn.forms-content.sg-form.com/2628788e-f24d-11ea-8e09-06b692f79d11"
-      />
     </div>
   )
 }

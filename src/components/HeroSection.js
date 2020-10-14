@@ -1,11 +1,15 @@
 import Arrow from "../images/icons/arrow.svg"
-import { ButtonSmall } from "../components/StyledComponentLib"
 import Image from "../components/Image"
 import React from "react"
+import { SubmitButton } from "../components/StyledComponentLib"
 import styled from "styled-components"
 
-const Wrapper = styled.div`
+const Section = styled.div`
   background-color: #fbe1cf;
+  height: 800px;
+  @media screen and (max-width: 767px) {
+    height: 100%;
+  }
 `
 const HeroWrap = styled.div`
   border-bottom: 1px solid #ebedee;
@@ -24,26 +28,19 @@ const HeroWrap = styled.div`
   -webkit-flex-direction: column-reverse;
   -ms-flex-direction: column-reverse;
   flex-direction: column-reverse;
-
-  @media screen and (max-width: 767px) {
-  }
-
-  @media screen and (max-width: 479px) {
-  }
 `
 const Columns = styled.div`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap-reverse;
   justify-content: center;
-  align-items: center;
+  align-items: start;
 `
 
 const HeroContent = styled.div`
   max-width: 400px;
   margin-right: auto;
   margin-left: auto;
-
   @media screen and (max-width: 767px) {
     text-align: center;
     max width: 80%;
@@ -51,15 +48,11 @@ const HeroContent = styled.div`
 `
 
 const HeroImage = styled(Image)`
-  height: 100%;
+  height: 600px;
   width: 40%;
-  min-height: 600px;
-  max-height: 80vh;
-
   @media screen and (max-width: 767px) {
     width: 100%;
-    min-height: 40vh;
-    max-height: 40vh;
+    height: 40vh;
   }
 `
 
@@ -125,8 +118,7 @@ const ButtonArrow = styled(Arrow)`
   flex: 0 0 auto;
 `
 
-const PrimaryButton = styled(ButtonSmall)`
-  background-color: #fffd82;
+const PrimaryButton = styled(SubmitButton)`
   border-radius: 4px;
   border: 2px solid #3f3a40;
   color: #3f3a40;
@@ -137,7 +129,7 @@ const PrimaryButton = styled(ButtonSmall)`
 
 const HeroSection = () => {
   return (
-    <Wrapper>
+    <Section>
       <HeroWrap>
         <Columns>
           <HeroContent>
@@ -160,7 +152,7 @@ const HeroSection = () => {
           <HeroImage src="HeroImageAppleBasket.jpg" alt="Local apples" />
         </Columns>
       </HeroWrap>
-    </Wrapper>
+    </Section>
   )
 }
 

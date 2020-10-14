@@ -74,6 +74,18 @@ export const SubmitButton = styled(ButtonSmall)`
   }
 `
 
+export const Card = styled.div`
+  width: 100%;
+  border: 1px solid #eaeaea;
+  border-radius: 4px;
+  background-color: #fff;
+  padding: 16px;
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 32px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+`
+
 export const Header = styled.div`
   color: #fff;
   font-family: Raleway, sans-serif;
