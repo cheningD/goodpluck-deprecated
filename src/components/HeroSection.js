@@ -33,11 +33,11 @@ const Columns = styled.div`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap-reverse;
-  justify-content: center;
   align-items: start;
 `
 
 const HeroContent = styled.div`
+  align-self: center;
   max-width: 400px;
   margin-right: auto;
   margin-left: auto;
@@ -122,7 +122,7 @@ const PrimaryButton = styled(SubmitButton)`
   border-radius: 4px;
   border: 2px solid #3f3a40;
   color: #3f3a40;
-  margin: 16px auto;
+  margin: 16px auto 64px auto;
   max-width: 100%;
   display: inline-block;
 `

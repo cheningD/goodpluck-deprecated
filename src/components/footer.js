@@ -8,7 +8,7 @@ export default function Footer() {
     <div className="footer">
       <div className="footer-brand">
         <h1 className="footer-brand-logo">Goodpluck</h1>
-        <div>© WhatsEatLike, Inc.</div>
+        <div>© WhatsEatLike, Inc. 2020</div>
       </div>
       <div className="footer-links">
         {/* <a href="https://www.facebook.com/goodpluck" className="footer-link">

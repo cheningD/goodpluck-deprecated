@@ -24,6 +24,9 @@ const Card = styled.div`
     border-radius: 0;
     margin-left: 0;
     margin-right: 0;
+    margin-bottom: 0px;
+    position: static;
+    top: 0px;
   }
 `
 
@@ -45,6 +48,7 @@ const Header = styled.h1`
   font-size: 1.375rem;
   line-height: 1.675rem;
   margin: 16px 0;
+  min-height: 55px;
 `
 
 const Detail = styled.div`
@@ -82,8 +86,8 @@ const FeaturesSection = () => {
               Produce At <Pink>Peak Freshness</Pink>
             </Header>
             <Text>
-              We order in advance from local farms which means produce is
-              harvested to order, and less is wasted.
+              Your produce gets harvested shortly before it arrives on your
+              doorstep
             </Text>
           </Detail>
         </Feature>
@@ -95,8 +99,8 @@ const FeaturesSection = () => {
               Not The <Green>Whole Paycheck</Green>
             </Header>
             <Text>
-              We are making super-fresh sustainable food more affordable. Help
-              us by taking our quick survey
+              We source high-quality produce for less by working with local
+              farms too small to sell to stores.
             </Text>
           </Detail>
         </Feature>
@@ -108,8 +112,8 @@ const FeaturesSection = () => {
               <Pink>Sustainable</Pink> By Default
             </Header>
             <Text>
-              Sustainable packaging and sustainable farming methods are the norm
-              round here.
+              We champion eco-friendly packaging, and regenerative farming
+              practices, because we like living here on earth.
             </Text>
           </Detail>
         </Feature>
