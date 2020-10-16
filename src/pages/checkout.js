@@ -177,18 +177,14 @@ const Note = styled.div`
 const OrderSummary = ({ nextChargeDate }) => {
   return (
     <>
-      <Header>Order Summary</Header>
+      <Header>Your Chosen Basket</Header>
       <Card>
-        <CardTitle>The Local Pluck Subscription</CardTitle>
+        <CardTitle>The Local Pluck</CardTitle>
         <DetailCell2>Your Day:</DetailCell2>
         <DetailCell2 right>Saturday</DetailCell2>
         <DetailCell2>Order Frequency:</DetailCell2>
-        <DetailCell2 right>Every Week</DetailCell2>
-        <DetailCell2>Quantity:</DetailCell2>
-        <DetailCell2 right>1</DetailCell2>
+        <DetailCell2 right>Every week</DetailCell2>
         <LineBreak />
-        <DetailCell2>Extra Items:</DetailCell2>
-        <DetailCell2 right>none yet</DetailCell2>
         <LineBreak />
         <DetailCell2>Subtotal:</DetailCell2>
         <DetailCell2 right>$25.00</DetailCell2>
@@ -196,10 +192,7 @@ const OrderSummary = ({ nextChargeDate }) => {
         <DetailCell2 right>Free</DetailCell2>
         <LineBreak />
 
-        <DetailCell2 bold>Total:</DetailCell2>
-        <DetailCell2 bold right>
-          $25.00
-        </DetailCell2>
+        <DetailCell2 bold>You can edit your basket after checkout</DetailCell2>
       </Card>
     </>
   )

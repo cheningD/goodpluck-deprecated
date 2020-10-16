@@ -45,6 +45,7 @@ const H1 = styled.h1`
 
 const Text = styled.div`
   font-weight: 500;
+  margin-bottom: 8px;
 `
 
 const FAQSection = () => {
@@ -69,8 +70,17 @@ const FAQSection = () => {
           <H2>Is the subscription flexible?</H2>
           <Text>Yes!</Text>
           <Text>
-            You can skip, pause or cancel at any time, and nothing bad will
-            happen.
+            You can skip, pause or cancel at any time, without any gotchas.
+          </Text>
+        </FAQ>
+
+        <FAQ>
+          <H2>When and how will my order arrive?</H2>
+          <Text>You can choose your preferred delivery day on signup.</Text>
+          <Text>
+            Depending on the weather, we protect your fresh produce fresh with a
+            variety of compostable bags and ice packs, eco-friendly insulation
+            and recyclable boxes
           </Text>
         </FAQ>
 

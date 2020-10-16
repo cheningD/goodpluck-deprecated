@@ -23,6 +23,7 @@ const MainCopy = styled.div`
   transform: translate(-50%, -50%);
   padding: 40px;
   background-color: rgba(0, 0, 0, 0.5);
+  border: 2px solid #fff;
   border-radius: 4px;
 
   @media screen and (max-width: 767px) {
@@ -33,6 +34,7 @@ const MainCopy = styled.div`
     left: 0;
     transform: translate(0%, 0%);
     background-color: rgba(0, 0, 0, 0);
+    border: none;
   }
 `
 
@@ -62,7 +64,7 @@ const Text = styled.p`
 `
 
 const PrimaryButton = styled(SubmitButton)`
-  border-color: #3f3a40;
+  border-color: #fff;
   color: #3f3a40;
   width: calc(100% - 64px);
   max-width: 400px;
@@ -76,19 +78,17 @@ const HowItWorksSection = () => {
       <SubSection>
         <MainImage src="produceSpread1.png" alt="Assorted Produce" />
         <MainCopy>
-          <Header>
-            Start with our local produce basket or build your own from scratch
-          </Header>
+          <Header>The Local Pluck Basket</Header>
           <Text>
             We fill our <strong>Local Pluck Basket</strong> with the best local
             produce we find each week.
           </Text>
-          <Text>Your basket is 100% customizable. </Text>
+          <Text>Your basket is 100% customizable.</Text>
           <Text>
-            Add, change or remove any item from our wide selection of produce,
-            farm goods and staples.
+            Add, change or remove any item from our selection of produce, farm
+            goods, and groceries.
           </Text>
-          <PrimaryButton to="/getstarted">See the basket</PrimaryButton>
+          <PrimaryButton to="/getstarted">Build your basket</PrimaryButton>
         </MainCopy>
       </SubSection>
     </Section>
