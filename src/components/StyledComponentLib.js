@@ -76,7 +76,6 @@ export const SubmitButton = styled(ButtonSmall)`
 
 export const Card = styled.div`
   width: 100%;
-  border: 1px solid #eaeaea;
   border-radius: 4px;
   background-color: #fff;
   padding: 16px;
@@ -139,4 +138,29 @@ export const StyledForm = styled(Form)`
     padding-left: 16px;
     padding-right: 16px;
   }
+`
+
+export const LineBreak = styled.div`
+  width: 100%;
+  height: 2px;
+  background-color: #eaeaea;
+  margin: 8px auto 16px auto;
+`
+const DetailCell = styled.div`
+  font-family: "hk_groteskregular", sans-serif;
+  box-sizing: border-box;
+  flex-grow: 1;
+  flex-shrink: 2;
+  width: 100%;
+  padding: 0.1em 0rem;
+  overflow: hidden;
+  list-style: none;
+
+  ${({ bold }) => (bold ? "font-family: hk_grotesksemibold, sans-serif;" : "")}
+
+  ${({ right }) => (right ? "text-align: right;" : "")}
+`
+
+export const DetailCell2 = styled(DetailCell)`
+  width: 50%;
 `

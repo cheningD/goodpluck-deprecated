@@ -2,7 +2,9 @@ import * as yup from "yup"
 
 import {
   Card,
+  DetailCell2,
   Header,
+  LineBreak,
   StyledErrorMessage,
   StyledField,
   SubmitButton,
@@ -137,31 +139,6 @@ const CardTitle = styled.div`
   font-weight: 600;
   margin-bottom: 16px;
   width: 100%;
-`
-
-const DetailCell = styled.div`
-  box-sizing: border-box;
-  flex-grow: 1;
-  flex-shrink: 2;
-  width: 100%;
-  padding: 0.1em 0rem;
-  overflow: hidden;
-  list-style: none;
-
-  ${({ bold }) => (bold ? "font-weight: 600;" : "")}
-
-  ${({ right }) => (right ? "text-align: right;" : "")}
-`
-
-const DetailCell2 = styled(DetailCell)`
-  width: 50%;
-`
-
-const LineBreak = styled.div`
-  width: 100%;
-  height: 2px;
-  background-color: #eaeaea;
-  margin: 0 auto 16px auto;
 `
 
 const Note = styled.div`
