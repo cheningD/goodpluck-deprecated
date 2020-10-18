@@ -4,9 +4,9 @@ import * as React from "react"
 
 import { listToClass, removeNonLetters } from "../util"
 
+import Chevron from "./Chevron"
 import { Link } from "gatsby"
 import { Portal } from "./Portal"
-import { ToggleableChevron } from "./ToggleableChevron"
 import forEach from "lodash-es/forEach"
 import memoizeOne from "memoize-one"
 import omit from "lodash-es/omit"
@@ -91,9 +91,9 @@ const BreadCrumb = props => (
     {props.hideChevron ? (
       ""
     ) : (
-      <ToggleableChevron
+      <Chevron
         classNames={"product--bread-crumb--chevron"}
-        isUpArrow={props.isOpen}
+        direction={props.isOpen ? "up" : "down"}
       />
     )}
   </button>

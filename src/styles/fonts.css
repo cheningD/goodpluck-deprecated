@@ -82,3 +82,113 @@
   font-weight: 400;
   font-style: normal;
 }
+
+@font-face {
+  font-family: "hk_groteskbold";
+  src: url("../fonts/hkgrotesk/hkgrotesk-bold.eot");
+  src: url("../fonts/hkgrotesk/hkgrotesk-bold.eot?#iefix")
+      format("embedded-opentype"),
+    url("../fonts/hkgrotesk/hkgrotesk-bold.woff2") format("woff2"),
+    url("../fonts/hkgrotesk/hkgrotesk-bold.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "hk_groteskbold_italic";
+  src: url("../fonts/hkgrotesk/hkgrotesk-bolditalic.eot");
+  src: url("../fonts/hkgrotesk/hkgrotesk-bolditalic.eot?#iefix")
+      format("embedded-opentype"),
+    url("../fonts/hkgrotesk/hkgrotesk-bolditalic.woff2") format("woff2"),
+    url("../fonts/hkgrotesk/hkgrotesk-bolditalic.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "hk_groteskitalic";
+  src: url("../fonts/hkgrotesk/hkgrotesk-italic.eot");
+  src: url("../fonts/hkgrotesk/hkgrotesk-italic.eot?#iefix")
+      format("embedded-opentype"),
+    url("../fonts/hkgrotesk/hkgrotesk-italic.woff2") format("woff2"),
+    url("../fonts/hkgrotesk/hkgrotesk-italic.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "hk_grotesklight";
+  src: url("../fonts/hkgrotesk/hkgrotesk-light.eot");
+  src: url("../fonts/hkgrotesk/hkgrotesk-light.eot?#iefix")
+      format("embedded-opentype"),
+    url("../fonts/hkgrotesk/hkgrotesk-light.woff2") format("woff2"),
+    url("../fonts/hkgrotesk/hkgrotesk-light.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "hk_grotesklight_italic";
+  src: url("../fonts/hkgrotesk/hkgrotesk-lightitalic.eot");
+  src: url("../fonts/hkgrotesk/hkgrotesk-lightitalic.eot?#iefix")
+      format("embedded-opentype"),
+    url("../fonts/hkgrotesk/hkgrotesk-lightitalic.woff2") format("woff2"),
+    url("../fonts/hkgrotesk/hkgrotesk-lightitalic.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "hk_groteskmedium";
+  src: url("../fonts/hkgrotesk/hkgrotesk-medium.eot");
+  src: url("../fonts/hkgrotesk/hkgrotesk-medium.eot?#iefix")
+      format("embedded-opentype"),
+    url("../fonts/hkgrotesk/hkgrotesk-medium.woff2") format("woff2"),
+    url("../fonts/hkgrotesk/hkgrotesk-medium.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "hk_groteskmedium_italic";
+  src: url("../fonts/hkgrotesk/hkgrotesk-mediumitalic.eot");
+  src: url("../fonts/hkgrotesk/hkgrotesk-mediumitalic.eot?#iefix")
+      format("embedded-opentype"),
+    url("../fonts/hkgrotesk/hkgrotesk-mediumitalic.woff2") format("woff2"),
+    url("../fonts/hkgrotesk/hkgrotesk-mediumitalic.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "hk_groteskregular";
+  src: url("../fonts/hkgrotesk/hkgrotesk-regular.eot");
+  src: url("../fonts/hkgrotesk/hkgrotesk-regular.eot?#iefix")
+      format("embedded-opentype"),
+    url("../fonts/hkgrotesk/hkgrotesk-regular.woff2") format("woff2"),
+    url("../fonts/hkgrotesk/hkgrotesk-regular.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "hk_grotesksemibold";
+  src: url("../fonts/hkgrotesk/hkgrotesk-semibold.eot");
+  src: url("../fonts/hkgrotesk/hkgrotesk-semibold.eot?#iefix")
+      format("embedded-opentype"),
+    url("../fonts/hkgrotesk/hkgrotesk-semibold.woff2") format("woff2"),
+    url("../fonts/hkgrotesk/hkgrotesk-semibold.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "hk_grotesksemibold_italic";
+  src: url("../fonts/hkgrotesk/hkgrotesk-semibolditalic.eot");
+  src: url("../fonts/hkgrotesk/hkgrotesk-semibolditalic.eot?#iefix")
+      format("embedded-opentype"),
+    url("../fonts/hkgrotesk/hkgrotesk-semibolditalic.woff2") format("woff2"),
+    url("../fonts/hkgrotesk/hkgrotesk-semibolditalic.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
