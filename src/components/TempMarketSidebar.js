@@ -4,20 +4,15 @@ import { Link, graphql } from "gatsby"
 import { getFirstFromObject, removeNonLetters } from "../util"
 
 import AddIcon from "../images/icons/add.svg"
-import Breadcrumbs from "../components/Breadcrumbs"
 import ConnectedSidebar from "../components/ConnectedSidebar"
 import DeliveryDateSelector from "../components/DeliveryDateSelector"
 import DepartmentZeroState from "../components/DepartmentZeroState"
 import { FeatureFlags } from "../FeatureFlags"
-import Footer from "../components/footer"
 import Img from "gatsby-image"
 import { InView } from "react-intersection-observer"
-import { Menu } from "../components/Menu"
 import MinusIcon from "../images/icons/minus.svg"
-import Nav from "../components/Nav"
 import PlaceholderImage1 from "../components/PlaceholderImage1"
 import PriceFormatter from "../components/PriceFormatter"
-import ProductRequestForm from "../components/ProductRequestForm"
 import React from "react"
 import ZipCodeModal from "../components/ZipCodeModal"
 import flow from "lodash-es/flow"
@@ -30,7 +25,7 @@ import throttle from "lodash-es/throttle"
 import { useShoppingCart } from "use-shopping-cart"
 
 export const query = graphql`
-  query DepartmentPageQuery($name: String) {
+  query TempMarketSidebarPageQuery($name: String) {
     allAirtable(
       filter: {
         data: {
@@ -322,36 +317,22 @@ export default function DepartmentPage({ data, pageContext }) {
   })
 
   return (
-    <div className="department--page">
-      <nav className="product-navigation--wrapper">
-        <Nav />
-        <Menu
-          linkClassName="department-menu-link"
-          className="department-menu menu"
-        />
-        <Breadcrumbs activeItem={activeItem} sideBarLinks={sidebarEntries} />
-      </nav>
-      <section className="department--page-wrapper">
-        <ActiveSidebarContext.Provider
-          value={{ setActiveItem, activeItem, isNavigating, setNavigating }}
-        >
-          <div className="leftPanel">
-            <ConnectedSidebar sideBarLinks={sidebarEntries} />
-          </div>
-          <div className="rightPanel">
-            <DeliveryDateSelector />
-            {categorySection}
-            {pageContext.name !== "Produce" ? (
-              <DepartmentZeroState departmentName={pageContext.name} />
-            ) : (
-              ""
-            )}
-          </div>
-        </ActiveSidebarContext.Provider>
-      </section>
-      <ProductRequestForm />
-      <Footer />
-    </div>
+    <ActiveSidebarContext.Provider
+      value={{ setActiveItem, activeItem, isNavigating, setNavigating }}
+    >
+      <div className="leftPanel">
+        <ConnectedSidebar sideBarLinks={sidebarEntries} />
+      </div>
+      <div className="rightPanel">
+        <DeliveryDateSelector />
+        {categorySection}
+        {pageContext.name !== "Produce" ? (
+          <DepartmentZeroState departmentName={pageContext.name} />
+        ) : (
+          ""
+        )}
+      </div>
+    </ActiveSidebarContext.Provider>
   )
 }
 

@@ -59,6 +59,7 @@ export const SubmitButton = styled(ButtonSmall)`
   justify-content: center;
   font-size: 1.5rem;
   color: #000;
+  cursor: pointer;
 
   &:hover,
   :focus {
