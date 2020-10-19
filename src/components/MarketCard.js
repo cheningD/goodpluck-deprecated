@@ -22,15 +22,15 @@ const Columns = styled.div`
 `
 
 const Sidebar = styled.div`
-  width: 300px;
-  padding-right: 40px;
+  width: 400px;
+  padding-right: 20px;
   @media screen and (max-width: 767px) {
     display: none;
   }
 `
 
 const Content = styled.div`
-  min-width: 500px;
+  min-width: 300px;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;

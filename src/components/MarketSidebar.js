@@ -2,7 +2,6 @@ import React, { useState } from "react"
 import { graphql, useStaticQuery } from "gatsby"
 
 import get from "lodash-es/get"
-import memoizeOne from "memoize-one"
 import styled from "styled-components"
 
 const sortByPathFunc = path => {
@@ -12,24 +11,26 @@ const sortByPathFunc = path => {
 const SidebarH1 = styled.h1`
   font-size: 1.25rem;
   font-family: hk_grotesksemibold, sans-serif;
+  ${props => (props.selected ? `` : `color: #EFC7A4;`)}
 `
 
 const SidebarH2 = styled.h2`
+  padding-left: 8px;
   font-size: 1rem;
-  font-family: hk_grotesksemibold, sans-serif;
+  font-family: hk_grotesklight, sans-serif;
   margin-bottom: px;
   ${props =>
     props.selected
       ? `
-    font-family: hk_groteskbold, sans-serif;
-    color: #6c7668;
+    font-family: hk_grotesksemibold, sans-serif;
+    color: #000;
   `
       : ``}
   ${props => (props.parentSelected ? `` : `display: none;`)}
 `
 
 const SidebarH3 = styled.h3`
-  font-size: 1rem;
+  font-size: 0.9rem;
   font-family: hk_groteskregular, sans-serif;
   padding-left: 16px;
   border-left: 3px solid #c3c3c3;
