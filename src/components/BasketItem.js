@@ -8,6 +8,7 @@ const ItemContainer = styled.div`
   display: flex;
   flex-direction: row;
   width: 100%;
+  cursor: pointer;
 `
 
 const ItemImage = styled(Image)`

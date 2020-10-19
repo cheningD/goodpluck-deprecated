@@ -155,6 +155,10 @@ module.exports = {
             tableName: `department_table`,
             tableLinks: [`productGroup`],
           },
+          {
+            baseId: process.env.AIRTABLE_BASE_ID,
+            tableName: `subCategory`,
+          },
         ],
       },
     },
