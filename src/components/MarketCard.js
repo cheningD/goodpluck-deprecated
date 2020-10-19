@@ -22,7 +22,7 @@ const Columns = styled.div`
 `
 
 const Sidebar = styled.div`
-  width: 400px;
+  width: 501px;
   padding-right: 20px;
   @media screen and (max-width: 767px) {
     display: none;
