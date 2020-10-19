@@ -85,8 +85,8 @@
 
 @font-face {
   font-family: "hk_groteskbold";
-  src: url("../fonts/hkgrotesk/hkgrotesk-bold.eot");
-  src: url("../fonts/hkgrotesk/hkgrotesk-bold.eot?#iefix")
+  src: url("../fonts/hkgrotesk/HKGrotesk-Bold.eot");
+  src: url("../fonts/hkgrotesk/HKGrotesk-Bold.eot?#iefix")
       format("embedded-opentype"),
     url("../fonts/hkgrotesk/HKGrotesk-Bold.woff2") format("woff2"),
     url("../fonts/hkgrotesk/HKGrotesk-Bold.woff") format("woff");
@@ -96,8 +96,8 @@
 
 @font-face {
   font-family: "hk_grotesklight";
-  src: url("../fonts/hkgrotesk/hkgrotesk-light.eot");
-  src: url("../fonts/hkgrotesk/hkgrotesk-light.eot?#iefix")
+  src: url("../fonts/hkgrotesk/HKGrotesk-Light.eot");
+  src: url("../fonts/hkgrotesk/HKGrotesk-Light.eot?#iefix")
       format("embedded-opentype"),
     url("../fonts/hkgrotesk/HKGrotesk-Light.woff2") format("woff2"),
     url("../fonts/hkgrotesk/HKGrotesk-Light.woff") format("woff");
