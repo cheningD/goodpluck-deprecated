@@ -201,7 +201,13 @@ const GetStarted = () => {
 
   // Restore your position in form on refresh
   let currentPage = "email"
-  const pageinUrlFragment = window.location.hash?.replace("#", "")
+
+  let pageinUrlFragment
+  if (typeof window === `undefined`) {
+    pageinUrlFragment = ""
+  } else {
+    pageinUrlFragment = window.location.hash?.replace("#", "")
+  }
   if (Object.keys(formSteps).includes(pageinUrlFragment)) {
     currentPage = pageinUrlFragment
   }
