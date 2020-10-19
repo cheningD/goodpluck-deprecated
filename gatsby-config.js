@@ -59,13 +59,6 @@ module.exports = {
       },
     },
     {
-      resolve: `gatsby-plugin-purgecss`,
-      options: {
-        printRejected: false, // Print removed selectors and processed file names
-        develop: true, // Enable while using `gatsby develop`
-      },
-    },
-    {
       resolve: "gatsby-plugin-robots-txt",
       options: {
         env: {
