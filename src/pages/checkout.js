@@ -237,15 +237,15 @@ const CheckoutForm = ({ onSubmit }) => {
             <CardFieldset>
               <CardElement options={{ style: CardElementStyle }} />
             </CardFieldset>
-            <Note>{`Please note: You can edit your basket until your card is charged on ${nextChargeDate}`}</Note>
-
-            <DisplayNoneIfScreenAbove767>
-              <OrderSummary />
-            </DisplayNoneIfScreenAbove767>
+            <Note>{`Please note: You can edit your basket until ${nextChargeDate}. Your card will be charged on that day.`}</Note>
 
             <SubmitButton as="button" type="submit" disabled={isSubmitting}>
               Confirm Order
             </SubmitButton>
+
+            <DisplayNoneIfScreenAbove767>
+              <OrderSummary />
+            </DisplayNoneIfScreenAbove767>
           </Form>
         )
       }}
