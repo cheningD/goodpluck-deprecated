@@ -438,17 +438,18 @@ const ImageLabel = styled.label`
 const ImageCardText = styled.div`
   color: #333;
   padding: 16px 16px 8px 16px;
-  font-family: Raleway, sans-serif;
+  font-family: hk_grotesksemibold, sans-serif;
   font-weight: 600;
   line-height: 1.25rem;
   margin-bottom: 8px;
 `
 const ImageCardDetails = styled(ImageCardText)`
-  font-size: 0.875rem;
+  font-family: hk_groteskregular, sans-serif;
+  font-size: 1rem;
   line-height: 1rem;
   font-weight: 500;
   ${props => (props.highlight ? "font-weight: 600;" : "")}
-  padding: 0 16px;
+  padding: 8px 16px 0 16px;
 `
 
 const RadioImage = styled(Image)`
@@ -485,7 +486,7 @@ const ChooseYourStarterForm = ({
           <ImageCardText>The Local Pluck ($35)</ImageCardText>
 
           <ImageCardDetails highlight={true}>
-            Our best produce this week
+            A box of our best seasonal produce from local farms.
           </ImageCardDetails>
           <ImageCardDetails>12 types of produce</ImageCardDetails>
           <ImageCardDetails>2-3 portions per type </ImageCardDetails>
@@ -495,7 +496,7 @@ const ChooseYourStarterForm = ({
           htmlFor="customBox"
           isChecked={values.boxChoice === "customBox"}
         >
-          <RadioImage src="producebox.jpg" alt="Build my Box From Scratch" />
+          <RadioImage src="produceSpread1" alt="Build my Box From Scratch" />
           <Radio
             type="radio"
             id="customBox"
@@ -509,10 +510,7 @@ const ChooseYourStarterForm = ({
           </ImageCardDetails>
           <ImageCardDetails>Free Shipping over $35</ImageCardDetails>
         </ImageLabel>
-        <Header2>
-          You can add, remove or swap any item with either choice after
-          checkout.
-        </Header2>
+        <Header2>Explore and customize your first box after checkout.</Header2>
       </ImageContainer>
     )
   }

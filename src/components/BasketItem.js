@@ -11,9 +11,13 @@ const ItemContainer = styled.div`
   cursor: pointer;
 `
 
+const ImageContainer = styled.div`
+  width: 64px;
+  height: 64px;
+`
 const ItemImage = styled(Image)`
-  width: 100px;
-  height: 100px;
+  width: 64px;
+  height: 64px;
   border-radius: 4px;
 `
 
@@ -63,11 +67,27 @@ const MichiganIcon = styled(Image)`
 const AddToCart = styled(AddToCartButton)`
   display: inline-block;
 `
+const BasketItem = ({ quantityLabel, name, oneLiner, priceLabel, canEdit }) => {
+  let controls = ""
+  if (canEdit) {
+    controls = (
+      <Controls>
+        <AddToCart
+          onChange={options => {
+            console.info("---->options", options)
+          }}
+          quantity={3}
+        />
+        <Price>{priceLabel}</Price>
+      </Controls>
+    )
+  }
 
-const BasketItem = ({ quantityLabel, name, oneLiner, priceLabel }) => {
   return (
     <ItemContainer>
-      <ItemImage src="placeholder.jpg" alt="placeholder-image" />
+      <ImageContainer>
+        <ItemImage src="placeholder.jpg" alt="placeholder-image" />
+      </ImageContainer>
       <Product>
         <Title>
           <QuantityLabel>{quantityLabel} </QuantityLabel>
@@ -77,15 +97,7 @@ const BasketItem = ({ quantityLabel, name, oneLiner, priceLabel }) => {
           {oneLiner}
           <ChevronSmall direction="down" />
         </Description>
-        <Controls>
-          <AddToCart
-            onChange={options => {
-              console.info("---->options", options)
-            }}
-            quantity={3}
-          />
-          <Price>{priceLabel}</Price>
-        </Controls>
+        {controls}
       </Product>
     </ItemContainer>
   )
