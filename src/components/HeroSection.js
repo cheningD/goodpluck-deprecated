@@ -6,7 +6,6 @@ import styled from "styled-components"
 
 const Section = styled.div`
   background-color: #fbe1cf;
-  height: 800px;
   @media screen and (max-width: 767px) {
     height: 100%;
   }
@@ -34,6 +33,7 @@ const Columns = styled.div`
   flex-direction: row;
   flex-wrap: wrap-reverse;
   align-items: start;
+  padding-bottom: 120px;
 `
 
 const HeroContent = styled.div`

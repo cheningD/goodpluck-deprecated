@@ -100,7 +100,7 @@ const FeaturesSection = () => {
             </Header>
             <Text>
               We source high-quality produce for less by working with local
-              farms too small to sell to stores.
+              farms too small to sell to stores
             </Text>
           </Detail>
         </Feature>
@@ -112,8 +112,8 @@ const FeaturesSection = () => {
               <Pink>Sustainable</Pink> By Default
             </Header>
             <Text>
-              We champion eco-friendly packaging, and regenerative farming
-              practices, because we like living here on earth.
+              Grown on nearby sustainable farms, our produce has lower carbon
+              footprint, and is better for the earth
             </Text>
           </Detail>
         </Feature>

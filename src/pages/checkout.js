@@ -13,6 +13,7 @@ import { CardElement, Elements } from "@stripe/react-stripe-js"
 import { Form, Formik } from "formik"
 import { VALID_ZIP_PATTERN, getMaxlengthFunc } from "../util"
 
+import Basket from "../components/Basket"
 import Nav from "../components/Nav"
 import React from "react"
 import SEO from "../components/SEO"
@@ -154,21 +155,14 @@ const Note = styled.div`
 const OrderSummary = ({ nextChargeDate }) => {
   return (
     <>
-      <Header>Your Chosen Basket</Header>
-      <Card>
-        <CardTitle>The Local Pluck</CardTitle>
-        <DetailCell2>Your Day:</DetailCell2>
-        <DetailCell2 right>Saturday</DetailCell2>
-        <DetailCell2>Order Frequency:</DetailCell2>
-        <DetailCell2 right>Every week</DetailCell2>
-        <LineBreak />
-        <LineBreak />
-        <DetailCell2>Subtotal:</DetailCell2>
-        <DetailCell2 right>$25.00</DetailCell2>
-        <DetailCell2>Shipping:</DetailCell2>
-        <DetailCell2 right>Free</DetailCell2>
-        <LineBreak />
+      <Header>Your Upcoming Basket</Header>
+      <Basket
+        deliveryDate="Saturday, Oct 24"
+        orderFrequency="Every week"
+        canEdit={false}
+      />
 
+      <Card>
         <DetailCell2 bold>You can edit your basket after checkout</DetailCell2>
       </Card>
     </>
@@ -176,8 +170,7 @@ const OrderSummary = ({ nextChargeDate }) => {
 }
 
 const CheckoutForm = ({ onSubmit }) => {
-  const nextChargeDate = "//Todo: Fill me in:"
-
+  const nextChargeDate = "Friday, Oct 23" // Todo: make this dynamic
   const checkoutSchema = yup.object().shape({
     first: yup
       .string()
@@ -227,7 +220,7 @@ const CheckoutForm = ({ onSubmit }) => {
       {({ isSubmitting, errors, touched }) => {
         return (
           <Form>
-            <Header>Create Your Account</Header>
+            <Header>Finish Creating Your Account</Header>
             <Fieldset>
               <FormField name="first" placeholder="First name*" />
               <FormField name="last" placeholder="Last name*" />
@@ -244,7 +237,7 @@ const CheckoutForm = ({ onSubmit }) => {
             <CardFieldset>
               <CardElement options={{ style: CardElementStyle }} />
             </CardFieldset>
-            <Note>{`Please note, you will be charged on ${nextChargeDate}`}</Note>
+            <Note>{`Please note: You can edit your basket until your card is charged on ${nextChargeDate}`}</Note>
 
             <DisplayNoneIfScreenAbove767>
               <OrderSummary />
