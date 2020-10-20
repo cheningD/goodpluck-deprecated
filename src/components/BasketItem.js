@@ -95,7 +95,7 @@ const BasketItem = ({ quantityLabel, name, oneLiner, priceLabel, canEdit }) => {
         </Title>
         <Description>
           {oneLiner}
-          <ChevronSmall direction="down" />
+          {/* <ChevronSmall direction="down" />  //Todo: put this back in*/}
         </Description>
         {controls}
       </Product>
