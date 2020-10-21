@@ -4,7 +4,6 @@ import {
   Card,
   DetailCell2,
   Header,
-  LineBreak,
   StyledErrorMessage,
   StyledField,
   SubmitButton,
@@ -134,13 +133,6 @@ const FormField = ({ name, placeholder }) => (
     <ErrorMessage name={name} component="div" />
   </FieldWrapper>
 )
-
-const CardTitle = styled.div`
-  font-size: 1.25rem;
-  font-weight: 600;
-  margin-bottom: 16px;
-  width: 100%;
-`
 
 const Note = styled.div`
   width: 100%;

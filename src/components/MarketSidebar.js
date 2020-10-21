@@ -11,19 +11,22 @@ const sortByPathFunc = path => {
 const SidebarH1 = styled.h1`
   font-size: 1.25rem;
   font-family: hk_grotesksemibold, sans-serif;
-  ${props => (props.selected ? `` : `color: #EFC7A4;`)}
+  cursor: pointer;
+  ${props => (props.selected ? `` : `color: #5c5c5c;`)}
 `
 
 const SidebarH2 = styled.h2`
   padding-left: 8px;
   font-size: 1rem;
   font-family: hk_grotesklight, sans-serif;
-  margin-bottom: px;
+  margin-bottom: 0;
+  cursor: pointer;
   ${props =>
     props.selected
       ? `
     font-family: hk_grotesksemibold, sans-serif;
     color: #000;
+    text-decoration: underline;
   `
       : ``}
   ${props => (props.parentSelected ? `` : `display: none;`)}
@@ -38,6 +41,7 @@ const SidebarH3 = styled.h3`
   margin-top: 0;
   margin-bottom: 0;
   margin-left: 8px;
+  cursor: pointer;
 
   &:first-child {
     margin-top: 8px;
@@ -47,7 +51,7 @@ const SidebarH3 = styled.h3`
     props.selected
       ? `
       font-family: hk_grotesksemibold, sans-serif;
-    border-left: 3px solid #6c7668;
+    border-left: 3px solid #788474;
   color: #6c7668;
   `
       : ``}
