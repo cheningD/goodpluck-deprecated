@@ -1,9 +1,12 @@
 import { Card, DetailCell2, LineBreak } from "../components/StyledComponentLib"
 import React, { useState } from "react"
+import { graphql, useStaticQuery } from "gatsby"
 
 import BasketItem from "../components/BasketItem"
 import Image from "../components/Image"
 import MarketSidebar from "./MarketSidebar"
+import { formatCurrencyString } from "use-shopping-cart"
+import get from "lodash-es/get"
 import styled from "styled-components"
 
 const ThinLineBreak = styled(LineBreak)`
@@ -11,7 +14,8 @@ const ThinLineBreak = styled(LineBreak)`
 `
 
 const Container = styled(Card)`
-  margin: 16px;
+  margin: 16px auto;
+  max-width: 1000px;
 `
 
 const Columns = styled.div`
@@ -22,7 +26,7 @@ const Columns = styled.div`
 `
 
 const Sidebar = styled.div`
-  width: 501px;
+  width: 300px;
   padding-right: 20px;
   @media screen and (max-width: 767px) {
     display: none;
@@ -31,10 +35,77 @@ const Sidebar = styled.div`
 
 const Content = styled.div`
   min-width: 300px;
+  max-width: 500px;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
 `
+
+const ProductList = props => {
+  const data = useStaticQuery(graphql`
+    {
+      allAirtable(filter: { table: { eq: "productGroup" } }) {
+        nodes {
+          data {
+            mainImage {
+              id
+            }
+            name
+            department
+            category
+            subCategory
+            productv2 {
+              data {
+                available
+                name
+                priceInCents
+                stripePriceId
+                unitQuantity
+                unitLabel
+              }
+            }
+            description
+          }
+        }
+      }
+    }
+  `)
+  const products = data.allAirtable.nodes.map(productGroup => {
+    const productData = get(productGroup, "data.productv2[0].data", {})
+
+    // Check product is available
+    if (!productData.available) {
+      return ""
+    }
+
+    const quantityLabel = `${productData.unitQuantity || 1} ${
+      productData.unitLabel || ""
+    }`
+
+    const priceLabel = formatCurrencyString({
+      value: productData.priceInCents,
+      currency: "usd",
+    })
+
+    console.log("productGroup", productGroup)
+
+    return (
+      <>
+        <BasketItem
+          quantityLabel={quantityLabel}
+          name={get(productGroup, "data.name", "")}
+          oneLiner={get(productGroup, "data.oneLiner", "")}
+          description={get(productGroup, "data.description", "")}
+          priceLabel={priceLabel}
+          canEdit={true}
+          stripePriceId={productData.stripePriceId}
+        />
+        <ThinLineBreak />
+      </>
+    )
+  })
+  return <>{products}</>
+}
 
 const MarketCard = ({ deliveryDate, orderFrequency }) => {
   const [filters, setFilters] = useState({
@@ -54,26 +125,7 @@ const MarketCard = ({ deliveryDate, orderFrequency }) => {
           <MarketSidebar />
         </Sidebar>
         <Content>
-          <BasketItem
-            quantityLabel="1 pint"
-            name="Cherry Tomatoes"
-            oneLiner="could be the last batch of the season"
-            priceLabel="$5.00"
-          />
-          <ThinLineBreak />
-          <BasketItem
-            quantityLabel="1"
-            name="Organic Delicata Squash"
-            oneLiner="cooks quicker than other squashes"
-            priceLabel="$3.00"
-          />
-          <ThinLineBreak />
-          <BasketItem
-            quantityLabel="8 oz"
-            name="Mixed Salad Greens"
-            oneLiner="sweet and spicy"
-            priceLabel="$9.00"
-          />
+          <ProductList />
         </Content>
       </Columns>
     </Container>
@@ -87,8 +139,10 @@ const FilterContainer = styled.div`
   flex-flow: row wrap;
 `
 
-const FilterItem = styled.span`
-  font-family: hk_groteskregular, sans-serif;
+const FilterItem = styled.button`
+  color: #5c5c5c;
+  outline: none;
+  font-family: hk_grotesksemibold, sans-serif;
   padding: 0 16px;
 `
 

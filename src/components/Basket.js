@@ -39,7 +39,7 @@ const Basket = ({ deliveryDate, orderFrequency, canEdit }) => {
         oneLiner="could be the last batch of the season"
         priceLabel="$5.00"
         canEdit={canEdit}
-        image="im1cherrytomato.png"
+        imageSrc="im1cherrytomato.png"
       />
       <ThinLineBreak />
       <BasketItem
@@ -48,7 +48,7 @@ const Basket = ({ deliveryDate, orderFrequency, canEdit }) => {
         oneLiner="cooks quicker than other squashes"
         priceLabel="$3.00"
         canEdit={canEdit}
-        image="im1squash.png"
+        imageSrc="im1squash.png"
       />
       <ThinLineBreak />
       <BasketItem
@@ -57,7 +57,7 @@ const Basket = ({ deliveryDate, orderFrequency, canEdit }) => {
         oneLiner="sweet and spicy"
         priceLabel="$9.00"
         canEdit={canEdit}
-        image="im1salad.png"
+        imageSrc="im1salad.png"
       />
       <ThinLineBreak />
 

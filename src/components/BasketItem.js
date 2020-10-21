@@ -12,12 +12,12 @@ const ItemContainer = styled.div`
 `
 
 const ImageContainer = styled.div`
-  width: 64px;
-  height: 64px;
+
+  width: ${props => (props.size === "large" ? "100px;" : "64px;")}
+  height: ${props => (props.size === "large" ? "100px;" : "64px;")}
+  
 `
 const ItemImage = styled(Image)`
-  width: 64px;
-  height: 64px;
   border-radius: 4px;
 `
 
@@ -37,9 +37,9 @@ const QuantityLabel = styled.span`
   color: #6c7668;
 `
 
-const ChevronSmall = styled(Chevron)`
-  font-size: 0.75rem;
-`
+// const ChevronSmall = styled(Chevron)`
+//   font-size: 0.75rem;
+// `
 
 const Description = styled.div`
   color: #333;
@@ -67,7 +67,14 @@ const MichiganIcon = styled(Image)`
 const AddToCart = styled(AddToCartButton)`
   display: inline-block;
 `
-const BasketItem = ({ quantityLabel, name, oneLiner, priceLabel, canEdit }) => {
+const BasketItem = ({
+  quantityLabel,
+  name,
+  oneLiner,
+  priceLabel,
+  canEdit,
+  imageSrc,
+}) => {
   let controls = ""
   if (canEdit) {
     controls = (
@@ -85,8 +92,11 @@ const BasketItem = ({ quantityLabel, name, oneLiner, priceLabel, canEdit }) => {
 
   return (
     <ItemContainer>
-      <ImageContainer>
-        <ItemImage src="placeholder.jpg" alt="placeholder-image" />
+      <ImageContainer size={canEdit ? `large` : `small`}>
+        <ItemImage
+          src={imageSrc || "placeholder.jpg"}
+          alt="placeholder-image"
+        />
       </ImageContainer>
       <Product>
         <Title>
