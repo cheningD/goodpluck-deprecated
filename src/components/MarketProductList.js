@@ -32,14 +32,33 @@ const MarketProductList = ({
   subcategoryNodes,
   productGroupNodes,
   department,
+  filters,
 }) => {
   subcategoryNodes
     .sort(sortByPathFunc("data.name"))
     .sort(sortByPathFunc("data.sortOrderCategories"))
     .sort(sortByPathFunc("data.sortOrderDepartments"))
 
+  //Apply filters
+  let filteredProductGroupNodes = productGroupNodes
+  if (filters["Organic"]) {
+    filteredProductGroupNodes = filteredProductGroupNodes.filter(node => {
+      return get(node, "data.productv2[0].data.isOrganic", false)
+    })
+  }
+  if (filters["Local"]) {
+    filteredProductGroupNodes = filteredProductGroupNodes.filter(node => {
+      return get(node, "data.productv2[0].data.isLocal", false)
+    })
+  }
+  if (filters["In Season"]) {
+    filteredProductGroupNodes = filteredProductGroupNodes.filter(node => {
+      return get(node, "data.productv2[0].data.isInSeason", false)
+    })
+  }
+
   const getProductsBySubcategory = subcategory => {
-    return productGroupNodes
+    return filteredProductGroupNodes
       .filter(node => get(node, "data.subcategory[0]", "") === subcategory)
 
       .map(productGroup => {
@@ -65,6 +84,9 @@ const MarketProductList = ({
               canEdit={true}
               stripePriceId={productData.stripePriceId}
               quantityInCart={0}
+              isOrganic={productData.isOrganic}
+              isLocal={productData.isLocal}
+              isInSeason={productData.isInSeason}
             />
             <ThinLineBreak />
           </>

@@ -58,9 +58,10 @@ const Price = styled.span`
   font-family: hk_grotesksemibold, sans-serif;
 `
 
-const MichiganIcon = styled(Image)`
+const Icon = styled(Image)`
   width: 20px;
   height: 20px;
+  margin-right: 8px;
   display: inline-block;
 `
 
@@ -75,6 +76,9 @@ const BasketItem = ({
   canEdit,
   imageSrc,
   quantityInCart,
+  isOrganic,
+  isLocal,
+  isInSeason,
 }) => {
   let controls = ""
   if (canEdit) {
@@ -102,7 +106,10 @@ const BasketItem = ({
       <Product>
         <Title>
           <QuantityLabel>{quantityLabel} </QuantityLabel>
-          {name} <MichiganIcon src="mitten.png" alt="grown in michigan" />
+          {name}{" "}
+          {isLocal ? <Icon src="mitten.png" alt="grown in michigan" /> : ""}
+          {isOrganic ? <Icon src="organic_icon.png" alt="organic" /> : ""}
+          {isInSeason ? <Icon src="in_season_icon.png" alt="In seasion" /> : ""}
         </Title>
         <Description>
           {oneLiner}
