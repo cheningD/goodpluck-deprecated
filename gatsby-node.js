@@ -10,11 +10,13 @@ exports.createSchemaCustomization = ({ actions }) => {
       available: Boolean
       isOrganic: Boolean
       isLocal: Boolean
+      isLocalPluck: Boolean
       isInSeason: Boolean
       category: [String]
       department: [String]
       departmentSlug: [String]
       description: String
+      oneLiner: String
       growingMethod: String
       id: Int
       gpid: Int!

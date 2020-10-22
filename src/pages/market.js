@@ -1,27 +1,22 @@
+import { MobileViewOnly, SubmitButton } from "../components/StyledComponentLib"
 import React, { useState } from "react"
 
 import MarketCard from "../components/MarketCard"
 import Nav from "../components/Nav"
 import SEO from "../components/SEO"
 import Select from "react-select"
-import { SubmitButton } from "../components/StyledComponentLib"
 import styled from "styled-components"
 
 const Page = styled.div`
   background-color: #fbe1cf;
   min-height: 100vh;
+  padding-bottom: 400px;
 `
 const Submit = styled(SubmitButton)`
   border-color: #000;
   margin: 32px auto;
   max-width: 500px;
   display: block;
-`
-const MobileViewOnly = styled.div`
-  display: none;
-  @media screen and (max-width: 479px) {
-    display: block;
-  }
 `
 
 const Market = () => {

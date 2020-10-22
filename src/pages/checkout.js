@@ -12,7 +12,6 @@ import { CardElement, Elements } from "@stripe/react-stripe-js"
 import { Form, Formik } from "formik"
 import { VALID_ZIP_PATTERN, getMaxlengthFunc } from "../util"
 
-import Basket from "../components/Basket"
 import Nav from "../components/Nav"
 import React from "react"
 import SEO from "../components/SEO"
@@ -148,13 +147,15 @@ const OrderSummary = ({ nextChargeDate }) => {
   return (
     <>
       <Header>Your Upcoming Basket</Header>
-      <Basket
-        deliveryDate="Saturday, Oct 24"
-        orderFrequency="Every week"
-        canEdit={false}
-      />
 
       <Card>
+        <DetailCell2 bold>The Local Pluck ($35)</DetailCell2>
+        <DetailCell2>
+          A box of our best seasonal produce from local farms.
+        </DetailCell2>
+        <DetailCell2>12 types of produce</DetailCell2>
+        <DetailCell2>2-3 portions per type </DetailCell2>
+        <DetailCell2>Free Shipping</DetailCell2>
         <DetailCell2 bold>You can edit your basket after checkout</DetailCell2>
       </Card>
     </>

@@ -1,4 +1,10 @@
-import { Card, DetailCell2, LineBreak } from "../components/StyledComponentLib"
+import {
+  Card,
+  DetailCell2,
+  Header,
+  LineBreak,
+  MobileViewOnly,
+} from "../components/StyledComponentLib"
 import React, { useState } from "react"
 import { graphql, useStaticQuery } from "gatsby"
 
@@ -34,6 +40,10 @@ const Content = styled.div`
   min-height: 500px;
   height: calc(100vh - 200px);
   overflow: scroll;
+`
+
+const H1 = styled(Header)`
+  color: #000;
 `
 
 const MarketCard = ({ deliveryDate, orderFrequency }) => {
@@ -114,6 +124,13 @@ const MarketCard = ({ deliveryDate, orderFrequency }) => {
             productGroupNodes={productGroupNodes}
             filters={filters}
           />
+          <MobileViewOnly>
+            <h1>There's more in the market...</h1>
+            <MarketSidebar
+              productGroupNodes={productGroupNodes}
+              setDepartment={setDepartment}
+            />
+          </MobileViewOnly>
         </Content>
       </Columns>
     </Container>

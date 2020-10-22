@@ -3,6 +3,13 @@ import { ErrorMessage, Field, Form } from "formik"
 import { Link } from "gatsby"
 import styled from "styled-components"
 
+export const MobileViewOnly = styled.div`
+  display: none;
+  @media screen and (max-width: 479px) {
+    display: block;
+  }
+`
+
 export const ButtonSmall = styled(Link)`
   display: -webkit-box;
   display: -webkit-flex;

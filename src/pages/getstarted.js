@@ -12,6 +12,7 @@ import {
 import React, { useState } from "react"
 
 import Arrow from "../images/icons/arrow.svg"
+import BasketPreview from "../components/BasketPreview"
 import Image from "../components/Image"
 import SEO from "../components/SEO"
 import { VALID_ZIP_PATTERN } from "../util"
@@ -470,55 +471,13 @@ const ChooseYourStarterForm = ({
   })
 
   const FormContent = ({ values }) => {
-    return (
-      <ImageContainer role="group" aria-label="Let's build your basket">
-        <ImageLabel
-          htmlFor="localStarter"
-          isChecked={values.boxChoice === "localStarter"}
-        >
-          <RadioImage src="producebox.jpg" alt="Use our local produce box" />
-          <Radio
-            type="radio"
-            id="localStarter"
-            name="boxChoice"
-            value="localStarter"
-          />
-          <ImageCardText>The Local Pluck ($35)</ImageCardText>
-
-          <ImageCardDetails highlight={true}>
-            A box of our best seasonal produce from local farms.
-          </ImageCardDetails>
-          <ImageCardDetails>12 types of produce</ImageCardDetails>
-          <ImageCardDetails>2-3 portions per type </ImageCardDetails>
-          <ImageCardDetails>Free Shipping</ImageCardDetails>
-        </ImageLabel>
-        <ImageLabel
-          htmlFor="customBox"
-          isChecked={values.boxChoice === "customBox"}
-        >
-          <RadioImage src="produceSpread1" alt="Build my Box From Scratch" />
-          <Radio
-            type="radio"
-            id="customBox"
-            name="boxChoice"
-            value="customBox"
-          />
-          <ImageCardText>Start from Scratch</ImageCardText>
-
-          <ImageCardDetails highlight={true}>
-            Choose from all our local produce and farm goods.
-          </ImageCardDetails>
-          <ImageCardDetails>Free Shipping over $35</ImageCardDetails>
-        </ImageLabel>
-        <Header2>Explore and customize your first box after checkout.</Header2>
-      </ImageContainer>
-    )
+    return <BasketPreview />
   }
 
   return (
     <FormWrapper
-      initialValues={{ customBox: false, localStarter: false }}
-      validationSchema={starterSchema}
+      // initialValues={{ customBox: false, localStarter: false }}
+      // validationSchema={starterSchema}
       onSubmit={onSubmit}
       FormContent={FormContent}
       header={header}
