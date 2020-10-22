@@ -2,20 +2,15 @@ import { Card, DetailCell2, LineBreak } from "../components/StyledComponentLib"
 import React, { useState } from "react"
 import { graphql, useStaticQuery } from "gatsby"
 
-import BasketItem from "../components/BasketItem"
 import Image from "../components/Image"
+import MarketProductList from "../components/MarketProductList"
 import MarketSidebar from "./MarketSidebar"
-import { formatCurrencyString } from "use-shopping-cart"
 import get from "lodash-es/get"
 import styled from "styled-components"
 
-const ThinLineBreak = styled(LineBreak)`
-  height: 1px;
-`
-
 const Container = styled(Card)`
   margin: 16px auto;
-  max-width: 1000px;
+  max-width: 900px;
 `
 
 const Columns = styled.div`
@@ -36,15 +31,32 @@ const Sidebar = styled.div`
 const Content = styled.div`
   min-width: 300px;
   max-width: 500px;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
+  min-height: 500px;
+  height: calc(100vh - 200px);
+  overflow: scroll;
 `
 
-const ProductList = props => {
+const MarketCard = ({ deliveryDate, orderFrequency }) => {
+  const [filters, setFilters] = useState({
+    Local: false,
+    Organic: false,
+    "In season": false,
+  })
+  const [department, setDepartment] = useState("Produce")
   const data = useStaticQuery(graphql`
     {
-      allAirtable(filter: { table: { eq: "productGroup" } }) {
+      subcategories: allAirtable(filter: { table: { eq: "subCategory" } }) {
+        nodes {
+          data {
+            name
+            category
+            department
+            sortOrderCategories
+            sortOrderDepartments
+          }
+        }
+      }
+      productGroups: allAirtable(filter: { table: { eq: "productGroup" } }) {
         nodes {
           data {
             mainImage {
@@ -52,8 +64,11 @@ const ProductList = props => {
             }
             name
             department
+            description
             category
-            subCategory
+            subcategory
+            sortOrderCategories
+            sortOrderDepartments
             productv2 {
               data {
                 available
@@ -62,57 +77,22 @@ const ProductList = props => {
                 stripePriceId
                 unitQuantity
                 unitLabel
+                isOrganic
+                isLocal
+                isInSeason
               }
             }
-            description
           }
         }
       }
     }
   `)
-  const products = data.allAirtable.nodes.map(productGroup => {
-    const productData = get(productGroup, "data.productv2[0].data", {})
 
-    // Check product is available
-    if (!productData.available) {
-      return ""
-    }
+  // Remove unavailable products
+  const productGroupNodes = data.productGroups.nodes.filter(node =>
+    get(node, "data.productv2[0].data.available", false)
+  )
 
-    const quantityLabel = `${productData.unitQuantity || 1} ${
-      productData.unitLabel || ""
-    }`
-
-    const priceLabel = formatCurrencyString({
-      value: productData.priceInCents,
-      currency: "usd",
-    })
-
-    console.log("productGroup", productGroup)
-
-    return (
-      <>
-        <BasketItem
-          quantityLabel={quantityLabel}
-          name={get(productGroup, "data.name", "")}
-          oneLiner={get(productGroup, "data.oneLiner", "")}
-          description={get(productGroup, "data.description", "")}
-          priceLabel={priceLabel}
-          canEdit={true}
-          stripePriceId={productData.stripePriceId}
-        />
-        <ThinLineBreak />
-      </>
-    )
-  })
-  return <>{products}</>
-}
-
-const MarketCard = ({ deliveryDate, orderFrequency }) => {
-  const [filters, setFilters] = useState({
-    Local: false,
-    Organic: false,
-    "In season": false,
-  })
   return (
     <Container>
       <DetailCell2>Filter by:</DetailCell2>
@@ -122,10 +102,17 @@ const MarketCard = ({ deliveryDate, orderFrequency }) => {
       <LineBreak />
       <Columns>
         <Sidebar>
-          <MarketSidebar />
+          <MarketSidebar
+            productGroupNodes={productGroupNodes}
+            setDepartment={setDepartment}
+          />
         </Sidebar>
-        <Content>
-          <ProductList />
+        <Content id="MarketContainer">
+          <MarketProductList
+            department={department}
+            subcategoryNodes={data.subcategories.nodes}
+            productGroupNodes={productGroupNodes}
+          />
         </Content>
       </Columns>
     </Container>

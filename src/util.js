@@ -1,5 +1,17 @@
+import get from "lodash-es/get"
 import isNil from "lodash-es/isNil"
 import isObject from "lodash-es/isObject"
+
+export const sortByPathFunc = path => {
+  return (a, b) => {
+    // Compare strings
+    if (typeof get(a, path, 0) === "string") {
+      return get(a, path, "") < get(b, path, "") ? -1 : 1
+    }
+    // Compare numerical values
+    return get(a, path, 0) - get(b, path, 0)
+  }
+}
 
 export const getMaxlengthFunc = max => {
   const func = val => {

@@ -8,6 +8,9 @@ exports.createSchemaCustomization = ({ actions }) => {
     }
     type AirtableData implements Node {
       available: Boolean
+      isOrganic: Boolean
+      isLocal: Boolean
+      isInSeason: Boolean
       category: [String]
       department: [String]
       departmentSlug: [String]
@@ -23,7 +26,7 @@ exports.createSchemaCustomization = ({ actions }) => {
       sku: String
       slug: String
       sortOrderCategories: [Int]
-      subCategory: [String]
+      subcategory: [String]
       suppliersForProductGroup: [String]
     }
   `

@@ -1,5 +1,5 @@
 import AddToCartButton from "../components/AddToCartButton"
-import Chevron from "../components/Chevron"
+// import Chevron from "../components/Chevron"
 import Image from "../components/Image"
 import React from "react"
 import styled from "styled-components"
@@ -74,6 +74,7 @@ const BasketItem = ({
   priceLabel,
   canEdit,
   imageSrc,
+  quantityInCart,
 }) => {
   let controls = ""
   if (canEdit) {
@@ -83,7 +84,7 @@ const BasketItem = ({
           onChange={options => {
             console.info("---->options", options)
           }}
-          quantity={3}
+          quantity={quantityInCart}
         />
         <Price>{priceLabel}</Price>
       </Controls>
