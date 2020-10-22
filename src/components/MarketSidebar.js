@@ -1,12 +1,9 @@
 import React, { useState } from "react"
-import { graphql, useStaticQuery } from "gatsby"
 
-import get from "lodash-es/get"
+import { Link } from "react-scroll"
+import { get } from "lodash-es"
+import { sortByPathFunc } from "../util"
 import styled from "styled-components"
-
-const sortByPathFunc = path => {
-  return (a, b) => get(a, path, 0) - get(b, path, 0)
-}
 
 const SidebarH1 = styled.h1`
   font-size: 1.25rem;
@@ -15,11 +12,12 @@ const SidebarH1 = styled.h1`
   ${props => (props.selected ? `` : `color: #5c5c5c;`)}
 `
 
-const SidebarH2 = styled.h2`
+const SidebarH2 = styled(Link)`
+  display: block;
   padding-left: 8px;
   font-size: 1rem;
   font-family: hk_grotesklight, sans-serif;
-  margin-bottom: 0;
+  margin-top: 8px;
   cursor: pointer;
   ${props =>
     props.selected
@@ -32,7 +30,8 @@ const SidebarH2 = styled.h2`
   ${props => (props.parentSelected ? `` : `display: none;`)}
 `
 
-const SidebarH3 = styled.h3`
+const SidebarH3 = styled(Link)`
+  display: block;
   font-size: 0.9rem;
   font-family: hk_groteskregular, sans-serif;
   padding-left: 16px;
@@ -59,52 +58,71 @@ const SidebarH3 = styled.h3`
   ${props => (props.parentSelected ? `` : `display: none;`)}
 `
 
-const SidebarContent = ({ nodes }) => {
+const MarketSidebar = ({ productGroupNodes, setDepartment }) => {
   // Sort Nodes
-  nodes
+  productGroupNodes
+    .sort(sortByPathFunc("data.subcategory[0]"))
     .sort(sortByPathFunc("data.sortOrderCategories"))
     .sort(sortByPathFunc("data.sortOrderDepartments"))
 
-  // Functions
+  const isSubcategoryPresentMap = {}
+  for (let node of productGroupNodes) {
+    isSubcategoryPresentMap[get(node, "data.subcategory[0]")] = node
+  }
+
+  const nodes = productGroupNodes.filter(
+    node => isSubcategoryPresentMap[get(node, "data.subcategory[0]")]
+  )
+
+  // FunctionsF
   const [selectedH1, _setSelectedH1] = useState(nodes[0].data.department[0])
   const [selectedH2, _setSelectedH2] = useState(nodes[0].data.category[0])
-  const [selectedH3, _setSelectedH3] = useState(nodes[0].data.name)
+  const [selectedH3, _setSelectedH3] = useState(nodes[0].data.subcategory[0])
 
   const setSelectedH3 = subcategory => {
     const selectedNodeExample = nodes.filter(
-      node => node.data.name === subcategory
+      node => node.data.subcategory[0] === subcategory
     )[0]
 
-    _setSelectedH3(selectedNodeExample.data.name)
+    _setSelectedH3(selectedNodeExample.data.subcategory[0])
     _setSelectedH2(selectedNodeExample.data.category[0])
     _setSelectedH1(selectedNodeExample.data.department[0])
+    setDepartment(selectedNodeExample.data.department[0])
   }
 
   const setSelectedH2 = category => {
     const selectedNodeExample = nodes.filter(
       node => node.data.category[0] === category
     )[0]
-    _setSelectedH3(selectedNodeExample.data.name)
+    _setSelectedH3(selectedNodeExample.data.subcategory[0])
     _setSelectedH2(selectedNodeExample.data.category[0])
     _setSelectedH1(selectedNodeExample.data.department[0])
+    setDepartment(selectedNodeExample.data.department[0])
   }
 
   const setSelectedH1 = department => {
     const selectedNodeExample = nodes.filter(
       node => node.data.department[0] === department
     )[0]
-    _setSelectedH3(selectedNodeExample.data.name)
+    _setSelectedH3(selectedNodeExample.data.subcategory[0])
     _setSelectedH2(selectedNodeExample.data.category[0])
     _setSelectedH1(selectedNodeExample.data.department[0])
+    setDepartment(selectedNodeExample.data.department[0])
   }
 
   const getSubCategoriesForCategory = category =>
     nodes
       .filter(node => node.data.category[0] === category)
-      .map(node => node.data.name)
+      .map(node => node.data.subcategory[0])
       .filter((value, index, self) => self.indexOf(value) === index)
       .map(subcategory => (
         <SidebarH3
+          to={subcategory}
+          containerId="MarketContainer"
+          spy={true}
+          smooth={true}
+          offset={-70}
+          duration={500}
           selected={selectedH3 === subcategory}
           parentSelected={selectedH2 === category}
           onClick={() => setSelectedH3(subcategory)}
@@ -121,6 +139,12 @@ const SidebarContent = ({ nodes }) => {
       .map(category => (
         <>
           <SidebarH2
+            to={category}
+            containerId="MarketContainer"
+            spy={true}
+            smooth={true}
+            offset={-70}
+            duration={500}
             selected={selectedH2 === category}
             parentSelected={selectedH1 === department}
             onClick={() => setSelectedH2(category)}
@@ -147,25 +171,6 @@ const SidebarContent = ({ nodes }) => {
     ))
 
   return <>{uniqueHeaders}</>
-}
-
-const MarketSidebar = () => {
-  const data = useStaticQuery(graphql`
-    {
-      subCategories: allAirtable(filter: { table: { eq: "subCategory" } }) {
-        nodes {
-          data {
-            name
-            category
-            department
-            sortOrderCategories
-            sortOrderDepartments
-          }
-        }
-      }
-    }
-  `)
-  return <SidebarContent nodes={data.subCategories.nodes} />
 }
 
 export default MarketSidebar

@@ -1,28 +1,27 @@
-import { Header, SubmitButton } from "../components/StyledComponentLib"
 import React, { useState } from "react"
 
 import MarketCard from "../components/MarketCard"
 import Nav from "../components/Nav"
 import SEO from "../components/SEO"
 import Select from "react-select"
+import { SubmitButton } from "../components/StyledComponentLib"
 import styled from "styled-components"
 
 const Page = styled.div`
   background-color: #fbe1cf;
   min-height: 100vh;
 `
-
-const ShoppingForHeader = styled(Header)`
-  color: #000;
-  margin: 16px auto;
-  font-size: 1rem;
-  text-align: center;
-`
-
 const Submit = styled(SubmitButton)`
   border-color: #000;
   margin: 16px auto;
   max-width: 500px;
+  display: block;
+`
+const MobileViewOnly = styled.div`
+  display: none;
+  @media screen and (max-width: 479px) {
+    display: block;
+  }
 `
 
 const Market = () => {
@@ -30,23 +29,24 @@ const Market = () => {
     <Page>
       <SEO title="Market | Local Produce" />
       <Nav />
-      <ShoppingForHeader>Shopping for Saturday, Oct 24</ShoppingForHeader>
-      <ShoppingMenu
-        listItems={[
-          "Produce",
-          "Bakery",
-          "Eggs",
-          "Dairy",
-          "Meat & Seafood",
-          "Beverages",
-        ]}
-      />
-      <ShoppingMenu
-        listItems={["Fruit", "Vegetables", "Melons, Cucumbers & Squashes"]}
-        size="small"
-      />
+      <Submit to="/basket">Review Order for Saturday, Oct 24</Submit>
+      <MobileViewOnly>
+        <ShoppingMenu
+          listItems={[
+            "Produce",
+            "Bakery",
+            "Eggs",
+            "Dairy",
+            "Meat & Seafood",
+            "Beverages",
+          ]}
+        />
+        <ShoppingMenu
+          listItems={["Fruit", "Vegetables", "Melons, Cucumbers & Squashes"]}
+          size="small"
+        />
+      </MobileViewOnly>
       <MarketCard />
-      <Submit as="button">Review Order</Submit>
     </Page>
   )
 }
