@@ -89,7 +89,7 @@ const MarketCard = ({ deliveryDate, orderFrequency }) => {
   `)
 
   // Remove unavailable products
-  const productGroupNodes = data.productGroups.nodes.filter(node =>
+  let productGroupNodes = data.productGroups.nodes.filter(node =>
     get(node, "data.productv2[0].data.available", false)
   )
 
@@ -112,6 +112,7 @@ const MarketCard = ({ deliveryDate, orderFrequency }) => {
             department={department}
             subcategoryNodes={data.subcategories.nodes}
             productGroupNodes={productGroupNodes}
+            filters={filters}
           />
         </Content>
       </Columns>
@@ -130,7 +131,11 @@ const FilterItem = styled.button`
   color: #5c5c5c;
   outline: none;
   font-family: hk_grotesksemibold, sans-serif;
-  padding: 0 16px;
+  padding: 0 24px;
+  &:focus {
+    color: #000;
+  }
+  ${props => (props.checked ? `color: #000;` : "")}
 `
 
 const Checkmark = styled(Image)`
@@ -147,13 +152,27 @@ margin-right: 8px;
 
 const FilterGroup = ({ options, updateOptions }) => {
   const filterItems = Object.keys(options).map(label => {
+    let imgSrc = "checkmark.png"
+    const imgAlt = `Toggle ${label}`
+
+    if (label === "Organic") {
+      imgSrc = "organic_icon_black.png"
+    } else if (label === "In season") {
+      imgSrc = "in_season_icon_black.png"
+    } else if (label === "Local") {
+      imgSrc = "mitten.png"
+    }
+
+    console.log("imgSrc ------------------>", imgSrc)
+
     const toggleValue = {}
     toggleValue[label] = !options[label]
     return (
       <FilterItem
+        checked={options[label]}
         onClick={() => updateOptions(Object.assign({}, options, toggleValue))}
       >
-        <Checkmark src="checkmark.png" alt="Check" checked={options[label]} />
+        <Checkmark src={imgSrc} alt={imgAlt} checked={options[label]} />
         <span>{label}</span>
       </FilterItem>
     )

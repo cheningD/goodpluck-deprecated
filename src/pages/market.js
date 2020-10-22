@@ -13,7 +13,7 @@ const Page = styled.div`
 `
 const Submit = styled(SubmitButton)`
   border-color: #000;
-  margin: 16px auto;
+  margin: 32px auto;
   max-width: 500px;
   display: block;
 `
@@ -29,7 +29,7 @@ const Market = () => {
     <Page>
       <SEO title="Market | Local Produce" />
       <Nav />
-      <Submit to="/basket">Review Order for Saturday, Oct 24</Submit>
+      <Submit to="/basket">Review Your Order for Saturday, Oct 24</Submit>
       <MobileViewOnly>
         <ShoppingMenu
           listItems={[
