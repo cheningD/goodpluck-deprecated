@@ -53,9 +53,7 @@ const ButtonArrow = styled(Arrow)`
 const Checkbox = styled(Field)`
   display: none;
 `
-const Radio = styled(Field)`
-  display: none;
-`
+
 const CheckboxLabel = styled.label`
   display: block;
   position: relative;
@@ -181,7 +179,7 @@ const GetStarted = () => {
         <ChooseYourStarterForm
           goBackFunction={() => setFormStep("valuesQuiz")}
           onSubmit={onSubmitHandler}
-          header="Choose a starter basket"
+          header="What's in your starter basket:"
           percentComplete="60"
         />
       ),
@@ -403,39 +401,6 @@ const QuizForm = ({
   )
 }
 
-const ImageContainer = styled.div`
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: space-between;
-  align-items: flex-start;
-`
-const ImageLabel = styled.label`
-  width: calc(50% - 8px);
-  max-width: 400px;
-  min-height: 310px;
-  background-color: #fff;
-  
-  border-radius: 4px;
-  border: none
-
-  -webkit-box-shadow: 4px 6px 19px 1px rgba(0, 0, 0, 0.34);
-  -moz-box-shadow: 4px 6px 19px 1px rgba(0, 0, 0, 0.34);
-  box-shadow: 4px 6px 19px 1px rgba(0, 0, 0, 0.34);
-  ${props =>
-    props.isChecked
-      ? `
-    position: relative;
-    top: 2px;
-    background-color: #fdf0e6;
-    border: 2px solid #f7c59f;
-    -webkit-box-shadow: 4px 6px 19px 1px rgba(0, 0, 0,0.64);
-    -moz-box-shadow: 4px 6px 19px 1px rgba(0, 0, 0,0.64);
-    box-shadow: 4px 6px 19px 1px rgba(0, 0, 0, 0.64);
-
-
-  `
-      : ""}
-`
 const ImageCardText = styled.div`
   color: #333;
   padding: 16px 16px 8px 16px;
@@ -444,21 +409,6 @@ const ImageCardText = styled.div`
   line-height: 1.25rem;
   margin-bottom: 8px;
 `
-const ImageCardDetails = styled(ImageCardText)`
-  font-family: hk_groteskregular, sans-serif;
-  font-size: 1rem;
-  line-height: 1rem;
-  font-weight: 500;
-  ${props => (props.highlight ? "font-weight: 600;" : "")}
-  padding: 8px 16px 0 16px;
-`
-
-const RadioImage = styled(Image)`
-  height: 120px;
-  width: 100%;
-  border-top-left-radius: 4px;
-  border-top-right-radius: 4px;
-`
 
 const ChooseYourStarterForm = ({
   onSubmit,
@@ -466,10 +416,6 @@ const ChooseYourStarterForm = ({
   percentComplete,
   goBackFunction,
 }) => {
-  const starterSchema = yup.object().shape({
-    boxChoice: yup.string().required("Please select an option"),
-  })
-
   const FormContent = ({ values }) => {
     return <BasketPreview />
   }

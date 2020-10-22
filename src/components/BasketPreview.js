@@ -1,6 +1,7 @@
 import {
   Card,
   DetailCell2,
+  Header,
   LineBreak,
 } from "../components/StyledComponentLib"
 import { graphql, useStaticQuery } from "gatsby"
@@ -13,18 +14,25 @@ const ThinLineBreak = styled(LineBreak)`
   height: 1px;
 `
 
-// const Message = styled(Header)`
-//   color: #000;
-//   font-size: 1rem;
-//   padding: 8px 100px;
-//   margin: 0;
-// `
+const MessageBox = styled.div`
+  display: flex;
+  flex-direction: column;
+`
+
+const Message = styled.div`
+  color: #000;
+  font-family: hk_grotesksemibold, sans-serif;
+  font-size: 0.875rem;
+  padding: 8px 0px;
+  margin: 0;
+  display: block;
+`
 
 const Content = styled.div`
   min-width: 300px;
   max-width: 500px;
   min-height: 500px;
-  height: calc(100vh - 300px);
+  height: 300px;
   overflow: scroll;
 `
 
@@ -83,31 +91,28 @@ const BasketPreview = () => {
           oneLiner={product.data.oneLiner}
           priceLabel="$5.00"
           canEdit={false}
-          childImageSharp={
-            data.allAirtable.nodes.productGroup.data.mainImage.localFiles
-              .childImageSharp || null
-          }
+          // childImageSharp={
+          //   product.data.productGroup.data.mainImage.localFiles
+          //     .childImageSharp || null
+          // }
           imageSrc="placeholder.png"
         />
         <ThinLineBreak />
       </>
     )
   })
+
   return (
     <Card>
-      <DetailCell2>All items in The Local Pluck are:</DetailCell2>
-      <DetailCell2>√</DetailCell2>
-      <DetailCell2 right>from local farmers under 2 hours away</DetailCell2>
-      <DetailCell2>√</DetailCell2>
-      <DetailCell2 right>grown without pesticides or GMOs</DetailCell2>
-      <DetailCell2>√</DetailCell2>
-      <DetailCell2 right>are in season</DetailCell2>
-      <DetailCell2>√</DetailCell2>
-      <DetailCell2 right>picked the same week they arrive</DetailCell2>
+      <MessageBox>
+        <Message>All items in The Local Pluck are:</Message>
+        <Message>- From local farmers under 2 hours away</Message>
+        <Message>- Grown without pesticides or GMOs</Message>
+        <Message>- In season</Message>
+        <Message>- Picked the same week they arrive</Message>
+      </MessageBox>
       <LineBreak />
-
       <Content>{items}</Content>
-
       <LineBreak />
       <DetailCell2 bold>Not big on squash?</DetailCell2>
       <DetailCell2 bold>
