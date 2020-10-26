@@ -55,6 +55,7 @@ export const ButtonSmall = styled(Link)`
     background-color: #df928e;
   }
 `
+
 export const SubmitButton = styled(ButtonSmall)`
   font-family: Bebas Neue, sans-serif;
   background-color: #f7c59f;
@@ -106,6 +107,7 @@ export const Header = styled.div`
     line-height: 2rem;
   }
 `
+
 export const Header2 = styled.div`
   color: #fff;
   font-family: Raleway, sans-serif;
@@ -120,6 +122,10 @@ export const Header2 = styled.div`
   }
 `
 
+export const Bold = styled.span`
+  font-family: hk_grotesksemibold, sans-serif;
+`
+
 export const StyledField = styled(Field)`
   border-radius: 4px;
   border: none;
@@ -129,12 +135,14 @@ export const StyledField = styled(Field)`
   color: #3f3a40;
   font-size: 1.125rem;
 `
+
 export const StyledErrorMessage = styled(ErrorMessage)`
   color: #fff;
   font-family: Raleway, sans-serif;
   font-size: 1rem;
   width: 100%;
 `
+
 export const StyledForm = styled(Form)`
   font-family: Bebas Neue, sans-serif;
   width: 500px;
@@ -154,7 +162,8 @@ export const LineBreak = styled.div`
   background-color: #eaeaea;
   margin: 8px auto 16px auto;
 `
-const DetailCell = styled.div`
+
+export const DetailCell = styled.div`
   font-family: "hk_groteskregular", sans-serif;
   box-sizing: border-box;
   flex-grow: 1;
@@ -171,4 +180,9 @@ const DetailCell = styled.div`
 
 export const DetailCell2 = styled(DetailCell)`
   width: 50%;
+`
+
+export const TermsLink = styled.a`
+  color: #fffd82;
+  text-decoration: underline;
 `

@@ -8,8 +8,30 @@ html {
   box-sizing: inherit;
 }
 
+:root {
+  --primary-text: #2d2d2d;
+  --secondary-text: #666;
+  --black: #000;
+  --white: #fff;
+  --green-text: #3b6635;
+  --red-text: #9a4726;
+  --gray-text: #969696;
+  --gray-bg: #f6f6f6;
+  --gray-border: #c3c3c3;
+  --gray-bg-transparent: rgba(45, 45, 45, 0.38);
+  --tan-bg: #fff9ea;
+  --tanner-bg: #eee7ca;
+  --yellow-bg: #f1c34a;
+  --yellow-bg-transparent: rgba(241, 195, 74, 0.44);
+  --green-bg: #b0c472;
+  --green-bg-transparent: rgba(176, 196, 114, 0.44);
+  --brown-bg: #f2ebd1;
+  --error-bg: #ffe0d0;
+  --success-bg: #fbffed;
+  --ivy: #4c884b;
+}
+
 body {
-  font-family: Raleway, sans-serif;
   line-height: 1.5;
   margin: 0;
   min-height: 100%;
@@ -18,6 +40,9 @@ body {
 
 /* Font smoothing by default */
 body {
+  font-family: hk_groteskregular, sans-serif;
+  text-rendering: optimizeLegibility;
+  font-feature-settings: "kern" 1;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -36,6 +61,10 @@ body {
   clear: both;
   flex-basis: 0;
   order: 1;
+}
+
+ul {
+  margin: 0;
 }
 
 /* Make buttons predictable & styleable */

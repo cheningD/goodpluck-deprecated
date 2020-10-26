@@ -1,39 +1,47 @@
-import {
-  Card,
-  DetailCell2,
-  Header,
-  LineBreak,
-} from "../components/StyledComponentLib"
+import { Card, Header, LineBreak } from "../components/StyledComponentLib"
 import { graphql, useStaticQuery } from "gatsby"
 
 import BasketItem from "../components/BasketItem"
+import Image from "../components/Image"
 import React from "react"
+import get from "lodash-es/get"
 import styled from "styled-components"
 
 const ThinLineBreak = styled(LineBreak)`
   height: 1px;
 `
 
-const MessageBox = styled.div`
-  display: flex;
-  flex-direction: column;
+const Detail = styled.div`
+  font-family: hk_grotesklight, sans-serif;
+  width: 100%;
+  text-align: left;
+  margin-left: 16px;
+
+  ${props => (props.bold ? "font-family: hk_grotesksemibold, sans-serif;" : "")}
 `
 
-const Message = styled.div`
-  color: #000;
+const Title = styled(Detail)`
   font-family: hk_grotesksemibold, sans-serif;
-  font-size: 0.875rem;
-  padding: 8px 0px;
-  margin: 0;
-  display: block;
+  font-size3 1.25 rem;
 `
 
 const Content = styled.div`
-  min-width: 300px;
-  max-width: 500px;
-  min-height: 500px;
   height: 300px;
   overflow: scroll;
+`
+const Checkmark = styled(Image)`
+  width: 16px;
+  height 16px;
+  display: inline-block;
+  margin-right: 8px;
+  filter: invert(26%) sepia(71%) saturate(6327%) hue-rotate(115deg) brightness(104%) contrast(104%);
+`
+
+const BasketImage = styled(Image)`
+  width: 40px;
+  height 40px;
+  display: inline-block;
+  margin: 0 16px -8px 0;
 `
 
 const BasketPreview = () => {
@@ -91,11 +99,12 @@ const BasketPreview = () => {
           oneLiner={product.data.oneLiner}
           priceLabel="$5.00"
           canEdit={false}
-          // childImageSharp={
-          //   product.data.productGroup.data.mainImage.localFiles
-          //     .childImageSharp || null
-          // }
-          imageSrc="placeholder.png"
+          isLocal={true}
+          childImageSharp={get(
+            product,
+            "data.productGroup[0].data.mainImage.localFiles[0].childImageSharp",
+            null
+          )}
         />
         <ThinLineBreak />
       </>
@@ -103,25 +112,52 @@ const BasketPreview = () => {
   })
 
   return (
-    <Card>
-      <MessageBox>
-        <Message>All items in The Local Pluck are:</Message>
-        <Message>- From local farmers under 2 hours away</Message>
-        <Message>- Grown without pesticides or GMOs</Message>
-        <Message>- In season</Message>
-        <Message>- Picked the same week they arrive</Message>
-      </MessageBox>
-      <LineBreak />
-      <Content>{items}</Content>
-      <LineBreak />
-      <DetailCell2 bold>Not big on squash?</DetailCell2>
-      <DetailCell2 bold>
-        This basket is 100% customizable, swap out any item or add to your order
-        from our selection of 100+ options of fresh local produce, bakery,
-        dairy, eggs and more{" "}
-      </DetailCell2>
-      <DetailCell2 bold>You can edit your cart after checkout</DetailCell2>
-    </Card>
+    <>
+      <Card>
+        <Title bold>The Local Pluck</Title>
+        <Detail>
+          Our $35 starter basket is filled with 10-12 different types of the
+          best local produce growing right now
+        </Detail>
+        <ThinLineBreak />
+        <Detail bold>
+          <Checkmark alt="check" src="checkmark.png" />
+          Free shipping
+        </Detail>
+        <Detail bold>
+          <Checkmark alt="check" src="checkmark.png" />
+          From local farmers under 2 hours away
+        </Detail>
+        <Detail bold>
+          <Checkmark alt="check" src="checkmark.png" />
+          Grown without pesticides or GMOs
+        </Detail>
+        <Detail bold>
+          <Checkmark alt="check" src="checkmark.png" />
+          In season
+        </Detail>
+        <Detail bold>
+          <Checkmark alt="check" src="checkmark.png" />
+          Picked, plucked or baked this week
+        </Detail>
+      </Card>
+
+      <Header>
+        <BasketImage src="basket.png" alt="Your basket" />
+        What's Inside?
+      </Header>
+
+      <Card>
+        <Content>{items}</Content>
+        <LineBreak />
+        <Detail bold>Not big on squash? Need more kale?</Detail>
+        <Detail>
+          {`Our starter basket is 100% customizable. Swap, remove or add any item from our wide selection of fresh local produce, bakery, and 
+        eggs & dairy items.`}
+        </Detail>
+        <Detail bold>You can edit your basket after checkout</Detail>
+      </Card>
+    </>
   )
 }
 export default BasketPreview

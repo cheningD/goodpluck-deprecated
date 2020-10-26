@@ -1,22 +1,31 @@
 import * as yup from "yup"
 
 import {
+  Bold,
   Card,
   DetailCell2,
   Header,
   StyledErrorMessage,
   StyledField,
   SubmitButton,
+  TermsLink,
 } from "../components/StyledComponentLib"
-import { CardElement, Elements } from "@stripe/react-stripe-js"
+import {
+  CardElement,
+  Elements,
+  useElements,
+  useStripe,
+} from "@stripe/react-stripe-js"
 import { Form, Formik } from "formik"
+import React, { useState } from "react"
 import { VALID_ZIP_PATTERN, getMaxlengthFunc } from "../util"
 
-import Nav from "../components/Nav"
-import React from "react"
+import BasketDates from "../components/BasketDates"
+import Image from "../components/Image"
 import SEO from "../components/SEO"
 import { loadStripe } from "@stripe/stripe-js"
 import styled from "styled-components"
+import useLocalStorageState from "use-local-storage-state"
 
 const Columns = styled.div`
   height: 100%;
@@ -87,7 +96,14 @@ const TextInput = styled(StyledField)`
 `
 
 const ErrorMessage = styled(StyledErrorMessage)`
-  color: #a5342f;
+  color: #ce5852;
+`
+
+const StripeError = styled.div`
+  width: 100%;
+  background-color: #fff;
+  color: #ce5852;
+  padding: 8px 16px;
 `
 
 const CardElementStyle = {
@@ -143,27 +159,74 @@ const Note = styled.div`
   border-bottom-left-radius: 4px;
 `
 
-const OrderSummary = ({ nextChargeDate }) => {
+const Detail = styled.div`
+  font-family: hk_grotesklight, sans-serif;
+  width: 100%;
+  text-align: left;
+`
+
+const DetailHeader = styled(Detail)`
+  font-family: hk_grotesksemibold, sans-serif;
+  width: 100%;
+  text-align: left;
+  margin-bottom: 16px;
+`
+
+const BasketImage = styled(Image)`
+  width: 40px;
+  height 40px;
+  display: inline-block;
+  margin: 0 16px -8px 0;
+`
+
+const Blurb = styled.div`
+  text-align: justify;
+  font-size: 0.9rem;
+  color: #eaeaea;
+  line-height: 1rem;
+  margin-bottom: 32px;
+
+  div {
+    margin: 4px 0;
+  }
+
+  span {
+    margin: 4px 0;
+  }
+`
+
+const OrderSummary = () => {
   return (
     <>
-      <Header>Your Upcoming Basket</Header>
+      <Header>
+        <BasketImage src="basket.png" alt="Your basket" />
+        Your Upcoming Basket
+      </Header>
 
       <Card>
-        <DetailCell2 bold>The Local Pluck ($35)</DetailCell2>
-        <DetailCell2>
-          A box of our best seasonal produce from local farms.
-        </DetailCell2>
-        <DetailCell2>12 types of produce</DetailCell2>
-        <DetailCell2>2-3 portions per type </DetailCell2>
-        <DetailCell2>Free Shipping</DetailCell2>
-        <DetailCell2 bold>You can edit your basket after checkout</DetailCell2>
+        <DetailHeader>
+          The Local Pluck: our best seasonal produce from local farms
+        </DetailHeader>
+
+        <DetailCell2>Order frequency:</DetailCell2>
+        <DetailCell2 right>Every Week</DetailCell2>
+        <DetailCell2>Base cost:</DetailCell2>
+        <DetailCell2 right>$35</DetailCell2>
+        <DetailCell2>Shipping:</DetailCell2>
+        <DetailCell2 right>Free</DetailCell2>
       </Card>
+
+      <BasketDates />
     </>
   )
 }
 
-const CheckoutForm = ({ onSubmit }) => {
-  const nextChargeDate = "Friday, Oct 23" // Todo: make this dynamic
+const CheckoutForm = ({
+  onSubmit,
+  handleChangeStripe,
+  onboardingFormData,
+  stripeError,
+}) => {
   const checkoutSchema = yup.object().shape({
     first: yup
       .string()
@@ -201,11 +264,11 @@ const CheckoutForm = ({ onSubmit }) => {
       initialValues={{
         first: "",
         last: "",
-        email: "",
+        email: onboardingFormData.email || "",
         addressLine1: "",
         addressLine2: "",
         phone: "",
-        zip: "",
+        zip: onboardingFormData.zip || "",
       }}
       validationSchema={checkoutSchema}
       onSubmit={onSubmit}
@@ -228,13 +291,46 @@ const CheckoutForm = ({ onSubmit }) => {
             </Fieldset>
             <Header>Billing Information</Header>
             <CardFieldset>
-              <CardElement options={{ style: CardElementStyle }} />
+              <CardElement
+                id="card-element"
+                options={{ style: CardElementStyle }}
+                onChange={handleChangeStripe}
+              />
             </CardFieldset>
-            <Note>{`Please note: You can edit your basket until ${nextChargeDate}. Your card will be charged on that day.`}</Note>
+            {stripeError ? <StripeError>{stripeError}</StripeError> : ""}
+            <Note>{`Please note, your first basket will be charged on Oct 29`}</Note>
 
             <SubmitButton as="button" type="submit" disabled={isSubmitting}>
               Confirm Order
             </SubmitButton>
+
+            <Blurb>
+              <Bold>
+                By clicking "Confirm Order" you agree to our{" "}
+                <TermsLink href="/terms" target="_blank">
+                  Terms of Service
+                </TermsLink>{" "}
+                and{" "}
+                <TermsLink href="/privacy" target="_blank">
+                  Privacy Policy
+                </TermsLink>
+                .
+              </Bold>
+              <Bold>
+                You agree that your subscription will automatically renew and
+                your credit card will be charged until you pause or cancel your
+                order.
+              </Bold>
+              <div>
+                The amount charged will depend on the contents of your basket,
+                which by default is equal to or less than the subscription's
+                base price.
+              </div>
+              <div>
+                Cancelling your subscription will not cancel a subscription that
+                you have already been charged for.
+              </div>
+            </Blurb>
 
             <DisplayNoneIfScreenAbove767>
               <OrderSummary />
@@ -250,17 +346,117 @@ const stripePromise = loadStripe(
   "pk_test_51H648LDnJ2NuGUX1oBIAwnMqH295Mt7bMXXw7J6xcWJaVmj3kGrpfrTvIaI78BE79CbIfgaMEZpCqLXCsYKxbJJQ00BwKIIHcH"
 )
 
+// POST the token ID to your backend.
+const createUser = async params => {
+  console.log("Sending data to backend... ", params)
+  const response = await fetch(
+    "https://goodpluck_cf_worker.pluck.workers.dev/createuser",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(params),
+    }
+  )
+  const responseJson = await response.json()
+
+  return responseJson
+}
+
 const Checkout = () => {
+  const [onboardingFormData] = useLocalStorageState(
+    "goodpluck-new-user-form",
+    {}
+  )
+
+  const [stripeErrorMessage, setStripeError] = useState(null)
+  const stripe = useStripe()
+  const elements = useElements()
+
+  // Handle real-time validation errors from the card Element.
+  const handleChangeStripe = event => {
+    if (event.error) {
+      setStripeError(event.error.message)
+    } else {
+      setStripeError(null)
+    }
+  }
+
+  // Handle form submission.
+  const handleSubmit = async value => {
+    console.log("Result from create account", value)
+    console.log("Result from onboarding form", onboardingFormData)
+
+    const card = elements.getElement(CardElement)
+    const result = await stripe.createToken(card)
+    console.log("Result from stripe", result)
+    if (result.error) {
+      // Inform the user if there was an error.
+      setStripeError(result.error.message)
+      console.log("Errar with stripe!", setStripeError(result.error.message))
+    } else {
+      setStripeError(null)
+      // Send the token to your server.
+      console.log("Sending token to server/....!")
+
+      const createUserParams = {
+        addressLine1: value.addressLine1,
+        email: value.email,
+        first: value.first,
+        last: value.last,
+        phone: value.phone,
+        zip: value.zip,
+        quizData: onboardingFormData,
+        stripeToken: result.token.id,
+      }
+
+      if (value.addressLine2) {
+        createUserParams.addressLine2 = value.addressLine2
+      }
+      const createUserResponseJson = await createUser(createUserParams)
+      console.log("createUserResponseJson", createUserResponseJson)
+      if (true) {
+        const clientSecret =
+          createUserResponseJson.createSetupIntentResponseJSON.client_secret
+        const result = await stripe.confirmCardSetup(clientSecret, {
+          payment_method: {
+            card: card,
+            billing_details: {
+              name: `${value.first} ${value.last}`,
+            },
+          },
+        })
+
+        if (result.error) {
+          // Inform the user if there was an error.
+          setStripeError(result.error.message)
+          console.log(
+            "Error confirming card!",
+            setStripeError(result.error.message)
+          )
+        } else {
+          console.log(
+            `result from confirming intent... ${JSON.stringify(result)}   <--`,
+            result
+          )
+          // Verify result.setupIntent.status === succeeded and then navigate to confirmation page
+        }
+      }
+    }
+  }
+
   return (
     <>
       <SEO title="Checkout" />
-      <Nav />
-
       <Columns>
         <Column>
-          <Elements stripe={stripePromise}>
-            <CheckoutForm />
-          </Elements>
+          <CheckoutForm
+            onSubmit={handleSubmit}
+            handleChangeStripe={handleChangeStripe}
+            onboardingFormData={onboardingFormData}
+            stripeError={stripeErrorMessage}
+          />
         </Column>
         <Column>
           <DisplayNoneIfScreenUnder767>
@@ -271,4 +467,11 @@ const Checkout = () => {
     </>
   )
 }
-export default Checkout
+
+const CheckoutPage = () => (
+  <Elements stripe={stripePromise}>
+    <Checkout />
+  </Elements>
+)
+
+export default CheckoutPage
