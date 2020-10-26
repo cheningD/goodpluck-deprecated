@@ -400,7 +400,7 @@ const ChooseYourStarterForm = ({
   submitText,
 }) => {
   const FormContent = ({ values }) => {
-    return <BasketPreview />
+    return <BasketPreview numberOfVisibleItems={4} />
   }
 
   return (

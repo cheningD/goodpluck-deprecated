@@ -14,8 +14,8 @@ const ItemContainer = styled.div`
 
 const ImageContainer = styled.div`
 
-  width: ${props => (props.size === "large" ? "100px;" : "64px;")}
-  height: ${props => (props.size === "large" ? "100px;" : "64px;")}
+  width: ${props => (props.isCompact ? "64px;" : "100px;")}
+  height: ${props => (props.isCompact ? "64px;" : "100px;")}
   
 `
 const ItemImage = styled(Image)`
@@ -110,9 +110,7 @@ const BasketItem = ({
 
   return (
     <ItemContainer>
-      <ImageContainer size={isCompact ? "small" : "large"}>
-        {image}
-      </ImageContainer>
+      <ImageContainer isCompact>{image}</ImageContainer>
       <Product>
         <Title>
           <QuantityLabel>{quantityLabel} </QuantityLabel>
