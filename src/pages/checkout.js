@@ -24,6 +24,7 @@ import BasketDates from "../components/BasketDates"
 import Image from "../components/Image"
 import SEO from "../components/SEO"
 import { loadStripe } from "@stripe/stripe-js"
+import { navigate } from "gatsby"
 import styled from "styled-components"
 import useLocalStorageState from "use-local-storage-state"
 
@@ -441,6 +442,7 @@ const Checkout = () => {
             result
           )
           // Verify result.setupIntent.status === succeeded and then navigate to confirmation page
+          navigate("/market") // Todo: This should go to basket.
         }
       }
     }
