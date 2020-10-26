@@ -88,7 +88,7 @@ const HowItWorksSection = () => {
             Add, change or remove any item from our selection of produce, farm
             goods, and groceries.
           </Text>
-          <PrimaryButton to="/getstarted">Build your basket</PrimaryButton>
+          <PrimaryButton to="/getstarted">Your first basket</PrimaryButton>
         </MainCopy>
       </SubSection>
     </Section>

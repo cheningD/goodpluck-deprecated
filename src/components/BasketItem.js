@@ -1,6 +1,7 @@
 import AddToCartButton from "../components/AddToCartButton"
-// import Chevron from "../components/Chevron"
 import Image from "../components/Image"
+// import Chevron from "../components/Chevron"
+import Img from "gatsby-image"
 import React from "react"
 import styled from "styled-components"
 
@@ -79,6 +80,8 @@ const BasketItem = ({
   isOrganic,
   isLocal,
   isInSeason,
+  childImageSharp,
+  isCompact,
 }) => {
   let controls = ""
   if (canEdit) {
@@ -95,13 +98,20 @@ const BasketItem = ({
     )
   }
 
+  console.log("childImageSharp", childImageSharp)
+  let image = ""
+  if (childImageSharp) {
+    image = <Img fluid={childImageSharp.fluid} alt={name} />
+  } else {
+    image = (
+      <ItemImage src={imageSrc || "placeholder.jpg"} alt="placeholder-image" />
+    )
+  }
+
   return (
     <ItemContainer>
-      <ImageContainer size={canEdit ? `large` : `small`}>
-        <ItemImage
-          src={imageSrc || "placeholder.jpg"}
-          alt="placeholder-image"
-        />
+      <ImageContainer size={isCompact ? "small" : "large"}>
+        {image}
       </ImageContainer>
       <Product>
         <Title>

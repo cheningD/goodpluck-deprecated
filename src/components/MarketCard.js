@@ -1,7 +1,6 @@
 import {
   Card,
   DetailCell2,
-  Header,
   LineBreak,
   MobileViewOnly,
 } from "../components/StyledComponentLib"
@@ -40,10 +39,6 @@ const Content = styled.div`
   min-height: 500px;
   height: calc(100vh - 200px);
   overflow: scroll;
-`
-
-const H1 = styled(Header)`
-  color: #000;
 `
 
 const MarketCard = ({ deliveryDate, orderFrequency }) => {
@@ -179,8 +174,6 @@ const FilterGroup = ({ options, updateOptions }) => {
     } else if (label === "Local") {
       imgSrc = "mitten.png"
     }
-
-    console.log("imgSrc ------------------>", imgSrc)
 
     const toggleValue = {}
     toggleValue[label] = !options[label]

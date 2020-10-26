@@ -13,7 +13,6 @@ import React, { useState } from "react"
 
 import Arrow from "../images/icons/arrow.svg"
 import BasketPreview from "../components/BasketPreview"
-import Image from "../components/Image"
 import SEO from "../components/SEO"
 import { VALID_ZIP_PATTERN } from "../util"
 import { navigate } from "gatsby"
@@ -37,11 +36,7 @@ const Blurb = styled.div`
   font-family: Raleway, sans-serif;
   color: #fff;
 `
-const TermsLink = styled.a`
-  font-family: Raleway, sans-serif;
-  color: #fffd82;
-  text-decoration: underline;
-`
+
 const ButtonArrow = styled(Arrow)`
   display: inline-block;
   margin-left: 20px;
@@ -170,6 +165,7 @@ const GetStarted = () => {
             "Regenerative Agriculture",
           ]}
           percentComplete="40"
+          submitText="Build your basket"
         />
       ),
       next: () => setFormStep("chooseYourStarter"),
@@ -179,8 +175,9 @@ const GetStarted = () => {
         <ChooseYourStarterForm
           goBackFunction={() => setFormStep("valuesQuiz")}
           onSubmit={onSubmitHandler}
-          header="What's in your starter basket:"
+          header="Your first basket"
           percentComplete="60"
+          submitText="Set delivery preferences"
         />
       ),
       next: () => setFormStep("deliveryPreferences"),
@@ -192,6 +189,7 @@ const GetStarted = () => {
           onSubmit={onSubmitHandler}
           header="Choose your delivery preferences"
           percentComplete="80"
+          submitText="Finish creating your account"
         />
       ),
       next: () => navigate(`/checkout`),
@@ -264,6 +262,7 @@ const FormWrapper = ({
   percentComplete,
   blurb,
   goBackFunction,
+  submitText,
 }) => {
   const form = ({ isSubmitting, ...rest }) => {
     return (
@@ -282,7 +281,7 @@ const FormWrapper = ({
         <FormContent isSubmitting={isSubmitting} {...rest} />
         <FieldWrapper>
           <SubmitButton as="button" type="submit" disabled={isSubmitting}>
-            Continue
+            {submitText ? `${submitText}` : `Continue`}
             <ButtonArrow />
           </SubmitButton>
         </FieldWrapper>
@@ -311,6 +310,7 @@ const EmailZipForm = ({
   header,
   percentComplete,
   goBackFunction,
+  submitText,
 }) => {
   const zipSchema = yup.object().shape({
     email: yup
@@ -346,19 +346,8 @@ const EmailZipForm = ({
       FormContent={FormContent}
       header={header}
       percentComplete={percentComplete}
-      blurb={
-        <>
-          By providing your email address, you agree to our{" "}
-          <TermsLink href="/terms" target="_blank">
-            Terms of Service
-          </TermsLink>{" "}
-          and{" "}
-          <TermsLink href="/privacy" target="_blank">
-            Privacy Policy
-          </TermsLink>
-        </>
-      }
       goBackFunction={goBackFunction}
+      submitText={submitText}
     />
   )
 }
@@ -370,6 +359,7 @@ const QuizForm = ({
   percentComplete,
   goBackFunction,
   blurb,
+  submitText,
 }) => {
   const initialValues = {}
   items.forEach(item => {
@@ -397,24 +387,17 @@ const QuizForm = ({
       percentComplete={percentComplete}
       goBackFunction={goBackFunction}
       blurb={blurb}
+      submitText={submitText}
     />
   )
 }
-
-const ImageCardText = styled.div`
-  color: #333;
-  padding: 16px 16px 8px 16px;
-  font-family: hk_grotesksemibold, sans-serif;
-  font-weight: 600;
-  line-height: 1.25rem;
-  margin-bottom: 8px;
-`
 
 const ChooseYourStarterForm = ({
   onSubmit,
   header,
   percentComplete,
   goBackFunction,
+  submitText,
 }) => {
   const FormContent = ({ values }) => {
     return <BasketPreview />
@@ -422,13 +405,13 @@ const ChooseYourStarterForm = ({
 
   return (
     <FormWrapper
-      // initialValues={{ customBox: false, localStarter: false }}
-      // validationSchema={starterSchema}
+      initialValues={{}}
       onSubmit={onSubmit}
       FormContent={FormContent}
       header={header}
       percentComplete={percentComplete}
       goBackFunction={goBackFunction}
+      submitText={submitText}
     />
   )
 }
@@ -438,6 +421,7 @@ const DeliveryPreferencesQuiz = ({
   header,
   percentComplete,
   goBackFunction,
+  submitText,
 }) => {
   const FormContent = ({ values }) => {
     return (
@@ -495,6 +479,7 @@ const DeliveryPreferencesQuiz = ({
       header={header}
       percentComplete={percentComplete}
       goBackFunction={goBackFunction}
+      submitText={submitText}
     />
   )
 }
