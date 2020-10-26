@@ -1,9 +1,10 @@
 import { Card, Header, LineBreak } from "../components/StyledComponentLib"
+import React, { useState } from "react"
 import { graphql, useStaticQuery } from "gatsby"
 
 import BasketItem from "../components/BasketItem"
+import Chevron from "./Chevron"
 import Image from "../components/Image"
-import React from "react"
 import get from "lodash-es/get"
 import styled from "styled-components"
 
@@ -26,8 +27,8 @@ const Title = styled(Detail)`
 `
 
 const Content = styled.div`
-  height: 300px;
-  overflow: scroll;
+  // height: 300px;
+  // overflow: scroll;
 `
 const Checkmark = styled(Image)`
   width: 16px;
@@ -44,7 +45,22 @@ const BasketImage = styled(Image)`
   margin: 0 16px -8px 0;
 `
 
-const BasketPreview = () => {
+const Button = styled.button`
+  color: #788474;
+  margin: 16px auto;
+  padding: 16px;
+  border: 2px solid #788474;
+  border-radius: 4px;
+`
+
+const StyledChevron = styled(Chevron)`
+  padding-right: 8px;
+  padding-top: 4px;
+`
+
+const BasketPreview = ({ numberOfVisibleItems }) => {
+  const [showAllItems, setShowAllItems] = useState(false)
+
   const data = useStaticQuery(graphql`
     {
       allAirtable(
@@ -100,6 +116,9 @@ const BasketPreview = () => {
           priceLabel="$5.00"
           canEdit={false}
           isLocal={true}
+          isOrganic={false}
+          isInSeason={false}
+          isCompact={true}
           childImageSharp={get(
             product,
             "data.productGroup[0].data.mainImage.localFiles[0].childImageSharp",
@@ -110,6 +129,22 @@ const BasketPreview = () => {
       </>
     )
   })
+
+  const showFewerBtn = (
+    <Button type="button" onClick={() => setShowAllItems(false)}>
+      See fewer items
+      <StyledChevron direction="up" />
+    </Button>
+  )
+
+  const showMoreBtn = (
+    <Button type="button" onClick={() => setShowAllItems(true)}>
+      {`See all ${items.length} items`}
+      <StyledChevron direction="down" />
+    </Button>
+  )
+
+  const BasketShowHideBtn = showAllItems ? showFewerBtn : showMoreBtn
 
   return (
     <>
@@ -148,7 +183,10 @@ const BasketPreview = () => {
       </Header>
 
       <Card>
-        <Content>{items}</Content>
+        <Content>
+          {showAllItems ? items : items.slice(0, numberOfVisibleItems)}
+          {numberOfVisibleItems < items.length ? BasketShowHideBtn : ""}
+        </Content>
         <LineBreak />
         <Detail bold>Not big on squash? Need more kale?</Detail>
         <Detail>

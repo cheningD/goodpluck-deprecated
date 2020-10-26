@@ -442,7 +442,7 @@ const Checkout = () => {
             result
           )
           // Verify result.setupIntent.status === succeeded and then navigate to confirmation page
-          navigate("/market") // Todo: This should go to basket.
+          navigate("/market") // Todo: This should go to basket page.
         }
       }
     }
