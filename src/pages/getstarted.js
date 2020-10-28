@@ -1,50 +1,23 @@
 import * as yup from "yup"
 
-import { Field, Formik } from "formik"
 import {
-  Header,
+  FieldWrapper,
   Header2,
   StyledErrorMessage,
   StyledField,
-  StyledForm,
-  SubmitButton,
 } from "../components/StyledComponentLib"
 import React, { useState } from "react"
 
-import Arrow from "../images/icons/arrow.svg"
 import BasketPreview from "../components/BasketPreview"
+import { Field } from "formik"
+import FormWrapper from "../components/FormWrapper"
+import Nav from "../components/Nav"
 import SEO from "../components/SEO"
 import { VALID_ZIP_PATTERN } from "../util"
 import { navigate } from "gatsby"
 import styled from "styled-components"
 import useLocalStorageState from "use-local-storage-state"
 
-const Wrapper = styled.div`
-  background-color: #6c7668;
-  font-family: Bebas Neue, sans-serif;
-  width: 100%;
-  min-height: calc(100vh + 32px);
-  padding-bottom: 32px;
-`
-
-const FieldWrapper = styled.div`
-  margin: 36px 0;
-  width: 100%;
-`
-
-const Blurb = styled.div`
-  font-family: Raleway, sans-serif;
-  color: #fff;
-`
-
-const ButtonArrow = styled(Arrow)`
-  display: inline-block;
-  margin-left: 20px;
-  -webkit-box-flex: 0;
-  -webkit-flex: 0 0 auto;
-  -ms-flex: 0 0 auto;
-  flex: 0 0 auto;
-`
 const Checkbox = styled(Field)`
   display: none;
 `
@@ -220,91 +193,12 @@ const GetStarted = () => {
   return (
     <>
       <SEO title="Get Started | Goodpluck" />
+      <Nav />
       {currentForm}
     </>
   )
 }
 export default GetStarted
-
-const ProgressBar = ({ percentComplete, color, bkcolor }) => {
-  return (
-    <div
-      style={{
-        backgroundColor: `${bkcolor}`,
-        margin: "16px 0",
-      }}
-    >
-      <div
-        style={{
-          height: "4px",
-          width: `${percentComplete}%`,
-          backgroundColor: `${color}`,
-        }}
-      />
-    </div>
-  )
-}
-
-const BackButton = styled(Arrow)`
-  transform: rotate(180deg);
-
-  // Make the arrow white
-  filter: invert(100%) sepia(1%) saturate(7500%) hue-rotate(157deg)
-    brightness(110%) contrast(114%);
-`
-
-const FormWrapper = ({
-  initialValues,
-  validationSchema,
-  onSubmit,
-  header,
-  FormContent,
-  percentComplete,
-  blurb,
-  goBackFunction,
-  submitText,
-}) => {
-  const form = ({ isSubmitting, ...rest }) => {
-    return (
-      <StyledForm>
-        {goBackFunction ? <BackButton onClick={goBackFunction} /> : ""}
-        {percentComplete ? (
-          <ProgressBar
-            color="#f7c59f"
-            bkcolor="#788474"
-            percentComplete={percentComplete}
-          />
-        ) : (
-          ""
-        )}
-        <Header>{header}</Header>
-        <FormContent isSubmitting={isSubmitting} {...rest} />
-        <FieldWrapper>
-          <SubmitButton as="button" type="submit" disabled={isSubmitting}>
-            {submitText ? `${submitText}` : `Continue`}
-            <ButtonArrow />
-          </SubmitButton>
-        </FieldWrapper>
-        {blurb ? <Blurb>{blurb}</Blurb> : ""}
-      </StyledForm>
-    )
-  }
-
-  return (
-    <Wrapper>
-      <Formik
-        initialValues={initialValues}
-        validationSchema={validationSchema}
-        onSubmit={onSubmit}
-        validateOnBlur={true}
-        validateOnChange={false}
-      >
-        {form}
-      </Formik>
-    </Wrapper>
-  )
-}
-
 const EmailZipForm = ({
   onSubmit,
   header,

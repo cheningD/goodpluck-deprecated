@@ -1,12 +1,41 @@
-import "./Nav.css"
+// import "./Nav.css"
 
-import { ButtonSmall } from "../components/StyledComponentLib"
+import {
+  ButtonSmall,
+  TabletAndMobileViewOnly,
+} from "../components/StyledComponentLib"
+import { isSignedIn, showCartIcon, showGetStarted } from "../util"
+
 import { Hamburger } from "./Hamburger"
 import Image from "./Image"
 import { Link } from "gatsby"
 import React from "react"
 import styled from "styled-components"
 import { useShoppingCart } from "use-shopping-cart"
+
+const NavBar = styled.div`
+  line-height: 1;
+  padding: 24px 32px;
+  background: #788474;
+  box-shadow: #333;
+`
+const NavWrapper = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  height: 40px;
+`
+const BrandWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 1005%;
+`
+
+const BasketCount = styled.span`
+  padding: 0 0 0 0.5rem;
+`
 
 const BrandLink = styled(Link)`
   margin-right: auto;
@@ -48,7 +77,7 @@ const GetStartedLink = styled(PrimaryButton)`
     display: none;
   }
 `
-const SignInLink = styled(Link)`
+const NavLink = styled(Link)`
   font-size: 1.125rem;
   color: #fff;
   text-decoration-line: none;
@@ -124,20 +153,44 @@ const Nav = () => {
 
   return (
     <>
-      <div className="nav">
-        <div className="nav--wrapper">
-          <div className="brand--wrapper">
-            <Hamburger isOpen={isMobileNavOpen} onClick={toggleMobileNavOpen} />
+      <NavBar>
+        <NavWrapper>
+          <BrandWrapper>
+            <TabletAndMobileViewOnly>
+              <Hamburger
+                isOpen={isMobileNavOpen}
+                onClick={toggleMobileNavOpen}
+              />
+            </TabletAndMobileViewOnly>
+
             <BrandLink to="/">GOODPLUCK</BrandLink>
-            <SignInLink to="/signin">Sign In</SignInLink>
-            <GetStartedLink to="/getstarted">Get Started</GetStartedLink>
-            <CartLink />
-          </div>
-        </div>
-      </div>
+            {isSignedIn() ? (
+              <NavLink to="/myaccount">My Account</NavLink>
+            ) : (
+              <NavLink to="/signin">Sign In</NavLink>
+            )}
+
+            {showGetStarted() ? (
+              <GetStartedLink to="/getstarted">Get Started</GetStartedLink>
+            ) : (
+              ""
+            )}
+
+            {showCartIcon() ? <CartLink /> : ""}
+          </BrandWrapper>
+        </NavWrapper>
+      </NavBar>
       <NavMenu isMobileNavOpen={isMobileNavOpen}>
-        <PrimaryButton to="/getstarted">Get Started</PrimaryButton>
-        <SecondaryButton to="/signin">Sign In</SecondaryButton>
+        {showGetStarted() ? (
+          <PrimaryButton to="/getstarted">Get Started</PrimaryButton>
+        ) : (
+          ""
+        )}
+        {isSignedIn() ? (
+          <SecondaryButton to="/myaccount">My Account</SecondaryButton>
+        ) : (
+          <SecondaryButton to="/signin">Sign In</SecondaryButton>
+        )}
       </NavMenu>
     </>
   )
@@ -150,14 +203,19 @@ const CartLink = () => {
     priceID => priceID !== process.env.GATSBY_STRIPE_SHIPPING_LINE_ITEM_PRICE_ID
   ).length
 
+  let link_to = "/basket"
+  if (!isSignedIn()) {
+    link_to = "/getstarted"
+  }
+
   return (
-    <Cart to="/cart" className="cart-link">
+    <Cart to={link_to}>
       <Image
         src="cart_icon_green.png"
         alt="cart"
         style={{ height: "30px", width: "30px" }}
       />
-      <span className="cart-count">{`${realCartCount}`}</span>
+      <BasketCount>{`${realCartCount}`}</BasketCount>
     </Cart>
   )
 }

@@ -66,3 +66,38 @@ export function getFirstFromObject(obj) {
 
   return null
 }
+
+export const isSignedIn = () => false //Todo: Implement!
+
+export const showGetStarted = () => {
+  if (typeof window === `undefined`) {
+    return true
+  }
+
+  const path = window.location.pathname
+  if (path.startsWith("/checkout") || path.startsWith("/getstarted")) {
+    return false
+  }
+
+  if (isSignedIn()) {
+    return false
+  }
+  return true
+}
+
+export const hasCompletedOnboarding = () => {
+  return localStorage.getItem("goodpluck_onboarding_status") === "done"
+}
+
+export const showCartIcon = () => {
+  if (hasCompletedOnboarding()) {
+    return true
+  } else if (
+    typeof window !== `undefined` &&
+    window.location.pathname === "/" // Homepage
+  ) {
+    return true
+  } else {
+    return false
+  }
+}

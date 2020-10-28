@@ -124,13 +124,13 @@ const BasketDates = () => {
       </Text>
       <Container>
         <CheckboxList>
-          <CheckboxListItem done></CheckboxListItem>
           <CheckboxListItem active></CheckboxListItem>
+          <CheckboxListItem></CheckboxListItem>
           <CheckboxListItem></CheckboxListItem>
           <CheckboxListItem></CheckboxListItem>
         </CheckboxList>
         <DetailList>
-          <DetailListItem>Scheduled</DetailListItem>
+          <DetailListItem>Confirm Your Order</DetailListItem>
           <DetailListItem>
             Customize your basket<span>Oct 24th - Oct 29th</span>
           </DetailListItem>

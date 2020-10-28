@@ -10,12 +10,26 @@ export const MobileViewOnly = styled.div`
   }
 `
 
+export const TabletAndMobileViewOnly = styled.div`
+  display: none;
+  @media screen and (max-width: 786px) {
+    display: block;
+  }
+`
+
+export const DesktopViewOnly = styled.div`
+  display: none;
+  @media screen and (max-width: 786px) {
+    display: block;
+  }
+`
+
 export const ButtonSmall = styled(Link)`
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  margin-bottom: 64px;
+  margin-bottom: 32px;
   padding: 18px 30px;
   -webkit-box-pack: center;
   -webkit-justify-content: center;
@@ -185,4 +199,9 @@ export const DetailCell2 = styled(DetailCell)`
 export const TermsLink = styled.a`
   color: #fffd82;
   text-decoration: underline;
+`
+
+export const FieldWrapper = styled.div`
+  margin: 36px 0;
+  width: 100%;
 `

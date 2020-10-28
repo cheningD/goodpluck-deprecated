@@ -22,7 +22,9 @@ import { VALID_ZIP_PATTERN, getMaxlengthFunc } from "../util"
 
 import BasketDates from "../components/BasketDates"
 import Image from "../components/Image"
+import Nav from "../components/Nav"
 import SEO from "../components/SEO"
+import { createUser } from "../actions"
 import { loadStripe } from "@stripe/stripe-js"
 import { navigate } from "gatsby"
 import styled from "styled-components"
@@ -59,7 +61,7 @@ height: 100%
 `
 
 const Fieldset = styled.fieldset`
-  margin: 32px 0;
+  margin: 16px 0 32px 0;
   border-radius: 4px;
   border: none;
   padding: 0;
@@ -69,12 +71,6 @@ const Fieldset = styled.fieldset`
   font-size: 1.125rem;
   overflow: hidden;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-`
-
-const FieldWrapper = styled.div`
-  width: 100%;
-  border-top: 1px solid #eaeaea;
-  padding: 0 16px;
 `
 
 const CardFieldset = styled(Fieldset)`
@@ -142,6 +138,11 @@ const DisplayNoneIfScreenUnder767 = styled.div`
     display: none;
   }
 `
+const FieldWrapper = styled.div`
+  width: 100%;
+  border-top: 1px solid #eaeaea;
+  padding: 0 16px;
+`
 
 const FormField = ({ name, placeholder }) => (
   <FieldWrapper>
@@ -188,7 +189,7 @@ const Blurb = styled.div`
   margin-bottom: 32px;
 
   div {
-    margin: 4px 0;
+    margin: 8px 0;
   }
 
   span {
@@ -322,14 +323,20 @@ const CheckoutForm = ({
                 your credit card will be charged until you pause or cancel your
                 order.
               </Bold>
+
+              <div>
+                Canelling is easy and has no penalties. To cancel, sign in and
+                click "My Account" at the top of the page. The pause and cancel
+                buttons will be under "Manage my order".
+              </div>
               <div>
                 The amount charged will depend on the contents of your basket,
                 which by default is equal to or less than the subscription's
                 base price.
               </div>
               <div>
-                Cancelling your subscription will not cancel a subscription that
-                you have already been charged for.
+                Cancelling your subscription will not cancel a delivery that you
+                have already been charged for.
               </div>
             </Blurb>
 
@@ -348,22 +355,6 @@ const stripePromise = loadStripe(
 )
 
 // POST the token ID to your backend.
-const createUser = async params => {
-  console.log("Sending data to backend... ", params)
-  const response = await fetch(
-    "https://goodpluck_cf_worker.pluck.workers.dev/createuser",
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(params),
-    }
-  )
-  const responseJson = await response.json()
-
-  return responseJson
-}
 
 const Checkout = () => {
   const [onboardingFormData] = useLocalStorageState(
@@ -472,6 +463,8 @@ const Checkout = () => {
 
 const CheckoutPage = () => (
   <Elements stripe={stripePromise}>
+    <SEO title="Confirm Order | Goodpluck" />
+    <Nav />
     <Checkout />
   </Elements>
 )
