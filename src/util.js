@@ -114,7 +114,7 @@ export const showGetStarted = () => {
 }
 
 export const hasCompletedOnboarding = () => {
-  if (typeof localStorage === undefined) {
+  if (typeof localStorage === `undefined`) {
     return false
   }
   return localStorage.getItem("goodpluck_onboarding_status") === "done"
