@@ -16,6 +16,7 @@ import { Link } from "gatsby"
 import Nav from "../components/Nav"
 import SEO from "../components/SEO"
 import { navigate } from "gatsby"
+import { updateSignedInUserInLocalStorage } from "../util"
 
 const VerifyEmailForm = ({ onSubmit, emailInput }) => {
   const defaultBlurb = (
@@ -90,13 +91,26 @@ export default function SignIn() {
   const [formStep, setFormStep] = useState("signin")
 
   const submitVerifyEmailForm = async () => {
-    const success = await checkEmailVerificationAndSignIn(
+    const response = await checkEmailVerificationAndSignIn(
       authCodeId,
       emailInput
     )
-    if (success) {
-      navigate("/myaccount")
+
+    if (response.status !== 200) {
+      console.log("Something went wrong checking email")
+      return false
     } else {
+      const responseJson = await response.json()
+      if (responseJson.signedInUser) {
+        updateSignedInUserInLocalStorage(responseJson.signedInUser)
+        navigate("/myaccount")
+      } else {
+        console.log("You havent verified your email yet.", responseJson)
+        setErrorText(
+          "You havent verified your email yet. Please click on the link in your email using this browser."
+        )
+        return false
+      }
     }
   }
 
@@ -122,7 +136,7 @@ export default function SignIn() {
 
   const verifyEmailForm = (
     <VerifyEmailForm
-      onSubmit={() => checkEmailVerificationAndSignIn(authCodeId, emailInput)}
+      onSubmit={submitVerifyEmailForm}
       emailInput={emailInput}
       goBackFunction={() => setFormStep("signin")}
     />

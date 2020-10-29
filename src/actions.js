@@ -1,8 +1,5 @@
+import { getUnverifiedUserEmailFromOnboarding } from "./util"
 import { navigate } from "gatsby"
-import {
-  getUnverifiedUserEmailFromOnboarding,
-  updateSignedInUserInLocalStorage,
-} from "./util"
 
 export const createUser = async params => {
   console.log("Sending data to backend... ", params)
@@ -43,19 +40,7 @@ export const checkEmailVerificationAndSignIn = async (authCodeId, email) => {
     },
     body: JSON.stringify({ authCodeId: authCodeId, email: email }),
   })
-  if (response.status !== 200) {
-    console.log("Something went wrong checking email")
-    return false
-  } else {
-    const responseJson = await response.json()
-    if (responseJson.signedInUser) {
-      updateSignedInUserInLocalStorage(responseJson.signedInUser)
-      return true
-    } else {
-      console.log("You havent verified your email yet.", responseJson)
-      return false
-    }
-  }
+  return response
 }
 
 export const getSignedInUserAndUpdateLocalStorage = async () => {
@@ -63,6 +48,8 @@ export const getSignedInUserAndUpdateLocalStorage = async () => {
   if (response.status !== 200) {
     return false
   }
+
+  const responseJson = await response.json()
 
   if (responseJson.signedInUser) {
     localStorage.setItem(
@@ -88,11 +75,11 @@ export const getMissiveChatConfig = async () => {
 
   // Is user signed in? Use that data
   if (localStorage.getItem("goodpluck_user")) {
-    const goodpluck_user = JSON.parse(goodpluck_user)
+    const goodpluck_user = JSON.parse(localStorage.getItem("goodpluck_user"))
     missiveChatConfig.user.name = `${goodpluck_user.first} ${goodpluck_user.last}`
     missiveChatConfig.user.email = goodpluck_user.email
 
-    // Add a digest to verify user for chat
+    // Add a digest to verify user for chat.
     if (localStorage.getItem("goodpluck_missive_digest")) {
       missiveChatConfig.user.disgest = localStorage.getItem(
         "goodpluck_missive_digest"
@@ -105,7 +92,7 @@ export const getMissiveChatConfig = async () => {
   return missiveChatConfig
 }
 
-export const logout = () => {
+export const logout = async () => {
   localStorage.clear()
   await fetch("https://api.goodpluck.com/logout")
   navigate("/")
