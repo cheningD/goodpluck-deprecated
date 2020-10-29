@@ -97,8 +97,6 @@ const BasketItem = ({
       </Controls>
     )
   }
-
-  console.log("childImageSharp", childImageSharp)
   let image = ""
   if (childImageSharp) {
     image = <Img fluid={childImageSharp.fluid} alt={name} />
