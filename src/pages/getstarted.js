@@ -27,7 +27,6 @@ const CheckboxLabel = styled.label`
   position: relative;
   padding-left: 35px;
   margin-bottom: 20px;
-  font-family: Raleway, sans-serif;
   font-size: 1.25rem;
   line-height: 1.5rem;
   color: #fff;

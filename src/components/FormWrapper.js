@@ -1,6 +1,7 @@
 import {
   FieldWrapper,
   Header,
+  Spinner,
   StyledForm,
   SubmitButton,
 } from "../components/StyledComponentLib"
@@ -11,7 +12,6 @@ import React from "react"
 import styled from "styled-components"
 
 const Blurb = styled.div`
-  font-family: Raleway, sans-serif;
   color: #fff;
 `
 
@@ -26,7 +26,6 @@ const ButtonArrow = styled(Arrow)`
 
 const Wrapper = styled.div`
   background-color: #6c7668;
-  font-family: Bebas Neue, sans-serif;
   width: 100%;
   min-height: calc(100vh + 32px);
   padding-bottom: 32px;
@@ -71,6 +70,7 @@ const FormWrapper = ({
   submitText,
 }) => {
   const form = ({ isSubmitting, ...rest }) => {
+    const buttonText = submitText || `Continue`
     return (
       <StyledForm>
         {goBackFunction ? <BackButton onClick={goBackFunction} /> : ""}
@@ -87,8 +87,14 @@ const FormWrapper = ({
         <FormContent isSubmitting={isSubmitting} {...rest} />
         <FieldWrapper>
           <SubmitButton as="button" type="submit" disabled={isSubmitting}>
-            {submitText ? `${submitText}` : `Continue`}
-            <ButtonArrow />
+            {isSubmitting ? (
+              <Spinner />
+            ) : (
+              <>
+                {buttonText}
+                <ButtonArrow />
+              </>
+            )}
           </SubmitButton>
         </FieldWrapper>
         {blurb ? <Blurb>{blurb}</Blurb> : ""}

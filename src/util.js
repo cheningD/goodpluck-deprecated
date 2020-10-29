@@ -67,6 +67,22 @@ export function getFirstFromObject(obj) {
   return null
 }
 
+export const isCurrentLink = pathToCheck => {
+  if (typeof window === `undefined`) {
+    return false
+  }
+  const path = window.location.pathname
+  return path.startsWith(pathToCheck)
+}
+
+/** put signed in user info into localStorage
+ *
+ * @param {*} signedInUser - object containing user data
+ */
+export const updateSignedInUserInLocalStorage = signedInUser => {
+  localStorage.setItem("goodpluck_user", JSON.stringify(signedInUser))
+}
+
 export const isSignedIn = () => false //Todo: Implement!
 
 export const showGetStarted = () => {

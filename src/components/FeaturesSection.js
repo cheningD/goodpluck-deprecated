@@ -112,7 +112,7 @@ const FeaturesSection = () => {
               <Pink>Sustainable</Pink> By Default
             </Header>
             <Text>
-              Grown on nearby sustainable farms, our produce has lower carbon
+              Grown on nearby sustainable farms, our produce has a lower carbon
               footprint, and is better for the earth
             </Text>
           </Detail>

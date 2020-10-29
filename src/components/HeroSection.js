@@ -124,7 +124,6 @@ const PrimaryButton = styled(SubmitButton)`
   color: #3f3a40;
   margin: 16px auto 64px auto;
   max-width: 100%;
-  display: inline-block;
 `
 
 const HeroSection = () => {
