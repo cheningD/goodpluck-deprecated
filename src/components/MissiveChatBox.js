@@ -2,9 +2,7 @@ import { Helmet } from "react-helmet"
 import React from "react"
 import { getMissiveChatConfig } from "../actions"
 
-
-const MissiveChatBox = () => {
-
+const MissiveChatBox = async () => {
   if (typeof window === `undefined`) {
     return ""
   }
