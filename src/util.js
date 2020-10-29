@@ -76,6 +76,9 @@ export const isCurrentLink = pathToCheck => {
 }
 
 export const getUnverifiedUserEmailFromOnboarding = () => {
+  if (typeof localStorage === undefined) {
+    return null
+  }
   const goodpluckNewUserForm = JSON.parse(
     localStorage.getItem("goodpluck-new-user-form")
   )
@@ -87,7 +90,9 @@ export const getUnverifiedUserEmailFromOnboarding = () => {
  * @param {*} signedInUser - object containing user data
  */
 export const updateSignedInUserInLocalStorage = signedInUser => {
-  localStorage.setItem("goodpluck_user", JSON.stringify(signedInUser))
+  if (typeof localStorage !== undefined) {
+    localStorage.setItem("goodpluck_user", JSON.stringify(signedInUser))
+  }
 }
 
 export const isSignedIn = () => false //Todo: Implement!
@@ -109,6 +114,9 @@ export const showGetStarted = () => {
 }
 
 export const hasCompletedOnboarding = () => {
+  if (typeof localStorage === undefined) {
+    return false
+  }
   return localStorage.getItem("goodpluck_onboarding_status") === "done"
 }
 
