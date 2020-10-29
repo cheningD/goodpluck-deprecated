@@ -1,7 +1,7 @@
 import * as yup from "yup"
 
 import {
-  Bold,
+  Error,
   FieldWrapper,
   FinePrint,
   StyledErrorMessage,
@@ -16,9 +16,15 @@ import { Link } from "gatsby"
 import Nav from "../components/Nav"
 import SEO from "../components/SEO"
 import { navigate } from "gatsby"
-import useLocalStorageState from "use-local-storage-state"
 
-const VerifyEmailForm = ({ onSubmit, blurb, emailInput }) => {
+const VerifyEmailForm = ({ onSubmit, emailInput }) => {
+  const defaultBlurb = (
+    <div>
+      <div>Need help signing in?</div>
+      <Link to="/contact">Contact Us</Link>
+      <Link>Back to signin</Link>
+    </div>
+  )
   return (
     <FormWrapper
       initialValues={{}}
@@ -26,7 +32,7 @@ const VerifyEmailForm = ({ onSubmit, blurb, emailInput }) => {
       FormContent={() => <>{`A login link has been sent to ${emailInput}`} </>}
       header={"Login using the link in your email."}
       submitText={"Done. Continue to my account."}
-      blurb={blurb}
+      blurb={defaultBlurb}
     />
   )
 }
@@ -78,23 +84,14 @@ const SignInForm = ({ onSubmit }) => {
 }
 
 export default function SignIn() {
-  const defaultBlurb = (
-    <div>
-      <div>Need help signing in?</div>
-      <Link to="/contact">Contact Us</Link>
-      <Link>Back to signin</Link>
-    </div>
-  )
-  const [signInNonce, setSignInNonce] = useLocalStorageState(
-    "goodpluck-sign-in-nonce",
-    ""
-  )
+  const [authCodeId, setAuthCodeId] = useState("")
   const [emailInput, setEmailInput] = useState()
-  const [verifyEmailBlurb, setVerifyEmailBlurb] = useState()
+  const [errorText, setErrorText] = useState("")
+  const [formStep, setFormStep] = useState("signin")
 
   const submitVerifyEmailForm = async () => {
     const success = await checkEmailVerificationAndSignIn(
-      signInNonce,
+      authCodeId,
       emailInput
     )
     if (success) {
@@ -103,31 +100,30 @@ export default function SignIn() {
     }
   }
 
-  const submitEmail = async (values, { setSubmitting }) => {
-    //1. set email
+  const sendSignInRequest = async (values, { setSubmitting }) => {
+    // Update email
     setEmailInput(values.email)
-    //2. Generate a randfom sign in nonce
-    const nonce = "random"
-    setSignInNonce(nonce)
 
-    //3. Build and send request
-    const params = Object.assign({}, { nonce: nonce }, values)
-    const response = await signIn(params)
-    const responsejson = await response.json
-    if ((response.status = 200)) {
-      console.log("Signin requested", responsejson)
+    // Send request
+    const response = await signIn(values)
+    const responseJson = await response.json()
+
+    // Handle response
+    if (response.status !== 200 && responseJson.data.authCodeId) {
+      setAuthCodeId(responseJson.data.authCodeId)
+      setFormStep("verify")
     } else {
-      console.log("Error with signin", responsejson)
+      setErrorText(responseJson.error)
     }
+    setSubmitting(false)
   }
 
-  const signInForm = <SignInForm onSubmit={submitEmail} />
-  const [formStep, setFormStep] = useState("signin")
+  const signInForm = <SignInForm onSubmit={sendSignInRequest} />
+
   const verifyEmailForm = (
     <VerifyEmailForm
-      onSubmit={() => checkEmailVerificationAndSignIn(signInNonce, emailInput)}
+      onSubmit={() => checkEmailVerificationAndSignIn(authCodeId, emailInput)}
       emailInput={emailInput}
-      blurb={defaultBlurb}
       goBackFunction={() => setFormStep("signin")}
     />
   )
@@ -136,6 +132,7 @@ export default function SignIn() {
     <>
       <SEO title="Sign In | Goodpluck" />
       <Nav />
+      {errorText ? <Error>{errorText}</Error> : ""}
       {formStep === "signin" ? signInForm : verifyEmailForm}
     </>
   )

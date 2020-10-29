@@ -75,6 +75,13 @@ export const isCurrentLink = pathToCheck => {
   return path.startsWith(pathToCheck)
 }
 
+export const getUnverifiedUserEmailFromOnboarding = () => {
+  const goodpluckNewUserForm = JSON.parse(
+    localStorage.getItem("goodpluck-new-user-form")
+  )
+  return goodpluckNewUserForm.email
+}
+
 /** put signed in user info into localStorage
  *
  * @param {*} signedInUser - object containing user data
