@@ -4,7 +4,12 @@ import {
   ButtonSmall,
   TabletAndMobileViewOnly,
 } from "../components/StyledComponentLib"
-import { isSignedIn, showCartIcon, showGetStarted } from "../util"
+import {
+  hasCompletedOnboarding,
+  isCurrentLink,
+  showCartIcon,
+  showGetStarted,
+} from "../util"
 
 import { Hamburger } from "./Hamburger"
 import Image from "./Image"
@@ -65,11 +70,13 @@ const PrimaryButton = styled(ButtonSmall)`
   color: #3f3a40;
   margin: 16px auto;
   max-width: 300px;
+}
 `
 
 const GetStartedLink = styled(PrimaryButton)`
   font-size: 1.125rem;
-  padding: 8px 16px;
+  padding: 0 16px;
+  height: 45px;
   margin: 0 16px;
   text-transform: none;
   @media screen and (max-width: 786px) {
@@ -99,6 +106,20 @@ const NavLink = styled(Link)`
     color: #f7c59f;
     text-decoration: none;
   }
+
+  ${props =>
+    props.current === true
+      ? `
+    font-weight: 600;
+    border-width: 2px;
+    border-style: none;
+    border-color: #333;
+    border-bottom: 2px solid #f7c59f;
+    color: #f7c59f;
+    text-decoration: none;
+    `
+      : ``}
+
   @media screen and (max-width: 786px) {
     visibility: hidden;
     display: none;
@@ -111,6 +132,19 @@ const SecondaryButton = styled(ButtonSmall)`
   color: #3f3a40;
   margin: 16px auto;
   max-width: 300px;
+
+  ${props =>
+    props.current === true
+      ? `
+    font-weight: 600;
+    border-width: 2px;
+    border-style: none;
+    border-color: #333;
+    border-bottom: 2px solid #f7c59f;
+    color: #f7c59f;
+    text-decoration: none;
+    `
+      : ``}
 `
 
 const Cart = styled(Link)`
@@ -164,10 +198,14 @@ const Nav = () => {
             </TabletAndMobileViewOnly>
 
             <BrandLink to="/">GOODPLUCK</BrandLink>
-            {isSignedIn() ? (
-              <NavLink to="/myaccount">My Account</NavLink>
+            {hasCompletedOnboarding() ? (
+              <NavLink to="/myaccount" current={isCurrentLink("/myaccount")}>
+                My Account
+              </NavLink>
             ) : (
-              <NavLink to="/signin">Sign In</NavLink>
+              <NavLink to="/signin" current={isCurrentLink("/signin")}>
+                Sign In
+              </NavLink>
             )}
 
             {showGetStarted() ? (
@@ -186,10 +224,17 @@ const Nav = () => {
         ) : (
           ""
         )}
-        {isSignedIn() ? (
-          <SecondaryButton to="/myaccount">My Account</SecondaryButton>
+        {hasCompletedOnboarding() ? (
+          <SecondaryButton
+            to="/myaccount"
+            current={isCurrentLink("/myaccount")}
+          >
+            My Account
+          </SecondaryButton>
         ) : (
-          <SecondaryButton to="/signin">Sign In</SecondaryButton>
+          <SecondaryButton to="/signin" current={isCurrentLink("/myaccount")}>
+            Sign In
+          </SecondaryButton>
         )}
       </NavMenu>
     </>
@@ -204,7 +249,7 @@ const CartLink = () => {
   ).length
 
   let link_to = "/basket"
-  if (!isSignedIn()) {
+  if (!hasCompletedOnboarding()) {
     link_to = "/getstarted"
   }
 

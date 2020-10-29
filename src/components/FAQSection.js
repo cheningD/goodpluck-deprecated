@@ -28,7 +28,6 @@ const FAQ = styled.div`
 `
 
 const H2 = styled.h2`
-  font-family: Raleway, sans-serif;
   font-size: 1.25rem;
   font-weight: 600;
   line-height: 1.25rem;

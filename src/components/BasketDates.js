@@ -3,6 +3,10 @@ import { Bold, Card } from "../components/StyledComponentLib"
 import React from "react"
 import styled from "styled-components"
 
+const StyledCard = styled(Card)`
+  min-width: 350px;
+`
+
 const Text = styled.div`
   font-family: hk_grotesklight, sans-serif;
   width: 100%;
@@ -95,7 +99,7 @@ const DetailList = styled.ul`
   flex-direction: column;
   padding: 0px;
   min-width: 200px;
-  margin-left: 20px;
+  margin-left: 8px;
   flex-grow: 4;
 `
 const DetailListItem = styled.li`
@@ -103,12 +107,12 @@ const DetailListItem = styled.li`
   list-style: none;
   line-height: 30px;
   display: block;
-  padding-left: 24px;
+  padding-left: 8px;
 
   span {
     line-height: inherit;
     text-align: right;
-    padding-left: 24px;
+    padding-left: 16px;
     float: right;
     color: #5c5c5c;
   }
@@ -118,7 +122,7 @@ const BasketDates = () => {
   const editUntilDate = "9pm on Oct 29"
 
   return (
-    <Card>
+    <StyledCard>
       <Text>
         You can <Bold>edit</Bold> your basket until <Bold>{editUntilDate}</Bold>
       </Text>
@@ -142,7 +146,7 @@ const BasketDates = () => {
           </DetailListItem>
         </DetailList>
       </Container>
-    </Card>
+    </StyledCard>
   )
 }
 

@@ -4,6 +4,7 @@ import {
   Bold,
   Card,
   DetailCell2,
+  FinePrint,
   Header,
   StyledErrorMessage,
   StyledField,
@@ -36,7 +37,7 @@ const Columns = styled.div`
   background-color: #6c7668;
   display: flex;
   flex-flow: row wrap;
-  justify-content: space-between;
+  justify-content: space-around;
   padding: 32px;
   @media screen and (max-width: 479px) {
     padding: 16px;
@@ -108,7 +109,7 @@ const CardElementStyle = {
     iconColor: "#788474",
     color: "#333",
     fontWeight: 500,
-    fontFamily: "Raleway, Arial, sans-serif",
+    fontFamily: "Arial, sans-serif",
     fontSize: "18px",
     fontSmoothing: "antialiased",
 
@@ -179,22 +180,6 @@ const BasketImage = styled(Image)`
   height 40px;
   display: inline-block;
   margin: 0 16px -8px 0;
-`
-
-const Blurb = styled.div`
-  text-align: justify;
-  font-size: 0.9rem;
-  color: #eaeaea;
-  line-height: 1rem;
-  margin-bottom: 32px;
-
-  div {
-    margin: 8px 0;
-  }
-
-  span {
-    margin: 4px 0;
-  }
 `
 
 const OrderSummary = () => {
@@ -306,7 +291,7 @@ const CheckoutForm = ({
               Confirm Order
             </SubmitButton>
 
-            <Blurb>
+            <FinePrint>
               <Bold>
                 By clicking "Confirm Order" you agree to our{" "}
                 <TermsLink href="/terms" target="_blank">
@@ -338,7 +323,7 @@ const CheckoutForm = ({
                 Cancelling your subscription will not cancel a delivery that you
                 have already been charged for.
               </div>
-            </Blurb>
+            </FinePrint>
 
             <DisplayNoneIfScreenAbove767>
               <OrderSummary />

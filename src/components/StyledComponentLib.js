@@ -1,7 +1,7 @@
 import { ErrorMessage, Field, Form } from "formik"
+import styled, { keyframes } from "styled-components"
 
 import { Link } from "gatsby"
-import styled from "styled-components"
 
 export const MobileViewOnly = styled.div`
   display: none;
@@ -29,8 +29,8 @@ export const ButtonSmall = styled(Link)`
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
+  height: 60px;
   margin-bottom: 32px;
-  padding: 18px 30px;
   -webkit-box-pack: center;
   -webkit-justify-content: center;
   -ms-flex-pack: center;
@@ -110,11 +110,11 @@ export const Card = styled.div`
 
 export const Header = styled.div`
   color: #fff;
-  font-family: Raleway, sans-serif;
+  font-family: hk_grotesksemibold, sans-serif;
   font-size: 2rem;
   font-weight: 600;
   line-height: 3rem;
-  margin-bottom: 32px;
+  margin-bottom: 24px;
 
   @media screen and (max-width: 479px) {
     font-size: 1.5rem;
@@ -124,7 +124,7 @@ export const Header = styled.div`
 
 export const Header2 = styled.div`
   color: #fff;
-  font-family: Raleway, sans-serif;
+  font-family: hk_grotesksemibold, sans-serif;
   font-size: 1.5rem;
   font-weight: 600;
   line-height: 2rem;
@@ -152,13 +152,14 @@ export const StyledField = styled(Field)`
 
 export const StyledErrorMessage = styled(ErrorMessage)`
   color: #fff;
-  font-family: Raleway, sans-serif;
   font-size: 1rem;
   width: 100%;
 `
 
 export const StyledForm = styled(Form)`
-  font-family: Bebas Neue, sans-serif;
+  input {
+    font-family: Bebas Neue, sans-serif;
+  }
   width: 500px;
   padding-top: 16px;
   margin: 0 auto;
@@ -204,4 +205,46 @@ export const TermsLink = styled.a`
 export const FieldWrapper = styled.div`
   margin: 36px 0;
   width: 100%;
+`
+export const FinePrint = styled.div`
+  text-align: justify;
+  font-size: 0.9rem;
+  color: #eaeaea;
+  line-height: 1rem;
+  margin-bottom: 32px;
+
+  div {
+    margin: 8px 0;
+  }
+
+  span {
+    margin: 4px 0;
+  }
+`
+const ldsDualRing = keyframes`
+0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+`
+
+export const Spinner = styled.div`
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  position: relative;
+  top: -4px;
+  &:after {
+    content: " ";
+    display: block;
+    width: 32px;
+    height: 32px;
+    margin: 8px;
+    border-radius: 50%;
+    border: 3px solid #fff;
+    border-color: #fff transparent #fff transparent;
+    animation: ${ldsDualRing} 1.2s linear infinite;
+  }
 `
