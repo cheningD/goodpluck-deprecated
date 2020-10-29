@@ -3,7 +3,7 @@ import { navigate } from "gatsby"
 
 export const createUser = async params => {
   console.log("Sending data to backend... ", params)
-  const response = await fetch("https://api.goodpluck.com/createuser", {
+  const response = await fetch("/api/createuser", {
     credentials: "same-origin",
     method: "POST",
     headers: {
@@ -18,7 +18,7 @@ export const createUser = async params => {
 }
 
 export const signIn = async params => {
-  const response = await fetch("https://api.goodpluck.com/signin", {
+  const response = await fetch("/api/signin", {
     credentials: "same-origin",
     method: "POST",
     headers: {
@@ -35,7 +35,7 @@ export const signIn = async params => {
  * @param {*} email {string}
  */
 export const checkEmailVerificationAndSignIn = async (authCodeId, email) => {
-  const response = await fetch("https://api.goodpluck.com/checkemailverify", {
+  const response = await fetch("/api/checkemailverify", {
     credentials: "same-origin",
     method: "POST",
     headers: {
@@ -51,7 +51,7 @@ export const getSignedInUserAndUpdateLocalStorage = async () => {
     return false
   }
 
-  const response = await fetch("https://api.goodpluck.com/getsignedinuser", {
+  const response = await fetch("/api/getsignedinuser", {
     credentials: "same-origin",
   })
   if (response.status !== 200) {
@@ -111,7 +111,7 @@ export const logout = async () => {
     localStorage.clear()
   }
 
-  await fetch("https://api.goodpluck.com/logout", {
+  await fetch("/api/logout", {
     credentials: "same-origin",
   })
   navigate("/")
