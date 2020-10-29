@@ -1,23 +1,34 @@
+import React, { useEffect, useState } from "react"
+
 import { Helmet } from "react-helmet"
-import React from "react"
 import { getMissiveChatConfig } from "../actions"
 
-const MissiveChatBox = async () => {
+const MissiveChatBox = () => {
+  const [missiveChatConfig, setMissiveChatConfig] = useState()
+
+  useEffect(() => {
+    async function fetchData() {
+      const chatConfig = await getMissiveChatConfig()
+      setMissiveChatConfig(chatConfig)
+    }
+    fetchData()
+  }, [])
+
   if (typeof window === `undefined`) {
-    return ""
+    return
   }
 
-  window.MissiveChatConfig = await getMissiveChatConfig()
+  if (!missiveChatConfig) {
+    return
+  }
+
+  window.MissiveChatConfig = missiveChatConfig
 
   return (
     <Helmet>
       <script
         defer
-        src={
-          "https://webchat.missiveapp.com/" +
-          window.MissiveChatConfig.id +
-          "/missive.js"
-        }
+        src={`https://webchat.missiveapp.com/${missiveChatConfig.id}/missive.js`}
       ></script>
     </Helmet>
   )
