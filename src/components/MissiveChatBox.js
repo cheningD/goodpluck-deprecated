@@ -1,14 +1,15 @@
 import { Helmet } from "react-helmet"
 import React from "react"
+import { getMissiveChatConfig } from "../actions"
+
 
 const MissiveChatBox = () => {
+
   if (typeof window === `undefined`) {
     return ""
   }
 
-  window.MissiveChatConfig = {
-    id: "1ea1215d-b61c-4638-b7b1-65acdb00bd1c",
-  }
+  window.MissiveChatConfig = await getMissiveChatConfig()
 
   return (
     <Helmet>

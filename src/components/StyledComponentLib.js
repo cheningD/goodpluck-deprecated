@@ -248,3 +248,9 @@ export const Spinner = styled.div`
     animation: ${ldsDualRing} 1.2s linear infinite;
   }
 `
+export const Error = styled.div`
+  min-width: 200px;
+  border-radius: 4px;
+  background-color: #5c5c5c;
+  color: #fff;
+`
