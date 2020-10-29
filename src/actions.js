@@ -44,6 +44,10 @@ export const checkEmailVerificationAndSignIn = async (authCodeId, email) => {
 }
 
 export const getSignedInUserAndUpdateLocalStorage = async () => {
+  if (typeof localStorage === undefined) {
+    return false
+  }
+
   const response = await fetch("https://api.goodpluck.com/getsignedinuser")
   if (response.status !== 200) {
     return false
@@ -70,12 +74,16 @@ export const getMissiveChatConfig = async () => {
   await getSignedInUserAndUpdateLocalStorage() //Todo: cache/debounce this result?
   const missiveChatConfig = {
     id: "1ea1215d-b61c-4638-b7b1-65acdb00bd1c",
-    user: {},
+  }
+
+  if (typeof localStorage === undefined) {
+    return missiveChatConfig
   }
 
   // Is user signed in? Use that data
   if (localStorage.getItem("goodpluck_user")) {
     const goodpluck_user = JSON.parse(localStorage.getItem("goodpluck_user"))
+    missiveChatConfig.user = {}
     missiveChatConfig.user.name = `${goodpluck_user.first} ${goodpluck_user.last}`
     missiveChatConfig.user.email = goodpluck_user.email
 
@@ -86,6 +94,7 @@ export const getMissiveChatConfig = async () => {
       )
     }
   } else if (getUnverifiedUserEmailFromOnboarding()) {
+    missiveChatConfig.user = {}
     missiveChatConfig.user.email = getUnverifiedUserEmailFromOnboarding()
   }
 
@@ -93,7 +102,10 @@ export const getMissiveChatConfig = async () => {
 }
 
 export const logout = async () => {
-  localStorage.clear()
+  if (typeof localStorage !== undefined) {
+    localStorage.clear()
+  }
+
   await fetch("https://api.goodpluck.com/logout")
   navigate("/")
 }
