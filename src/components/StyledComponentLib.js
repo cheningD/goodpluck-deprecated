@@ -249,8 +249,13 @@ export const Spinner = styled.div`
   }
 `
 export const Error = styled.div`
-  min-width: 200px;
+  width: 100%;
+
+  margin: 16px auto;
   border-radius: 4px;
-  background-color: #5c5c5c;
-  color: #fff;
+  background: #fff;
+  padding: 8px 16px;
+  // border: 2px solid #eaeaea;
+  border-left: 8px solid #e34843;
+  color: #5c5c5c;
 `
