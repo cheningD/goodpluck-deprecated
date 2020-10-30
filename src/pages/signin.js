@@ -38,7 +38,7 @@ const VerifyEmailForm = ({ onSubmit, emailInput }) => {
   )
 }
 
-const SignInForm = ({ onSubmit }) => {
+const SignInForm = ({ onSubmit, errorText }) => {
   const signInSchema = yup.object().shape({
     email: yup
       .string()
@@ -46,10 +46,16 @@ const SignInForm = ({ onSubmit }) => {
       .email(`That email doesn't look right`),
   })
 
+  let errorBar
+  if (errorText) {
+    errorBar = <Error>{errorText}</Error>
+  }
+
   const FormContent = ({ isSubmitting, errors, touched }) => {
     return (
       <>
         <FieldWrapper>
+          {errorBar}
           <StyledField type="text" name="email" placeholder="Email" />
           <StyledErrorMessage name="email" component="div" />
         </FieldWrapper>
@@ -132,7 +138,9 @@ export default function SignIn() {
     setSubmitting(false)
   }
 
-  const signInForm = <SignInForm onSubmit={sendSignInRequest} />
+  const signInForm = (
+    <SignInForm onSubmit={sendSignInRequest} errorText={errorText} />
+  )
 
   const verifyEmailForm = (
     <VerifyEmailForm
@@ -146,7 +154,6 @@ export default function SignIn() {
     <>
       <SEO title="Sign In | Goodpluck" />
       <Nav />
-      {errorText ? <Error>{errorText}</Error> : ""}
       {formStep === "signin" ? signInForm : verifyEmailForm}
     </>
   )
