@@ -123,7 +123,7 @@ export default function SignIn() {
     const responseJson = await response.json()
 
     // Handle response
-    if (response.status !== 200 && responseJson.data.authCodeId) {
+    if (response.status === 200 && responseJson.data.authCodeId) {
       setAuthCodeId(responseJson.data.authCodeId)
       setFormStep("verify")
     } else {
