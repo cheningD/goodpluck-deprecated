@@ -23,6 +23,9 @@ function reviver(key, value) {
 }
 
 const localStorageEffect = key => ({ setSelf, onSet }) => {
+  if (typeof localStorage === `undefined`) {
+    return
+  }
   const savedValue = localStorage.getItem(key)
   if (savedValue != null) {
     setSelf(JSON.parse(savedValue, reviver))
