@@ -93,7 +93,7 @@ const MarketProductList = ({
               oneLiner={productData.oneLiner}
               priceLabel={priceLabel}
               quantityLabel={quantityLabel}
-              stripePriceId={productData.stripePriceIdForEnv}
+              stripePriceId={stripePriceIdForEnv}
             />
             <ThinLineBreak />
           </>
