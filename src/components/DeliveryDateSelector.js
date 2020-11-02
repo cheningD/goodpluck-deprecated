@@ -85,7 +85,7 @@ const DeliveryDateSelector = () => {
   }
 
   if (typeof window === `undefined`) {
-    return ""
+    return null
   }
 
   return (

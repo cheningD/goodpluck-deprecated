@@ -3,9 +3,9 @@ import "./src/styles/fonts.css"
 import "./src/styles/goodpluck.css"
 import "./src/styles/react-select-search.css"
 
-import wrapWithCartProvider from "./wrap"
+import wrap from "./wrap"
 
-export const wrapRootElement = wrapWithCartProvider
+export const wrapRootElement = wrap
 
 console.log(
   `GATSBY_DEPLOY_ENVIRONMENT: ${process.env.GATSBY_DEPLOY_ENVIRONMENT}`

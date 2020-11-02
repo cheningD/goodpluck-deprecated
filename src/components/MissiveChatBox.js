@@ -15,11 +15,11 @@ const MissiveChatBox = () => {
   }, [])
 
   if (typeof window === `undefined`) {
-    return
+    return null
   }
 
   if (!missiveChatConfig) {
-    return
+    return null
   }
 
   window.MissiveChatConfig = missiveChatConfig

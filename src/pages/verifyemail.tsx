@@ -92,7 +92,7 @@ const VerifyEmail = () => {
   }, [])
 
   if (typeof window === `undefined`) {
-    return
+    return null
   }
 
   return (

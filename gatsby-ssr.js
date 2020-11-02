@@ -1,3 +1,3 @@
-import wrapWithCartProvider from "./wrap"
+import wrap from "./wrap"
 
-export const wrapRootElement = wrapWithCartProvider
+export const wrapRootElement = wrap

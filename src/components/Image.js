@@ -5,10 +5,11 @@ import Img from "gatsby-image"
 import PropTypes from "prop-types"
 
 const Image = ({ src, alt, ...rest }) => {
+  // The regex: /image/[^s]/" Filterss out SVGs or any filetype begining with s
   const data = useStaticQuery(graphql`
     query {
       images: allFile(
-        filter: { internal: { mediaType: { regex: "/image/" } } }
+        filter: { internal: { mediaType: { regex: "/image/[^s]/" } } }
       ) {
         edges {
           node {
