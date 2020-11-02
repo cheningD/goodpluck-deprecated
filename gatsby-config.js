@@ -5,6 +5,7 @@
  */
 
 const path = require(`path`)
+const git = require("git-rev-sync")
 
 require("dotenv").config({
   path: `.env.${process.env.NODE_ENV}`,
@@ -30,6 +31,18 @@ module.exports = {
     twitterUsername: "@goodpluckgrows",
   },
   plugins: [
+    {
+      resolve: "gatsby-plugin-sentry",
+      options: {
+        dsn:
+          "https://91013a618f8e4b459860ca1f0eb20e08@o469653.ingest.sentry.io/5499468",
+        // Optional settings, see https://docs.sentry.io/clients/node/config/#optional-settings
+        environment: process.env.NODE_ENV,
+        release: git.long() || "none found",
+        enabled: (() =>
+          ["production", "stage"].indexOf(process.env.NODE_ENV) !== -1)(),
+      },
+    },
     {
       resolve: `gatsby-source-filesystem`,
       options: {
