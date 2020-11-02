@@ -70,29 +70,24 @@ const AddToCart = styled(AddToCartButton)`
   display: inline-block;
 `
 const BasketItem = ({
-  quantityLabel,
+  canEdit,
+  childImageSharp,
+  imageSrc,
+  isCompact,
+  isInSeason,
+  isLocal,
+  isOrganic,
   name,
   oneLiner,
   priceLabel,
-  canEdit,
-  imageSrc,
-  quantityInCart,
-  isOrganic,
-  isLocal,
-  isInSeason,
-  childImageSharp,
-  isCompact,
+  quantityLabel,
+  stripePriceId,
 }) => {
   let controls = ""
   if (canEdit) {
     controls = (
       <Controls>
-        <AddToCart
-          onChange={options => {
-            console.info("---->options", options)
-          }}
-          quantity={quantityInCart}
-        />
+        <AddToCart stripePriceId={stripePriceId} />
         <Price>{priceLabel}</Price>
       </Controls>
     )
@@ -108,7 +103,7 @@ const BasketItem = ({
 
   return (
     <ItemContainer>
-      <ImageContainer isCompact>{image}</ImageContainer>
+      <ImageContainer isCompact={isCompact}>{image}</ImageContainer>
       <Product>
         <Title>
           <QuantityLabel>{quantityLabel} </QuantityLabel>

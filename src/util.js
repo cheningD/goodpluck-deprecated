@@ -95,7 +95,30 @@ export const updateSignedInUserInLocalStorage = signedInUser => {
   }
 }
 
-export const isSignedIn = () => false //Todo: Implement!
+export const isSignedIn = () => {
+  if (typeof localStorage === `undefined`) {
+    return false
+  }
+
+  const signedInUser = localStorage.getItem("goodpluck_user")
+  if (signedInUser && signedInUser.email) {
+    return true
+  }
+}
+
+export const setOnboardingComplete = () => {
+  if (typeof localStorage === `undefined`) {
+    return false
+  }
+  localStorage.setItem("goodpluck_onboarding_status", "done")
+}
+
+export const hasCompletedOnboarding = () => {
+  if (typeof localStorage === `undefined`) {
+    return false
+  }
+  return localStorage.getItem("goodpluck_onboarding_status") === "done"
+}
 
 export const showGetStarted = () => {
   if (typeof window === `undefined`) {
@@ -107,17 +130,10 @@ export const showGetStarted = () => {
     return false
   }
 
-  if (isSignedIn()) {
+  if (hasCompletedOnboarding() || isSignedIn()) {
     return false
   }
   return true
-}
-
-export const hasCompletedOnboarding = () => {
-  if (typeof localStorage === `undefined`) {
-    return false
-  }
-  return localStorage.getItem("goodpluck_onboarding_status") === "done"
 }
 
 export const showCartIcon = () => {

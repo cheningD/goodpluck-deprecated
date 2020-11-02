@@ -1,7 +1,10 @@
+import { basketItems, setItemQuantity } from "../store"
+
 import Chevron from "./Chevron"
 import React from "react"
 import Select from "react-select"
 import styled from "styled-components"
+import { useRecoilState } from "recoil"
 
 const Submit = styled.button`
   background-color: #fff;
@@ -35,9 +38,20 @@ const StyledChevron = styled(Chevron)`
   padding-top: 4px;
 `
 
-const AddToCartButton = React.memo(({ onChange, quantity }) => {
-  if (quantity === 0) {
-    return <Submit as="button">Add</Submit>
+const AddToCartButton = React.memo(({ stripePriceId }) => {
+  const [basket, setBasket] = useRecoilState(basketItems)
+
+  let quantityInBasket = basket.get(stripePriceId) || 0
+
+  if (quantityInBasket === 0) {
+    return (
+      <Submit
+        as="button"
+        onClick={() => setItemQuantity(stripePriceId, 1, setBasket)}
+      >
+        Add
+      </Submit>
+    )
   }
 
   const options = [
@@ -57,15 +71,17 @@ const AddToCartButton = React.memo(({ onChange, quantity }) => {
     <AddToCartSelect
       classNamePrefix="add-to-cart-select"
       options={options}
-      onChange={onChange}
+      onChange={option =>
+        setItemQuantity(stripePriceId, option.value, setBasket)
+      }
       isSearchable={false}
       components={{
         IndicatorSeparator: null,
         DropdownIndicator: () => <StyledChevron direction="down" />,
       }}
       value={{
-        label: `Quantity: ${quantity}`,
-        value: quantity,
+        label: `Quantity: ${quantityInBasket}`,
+        value: quantityInBasket,
       }}
     />
   )

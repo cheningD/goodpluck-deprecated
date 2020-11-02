@@ -63,7 +63,7 @@ const SignInForm = ({ onSubmit, errorText }) => {
     )
   }
 
-  const blurb = (
+  let blurb = (
     <FinePrint>
       By clicking the button above you agree to our{" "}
       <TermsLink href="/terms" target="_blank">
@@ -77,14 +77,26 @@ const SignInForm = ({ onSubmit, errorText }) => {
     </FinePrint>
   )
 
+  let header = "Sign In With Your Email"
+  let submitText = "Sign In"
+
+  if (typeof window !== `undefined`) {
+    const params = new URLSearchParams(window.location.search)
+    if (params.has("verify")) {
+      header = "Verify your email to continue to your account"
+      submitText = "Verify my email"
+      blurb = ""
+    }
+  }
+
   return (
     <FormWrapper
       initialValues={{ email: "" }}
       validationSchema={signInSchema}
       onSubmit={onSubmit}
       FormContent={FormContent}
-      header={"Sign In With Your Email"}
-      submitText={"Sign In"}
+      header={header}
+      submitText={submitText}
       blurb={blurb}
     />
   )

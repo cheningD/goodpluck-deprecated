@@ -1,8 +1,7 @@
 import { getUnverifiedUserEmailFromOnboarding } from "./util"
 import { navigate } from "gatsby"
 
-export const createUser = async params => {
-  console.log("Sending data to backend... ", params)
+export const createUser = async (params: Record<string, any>) => {
   const response = await fetch("/api/createuser", {
     credentials: "same-origin",
     method: "POST",
@@ -27,6 +26,29 @@ export const signIn = async params => {
     body: JSON.stringify(params),
   })
   return response
+}
+
+/** If parameters validate, client recieves a session cookie
+ *
+ * @param authCodeId - The ID of the AuthCode created at sign in
+ * @param code - The 'secret' part of the AuthCode
+ * @param email - The email logging in
+ * @returns {boolean} - true iof you are now signed in
+ */
+export const verifyEmail = async (
+  authCodeId: string,
+  code: string,
+  email: string
+) => {
+  const response = await fetch("/api/verifyemail", {
+    credentials: "same-origin",
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ authCodeId, code, email }),
+  })
+  return response.ok
 }
 
 /**
