@@ -1,12 +1,3 @@
-import MissiveChatBox from "./src/components/MissiveChatBox"
-import React from "react"
-import { RecoilRoot } from "recoil"
+import wrapWithCartProvider from "./wrap"
 
-export const wrapRootElement = ({ element }) => {
-  return (
-    <RecoilRoot>
-      <MissiveChatBox />
-      {element}
-    </RecoilRoot>
-  )
-}
+export const wrapRootElement = wrapWithCartProvider
