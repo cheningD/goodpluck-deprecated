@@ -60,6 +60,7 @@ const PhoneIcon = styled(Phone)`
 
 const VerifyEmail = () => {
   const [isVerifying, setIsVerifying] = useState(false)
+  const [errorText, setErrorText] = useState("")
   let header = isVerifying
     ? "Verifying your email..."
     : "Approve this login from your email"
@@ -67,7 +68,13 @@ const VerifyEmail = () => {
   useEffect(() => {
     async function fetchData(authCodeId: string, code: string, email: string) {
       setIsVerifying(true)
-      const isSignedIn = await verifyEmail(authCodeId, code, email)
+      const isSignedIn = await verifyEmail(
+        authCodeId,
+        code,
+        email,
+        setErrorText
+      )
+      setIsVerifying(false)
       if (isSignedIn) {
         navigate("/myaccount")
       }
@@ -102,8 +109,8 @@ const VerifyEmail = () => {
 
       <Wrapper>
         <Content>
-          <Header>{header}</Header>
-          {isVerifying ? <Spinner /> : <PhoneIcon />}
+          <Header>{errorText || header}</Header>
+          {isVerifying ? <Spinner /> : errorText ? "" : <PhoneIcon />}
 
           <HelpText>
             <div>Need help signing in?</div>
