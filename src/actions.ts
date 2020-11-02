@@ -38,7 +38,8 @@ export const signIn = async params => {
 export const verifyEmail = async (
   authCodeId: string,
   code: string,
-  email: string
+  email: string,
+  setErrorTextFunc: Function
 ) => {
   const response = await fetch("/api/verifyemail", {
     credentials: "same-origin",
@@ -48,6 +49,19 @@ export const verifyEmail = async (
     },
     body: JSON.stringify({ authCodeId, code, email }),
   })
+
+  if (response.ok) {
+    return true
+  } else {
+    let responseJSON: Record<string, string>
+    try {
+      responseJSON = await response.json()
+    } catch (err) {}
+    if (responseJSON.error) {
+      setErrorTextFunc(responseJSON.error)
+    }
+  }
+
   return response.ok
 }
 
