@@ -66,5 +66,5 @@ jobs:
       - name: Install Wrangler
         run: sudo npm i @cloudflare/wrangler -g
 
-      - name: config wrangler
+      - name: Config wrangler
         run: CF_API_TOKEN=${{ secrets.CF_API_TOKEN_WORKERS_SITES }} wrangler publish --env staging
