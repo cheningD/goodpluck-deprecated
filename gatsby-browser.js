@@ -3,18 +3,9 @@ import "./src/styles/fonts.css"
 import "./src/styles/goodpluck.css"
 import "./src/styles/react-select-search.css"
 
-import MissiveChatBox from "./src/components/MissiveChatBox"
-import React from "react"
-import { RecoilRoot } from "recoil"
+import wrapWithCartProvider from "./wrap"
 
-export const wrapRootElement = ({ element }) => {
-  return (
-    <RecoilRoot>
-      <MissiveChatBox />
-      {element}
-    </RecoilRoot>
-  )
-}
+export const wrapRootElement = wrapWithCartProvider
 
 console.log(
   `GATSBY_DEPLOY_ENVIRONMENT: ${process.env.GATSBY_DEPLOY_ENVIRONMENT}`
