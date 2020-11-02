@@ -1,9 +1,4 @@
-import {
-  Card,
-  DetailCell2,
-  Header,
-  LineBreak,
-} from "../components/StyledComponentLib"
+import { Card, DetailCell2, LineBreak } from "../components/StyledComponentLib"
 import { graphql, useStaticQuery } from "gatsby"
 
 import BasketItem from "../components/BasketItem"
