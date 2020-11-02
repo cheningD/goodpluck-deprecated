@@ -19,7 +19,11 @@ import {
 } from "@stripe/react-stripe-js"
 import { Form, Formik } from "formik"
 import React, { useState } from "react"
-import { VALID_ZIP_PATTERN, getMaxlengthFunc } from "../util"
+import {
+  VALID_ZIP_PATTERN,
+  getMaxlengthFunc,
+  setOnboardingComplete,
+} from "../util"
 
 import BasketDates from "../components/BasketDates"
 import Image from "../components/Image"
@@ -418,7 +422,8 @@ const Checkout = () => {
             result
           )
           // Verify result.setupIntent.status === succeeded and then navigate to confirmation page
-          navigate("/market") // Todo: This should go to basket page.
+          setOnboardingComplete()
+          navigate("/basket")
         }
       }
     }

@@ -1,7 +1,7 @@
-import { MobileViewOnly, SubmitButton } from "../components/StyledComponentLib"
 import React, { useState } from "react"
 
 import MarketCard from "../components/MarketCard"
+import { MobileViewOnly } from "../components/StyledComponentLib"
 import Nav from "../components/Nav"
 import SEO from "../components/SEO"
 import Select from "react-select"
@@ -9,14 +9,7 @@ import styled from "styled-components"
 
 const Page = styled.div`
   background-color: #fbe1cf;
-  min-height: 100vh;
-  padding-bottom: 400px;
-`
-const Submit = styled(SubmitButton)`
-  border-color: #000;
-  margin: 32px auto;
-  max-width: 500px;
-  display: block;
+  padding-bottom: 32px;
 `
 
 const Market = () => {
@@ -24,7 +17,6 @@ const Market = () => {
     <Page>
       <SEO title="Market | Local Produce" />
       <Nav />
-      <Submit to="/basket">Review Your Order for Saturday, Oct 24</Submit>
       <MobileViewOnly>
         <ShoppingMenu
           listItems={[

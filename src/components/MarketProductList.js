@@ -73,20 +73,27 @@ const MarketProductList = ({
           currency: "usd",
         })
 
+        let stripePriceIdForEnv = productData.stripePriceId
+        if (process.env.GATSBY_DEPLOY_ENVIRONMENT === "STAGING") {
+          stripePriceIdForEnv = productData.testStripePriceId
+        }
         return (
           <>
             <BasketItem
-              quantityLabel={quantityLabel}
-              name={get(productGroup, "data.name", "")}
-              oneLiner={get(productGroup, "data.oneLiner", "")}
-              description={get(productGroup, "data.description", "")}
-              priceLabel={priceLabel}
               canEdit={true}
-              stripePriceId={productData.stripePriceId}
-              quantityInCart={0}
-              isOrganic={productData.isOrganic}
-              isLocal={productData.isLocal}
+              childImageSharp={get(
+                productData,
+                "data.mainImage.localFiles[0].childImageSharp"
+              )}
+              description={productData.description}
               isInSeason={productData.isInSeason}
+              isLocal={productData.isLocal}
+              isOrganic={productData.isOrganic}
+              name={get(productGroup, "data.name", "")}
+              oneLiner={productData.oneLiner}
+              priceLabel={priceLabel}
+              quantityLabel={quantityLabel}
+              stripePriceId={productData.stripePriceIdForEnv}
             />
             <ThinLineBreak />
           </>

@@ -72,27 +72,24 @@ const BasketPreview = ({ numberOfVisibleItems }) => {
         nodes {
           data {
             available
+            description
+            isInSeason
+            isLocal
+            isLocalPluck
+            isOrganic
             name
+            oneLiner
             priceInCents
             stripePriceId
-            unitQuantity
             unitLabel
-            oneLiner
-            isOrganic
-            isLocalPluck
-            isLocal
-            isInSeason
-            productGroup {
-              data {
-                mainImage {
-                  id
-                  localFiles {
-                    url
-                    childImageSharp {
-                      fluid(maxWidth: 400, maxHeight: 400) {
-                        ...GatsbyImageSharpFluid_withWebp
-                      }
-                    }
+            unitQuantity
+            mainImage {
+              id
+              localFiles {
+                url
+                childImageSharp {
+                  fluid(maxWidth: 400, maxHeight: 400) {
+                    ...GatsbyImageSharpFluid_withWebp
                   }
                 }
               }
@@ -121,7 +118,7 @@ const BasketPreview = ({ numberOfVisibleItems }) => {
           isCompact={true}
           childImageSharp={get(
             product,
-            "data.productGroup[0].data.mainImage.localFiles[0].childImageSharp",
+            "data.mainImage.localFiles[0].childImageSharp",
             null
           )}
         />

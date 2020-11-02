@@ -1,5 +1,3 @@
-// import "./Nav.css"
-
 import {
   ButtonSmall,
   TabletAndMobileViewOnly,
@@ -7,6 +5,7 @@ import {
 import {
   hasCompletedOnboarding,
   isCurrentLink,
+  isSignedIn,
   showCartIcon,
   showGetStarted,
 } from "../util"
@@ -15,12 +14,13 @@ import { Hamburger } from "./Hamburger"
 import Image from "./Image"
 import { Link } from "gatsby"
 import React from "react"
+import { basketCount } from "../store"
 import styled from "styled-components"
-import { useShoppingCart } from "use-shopping-cart"
+import { useRecoilValue } from "recoil"
 
 const NavBar = styled.div`
   line-height: 1;
-  padding: 24px 32px;
+  padding: 16px 32px;
   background: #788474;
   box-shadow: #333;
 `
@@ -185,6 +185,40 @@ const Nav = () => {
     setMobileNavIsOpen(!isMobileNavOpen)
   }, [isMobileNavOpen])
 
+  let accountLink = (
+    <NavLink to="/signin" current={isCurrentLink("/signin")}>
+      Sign In
+    </NavLink>
+  )
+  let accountLink2 = (
+    <SecondaryButton to="/signin" current={isCurrentLink("/signin")}>
+      Sign In
+    </SecondaryButton>
+  )
+
+  if (isSignedIn()) {
+    accountLink = (
+      <NavLink to="/myaccount" current={isCurrentLink("/myaccount")}>
+        My Account
+      </NavLink>
+    )
+    accountLink2 = (
+      <SecondaryButton to="/myaccount" current={isCurrentLink("/myaccount")}>
+        My Account
+      </SecondaryButton>
+    )
+  } else if (hasCompletedOnboarding()) {
+    accountLink = (
+      <NavLink to="/signin?verify" current={isCurrentLink("/signin")}>
+        My Account
+      </NavLink>
+    )
+    accountLink2 = (
+      <SecondaryButton to="/signin?verify" current={isCurrentLink("/signin")}>
+        My Account
+      </SecondaryButton>
+    )
+  }
   return (
     <>
       <NavBar>
@@ -198,16 +232,7 @@ const Nav = () => {
             </TabletAndMobileViewOnly>
 
             <BrandLink to="/">GOODPLUCK</BrandLink>
-            {hasCompletedOnboarding() ? (
-              <NavLink to="/myaccount" current={isCurrentLink("/myaccount")}>
-                My Account
-              </NavLink>
-            ) : (
-              <NavLink to="/signin" current={isCurrentLink("/signin")}>
-                Sign In
-              </NavLink>
-            )}
-
+            {accountLink}
             {showGetStarted() ? (
               <GetStartedLink to="/getstarted">Get Started</GetStartedLink>
             ) : (
@@ -224,32 +249,19 @@ const Nav = () => {
         ) : (
           ""
         )}
-        {hasCompletedOnboarding() ? (
-          <SecondaryButton
-            to="/myaccount"
-            current={isCurrentLink("/myaccount")}
-          >
-            My Account
-          </SecondaryButton>
-        ) : (
-          <SecondaryButton to="/signin" current={isCurrentLink("/myaccount")}>
-            Sign In
-          </SecondaryButton>
-        )}
+        {accountLink2}
       </NavMenu>
     </>
   )
 }
 
 const CartLink = () => {
-  const { cartDetails } = useShoppingCart()
-
-  const realCartCount = Object.keys(cartDetails).filter(
-    priceID => priceID !== process.env.GATSBY_STRIPE_SHIPPING_LINE_ITEM_PRICE_ID
-  ).length
-
-  let link_to = "/basket"
-  if (!hasCompletedOnboarding()) {
+  let link_to
+  if (isSignedIn()) {
+    link_to = "/basket"
+  } else if (hasCompletedOnboarding()) {
+    link_to = "/basket"
+  } else {
     link_to = "/getstarted"
   }
 
@@ -257,10 +269,10 @@ const CartLink = () => {
     <Cart to={link_to}>
       <Image
         src="cart_icon_green.png"
-        alt="cart"
+        alt="my basket"
         style={{ height: "30px", width: "30px" }}
       />
-      <BasketCount>{`${realCartCount}`}</BasketCount>
+      <BasketCount>{useRecoilValue(basketCount)}</BasketCount>
     </Cart>
   )
 }

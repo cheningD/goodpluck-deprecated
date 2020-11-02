@@ -161,7 +161,7 @@ export const StyledForm = styled(Form)`
     font-family: Bebas Neue, sans-serif;
   }
   width: 500px;
-  padding-top: 16px;
+  padding-top: 64px;
   margin: 0 auto;
 
   @media screen and (max-width: 479px) {

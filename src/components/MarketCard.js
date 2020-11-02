@@ -16,6 +16,7 @@ import styled from "styled-components"
 const Container = styled(Card)`
   margin: 16px auto;
   max-width: 900px;
+  margin-bottom: 100px;
 `
 
 const Columns = styled.div`
@@ -35,7 +36,7 @@ const Sidebar = styled.div`
 
 const Content = styled.div`
   min-width: 300px;
-  max-width: 500px;
+  width: 100%;
   min-height: 500px;
   height: calc(100vh - 200px);
   overflow: scroll;
@@ -64,12 +65,8 @@ const MarketCard = ({ deliveryDate, orderFrequency }) => {
       productGroups: allAirtable(filter: { table: { eq: "productGroup" } }) {
         nodes {
           data {
-            mainImage {
-              id
-            }
             name
             department
-            description
             category
             subcategory
             sortOrderCategories
@@ -77,14 +74,28 @@ const MarketCard = ({ deliveryDate, orderFrequency }) => {
             productv2 {
               data {
                 available
+                description
+                isInSeason
+                isLocal
+                isOrganic
                 name
+                oneLiner
                 priceInCents
                 stripePriceId
-                unitQuantity
+                testStripePriceId
                 unitLabel
-                isOrganic
-                isLocal
-                isInSeason
+                unitQuantity
+                mainImage {
+                  id
+                  localFiles {
+                    url
+                    childImageSharp {
+                      fluid(maxWidth: 400, maxHeight: 400) {
+                        ...GatsbyImageSharpFluid_withWebp
+                      }
+                    }
+                  }
+                }
               }
             }
           }
