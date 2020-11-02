@@ -116,7 +116,7 @@ const VerifyEmail = () => {
             <div>Need help signing in?</div>
             <div>
               <WhiteArrow />
-              <Link to="/contact">Contact Us</Link>
+              <Link to="/contact">Contact us</Link>
             </div>
             <div>
               <WhiteArrow />
