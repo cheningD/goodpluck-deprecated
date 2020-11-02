@@ -7,7 +7,7 @@ import MissiveChatBox from "./src/components/MissiveChatBox"
 import React from "react"
 import { RecoilRoot } from "recoil"
 
-exports.wrapRootElement = ({ element }) => {
+export const wrapRootElement = ({ element }) => {
   return (
     <RecoilRoot>
       <MissiveChatBox />
