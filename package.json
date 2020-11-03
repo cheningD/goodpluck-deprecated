@@ -59,6 +59,7 @@
     "yup": "^0.29.3"
   },
   "devDependencies": {
+    "@types/react-helmet": "^6.1.0",
     "gatsby-plugin-purge-cloudflare-cache": "^0.0.2",
     "prettier": "2.0.5"
   },

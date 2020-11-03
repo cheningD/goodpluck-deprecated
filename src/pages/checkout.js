@@ -186,7 +186,7 @@ const BasketImage = styled(Image)`
   margin: 0 16px -8px 0;
 `
 
-const OrderSummary = () => {
+export const OrderSummary = () => {
   return (
     <>
       <Header>

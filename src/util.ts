@@ -75,24 +75,55 @@ export const isCurrentLink = pathToCheck => {
   return path.startsWith(pathToCheck)
 }
 
-export const getUnverifiedUserEmailFromOnboarding = () => {
-  if (typeof localStorage === undefined) {
+export const getUnverifiedUserEmailFromOnboarding = (): string | null => {
+  if (typeof localStorage === `undefined`) {
     return null
   }
-  const goodpluckNewUserForm = JSON.parse(
-    localStorage.getItem("goodpluck-new-user-form")
-  )
-  return goodpluckNewUserForm.email
+
+  try {
+    return JSON.parse(localStorage.getItem("goodpluck-new-user-form")).email
+  } catch (err) {
+    return null
+  }
 }
 
-/** put signed in user info into localStorage
- *
- * @param {*} signedInUser - object containing user data
- */
-export const updateSignedInUserInLocalStorage = signedInUser => {
-  if (typeof localStorage !== undefined) {
+export const saveSignedInUserToLocalStorage = signedInUser => {
+  if (typeof localStorage !== `undefined`) {
     localStorage.setItem("goodpluck_user", JSON.stringify(signedInUser))
   }
+}
+
+export const saveMissiveDigestToLocalStorage = missiveDigest => {
+  if (typeof localStorage !== `undefined`) {
+    localStorage.setItem("goodpluck_missive_digest", missiveDigest)
+  }
+}
+
+export const getSignedInUser = async () => {
+  //First check localstorage
+  if (typeof localStorage === `undefined`) {
+    return null
+  }
+
+  let userToRestore = localStorage.getItem("goodpluck_user")
+
+  if (!userToRestore) {
+    await getSignedInData()
+    userToRestore = localStorage.getItem("goodpluck_user")
+    if (!userToRestore) {
+      return null //Still no user, probably not signed in
+    }
+  }
+
+  let user
+  try {
+    user = JSON.parse(userToRestore)
+  } catch (err) {}
+  if (user && user.email) {
+    return user
+  }
+
+  return null
 }
 
 export const isSignedIn = () => {
