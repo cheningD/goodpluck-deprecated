@@ -1,9 +1,6 @@
-import {
-  getUnverifiedUserEmailFromOnboarding,
-  updateSignedInUserInLocalStorage,
-} from "./util"
-
+import { SignedInData } from "./types"
 import { navigate } from "gatsby"
+import { saveSignedInUserToLocalStorage } from "./util"
 
 export const createUser = async (params: Record<string, any>) => {
   const response = await fetch("/api/createuser", {
@@ -61,7 +58,7 @@ export const verifyEmail = async (
     try {
       responseJSON = await response.json()
       if (responseJSON.data.signedInUser.email) {
-        updateSignedInUserInLocalStorage(responseJSON.data.signedInUser)
+        saveSignedInUserToLocalStorage(responseJSON.data.signedInUser)
       }
     } catch (err) {}
     if (responseJSON.error) {
@@ -72,81 +69,25 @@ export const verifyEmail = async (
   return response.ok
 }
 
-/**
- *
- * @param {*} AuthCodeId {string} - The id of the AuthCodeItem created on server during the signin request
- * @param {*} email {string}
- */
-export const checkEmailVerificationAndSignIn = async (authCodeId, email) => {
-  const response = await fetch("/api/checkemailverify", {
-    credentials: "same-origin",
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ authCodeId: authCodeId, email: email }),
-  })
-  return response
-}
-
-export const getSignedInUserAndUpdateLocalStorage = async () => {
-  if (typeof localStorage === undefined) {
-    return false
-  }
-
+export const getSignedInData = async (): Promise<SignedInData | null> => {
   const response = await fetch("/api/getsignedinuser", {
     credentials: "same-origin",
   })
-  if (response.status !== 200) {
-    return false
+
+  if (!response.ok) {
+    return null
   }
 
-  const responseJSON = await response.json()
-  if (responseJSON.data.signedInUser.email) {
-    updateSignedInUserInLocalStorage(responseJSON.data.signedInUser)
+  try {
+    const responseJSON = await response.json()
+    return responseJSON.data
+  } catch (err) {
+    return null
   }
-
-  if (responseJSON.missiveDigest) {
-    localStorage.setItem("goodpluck_missive_digest", responseJSON.missiveDigest)
-  }
-}
-
-/** Missive Chat config can take name, email and digest properties
- * If digest is filled in it can verify who we are speaking to
- */
-export const getMissiveChatConfig = async () => {
-  await getSignedInUserAndUpdateLocalStorage() //Todo: cache/debounce this result?
-  const missiveChatConfig: Record<string, any> = {
-    id: "1ea1215d-b61c-4638-b7b1-65acdb00bd1c",
-  }
-
-  if (typeof localStorage === undefined) {
-    return missiveChatConfig
-  }
-
-  // Is user signed in? Use that data
-  if (localStorage.getItem("goodpluck_user")) {
-    const goodpluck_user = JSON.parse(localStorage.getItem("goodpluck_user"))
-    missiveChatConfig.user = {}
-    missiveChatConfig.user.name = `${goodpluck_user.first} ${goodpluck_user.last}`
-    missiveChatConfig.user.email = goodpluck_user.email
-
-    // Add a digest to verify user for chat.
-    if (localStorage.getItem("goodpluck_missive_digest")) {
-      missiveChatConfig.user.disgest = localStorage.getItem(
-        "goodpluck_missive_digest"
-      )
-    }
-  } else if (getUnverifiedUserEmailFromOnboarding()) {
-    missiveChatConfig.user = {}
-    missiveChatConfig.user.email = getUnverifiedUserEmailFromOnboarding()
-  }
-
-  return missiveChatConfig
 }
 
 export const logout = async () => {
-  if (typeof localStorage !== undefined) {
+  if (typeof localStorage !== `undefined`) {
     localStorage.clear()
   }
 

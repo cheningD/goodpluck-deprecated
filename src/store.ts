@@ -40,6 +40,11 @@ const localStorageEffect = key => ({ setSelf, onSet }) => {
   })
 }
 
+export const signedInUser = atom({
+  key: "signed_in_user", // unique ID (with respect to other atoms/selectors)
+  default: null, // default value (aka initial value),
+})
+
 export const basketItems = atom({
   key: "basket_items", // unique ID (with respect to other atoms/selectors)
   default: new Map(), // default value (aka initial value)

@@ -5,6 +5,7 @@ import styled from "styled-components"
 
 const StyledCard = styled(Card)`
   min-width: 350px;
+  max-width: 500px;
 `
 
 const Text = styled.div`
