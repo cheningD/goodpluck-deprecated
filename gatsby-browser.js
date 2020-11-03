@@ -7,10 +7,6 @@ import wrap from "./wrap"
 
 export const wrapRootElement = wrap
 
-console.log(
-  `GATSBY_DEPLOY_ENVIRONMENT: ${process.env.GATSBY_DEPLOY_ENVIRONMENT}`
-)
-
 if (!process.env.GATSBY_STRIPE_SHIPPING_LINE_ITEM_PRICE_ID) {
   throw new Error(
     "Missing required env variable: GATSBY_STRIPE_SHIPPING_LINE_ITEM_PRICE_ID"
