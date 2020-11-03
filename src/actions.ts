@@ -116,7 +116,7 @@ export const getSignedInUserAndUpdateLocalStorage = async () => {
  */
 export const getMissiveChatConfig = async () => {
   await getSignedInUserAndUpdateLocalStorage() //Todo: cache/debounce this result?
-  const missiveChatConfig = {
+  const missiveChatConfig: Record<string, any> = {
     id: "1ea1215d-b61c-4638-b7b1-65acdb00bd1c",
   }
 
