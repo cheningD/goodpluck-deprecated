@@ -101,17 +101,13 @@ export const getSignedInUserAndUpdateLocalStorage = async () => {
     return false
   }
 
-  const responseJson = await response.json()
-
-  if (responseJson.signedInUser) {
-    localStorage.setItem(
-      "goodpluck_user",
-      JSON.stringify(responseJson.signedInUser)
-    )
+  const responseJSON = await response.json()
+  if (responseJSON.data.signedInUser.email) {
+    updateSignedInUserInLocalStorage(responseJSON.data.signedInUser)
   }
 
-  if (responseJson.missiveDigest) {
-    localStorage.setItem("goodpluck_missive_digest", responseJson.missiveDigest)
+  if (responseJSON.missiveDigest) {
+    localStorage.setItem("goodpluck_missive_digest", responseJSON.missiveDigest)
   }
 }
 
