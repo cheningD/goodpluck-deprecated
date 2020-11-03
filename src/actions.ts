@@ -1,4 +1,8 @@
-import { getUnverifiedUserEmailFromOnboarding } from "./util"
+import {
+  getUnverifiedUserEmailFromOnboarding,
+  updateSignedInUserInLocalStorage,
+} from "./util"
+
 import { navigate } from "gatsby"
 
 export const createUser = async (params: Record<string, any>) => {
@@ -53,9 +57,12 @@ export const verifyEmail = async (
   if (response.ok) {
     return true
   } else {
-    let responseJSON: Record<string, string>
+    let responseJSON: Record<string, any>
     try {
       responseJSON = await response.json()
+      if (responseJSON.data.signedInUser.email) {
+        updateSignedInUserInLocalStorage(responseJSON.data.signedInUser)
+      }
     } catch (err) {}
     if (responseJSON.error) {
       setErrorTextFunc(responseJSON.error)
