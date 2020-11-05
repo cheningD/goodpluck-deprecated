@@ -45,6 +45,11 @@ export const signedInUser = atom({
   default: null, // default value (aka initial value),
 })
 
+export const myOrders = atom({
+  key: "orders", // unique ID (with respect to other atoms/selectors)
+  default: null, // default value (aka initial value),
+})
+
 export const basketItems = atom({
   key: "basket_items", // unique ID (with respect to other atoms/selectors)
   default: new Map(), // default value (aka initial value)
