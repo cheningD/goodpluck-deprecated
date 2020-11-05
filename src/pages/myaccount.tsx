@@ -1,31 +1,51 @@
-import React, { useEffect, useState } from "react"
+import { Bold, Spinner } from '../components/StyledComponentLib'
+import { OrderDetail, SignedInData } from '../types'
+import React, { useEffect, useState } from 'react'
+import { getOrders, getSignedInData } from '../actions'
+import { myOrders, signedInUser } from '../store'
 
-import BasketDates from "../components/BasketDates"
-import Nav from "../components/Nav"
-import SEO from "../components/SEO"
-import { SignedInData } from "../types"
-import { Spinner } from "../components/StyledComponentLib"
-import { getSignedInData } from "../actions"
-import { navigate } from "gatsby"
-import { signedInUser } from "../store"
-import styled from "styled-components"
-import { useRecoilState } from "recoil"
+import BasketDates from '../components/BasketDates'
+import { Header } from '../components/StyledComponentLib'
+import { Link } from 'gatsby'
+import Nav from '../components/Nav'
+import SEO from '../components/SEO'
+import styled from 'styled-components'
+import { useRecoilState } from 'recoil'
 
 const Page = styled.div`
   background-color: #fbe1cf;
-  padding-bottom: 32px;
+  padding: 32px 0;
+`
+
+const H1 = styled.h1`
+  color: #000;
+  font-family: hk_grotesksemibold, sans-serif;
+  font-size: 2rem;
+`
+
+const H2 = styled.h2`
+  color: #000;
+  font-family: hk_grotesksemibold, sans-serif;
+  font-size: 1.75rem;
 `
 
 const MyAccount = () => {
   const [user, setUser] = useRecoilState(signedInUser)
+  const [orders, setOrders] = useRecoilState(myOrders)
+  const [needsSignIn, setNeedsSignIn] = useState(false)
 
   useEffect(() => {
     async function fetchData() {
       const signedInData: SignedInData = await getSignedInData()
-      if (!signedInData.signedInUser) {
-        navigate("/signin")
+      if (!signedInData || !signedInData.signedInUser) {
+        setNeedsSignIn(true)
       } else {
         setUser(signedInData.signedInUser)
+      }
+
+      const orderData: Record<string, OrderDetail> = await getOrders()
+      if (orderData) {
+        setOrders(orderData)
       }
     }
 
@@ -34,16 +54,50 @@ const MyAccount = () => {
     }
   }, [])
 
-  if (!user) {
-    return (
+  //Todo: remove testing only
+  setUser({
+    id: 'gp_user_517e606c-6cda-4b9d-8c2b-030c0540c378',
+    email: 'cdduker+test@gmail.com',
+    addressLine1: '7630 Kipling St',
+    addressLine2: '',
+    first: 'Chening',
+    last: 'Duker',
+    phone: '5175052105',
+    zip: '48206',
+    is_verified: false,
+    created_ts: 1604088063,
+    stripeCustomerID: 'cus_IIf6uc88W9MwRH',
+  })
+
+  const loadingMsg = (
+    <>
+      <Header>Loading your account</Header>
+      <Spinner />
+    </>
+  )
+
+  const linkToSignIn = (
+    <H1>
+      Please <Link to="/signin">sign in</Link> to see your orders
+    </H1>
+  )
+
+  let upcomingOrderData: OrderDetail | null = null
+  if (orders && Object.keys(orders).length > 0) {
+    upcomingOrderData = orders[Object.keys(orders).slice().sort()[0]]
+  }
+
+  let content = loadingMsg
+  if (user && upcomingOrderData) {
+    content = (
       <>
-        <SEO title="My Account | Goodpluck" />
-        <Nav />
-        <Page>
-          <Spinner />
-        </Page>
+        <H1>{`Hi ${user.first},`}</H1>
+        <H2>Your next basket</H2>
+        <UpcomingBasket {...upcomingOrderData} />
       </>
     )
+  } else if (needsSignIn) {
+    content = linkToSignIn
   }
 
   return (
@@ -51,11 +105,72 @@ const MyAccount = () => {
       <SEO title="My Account | Goodpluck" />
       <Nav />
       {JSON.stringify(user)}
-      <Page>
-        <BasketDates />
-      </Page>
+      <div />
+      <div />
+      <div />
+      {JSON.stringify(upcomingOrderData)}
+      <Page>{content}</Page>
     </>
   )
 }
 
 export default MyAccount
+
+const UpcomingBasket = ({
+  scheduledStatus,
+  editStatus,
+  chargedStatus,
+  deliveredStatus,
+  editBasketStartDate,
+  editBasketEndDate,
+  chargedDate,
+  deliveryDate,
+  isPaused,
+}) => {
+  let message
+  if (isPaused) {
+    message = (
+      <span>
+        Your next basket has been <Bold>paused.</Bold>
+      </span>
+    )
+  } else if (editStatus === 'done') {
+    message = <span>Your card will be charged on {chargedDate}</span>
+  } else if (editStatus === 'active') {
+    message = (
+      <span>
+        You can <Bold>edit</Bold> your basket until <Bold>{editBasketEndDate}</Bold>
+      </span>
+    )
+  } else if (scheduledStatus === 'done') {
+    message = (
+      <span>
+        Your next basket is <Bold>scheduled</Bold> for delivery on <Bold>{deliveryDate}</Bold>
+      </span>
+    )
+  } else if (scheduledStatus === 'active') {
+    message = (
+      <span>
+        <span>Confirm your order to schedule your next basket</span>
+      </span>
+    )
+  }
+
+  return (
+    <>
+      <H1>Your next basket</H1>
+      {message}
+      <BasketDates
+        scheduledStatus={scheduledStatus}
+        editStatus={editStatus}
+        chargedStatus={chargedStatus}
+        deliveredStatus={deliveredStatus}
+        editBasketStartDate={editBasketStartDate}
+        editBasketEndDate={editBasketEndDate}
+        chargedDate={chargedDate}
+        deliveryDate={deliveryDate}
+        isPaused={isPaused}
+      />
+    </>
+  )
+}

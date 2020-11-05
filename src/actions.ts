@@ -1,13 +1,14 @@
-import { SignedInData } from "./types"
-import { navigate } from "gatsby"
-import { saveSignedInUserToLocalStorage } from "./util"
+import { GoodPluckJSONResponse, OrderDetail, SignedInData } from './types'
+
+import { navigate } from 'gatsby'
+import { saveSignedInUserToLocalStorage } from './util'
 
 export const createUser = async (params: Record<string, any>) => {
-  const response = await fetch("/api/createuser", {
-    credentials: "same-origin",
-    method: "POST",
+  const response = await fetch('/api/createuser', {
+    credentials: 'same-origin',
+    method: 'POST',
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify(params),
   })
@@ -18,11 +19,11 @@ export const createUser = async (params: Record<string, any>) => {
 }
 
 export const signIn = async params => {
-  const response = await fetch("/api/signin", {
-    credentials: "same-origin",
-    method: "POST",
+  const response = await fetch('/api/signin', {
+    credentials: 'same-origin',
+    method: 'POST',
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify(params),
   })
@@ -36,17 +37,12 @@ export const signIn = async params => {
  * @param email - The email logging in
  * @returns {boolean} - true iof you are now signed in
  */
-export const verifyEmail = async (
-  authCodeId: string,
-  code: string,
-  email: string,
-  setErrorTextFunc: Function
-) => {
-  const response = await fetch("/api/verifyemail", {
-    credentials: "same-origin",
-    method: "POST",
+export const verifyEmail = async (authCodeId: string, code: string, email: string, setErrorTextFunc: Function) => {
+  const response = await fetch('/api/verifyemail', {
+    credentials: 'same-origin',
+    method: 'POST',
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify({ authCodeId, code, email }),
   })
@@ -70,8 +66,8 @@ export const verifyEmail = async (
 }
 
 export const getSignedInData = async (): Promise<SignedInData | null> => {
-  const response = await fetch("/api/getsignedinuser", {
-    credentials: "same-origin",
+  const response = await fetch('/api/getsignedinuser', {
+    credentials: 'same-origin',
   })
 
   if (!response.ok) {
@@ -86,13 +82,30 @@ export const getSignedInData = async (): Promise<SignedInData | null> => {
   }
 }
 
+export const getOrders = async (): Promise<Record<string, OrderDetail> | null> => {
+  const response = await fetch('/api/getOrders', {
+    credentials: 'same-origin',
+  })
+
+  if (!response.ok) {
+    return null
+  }
+
+  try {
+    const responseJSON: GoodPluckJSONResponse = await response.json()
+    return responseJSON.data
+  } catch (err) {
+    return null
+  }
+}
+
 export const logout = async () => {
   if (typeof localStorage !== `undefined`) {
     localStorage.clear()
   }
 
-  await fetch("/api/logout", {
-    credentials: "same-origin",
+  await fetch('/api/logout', {
+    credentials: 'same-origin',
   })
-  navigate("/")
+  navigate('/')
 }

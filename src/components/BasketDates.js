@@ -1,11 +1,11 @@
-import { Bold, Card } from "../components/StyledComponentLib"
-
-import React from "react"
-import styled from "styled-components"
+import { Card } from '../components/StyledComponentLib'
+import React from 'react'
+import styled from 'styled-components'
 
 const StyledCard = styled(Card)`
   min-width: 350px;
   max-width: 500px;
+  margin: 0 auto;
 `
 
 const Text = styled.div`
@@ -31,7 +31,7 @@ const CheckboxList = styled.ul`
 `
 const CheckboxListItem = styled.li`
   &::after {
-    content: "";
+    content: '';
     width: 1px;
     height: 10px;
     line-height: 20px;
@@ -44,7 +44,7 @@ const CheckboxListItem = styled.li`
   }
 
   &::before {
-    content: "";
+    content: '';
     width: 20px;
     height: 20px;
     line-height: 20px;
@@ -119,31 +119,39 @@ const DetailListItem = styled.li`
   }
 `
 
-const BasketDates = () => {
-  const editUntilDate = "9pm on Oct 29"
-
+const BasketDates = (
+  scheduledStatus, // null or "active" or "done" or "error"
+  editStatus, // null or "active" or "done" or "error"
+  chargedStatus, // null or "active" or "done" or "error"
+  deliveredStatus, // null or "active" or "done" or "error"
+  editBasketStartDate,
+  editBasketEndDate,
+  chargedDate,
+  deliveryDate,
+  isPaused,
+) => {
   return (
-    <StyledCard>
-      <Text>
-        You can <Bold>edit</Bold> your basket until <Bold>{editUntilDate}</Bold>
-      </Text>
+    <StyledCard paused={isPaused}>
       <Container>
         <CheckboxList>
-          <CheckboxListItem active></CheckboxListItem>
-          <CheckboxListItem></CheckboxListItem>
-          <CheckboxListItem></CheckboxListItem>
-          <CheckboxListItem></CheckboxListItem>
+          <CheckboxListItem active={scheduledStatus === 'active'} done={scheduledStatus === 'done'} />
+          <CheckboxListItem active={editStatus === 'active'} done={editStatus === 'done'} />
+          <CheckboxListItem active={chargedStatus === 'active'} done={chargedStatus === 'done'} />
+          <CheckboxListItem active={deliveredStatus === 'active'} done={deliveredStatus === 'done'} />
         </CheckboxList>
         <DetailList>
           <DetailListItem>Confirm Your Order</DetailListItem>
           <DetailListItem>
-            Customize your basket<span>Oct 24th - Oct 29th</span>
+            Customize your basket
+            <span>
+              {editBasketStartDate} - {editBasketEndDate}
+            </span>
           </DetailListItem>
           <DetailListItem>
-            Card charged<span>Thurs, Oct 29th</span>
+            Card charged<span>{chargedDate}</span>
           </DetailListItem>
           <DetailListItem>
-            On your doorstep<span>Sat, Oct 31st</span>
+            On your doorstep<span>{deliveryDate}</span>
           </DetailListItem>
         </DetailList>
       </Container>
