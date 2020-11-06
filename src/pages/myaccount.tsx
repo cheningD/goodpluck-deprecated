@@ -15,7 +15,7 @@ import { useRecoilState } from 'recoil'
 
 const Page = styled.div`
   background-color: #fbe1cf;
-  padding: 32px 16px;
+  padding: 32px 10%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -144,7 +144,7 @@ const UpcomingBasket = ({
 
   return (
     <>
-      <H1>Your next basket</H1>
+      <H2>Your upcoming basket</H2>
       {message}
       <BasketDates
         scheduledStatus={scheduledStatus}

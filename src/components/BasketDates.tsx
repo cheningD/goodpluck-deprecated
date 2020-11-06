@@ -4,9 +4,9 @@ import React from 'react'
 import styled from 'styled-components'
 
 const StyledCard = styled(Card)`
-  min-width: 350px;
+  min-width: 400px;
   max-width: 500px;
-  margin: 0 auto;
+  margin: 32px 0;
 `
 
 const Text = styled.div`
@@ -30,7 +30,13 @@ const CheckboxList = styled.ul`
   padding-top: 0px;
   padding-inline-start: 0px;
 `
-const CheckboxListItem = styled.li`
+
+interface CheckboxListItemProps {
+  active: boolean
+  done: boolean
+}
+
+const CheckboxListItem = styled.li<CheckboxListItemProps>`
   &::after {
     content: '';
     width: 1px;
@@ -120,9 +126,8 @@ const DetailListItem = styled.li`
   }
 `
 
-const isoToNiceDate = (isoString: string, showTime: boolean = false) => {
-  const hour = showTime ? `ha` : ''
-  return DateTime.fromISO(isoString).toFormat(`ccc, LLL dd ${hour}`)
+const isoToNiceDate = (isoString: string, format: string = '') => {
+  return DateTime.fromISO(isoString).toFormat(format || `ccc, LLL dd`)
 }
 
 const BasketDates = ({
@@ -137,7 +142,7 @@ const BasketDates = ({
   isPaused,
 }) => {
   return (
-    <StyledCard paused={isPaused}>
+    <StyledCard>
       <Container>
         <CheckboxList>
           <CheckboxListItem active={scheduledStatus === 'active'} done={scheduledStatus === 'done'} />
@@ -146,11 +151,11 @@ const BasketDates = ({
           <CheckboxListItem active={deliveredStatus === 'active'} done={deliveredStatus === 'done'} />
         </CheckboxList>
         <DetailList>
-          <DetailListItem>Confirm Your Order</DetailListItem>
+          <DetailListItem>{scheduledStatus === 'done' ? `Scheduled` : `Confirm your order`}</DetailListItem>
           <DetailListItem>
             Customize your basket
             <span>
-              {isoToNiceDate(editBasketStartDate, true)} - {isoToNiceDate(editBasketEndDate, true)}
+              {isoToNiceDate(editBasketStartDate, 'LLL, dd')} - {isoToNiceDate(editBasketEndDate, 'LLL, dd')}
             </span>
           </DetailListItem>
           <DetailListItem>
