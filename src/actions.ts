@@ -83,7 +83,7 @@ export const getSignedInData = async (): Promise<SignedInData | null> => {
 }
 
 export const getOrders = async (): Promise<Record<string, OrderDetail> | null> => {
-  const response = await fetch('/api/getOrders', {
+  const response = await fetch('/api/orders', {
     credentials: 'same-origin',
   })
 
