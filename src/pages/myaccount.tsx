@@ -24,6 +24,10 @@ const Page = styled.div`
 `
 
 const Section = styled.section`
+  margin: 0;
+`
+const StyledCard = styled(Card)`
+  min-width: 400px;
   margin: 32px 0;
 `
 
@@ -110,7 +114,7 @@ const YourPlan = ({ orderFrequency }) => {
   return (
     <Section>
       <H2>Your Plan</H2>
-      <Card>
+      <StyledCard>
         <DetailCell2>Delivery Day</DetailCell2>
         <DetailCell2 bold right>
           Saturday
@@ -119,7 +123,7 @@ const YourPlan = ({ orderFrequency }) => {
         <DetailCell2 bold right>
           {startCase(orderFrequency)}
         </DetailCell2>
-      </Card>
+      </StyledCard>
     </Section>
   )
 }

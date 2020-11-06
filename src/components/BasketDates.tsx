@@ -155,7 +155,7 @@ const BasketDates = ({
           <DetailListItem>
             Customize your basket
             <span>
-              {isoToNiceDate(editBasketStartDate, 'LLL, dd')} - {isoToNiceDate(editBasketEndDate, 'LLL, dd')}
+              {isoToNiceDate(editBasketStartDate, 'LLL dd')} - {isoToNiceDate(editBasketEndDate, 'LLL d')}
             </span>
           </DetailListItem>
           <DetailListItem>
