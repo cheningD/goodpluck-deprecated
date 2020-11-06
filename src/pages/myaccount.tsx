@@ -16,18 +16,21 @@ import { useRecoilState } from 'recoil'
 const Page = styled.div`
   background-color: #fbe1cf;
   min-height: 100vh;
-  padding: 32px 10%;
+`
+const Content = styled.div`
+  width: 450px;
+  margin: 32px, auto;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  align-items: center;
+  align-items: flex-start;
 `
 
 const Section = styled.section`
   margin: 0;
 `
 const StyledCard = styled(Card)`
-  min-width: 400px;
+  width: 100%;
   margin: 32px 0;
 `
 
@@ -147,7 +150,12 @@ const UpcomingBasket = ({
       </span>
     )
   } else if (editStatus === 'done') {
-    message = <span>Your card will be charged on {chargedDate}</span>
+    message = <span>Your card will be charged on </span>
+    message = (
+      <span>
+        Your card will be charged on <Bold></Bold>
+      </span>
+    )
   } else if (editStatus === 'active') {
     message = (
       <span>

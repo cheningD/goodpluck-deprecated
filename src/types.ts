@@ -15,7 +15,6 @@ export interface GoodPluckJSONResponse {
 }
 
 export interface OrderDetail {
-  orderNumber: number
   mondayOfOrderDateString: string // Orders are indexed by the YYYY-MM-DD of the Monday of the delivery date
   scheduledStatus: string | null // null or "active" or "done" or "error"
   editStatus: string | null // null or "active" or "done" or "error"

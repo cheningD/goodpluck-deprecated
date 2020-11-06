@@ -4,8 +4,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 const StyledCard = styled(Card)`
-  min-width: 400px;
-  max-width: 500px;
+  width: 100%;
   margin: 32px 0;
 `
 
