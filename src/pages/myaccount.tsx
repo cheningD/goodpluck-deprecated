@@ -9,7 +9,7 @@ import { DateTime } from 'luxon'
 import { Link } from 'gatsby'
 import Nav from '../components/Nav'
 import SEO from '../components/SEO'
-import { startCase } from 'lodash-es/startCase'
+import startCase from 'lodash-es/startCase'
 import styled from 'styled-components'
 import { useRecoilState } from 'recoil'
 
