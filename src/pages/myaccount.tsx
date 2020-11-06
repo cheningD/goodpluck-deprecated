@@ -32,7 +32,7 @@ const Page = styled.div`
   padding: 32px; 16px;
 `
 const Content = styled.div`
-  min-width: 375px;
+  width: 100%;
   max-width: 500px;
   margin: 0, auto;
   display: flex;
@@ -52,8 +52,9 @@ const StyledCard = styled(Card)`
 const Button = styled(SubmitButton)`
   background-color: #fff;
   border-color: #000;
-  margin: 16px 0;
-  width: 300px;
+  margin: 16px auto;
+  width: 100%;
+  max-width: 250px;
   height: 50px;
   text-transform: capitalize;
   font-family: hk_grotesksemibold, sans-serif;
@@ -242,10 +243,9 @@ const UpcomingBasket = ({
       </span>
     )
   } else if (editStatus === 'done') {
-    message = <span>Your card will be charged on </span>
     message = (
       <span>
-        Your card will be charged on <Bold></Bold>
+        Your card will be charged on <Bold>{DateTime.fromISO(chargedDate).toFormat('ccc, LLL dd')}</Bold>
       </span>
     )
   } else if (editStatus === 'active') {
