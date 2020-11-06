@@ -2,6 +2,7 @@ interface SignedInUser {
   email: string
   first: string
   last: string
+  orderFrequency: string // either "every week" or "every other week"
 }
 
 export interface SignedInData {

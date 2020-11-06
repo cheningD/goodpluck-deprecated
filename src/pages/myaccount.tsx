@@ -9,6 +9,7 @@ import { DateTime } from 'luxon'
 import { Link } from 'gatsby'
 import Nav from '../components/Nav'
 import SEO from '../components/SEO'
+import { startCase } from 'lodash-es/startCase'
 import styled from 'styled-components'
 import { useRecoilState } from 'recoil'
 
@@ -18,6 +19,10 @@ const Page = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
+`
+
+const Section = styled.section`
+  margin: 32px 0;
 `
 
 const H1 = styled.h1`
@@ -80,8 +85,8 @@ const MyAccount = () => {
     content = (
       <>
         <H1>{`Hi ${user.first},`}</H1>
-
         <UpcomingBasket {...upcomingOrderData} />
+        <YourPlan orderFrequency={user.orderFrequency} />
       </>
     )
   } else if (needsSignIn) {
@@ -101,7 +106,7 @@ export default MyAccount
 
 const YourPlan = ({ orderFrequency }) => {
   return (
-    <>
+    <Section>
       <H2>Your Plan</H2>
       <Card>
         <DetailCell2>Delivery Day</DetailCell2>
@@ -110,10 +115,10 @@ const YourPlan = ({ orderFrequency }) => {
         </DetailCell2>
         <DetailCell2>Frequency</DetailCell2>
         <DetailCell2 bold right>
-          orderFrequency
+          {startCase(orderFrequency)}
         </DetailCell2>
       </Card>
-    </>
+    </Section>
   )
 }
 
@@ -160,7 +165,7 @@ const UpcomingBasket = ({
   }
 
   return (
-    <>
+    <Section>
       <H2>Your upcoming basket</H2>
       {message}
       <BasketDates
@@ -174,6 +179,6 @@ const UpcomingBasket = ({
         deliveryDate={deliveryDate}
         isPaused={isPaused}
       />
-    </>
+    </Section>
   )
 }
