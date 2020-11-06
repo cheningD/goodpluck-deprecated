@@ -5,7 +5,6 @@ import styled from 'styled-components'
 
 const StyledCard = styled(Card)`
   min-width: 400px;
-  min-height: 100vh;
   max-width: 500px;
   margin: 32px 0;
 `
