@@ -1,7 +1,20 @@
-import { Bold, Card, DetailCell2, Header, Spinner } from '../components/StyledComponentLib'
+import * as yup from 'yup'
+
+import {
+  Bold,
+  Card,
+  DetailCell2,
+  Error,
+  Header,
+  Spinner,
+  StyledErrorMessage,
+  StyledField,
+  SubmitButton,
+} from '../components/StyledComponentLib'
+import { Form, Formik } from 'formik'
 import { OrderDetail, SignedInData } from '../types'
 import React, { useEffect, useState } from 'react'
-import { getOrders, getSignedInData } from '../actions'
+import { getOrders, getSignedInData, pauseSubscription } from '../actions'
 import { myOrders, signedInUser } from '../store'
 
 import BasketDates from '../components/BasketDates'
@@ -34,6 +47,25 @@ const Section = styled.section`
 const StyledCard = styled(Card)`
   width: 100%;
   margin: 32px 0;
+`
+
+const Button = styled(SubmitButton)`
+  background-color: #fff;
+  border-color: #000;
+  margin: 16px 0;
+  width: 300px;
+  height: 50px;
+  text-transform: capitalize;
+  font-family: hk_grotesksemibold, sans-serif;
+  font-size: 1rem;
+`
+
+const DangerButton = styled(Button)`
+  border-color: #e34843;
+`
+
+const ErrorMessage = styled(StyledErrorMessage)`
+  color: #000;
 `
 
 const H1 = styled.h1`
@@ -110,14 +142,64 @@ const MyAccount = () => {
     <>
       <SEO title="My Account | Goodpluck" />
       <Nav />
-      <Page>{content}</Page>
+      <Page>
+        <Content>{content}</Content>
+      </Page>
     </>
   )
 }
 
 export default MyAccount
 
+const handleEditSubscriptionSchema = yup.object().shape({
+  reason: yup
+    .string()
+    .required(`Please tell us why you'd like to stop your subscription`)
+    .min(5, 'Please give a little more detail!')
+    .max(300, 'This text box is limited to 300 characters. Want to say more? Email us at help@goodpluck.com'),
+})
+
+const PauseMySubscription = ({}) => {
+  const [errorText, setErrorText] = useState('')
+  return (
+    <div>
+      <Formik
+        initialValues={{ reason: '' }}
+        validationSchema={handleEditSubscriptionSchema}
+        onSubmit={async (values, actions) => {
+          console.log({ values, actions })
+          const result = await pauseSubscription(values.reason)
+          if (result.success) {
+            if (typeof window !== `undefined`) {
+              window.location.reload()
+            }
+          } else {
+            setErrorText(result.error || 'Could not stop subscription. Please contact us if this issue persists')
+          }
+          actions.setSubmitting(false)
+        }}
+      >
+        <Form>
+          <H2>Stop or pause your subscription</H2>
+          <StyledField
+            component="textarea"
+            id="reason"
+            name="reason"
+            placeholder="Please tell us why you'd like to stop your subscription"
+          />
+          <ErrorMessage name="reason" component="div" />
+          {errorText ? <Error>{errorText}</Error> : ''}
+          <DangerButton as="button" type="submit">
+            Stop my subscription
+          </DangerButton>
+        </Form>
+      </Formik>
+    </div>
+  )
+}
+
 const YourPlan = ({ orderFrequency }) => {
+  const [showManage, setShowManage] = useState(false)
   return (
     <Section>
       <H2>Your Plan</H2>
@@ -131,6 +213,12 @@ const YourPlan = ({ orderFrequency }) => {
           {startCase(orderFrequency)}
         </DetailCell2>
       </StyledCard>
+
+      <Button as="button" onClick={() => setShowManage(!showManage)}>
+        {showManage ? `Hide` : `Manage`}
+      </Button>
+
+      {showManage ? <PauseMySubscription /> : ''}
     </Section>
   )
 }

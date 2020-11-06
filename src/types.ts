@@ -11,7 +11,9 @@ export interface SignedInData {
 }
 
 export interface GoodPluckJSONResponse {
-  data: Record<string, any>
+  data?: Record<string, any>
+  success?: boolean
+  error?: string
 }
 
 export interface OrderDetail {

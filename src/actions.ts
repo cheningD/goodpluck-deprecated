@@ -82,6 +82,26 @@ export const getSignedInData = async (): Promise<SignedInData | null> => {
   }
 }
 
+export const pauseSubscription = async (reason: string): Promise<GoodPluckJSONResponse> => {
+  const response = await fetch('/api/orders', {
+    credentials: 'same-origin',
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ subscriptionIsActive: false, reason: reason }),
+  })
+
+  try {
+    return await response.json()
+  } catch (err) {
+    return {
+      success: false,
+      error: 'Something went wrong. Please contact us if this issue persists',
+    }
+  }
+}
+
 export const getOrders = async (): Promise<Record<string, OrderDetail> | null> => {
   const response = await fetch('/api/orders', {
     credentials: 'same-origin',
