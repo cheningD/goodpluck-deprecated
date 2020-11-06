@@ -1,7 +1,7 @@
-import Image from "../components/Image"
-import React from "react"
-import { SubmitButton } from "../components/StyledComponentLib"
-import styled from "styled-components"
+import Image from '../components/Image'
+import React from 'react'
+import { SubmitButton } from '../components/StyledComponentLib'
+import styled from 'styled-components'
 
 const Section = styled.section`
   background-color: #788474;
@@ -69,7 +69,9 @@ const PrimaryButton = styled(SubmitButton)`
   width: calc(100% - 64px);
   max-width: 400px;
   margin: 32px auto 0 auto;
-  display: block;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `
 
 const HowItWorksSection = () => {
@@ -80,15 +82,13 @@ const HowItWorksSection = () => {
         <MainCopy>
           <Header>The Local Pluck Basket</Header>
           <Text>
-            We fill our <strong>Local Pluck Basket</strong> with the best local
-            produce we find each week.
+            We fill our <strong>Local Pluck Basket</strong> with the best local produce we find each week.
           </Text>
           <Text>Your basket is 100% customizable.</Text>
-          <Text>
-            Add, change or remove any item from our selection of produce, farm
-            goods, and groceries.
-          </Text>
-          <PrimaryButton to="/getstarted">Your first basket</PrimaryButton>
+          <Text>Add, change or remove any item from our selection of produce, farm goods, and groceries.</Text>
+          <PrimaryButton to="/getstarted">
+            <div>Build Your First Basket</div>
+          </PrimaryButton>
         </MainCopy>
       </SubSection>
     </Section>
