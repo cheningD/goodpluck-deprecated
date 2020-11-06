@@ -105,7 +105,9 @@ const DetailList = styled.ul`
   display: flex;
   flex-direction: column;
   padding: 0px;
-  min-width: 200px;
+  min-width: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
   margin-left: 8px;
   flex-grow: 4;
 `
