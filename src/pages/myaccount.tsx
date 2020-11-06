@@ -15,10 +15,12 @@ import { useRecoilState } from 'recoil'
 
 const Page = styled.div`
   background-color: #fbe1cf;
+  min-height: 100vh;
   padding: 32px 10%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
+  align-items: center;
 `
 
 const Section = styled.section`
