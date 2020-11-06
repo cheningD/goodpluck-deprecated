@@ -54,21 +54,6 @@ const MyAccount = () => {
     }
   }, [])
 
-  //Todo: remove testing only
-  setUser({
-    id: 'gp_user_517e606c-6cda-4b9d-8c2b-030c0540c378',
-    email: 'cdduker+test@gmail.com',
-    addressLine1: '7630 Kipling St',
-    addressLine2: '',
-    first: 'Chening',
-    last: 'Duker',
-    phone: '5175052105',
-    zip: '48206',
-    is_verified: false,
-    created_ts: 1604088063,
-    stripeCustomerID: 'cus_IIf6uc88W9MwRH',
-  })
-
   const loadingMsg = (
     <>
       <Header>Loading your account</Header>
