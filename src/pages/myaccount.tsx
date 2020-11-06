@@ -17,6 +17,7 @@ import React, { useEffect, useState } from 'react'
 import { getOrders, getSignedInData, pauseSubscription, restartSubscription } from '../actions'
 import { myOrders, signedInUser } from '../store'
 
+import BasketAccountShopLinks from '../components/BasketAccountShopLinks'
 import BasketDates from '../components/BasketDates'
 import { DateTime } from 'luxon'
 import { Link } from 'gatsby'
@@ -27,14 +28,13 @@ import styled from 'styled-components'
 import { useRecoilState } from 'recoil'
 
 const Page = styled.div`
-  background-color: #fbe1cf;
+  background-color: var(--light-bg);
   min-height: 100vh;
-  padding: 32px; 16px;
 `
 const Content = styled.div`
   width: 100%;
   max-width: 500px;
-  margin: 0, auto;
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -50,8 +50,8 @@ const StyledCard = styled(Card)`
 `
 
 const Button = styled(SubmitButton)`
-  background-color: #fff;
-  border-color: #000;
+  background-color: var(—white);
+  border-color: var(—blackish);
   margin: 16px auto;
   width: 100%;
   padding: 0 16px;
@@ -67,11 +67,11 @@ const DangerButton = styled(Button)`
 `
 
 const ErrorMessage = styled(StyledErrorMessage)`
-  color: #000;
+  color: var(—blackish);
 `
 
 const H1 = styled.h1`
-  color: #000;
+  color: var(—blackish);
   font-family: hk_grotesksemibold, sans-serif;
   font-size: 2rem;
   margin: 0;
@@ -79,7 +79,7 @@ const H1 = styled.h1`
 `
 
 const H2 = styled.h2`
-  color: #000;
+  color: var(—blackish);
   font-family: hk_grotesksemibold, sans-serif;
   font-size: 1.75rem;
 `
@@ -149,13 +149,12 @@ const MyAccount = () => {
   }
 
   return (
-    <>
+    <Page>
       <SEO title="My Account | Goodpluck" />
       <Nav />
-      <Page>
-        <Content>{content}</Content>
-      </Page>
-    </>
+      <BasketAccountShopLinks />
+      <Content>{content}</Content>
+    </Page>
   )
 }
 
@@ -168,6 +167,7 @@ const handleEditSubscriptionSchema = yup.object().shape({
     .min(5, 'Please give a little more detail!')
     .max(300, 'This text box is limited to 300 characters. Want to say more? Email us at help@goodpluck.com'),
 })
+
 const RestartMySubscription = ({}) => {
   const [errorText, setErrorText] = useState('')
   return (

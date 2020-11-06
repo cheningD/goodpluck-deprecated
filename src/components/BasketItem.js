@@ -1,9 +1,10 @@
-import AddToCartButton from "../components/AddToCartButton"
-import Image from "../components/Image"
+import AddToCartButton from '../components/AddToCartButton'
+import Image from '../components/Image'
 // import Chevron from "../components/Chevron"
-import Img from "gatsby-image"
-import React from "react"
-import styled from "styled-components"
+import Img from 'gatsby-image'
+import React from 'react'
+import { centsToString } from '../util'
+import styled from 'styled-components'
 
 const ItemContainer = styled.div`
   display: flex;
@@ -14,8 +15,8 @@ const ItemContainer = styled.div`
 
 const ImageContainer = styled.div`
 
-  width: ${props => (props.isCompact ? "64px;" : "100px;")}
-  height: ${props => (props.isCompact ? "64px;" : "100px;")}
+  width: ${props => (props.isCompact ? '64px;' : '100px;')}
+  height: ${props => (props.isCompact ? '64px;' : '100px;')}
   
 `
 const ItemImage = styled(Image)`
@@ -79,26 +80,24 @@ const BasketItem = ({
   isOrganic,
   name,
   oneLiner,
-  priceLabel,
   quantityLabel,
   stripePriceId,
+  unitPriceInCents,
 }) => {
-  let controls = ""
+  let controls = ''
   if (canEdit) {
     controls = (
       <Controls>
-        <AddToCart stripePriceId={stripePriceId} />
-        <Price>{priceLabel}</Price>
+        <AddToCart stripePriceId={stripePriceId} unitPriceInCents={unitPriceInCents} />
+        <Price>{centsToString(unitPriceInCents)}</Price>
       </Controls>
     )
   }
-  let image = ""
+  let image = ''
   if (childImageSharp) {
     image = <Img fluid={childImageSharp.fluid} alt={name} />
   } else {
-    image = (
-      <ItemImage src={imageSrc || "placeholder.jpg"} alt="placeholder-image" />
-    )
+    image = <ItemImage src={imageSrc || 'placeholder.jpg'} alt="placeholder-image" />
   }
 
   return (
@@ -107,10 +106,9 @@ const BasketItem = ({
       <Product>
         <Title>
           <QuantityLabel>{quantityLabel} </QuantityLabel>
-          {name}{" "}
-          {isLocal ? <Icon src="mitten.png" alt="grown in michigan" /> : ""}
-          {isOrganic ? <Icon src="organic_icon.png" alt="organic" /> : ""}
-          {isInSeason ? <Icon src="in_season_icon.png" alt="In seasion" /> : ""}
+          {name} {isLocal ? <Icon src="mitten.png" alt="grown in michigan" /> : ''}
+          {isOrganic ? <Icon src="organic_icon.png" alt="organic" /> : ''}
+          {isInSeason ? <Icon src="in_season_icon.png" alt="In seasion" /> : ''}
         </Title>
         <Description>
           {oneLiner}
