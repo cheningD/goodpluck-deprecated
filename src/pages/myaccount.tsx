@@ -1,4 +1,4 @@
-import { Bold, Spinner } from '../components/StyledComponentLib'
+import { Bold, Card, DetailCell2, Header, Spinner } from '../components/StyledComponentLib'
 import { OrderDetail, SignedInData } from '../types'
 import React, { useEffect, useState } from 'react'
 import { getOrders, getSignedInData } from '../actions'
@@ -6,7 +6,6 @@ import { myOrders, signedInUser } from '../store'
 
 import BasketDates from '../components/BasketDates'
 import { DateTime } from 'luxon'
-import { Header } from '../components/StyledComponentLib'
 import { Link } from 'gatsby'
 import Nav from '../components/Nav'
 import SEO from '../components/SEO'
@@ -99,6 +98,24 @@ const MyAccount = () => {
 }
 
 export default MyAccount
+
+const YourPlan = ({ orderFrequency }) => {
+  return (
+    <>
+      <H2>Your Plan</H2>
+      <Card>
+        <DetailCell2>Delivery Day</DetailCell2>
+        <DetailCell2 bold right>
+          Saturday
+        </DetailCell2>
+        <DetailCell2>Frequency</DetailCell2>
+        <DetailCell2 bold right>
+          orderFrequency
+        </DetailCell2>
+      </Card>
+    </>
+  )
+}
 
 const UpcomingBasket = ({
   scheduledStatus,

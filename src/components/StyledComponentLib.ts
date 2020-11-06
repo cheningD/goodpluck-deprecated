@@ -1,7 +1,7 @@
-import { ErrorMessage, Field, Form } from "formik"
-import styled, { keyframes } from "styled-components"
+import { ErrorMessage, Field, Form } from 'formik'
+import styled, { keyframes } from 'styled-components'
 
-import { Link } from "gatsby"
+import { Link } from 'gatsby'
 
 export const MobileViewOnly = styled.div`
   display: none;
@@ -178,8 +178,13 @@ export const LineBreak = styled.div`
   margin: 8px auto 16px auto;
 `
 
-export const DetailCell = styled.div`
-  font-family: "hk_groteskregular", sans-serif;
+interface DetailCellProps {
+  bold?: boolean
+  right?: boolean
+}
+
+export const DetailCell = styled.div<DetailCellProps>`
+  font-family: 'hk_groteskregular', sans-serif;
   box-sizing: border-box;
   flex-grow: 1;
   flex-shrink: 2;
@@ -188,9 +193,9 @@ export const DetailCell = styled.div`
   overflow: hidden;
   list-style: none;
 
-  ${({ bold }) => (bold ? "font-family: hk_grotesksemibold, sans-serif;" : "")}
+  ${props => (props.bold ? 'font-family: hk_grotesksemibold, sans-serif;' : '')}
 
-  ${({ right }) => (right ? "text-align: right;" : "")}
+  ${props => (props.right ? 'text-align: right;' : '')}
 `
 
 export const DetailCell2 = styled(DetailCell)`
@@ -237,7 +242,7 @@ export const Spinner = styled.div`
   position: relative;
   top: -4px;
   &:after {
-    content: " ";
+    content: ' ';
     display: block;
     width: 32px;
     height: 32px;
