@@ -14,7 +14,8 @@ import { useRecoilState } from 'recoil'
 
 const Page = styled.div`
   background-color: #fbe1cf;
-  padding: 32px 0;
+  padding: 32px 16px;
+  display: flex;
 `
 
 const H1 = styled.h1`
@@ -77,7 +78,7 @@ const MyAccount = () => {
     content = (
       <>
         <H1>{`Hi ${user.first},`}</H1>
-        <H2>Your next basket</H2>
+
         <UpcomingBasket {...upcomingOrderData} />
       </>
     )
@@ -89,11 +90,6 @@ const MyAccount = () => {
     <>
       <SEO title="My Account | Goodpluck" />
       <Nav />
-      {JSON.stringify(user)}
-      <div />
-      <div />
-      <div />
-      {JSON.stringify(upcomingOrderData)}
       <Page>{content}</Page>
     </>
   )

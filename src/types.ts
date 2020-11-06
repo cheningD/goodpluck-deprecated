@@ -20,10 +20,10 @@ export interface OrderDetail {
   editStatus: string | null // null or "active" or "done" or "error"
   chargedStatus: string | null // null or "active" or "done" or "error"
   deliveredStatus: string | null // null or "active" or "done" or "error"
-  editBasketStartDate: Date
-  editBasketEndDate: Date
-  chargedDate: Date
-  deliveryDate: Date
+  editBasketStartDate: string // in ISO format
+  editBasketEndDate: string // in ISO format
+  chargedDate: string // in ISO format
+  deliveryDate: string // in ISO format
   isFullfilled: boolean
   isPaused: boolean
 }

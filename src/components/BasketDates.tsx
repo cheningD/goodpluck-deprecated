@@ -1,4 +1,5 @@
 import { Card } from '../components/StyledComponentLib'
+import { DateTime } from 'luxon'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -119,7 +120,12 @@ const DetailListItem = styled.li`
   }
 `
 
-const BasketDates = (
+const isoToNiceDate = (isoString: string, showTime: boolean = false) => {
+  const hour = showTime ? `ha` : ''
+  return DateTime.fromISO(isoString).toFormat(`ccc, LLL dd ${hour}`)
+}
+
+const BasketDates = ({
   scheduledStatus, // null or "active" or "done" or "error"
   editStatus, // null or "active" or "done" or "error"
   chargedStatus, // null or "active" or "done" or "error"
@@ -129,7 +135,7 @@ const BasketDates = (
   chargedDate,
   deliveryDate,
   isPaused,
-) => {
+}) => {
   return (
     <StyledCard paused={isPaused}>
       <Container>
@@ -144,14 +150,14 @@ const BasketDates = (
           <DetailListItem>
             Customize your basket
             <span>
-              {editBasketStartDate} - {editBasketEndDate}
+              {isoToNiceDate(editBasketStartDate, true)} - {isoToNiceDate(editBasketEndDate, true)}
             </span>
           </DetailListItem>
           <DetailListItem>
-            Card charged<span>{chargedDate}</span>
+            Card charged<span>{isoToNiceDate(chargedDate)}</span>
           </DetailListItem>
           <DetailListItem>
-            On your doorstep<span>{deliveryDate}</span>
+            On your doorstep<span>{isoToNiceDate(deliveryDate)}</span>
           </DetailListItem>
         </DetailList>
       </Container>
