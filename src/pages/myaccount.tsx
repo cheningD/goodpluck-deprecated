@@ -5,6 +5,7 @@ import { getOrders, getSignedInData } from '../actions'
 import { myOrders, signedInUser } from '../store'
 
 import BasketDates from '../components/BasketDates'
+import { DateTime } from 'luxon'
 import { Header } from '../components/StyledComponentLib'
 import { Link } from 'gatsby'
 import Nav from '../components/Nav'
@@ -16,6 +17,8 @@ const Page = styled.div`
   background-color: #fbe1cf;
   padding: 32px 16px;
   display: flex;
+  flex-direction: column;
+  justify-content: center;
 `
 
 const H1 = styled.h1`
@@ -120,13 +123,15 @@ const UpcomingBasket = ({
   } else if (editStatus === 'active') {
     message = (
       <span>
-        You can <Bold>edit</Bold> your basket until <Bold>{editBasketEndDate}</Bold>
+        You can <Bold>edit</Bold> your basket until{' '}
+        <Bold>{DateTime.fromISO(editBasketEndDate).toFormat('ha ccc, LLL dd')}</Bold>
       </span>
     )
   } else if (scheduledStatus === 'done') {
     message = (
       <span>
-        Your next basket is <Bold>scheduled</Bold> for delivery on <Bold>{deliveryDate}</Bold>
+        Your next basket is <Bold>scheduled</Bold> for delivery on{' '}
+        <Bold>{DateTime.fromISO(deliveryDate).toFormat('ccc, LLL dd')}</Bold>
       </span>
     )
   } else if (scheduledStatus === 'active') {
