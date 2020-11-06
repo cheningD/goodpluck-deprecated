@@ -14,7 +14,7 @@ import {
 import { Form, Formik } from 'formik'
 import { OrderDetail, SignedInData } from '../types'
 import React, { useEffect, useState } from 'react'
-import { getOrders, getSignedInData, pauseSubscription } from '../actions'
+import { getOrders, getSignedInData, pauseSubscription, restartSubscription } from '../actions'
 import { myOrders, signedInUser } from '../store'
 
 import BasketDates from '../components/BasketDates'
@@ -54,7 +54,8 @@ const Button = styled(SubmitButton)`
   border-color: #000;
   margin: 16px auto;
   width: 100%;
-  max-width: 250px;
+  padding: 0 16px;
+  max-width: 300px;
   height: 50px;
   text-transform: capitalize;
   font-family: hk_grotesksemibold, sans-serif;
@@ -127,7 +128,15 @@ const MyAccount = () => {
   }
 
   let content = loadingMsg
-  if (user && upcomingOrderData) {
+  if (user && user.subscriptionIsActive === false) {
+    content = (
+      <>
+        <H1>{`Hi ${user.first},`}</H1>
+        <H2>Your subscription is not active</H2>
+        <RestartMySubscription />
+      </>
+    )
+  } else if (user && upcomingOrderData) {
     content = (
       <>
         <H1>{`Hi ${user.first},`}</H1>
@@ -159,6 +168,34 @@ const handleEditSubscriptionSchema = yup.object().shape({
     .min(5, 'Please give a little more detail!')
     .max(300, 'This text box is limited to 300 characters. Want to say more? Email us at help@goodpluck.com'),
 })
+const RestartMySubscription = ({}) => {
+  const [errorText, setErrorText] = useState('')
+  return (
+    <div>
+      <Formik
+        initialValues={{}}
+        onSubmit={async (values, actions) => {
+          const result = await restartSubscription()
+          if (result.success) {
+            if (typeof window !== `undefined`) {
+              window.location.reload()
+            }
+          } else {
+            setErrorText(result.error || 'Could not restart subscription. Please contact us if this issue persists')
+          }
+          actions.setSubmitting(false)
+        }}
+      >
+        <Form>
+          {errorText ? <Error>{errorText}</Error> : ''}
+          <Button as="button" type="submit">
+            Restart my subscription
+          </Button>
+        </Form>
+      </Formik>
+    </div>
+  )
+}
 
 const PauseMySubscription = ({}) => {
   const [errorText, setErrorText] = useState('')
