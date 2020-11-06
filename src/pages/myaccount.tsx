@@ -16,10 +16,12 @@ import { useRecoilState } from 'recoil'
 const Page = styled.div`
   background-color: #fbe1cf;
   min-height: 100vh;
+  padding: 32px; 16px;
 `
 const Content = styled.div`
-  width: 450px;
-  margin: 32px, auto;
+  min-width: 375px;
+  max-width: 500px;
+  margin: 0, auto;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -38,6 +40,8 @@ const H1 = styled.h1`
   color: #000;
   font-family: hk_grotesksemibold, sans-serif;
   font-size: 2rem;
+  margin: 0;
+  padding: 32px 0;
 `
 
 const H2 = styled.h2`
