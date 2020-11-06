@@ -159,8 +159,8 @@ const UpcomingBasket = ({
   } else if (editStatus === 'active') {
     message = (
       <span>
-        You can <Bold>edit</Bold> your basket until{' '}
-        <Bold>{DateTime.fromISO(editBasketEndDate).toFormat('ha ccc, LLL dd')}</Bold>
+        You can <Bold>edit</Bold> your basket until midnight on{' '}
+        <Bold>{DateTime.fromISO(editBasketEndDate).toFormat('ccc, LLL dd')}</Bold>
       </span>
     )
   } else if (scheduledStatus === 'done') {
