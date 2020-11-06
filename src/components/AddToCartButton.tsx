@@ -1,10 +1,10 @@
-import { basketItems, setItemQuantity } from "../store"
+import { basketItems, setItemQuantity } from '../store'
 
-import Chevron from "./Chevron"
-import React from "react"
-import Select from "react-select"
-import styled from "styled-components"
-import { useRecoilState } from "recoil"
+import Chevron from './Chevron'
+import React from 'react'
+import Select from 'react-select'
+import styled from 'styled-components'
+import { useRecoilState } from 'recoil'
 
 const Submit = styled.button`
   background-color: #fff;
@@ -38,42 +38,37 @@ const StyledChevron = styled(Chevron)`
   padding-top: 4px;
 `
 
-const AddToCartButton = React.memo(({ stripePriceId }) => {
+const AddToCartButton = ({ stripePriceId, unitPriceInCents }) => {
   const [basket, setBasket] = useRecoilState(basketItems)
 
-  let quantityInBasket = basket.get(stripePriceId) || 0
+  let quantityInBasket = basket.get(stripePriceId)?.quantity || 0
 
   if (quantityInBasket === 0) {
     return (
-      <Submit
-        as="button"
-        onClick={() => setItemQuantity(stripePriceId, 1, setBasket)}
-      >
+      <Submit as="button" onClick={() => setItemQuantity(stripePriceId, 1, unitPriceInCents, setBasket)}>
         Add
       </Submit>
     )
   }
 
   const options = [
-    { value: 0, label: "0 (Remove)" },
-    { value: 1, label: "1" },
-    { value: 2, label: "2" },
-    { value: 3, label: "3" },
-    { value: 4, label: "4" },
-    { value: 5, label: "5" },
-    { value: 6, label: "6" },
-    { value: 7, label: "7" },
-    { value: 8, label: "8" },
-    { value: 9, label: "9" },
+    { value: 0, label: '0 (Remove)' },
+    { value: 1, label: '1' },
+    { value: 2, label: '2' },
+    { value: 3, label: '3' },
+    { value: 4, label: '4' },
+    { value: 5, label: '5' },
+    { value: 6, label: '6' },
+    { value: 7, label: '7' },
+    { value: 8, label: '8' },
+    { value: 9, label: '9' },
   ]
 
   return (
     <AddToCartSelect
       classNamePrefix="add-to-cart-select"
       options={options}
-      onChange={option =>
-        setItemQuantity(stripePriceId, option.value, setBasket)
-      }
+      onChange={option => setItemQuantity(stripePriceId, option.value, unitPriceInCents, setBasket)}
       isSearchable={false}
       components={{
         IndicatorSeparator: null,
@@ -85,6 +80,6 @@ const AddToCartButton = React.memo(({ stripePriceId }) => {
       }}
     />
   )
-})
+}
 
 export default AddToCartButton

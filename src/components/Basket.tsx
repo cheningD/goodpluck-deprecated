@@ -1,0 +1,125 @@
+import { Card, DetailCell2, LineBreak } from '../components/StyledComponentLib'
+import { basketItems, shippingInCents, subtotalInCents } from '../store'
+import { graphql, useStaticQuery } from 'gatsby'
+
+import BasketItem from '../components/BasketItem'
+import { DateTime } from 'luxon'
+import React from 'react'
+import { centsToString } from '../util'
+import get from 'lodash-es/get'
+import styled from 'styled-components'
+import { useRecoilValue } from 'recoil'
+
+const ThinLineBreak = styled(LineBreak)`
+  height: 1px;
+`
+
+const Basket = ({ deliveryDate = null, orderFrequency = null, canEdit = false }) => {
+  const data = useStaticQuery(graphql`
+    {
+      allAirtable(filter: { table: { eq: "productv2" } }) {
+        nodes {
+          data {
+            available
+            description
+            isInSeason
+            isLocal
+            isOrganic
+            name
+            oneLiner
+            priceInCents
+            stripePriceId
+            testStripePriceId
+            unitLabel
+            unitQuantity
+            mainImage {
+              id
+              localFiles {
+                url
+                childImageSharp {
+                  fluid(maxWidth: 400, maxHeight: 400) {
+                    ...GatsbyImageSharpFluid_withWebp
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  `)
+  const nodes = get(data, 'allAirtable.nodes', null)
+  const basket = useRecoilValue(basketItems)
+  const subtotal = useRecoilValue(subtotalInCents)
+  const shipping = useRecoilValue(shippingInCents)
+  const items = Array.from(basket).map(([stripePriceId, { quantity }], index) => {
+    const productNodes = nodes.filter(node => node.data.stripePriceId === stripePriceId)
+    if (!productNodes) {
+      return null
+    }
+    const product = productNodes[0].data
+    console.log(`Product with stripePriceId = ${stripePriceId}`, product)
+    if (!product) {
+      return ''
+    }
+
+    const quantityLabel = `${product.unitQuantity || 1} ${product.unitLabel || ''}`
+
+    let stripePriceIdForEnv = product.stripePriceId
+    if (process.env.GATSBY_DEPLOY_ENVIRONMENT === 'STAGING') {
+      stripePriceIdForEnv = product.testStripePriceId
+    }
+
+    return (
+      <>
+        {index === 0 ? '' : <ThinLineBreak />}
+        <BasketItem
+          canEdit={true}
+          childImageSharp={get(product, 'data.mainImage.localFiles[0].childImageSharp')}
+          description={product.description || ''}
+          isInSeason={product.isInSeason}
+          isLocal={product.isLocal}
+          isOrganic={product.isOrganic}
+          name={product.name || ''}
+          oneLiner={product.oneLiner || ''}
+          quantityLabel={quantityLabel}
+          stripePriceId={stripePriceIdForEnv}
+          unitPriceInCents={product.priceInCents}
+        />
+      </>
+    )
+  })
+
+  return (
+    <Card>
+      {deliveryDate ? (
+        <>
+          <DetailCell2>Arrives on:</DetailCell2>
+          <DetailCell2 right>{DateTime.fromISO(deliveryDate).toFormat('ccc, LLL dd')}</DetailCell2>
+        </>
+      ) : (
+        ''
+      )}
+      {orderFrequency ? (
+        <>
+          <DetailCell2>Order frequency:</DetailCell2>
+          <DetailCell2 right>{orderFrequency}</DetailCell2>
+        </>
+      ) : (
+        ''
+      )}
+      <LineBreak />
+      {items}
+      <LineBreak />
+      <DetailCell2>Shipping{shipping ? ' (Free above $30)' : ''}</DetailCell2>
+      <DetailCell2 right>{shipping ? centsToString(shipping) : 'Free'}</DetailCell2>
+      <DetailCell2>Subtotal</DetailCell2>
+      <DetailCell2 right>{centsToString(subtotal)}</DetailCell2>
+      <DetailCell2 bold>To be charged</DetailCell2>
+      <DetailCell2 bold right>
+        {centsToString(shipping + subtotal)}
+      </DetailCell2>
+    </Card>
+  )
+}
+export default Basket

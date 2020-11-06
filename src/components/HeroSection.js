@@ -1,11 +1,11 @@
-import Arrow from "../images/icons/arrow.svg"
-import Image from "../components/Image"
-import React from "react"
-import { SubmitButton } from "../components/StyledComponentLib"
-import styled from "styled-components"
+import Arrow from '../images/icons/arrow.svg'
+import Image from '../components/Image'
+import React from 'react'
+import { SubmitButton } from '../components/StyledComponentLib'
+import styled from 'styled-components'
 
 const Section = styled.div`
-  background-color: #fbe1cf;
+  background-color: var(--light-bg);
   @media screen and (max-width: 767px) {
     height: 100%;
   }
@@ -139,8 +139,7 @@ const HeroSection = () => {
                 <div>On Your Doorstep</div>
               </HeroHeader>
               <HeroParagraph>
-                Support sustainable, local farms and get the best of what is
-                growing each week delivered to your door
+                Support sustainable, local farms and get the best of what is growing each week delivered to your door
               </HeroParagraph>
             </HeroTitle>
             <PrimaryButton to="/getstarted">

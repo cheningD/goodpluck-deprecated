@@ -1,14 +1,15 @@
-import React, { useState } from "react"
+import React, { useState } from 'react'
 
-import MarketCard from "../components/MarketCard"
-import { MobileViewOnly } from "../components/StyledComponentLib"
-import Nav from "../components/Nav"
-import SEO from "../components/SEO"
-import Select from "react-select"
-import styled from "styled-components"
+import BasketAccountShopLinks from '../components/BasketAccountShopLinks'
+import MarketCard from '../components/MarketCard'
+import { MobileViewOnly } from '../components/StyledComponentLib'
+import Nav from '../components/Nav'
+import SEO from '../components/SEO'
+import Select from 'react-select'
+import styled from 'styled-components'
 
 const Page = styled.div`
-  background-color: #fbe1cf;
+  background-color: var(--light-bg);
   padding-bottom: 32px;
 `
 
@@ -17,21 +18,10 @@ const Market = () => {
     <Page>
       <SEO title="Market | Local Produce" />
       <Nav />
+      <BasketAccountShopLinks />
       <MobileViewOnly>
-        <ShoppingMenu
-          listItems={[
-            "Produce",
-            "Bakery",
-            "Eggs",
-            "Dairy",
-            "Meat & Seafood",
-            "Beverages",
-          ]}
-        />
-        <ShoppingMenu
-          listItems={["Fruit", "Vegetables", "Melons, Cucumbers & Squashes"]}
-          size="small"
-        />
+        <ShoppingMenu listItems={['Produce', 'Bakery', 'Eggs', 'Dairy', 'Meat & Seafood', 'Beverages']} />
+        <ShoppingMenu listItems={['Fruit', 'Vegetables', 'Melons, Cucumbers & Squashes']} size="small" />
       </MobileViewOnly>
       <MarketCard />
     </Page>
@@ -49,37 +39,35 @@ const ShoppingMenu = ({ listItems, size }) => {
   const customStyles = {
     menu: (provided, state) => ({
       ...provided,
-      border: "none",
+      border: 'none',
       borderRadius: 0,
-      padding: "16px",
+      padding: '16px',
     }),
 
     control: (provided, state) => {
-      const fontSize = size === "small" ? `1.25rem` : `1.5rem`
-      const charWidthInPixels = size === "small" ? 11 : 14
+      const fontSize = size === 'small' ? `1.25rem` : `1.5rem`
+      const charWidthInPixels = size === 'small' ? 11 : 14
       return {
         ...provided,
-        width: `${
-          state.selectProps.value.value.length * charWidthInPixels + 40
-        }px`,
-        border: "none",
-        marginLeft: "16px",
-        marginBottom: "16px",
-        paddingLeft: "0",
-        backgroundColor: "none",
+        width: `${state.selectProps.value.value.length * charWidthInPixels + 40}px`,
+        border: 'none',
+        marginLeft: '16px',
+        marginBottom: '16px',
+        paddingLeft: '0',
+        backgroundColor: 'none',
         fontSize: `${fontSize}`,
-        fontFamily: "hk_grotesksemibold, sans-serif",
+        fontFamily: 'hk_grotesksemibold, sans-serif',
       }
     },
     singleValue: (provided, state) => ({
       ...provided,
-      marginLeft: "0",
-      paddingLeft: "0",
+      marginLeft: '0',
+      paddingLeft: '0',
     }),
 
     dropdownIndicator: (provided, state) => ({
       ...provided,
-      color: "#000",
+      color: '#000',
     }),
   }
 
@@ -88,10 +76,10 @@ const ShoppingMenu = ({ listItems, size }) => {
     borderRadius: 0,
     colors: {
       ...theme.colors,
-      primary: "#788474",
-      primary75: "#859081",
-      primary50: "#929c8f",
-      primary25: "#c6ccc5",
+      primary: '#788474',
+      primary75: '#859081',
+      primary50: '#929c8f',
+      primary25: '#c6ccc5',
     },
   })
 

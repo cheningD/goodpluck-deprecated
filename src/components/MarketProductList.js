@@ -1,10 +1,9 @@
-import BasketItem from "../components/BasketItem"
-import { LineBreak } from "../components/StyledComponentLib"
-import React from "react"
-import { formatCurrencyString } from "use-shopping-cart"
-import get from "lodash-es/get"
-import { sortByPathFunc } from "../util"
-import styled from "styled-components"
+import BasketItem from '../components/BasketItem'
+import { LineBreak } from '../components/StyledComponentLib'
+import React from 'react'
+import get from 'lodash-es/get'
+import { sortByPathFunc } from '../util'
+import styled from 'styled-components'
 
 const ThinLineBreak = styled(LineBreak)`
   height: 1px;
@@ -28,72 +27,57 @@ const MarketH2 = styled.h2`
   letter-spacing: 0.1rem;
 `
 
-const MarketProductList = ({
-  subcategoryNodes,
-  productGroupNodes,
-  department,
-  filters,
-}) => {
+const MarketProductList = ({ subcategoryNodes, productGroupNodes, department, filters }) => {
   subcategoryNodes
-    .sort(sortByPathFunc("data.name"))
-    .sort(sortByPathFunc("data.sortOrderCategories"))
-    .sort(sortByPathFunc("data.sortOrderDepartments"))
+    .sort(sortByPathFunc('data.name'))
+    .sort(sortByPathFunc('data.sortOrderCategories'))
+    .sort(sortByPathFunc('data.sortOrderDepartments'))
 
   //Apply filters
   let filteredProductGroupNodes = productGroupNodes
-  if (filters["Organic"]) {
+  if (filters['Organic']) {
     filteredProductGroupNodes = filteredProductGroupNodes.filter(node => {
-      return get(node, "data.productv2[0].data.isOrganic", false)
+      return get(node, 'data.productv2[0].data.isOrganic', false)
     })
   }
-  if (filters["Local"]) {
+  if (filters['Local']) {
     filteredProductGroupNodes = filteredProductGroupNodes.filter(node => {
-      return get(node, "data.productv2[0].data.isLocal", false)
+      return get(node, 'data.productv2[0].data.isLocal', false)
     })
   }
-  if (filters["In Season"]) {
+  if (filters['In Season']) {
     filteredProductGroupNodes = filteredProductGroupNodes.filter(node => {
-      return get(node, "data.productv2[0].data.isInSeason", false)
+      return get(node, 'data.productv2[0].data.isInSeason', false)
     })
   }
 
   const getProductsBySubcategory = subcategory => {
     return filteredProductGroupNodes
-      .filter(node => get(node, "data.subcategory[0]", "") === subcategory)
+      .filter(node => get(node, 'data.subcategory[0]', '') === subcategory)
 
       .map(productGroup => {
-        const productData = get(productGroup, "data.productv2[0].data", {})
+        const productData = get(productGroup, 'data.productv2[0].data', {})
 
-        const quantityLabel = `${productData.unitQuantity || 1} ${
-          productData.unitLabel || ""
-        }`
-
-        const priceLabel = formatCurrencyString({
-          value: productData.priceInCents,
-          currency: "usd",
-        })
+        const quantityLabel = `${productData.unitQuantity || 1} ${productData.unitLabel || ''}`
 
         let stripePriceIdForEnv = productData.stripePriceId
-        if (process.env.GATSBY_DEPLOY_ENVIRONMENT === "STAGING") {
+        if (process.env.GATSBY_DEPLOY_ENVIRONMENT === 'STAGING') {
           stripePriceIdForEnv = productData.testStripePriceId
         }
         return (
           <>
             <BasketItem
               canEdit={true}
-              childImageSharp={get(
-                productData,
-                "data.mainImage.localFiles[0].childImageSharp"
-              )}
+              childImageSharp={get(productData, 'data.mainImage.localFiles[0].childImageSharp')}
               description={productData.description}
               isInSeason={productData.isInSeason}
               isLocal={productData.isLocal}
               isOrganic={productData.isOrganic}
-              name={get(productGroup, "data.name", "")}
+              name={get(productGroup, 'data.name', '')}
               oneLiner={productData.oneLiner}
-              priceLabel={priceLabel}
               quantityLabel={quantityLabel}
               stripePriceId={stripePriceIdForEnv}
+              unitPriceInCents={productData.priceInCents} //Just a value
             />
             <ThinLineBreak />
           </>
@@ -102,20 +86,20 @@ const MarketProductList = ({
   }
 
   const categories = subcategoryNodes
-    .filter(node => get(node, "data.department[0]", "") === department)
-    .map(n => get(n, "data.category[0]"))
+    .filter(node => get(node, 'data.department[0]', '') === department)
+    .map(n => get(n, 'data.category[0]'))
     .filter((value, index, array) => array.indexOf(value) === index)
 
   const categorySections = categories.map(category => {
     const subcategorySections = subcategoryNodes
-      .filter(node => get(node, "data.category[0]") === category)
+      .filter(node => get(node, 'data.category[0]') === category)
       .map(node => {
-        const subcategory = get(node, "data.name")
+        const subcategory = get(node, 'data.name')
         if (!subcategory) {
           return null
         }
         if (getProductsBySubcategory(subcategory).length === 0) {
-          return ""
+          return ''
         }
 
         return (

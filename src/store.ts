@@ -1,11 +1,11 @@
-import { SetterOrUpdater, atom, selector } from "recoil"
+import { SetterOrUpdater, atom, selector } from 'recoil'
 
 // Helps for serializing maps
 function replacer(key, value) {
   const originalObject = this[key]
   if (originalObject instanceof Map) {
     return {
-      dataType: "Map",
+      dataType: 'Map',
       value: Array.from(originalObject.entries()), // or with spread: value: [...originalObject]
     }
   } else {
@@ -14,8 +14,8 @@ function replacer(key, value) {
 }
 
 function reviver(key, value) {
-  if (typeof value === "object" && value !== null) {
-    if (value.dataType === "Map") {
+  if (typeof value === 'object' && value !== null) {
+    if (value.dataType === 'Map') {
       return new Map(value.value)
     }
   }
@@ -41,36 +41,61 @@ const localStorageEffect = key => ({ setSelf, onSet }) => {
 }
 
 export const signedInUser = atom({
-  key: "signed_in_user", // unique ID (with respect to other atoms/selectors)
+  key: 'signed_in_user', // unique ID (with respect to other atoms/selectors)
   default: null, // default value (aka initial value),
 })
 
 export const myOrders = atom({
-  key: "orders", // unique ID (with respect to other atoms/selectors)
+  key: 'orders', // unique ID (with respect to other atoms/selectors)
   default: null, // default value (aka initial value),
 })
 
 export const basketItems = atom({
-  key: "basket_items", // unique ID (with respect to other atoms/selectors)
+  key: 'basket_items', // unique ID (with respect to other atoms/selectors)
   default: new Map(), // default value (aka initial value)
-  effects_UNSTABLE: [localStorageEffect("goodpluck_basket")],
+  effects_UNSTABLE: [localStorageEffect('goodpluck_basket')],
 })
 
 export const basketCount = selector({
-  key: "basketCount",
+  key: 'basketCount',
   get: ({ get }) => get(basketItems).size,
+})
+
+export const subtotalInCents = selector({
+  key: 'subtotalInCents',
+  get: ({ get }) => {
+    let priceInCents: number = 0
+    get(basketItems).forEach(item => {
+      console.log('theee item:', item)
+      priceInCents = priceInCents + item.quantity * item.unitPriceInCents
+    })
+    return priceInCents
+  },
+})
+
+export const shippingInCents = selector({
+  key: 'shippingInCents',
+  get: ({ get }) => {
+    console.log('subtotalInCents:', get(subtotalInCents))
+
+    if (get(subtotalInCents) >= 3000) {
+      return 0
+    } else {
+      return 699 // $6.99
+    }
+  },
 })
 
 export const setItemQuantity = (
   stripePriceId: string,
   quantity: number,
-  setBasketFunc: SetterOrUpdater<Map<any, any>>
+  unitPriceInCents: number,
+  setBasketFunc: SetterOrUpdater<Map<any, any>>,
 ): void => {
   setBasketFunc(oldBasket => {
     let newBasket = new Map(oldBasket)
-
     if (quantity > 0) {
-      newBasket.set(stripePriceId, quantity)
+      newBasket.set(stripePriceId, { stripePriceId, quantity, unitPriceInCents })
     } else {
       newBasket.delete(stripePriceId)
     }

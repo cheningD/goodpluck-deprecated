@@ -9,10 +9,18 @@ html {
 }
 
 :root {
-  --primary-text: #2d2d2d;
+  --light-bg: #fdf0e7;
+  --peach-bg: #f7c59f;
+  --pink-bg: #df928e;
+  --white: #fff;
+  --blackish: #3f3a40;
+  --error-red: #e34843;
+  --green-bg-dark: #6c7668;
+  --green-bg-light: #788474;
+
+  --primary-text: #3f3a40;
   --secondary-text: #666;
   --black: #000;
-  --white: #fff;
   --green-text: #3b6635;
   --red-text: #9a4726;
   --gray-text: #969696;
@@ -42,7 +50,7 @@ body {
 body {
   font-family: hk_groteskregular, sans-serif;
   text-rendering: optimizeLegibility;
-  font-feature-settings: "kern" 1;
+  font-feature-settings: 'kern' 1;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -50,7 +58,7 @@ body {
 /* Clearfix Hack */
 .g-clearfix:before,
 .g-clearfix:after {
-  content: " ";
+  content: ' ';
   display: table;
   /*   grid-column-end: 2;
   grid-column-start: 1;
