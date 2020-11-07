@@ -103,3 +103,25 @@ export const setItemQuantity = (
     return newBasket
   })
 }
+
+// Onboarding Quiz Data
+
+export const onboardingEmail = atom({
+  key: 'onboardingEmail',
+  default: '', // Empty string is correct default for text forms
+})
+
+export const onboardingZip = atom({
+  key: 'onboardingZip', // unique ID (with respect to other atoms/selectors)
+  default: '', // Empty string is correct default for text forms
+})
+
+export const onboardingShoppingFor = atom({
+  key: 'onboardingShoppingFor', // unique ID (with respect to other atoms/selectors)
+  default: [], // Empty array of strings is correct default for checkbox group
+})
+
+export const onboardingMyCauses = atom({
+  key: 'onboardingMyCauses', // unique ID (with respect to other atoms/selectors)
+  default: [], // Empty array of strings is correct default for checkbox group
+})

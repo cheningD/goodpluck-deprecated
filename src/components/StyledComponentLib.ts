@@ -264,3 +264,62 @@ export const Error = styled.div`
   border-left: 8px solid #e34843;
   color: #5c5c5c;
 `
+
+interface CheckboxLabelProps {
+  isChecked: boolean
+}
+
+export const CheckboxLabel = styled.label<CheckboxLabelProps>`
+  .checkbox {
+    display: none;
+  }
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 20px;
+  font-size: 1.25rem;
+  line-height: 1.5rem;
+  color: #fff;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  &:before {
+    content: '';
+    display: block;
+    width: 20px;
+    height: 20px;
+    border: 1px solid #fff;
+    position: absolute;
+    left: 0;
+    top: 3px;
+    opacity: 0.6;
+    -webkit-transition: all 0.12s, border-color 0.08s;
+    transition: all 0.12s, border-color 0.08s;
+  }
+
+  ${({ isChecked }) => {
+    if (isChecked) {
+      return `
+
+    &:before {
+    width: 10px;
+    top: 0;
+    left: 5px;
+    border-radius: 0;
+    opacity: 1;
+    border-top-color: transparent;
+    border-left-color: transparent;
+    -webkit-transform: rotate(45deg);
+    transform: rotate(45deg);
+  }
+      
+    `
+    }
+  }}
+`
