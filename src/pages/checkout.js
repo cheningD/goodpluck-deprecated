@@ -1,4 +1,4 @@
-import * as yup from "yup"
+import * as yup from 'yup'
 
 import {
   Bold,
@@ -10,30 +10,21 @@ import {
   StyledField,
   SubmitButton,
   TermsLink,
-} from "../components/StyledComponentLib"
-import {
-  CardElement,
-  Elements,
-  useElements,
-  useStripe,
-} from "@stripe/react-stripe-js"
-import { Form, Formik } from "formik"
-import React, { useState } from "react"
-import {
-  VALID_ZIP_PATTERN,
-  getMaxlengthFunc,
-  setOnboardingComplete,
-} from "../util"
+} from '../components/StyledComponentLib'
+import { CardElement, Elements, useElements, useStripe } from '@stripe/react-stripe-js'
+import { Form, Formik } from 'formik'
+import React, { useState } from 'react'
+import { VALID_ZIP_PATTERN, getMaxlengthFunc, setOnboardingComplete } from '../util'
 
-import BasketDates from "../components/BasketDates"
-import Image from "../components/Image"
-import Nav from "../components/Nav"
-import SEO from "../components/SEO"
-import { createUser } from "../actions"
-import { loadStripe } from "@stripe/stripe-js"
-import { navigate } from "gatsby"
-import styled from "styled-components"
-import useLocalStorageState from "use-local-storage-state"
+import BasketDates from '../components/BasketDates'
+import Image from '../components/Image'
+import Nav from '../components/Nav'
+import SEO from '../components/SEO'
+import { createUser } from '../actions'
+import { loadStripe } from '@stripe/stripe-js'
+import { navigate } from 'gatsby'
+import styled from 'styled-components'
+import useLocalStorageState from 'use-local-storage-state'
 
 const Columns = styled.div`
   height: 100%;
@@ -110,23 +101,23 @@ const StripeError = styled.div`
 
 const CardElementStyle = {
   base: {
-    iconColor: "#788474",
-    color: "#333",
+    iconColor: '#788474',
+    color: '#333',
     fontWeight: 500,
-    fontFamily: "Arial, sans-serif",
-    fontSize: "18px",
-    fontSmoothing: "antialiased",
+    fontFamily: 'Arial, sans-serif',
+    fontSize: '18px',
+    fontSmoothing: 'antialiased',
 
-    ":-webkit-autofill": {
-      color: "#fce883",
+    ':-webkit-autofill': {
+      color: '#fce883',
     },
-    "::placeholder": {
-      color: "#333",
+    '::placeholder': {
+      color: '#333',
     },
   },
   invalid: {
-    iconColor: "#CE5852",
-    color: "#CE5852",
+    iconColor: '#CE5852',
+    color: '#CE5852',
   },
 }
 
@@ -195,9 +186,7 @@ export const OrderSummary = () => {
       </Header>
 
       <Card>
-        <DetailHeader>
-          The Local Pluck: our best seasonal produce from local farms
-        </DetailHeader>
+        <DetailHeader>The Local Pluck: our best seasonal produce from local farms</DetailHeader>
 
         <DetailCell2>Order frequency:</DetailCell2>
         <DetailCell2 right>Every Week</DetailCell2>
@@ -212,54 +201,37 @@ export const OrderSummary = () => {
   )
 }
 
-const CheckoutForm = ({
-  onSubmit,
-  handleChangeStripe,
-  onboardingFormData,
-  stripeError,
-}) => {
+const CheckoutForm = ({ onSubmit, handleChangeStripe, onboardingFormData, stripeError }) => {
   const checkoutSchema = yup.object().shape({
-    first: yup
-      .string()
-      .required("Please enter your first name")
-      .test("len", "Too Long!", getMaxlengthFunc(100)),
-    last: yup
-      .string()
-      .required("Please enter your last name")
-      .test("len", "Too Long!", getMaxlengthFunc(100)),
+    first: yup.string().required('Please enter your first name').test('len', 'Too Long!', getMaxlengthFunc(100)),
+    last: yup.string().required('Please enter your last name').test('len', 'Too Long!', getMaxlengthFunc(100)),
     email: yup
       .string()
-      .required("Please enter your email")
+      .required('Please enter your email')
       .email(`That email doesn't look right`)
-      .test("len", "Too Long!", getMaxlengthFunc(300)),
+      .test('len', 'Too Long!', getMaxlengthFunc(300)),
     addressLine1: yup
       .string()
-      .required("Where should we send your box?")
-      .test("len", "Too Long!", getMaxlengthFunc(100)),
-    addressLine2: yup.string().test("len", "Too Long!", getMaxlengthFunc(100)),
-    phone: yup
-      .string()
-      .required("Only required for delivery updates")
-      .test("len", "Too Long!", getMaxlengthFunc(100)),
+      .required('Where should we send your box?')
+      .test('len', 'Too Long!', getMaxlengthFunc(100)),
+    addressLine2: yup.string().test('len', 'Too Long!', getMaxlengthFunc(100)),
+    phone: yup.string().required('Only required for delivery updates').test('len', 'Too Long!', getMaxlengthFunc(100)),
     zip: yup
       .string()
-      .required("We need your 5 digit zip!")
-      .matches(
-        VALID_ZIP_PATTERN,
-        `That doesn't look quite right. Please enter your 5-digit zip code.`
-      ),
+      .required('We need your 5 digit zip!')
+      .matches(VALID_ZIP_PATTERN, `That doesn't look quite right. Please enter your 5-digit zip code.`),
   })
 
   return (
     <Formik
       initialValues={{
-        first: "",
-        last: "",
-        email: onboardingFormData.email || "",
-        addressLine1: "",
-        addressLine2: "",
-        phone: "",
-        zip: onboardingFormData.zip || "",
+        first: '',
+        last: '',
+        email: onboardingFormData.email || '',
+        addressLine1: '',
+        addressLine2: '',
+        phone: '',
+        zip: onboardingFormData.zip || '',
       }}
       validationSchema={checkoutSchema}
       onSubmit={onSubmit}
@@ -282,13 +254,9 @@ const CheckoutForm = ({
             </Fieldset>
             <Header>Billing Information</Header>
             <CardFieldset>
-              <CardElement
-                id="card-element"
-                options={{ style: CardElementStyle }}
-                onChange={handleChangeStripe}
-              />
+              <CardElement id="card-element" options={{ style: CardElementStyle }} onChange={handleChangeStripe} />
             </CardFieldset>
-            {stripeError ? <StripeError>{stripeError}</StripeError> : ""}
+            {stripeError ? <StripeError>{stripeError}</StripeError> : ''}
             <Note>{`Please note, your first basket will be charged on Oct 29`}</Note>
 
             <SubmitButton as="button" type="submit" disabled={isSubmitting}>
@@ -297,36 +265,30 @@ const CheckoutForm = ({
 
             <FinePrint>
               <Bold>
-                By clicking "Confirm Order" you agree to our{" "}
+                By clicking "Confirm Order" you agree to our{' '}
                 <TermsLink href="/terms" target="_blank">
                   Terms of Service
-                </TermsLink>{" "}
-                and{" "}
+                </TermsLink>{' '}
+                and{' '}
                 <TermsLink href="/privacy" target="_blank">
                   Privacy Policy
                 </TermsLink>
                 .
               </Bold>
               <Bold>
-                You agree that your subscription will automatically renew and
-                your credit card will be charged until you pause or cancel your
-                order.
+                You agree that your subscription will automatically renew and your credit card will be charged until you
+                pause or cancel your order.
               </Bold>
 
               <div>
-                Canelling is easy and has no penalties. To cancel, sign in and
-                click "My Account" at the top of the page. The pause and cancel
-                buttons will be under "Manage my order".
+                Canelling is easy and has no penalties. To cancel, sign in and click "My Account" at the top of the
+                page. The pause and cancel buttons will be under "Manage my order".
               </div>
               <div>
-                The amount charged will depend on the contents of your basket,
-                which by default is equal to or less than the subscription's
-                base price.
+                The amount charged will depend on the contents of your basket, which by default is equal to or less than
+                the subscription's base price.
               </div>
-              <div>
-                Cancelling your subscription will not cancel a delivery that you
-                have already been charged for.
-              </div>
+              <div>Cancelling your subscription will not cancel a delivery that you have already been charged for.</div>
             </FinePrint>
 
             <DisplayNoneIfScreenAbove767>
@@ -340,16 +302,13 @@ const CheckoutForm = ({
 }
 
 const stripePromise = loadStripe(
-  "pk_test_51H648LDnJ2NuGUX1oBIAwnMqH295Mt7bMXXw7J6xcWJaVmj3kGrpfrTvIaI78BE79CbIfgaMEZpCqLXCsYKxbJJQ00BwKIIHcH"
+  'pk_test_51H648LDnJ2NuGUX1oBIAwnMqH295Mt7bMXXw7J6xcWJaVmj3kGrpfrTvIaI78BE79CbIfgaMEZpCqLXCsYKxbJJQ00BwKIIHcH',
 )
 
 // POST the token ID to your backend.
 
 const Checkout = () => {
-  const [onboardingFormData] = useLocalStorageState(
-    "goodpluck-new-user-form",
-    {}
-  )
+  const [onboardingFormData] = useLocalStorageState('goodpluck-new-user-form', {})
 
   const [stripeErrorMessage, setStripeError] = useState(null)
   const stripe = useStripe()
@@ -366,20 +325,20 @@ const Checkout = () => {
 
   // Handle form submission.
   const handleSubmit = async value => {
-    console.log("Result from create account", value)
-    console.log("Result from onboarding form", onboardingFormData)
+    console.log('Result from create account', value)
+    console.log('Result from onboarding form', onboardingFormData)
 
     const card = elements.getElement(CardElement)
     const result = await stripe.createToken(card)
-    console.log("Result from stripe", result)
+    console.log('Result from stripe', result)
     if (result.error) {
       // Inform the user if there was an error.
       setStripeError(result.error.message)
-      console.log("Errar with stripe!", setStripeError(result.error.message))
+      console.log('Errar with stripe!', setStripeError(result.error.message))
     } else {
       setStripeError(null)
       // Send the token to your server.
-      console.log("Sending token to server/....!")
+      console.log('Sending token to server/....!')
 
       const createUserParams = {
         addressLine1: value.addressLine1,
@@ -390,16 +349,16 @@ const Checkout = () => {
         zip: value.zip,
         quizData: onboardingFormData,
         stripeToken: result.token.id,
+        orderFrequency: onboardingFormData.deliveryFrequency,
       }
 
       if (value.addressLine2) {
         createUserParams.addressLine2 = value.addressLine2
       }
       const createUserResponseJson = await createUser(createUserParams)
-      console.log("createUserResponseJson", createUserResponseJson)
+      console.log('createUserResponseJson', createUserResponseJson)
       if (true) {
-        const clientSecret =
-          createUserResponseJson.createSetupIntentResponseJSON.client_secret
+        const clientSecret = createUserResponseJson.createSetupIntentResponseJSON.client_secret
         const result = await stripe.confirmCardSetup(clientSecret, {
           payment_method: {
             card: card,
@@ -412,18 +371,12 @@ const Checkout = () => {
         if (result.error) {
           // Inform the user if there was an error.
           setStripeError(result.error.message)
-          console.log(
-            "Error confirming card!",
-            setStripeError(result.error.message)
-          )
+          console.log('Error confirming card!', setStripeError(result.error.message))
         } else {
-          console.log(
-            `result from confirming intent... ${JSON.stringify(result)}   <--`,
-            result
-          )
+          console.log(`result from confirming intent... ${JSON.stringify(result)}   <--`, result)
           // Verify result.setupIntent.status === succeeded and then navigate to confirmation page
           setOnboardingComplete()
-          navigate("/basket")
+          navigate('/basket')
         }
       }
     }
