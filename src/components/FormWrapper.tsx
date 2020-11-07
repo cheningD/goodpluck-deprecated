@@ -1,15 +1,9 @@
-import {
-  FieldWrapper,
-  Header,
-  Spinner,
-  StyledForm,
-  SubmitButton,
-} from "../components/StyledComponentLib"
+import { FieldWrapper, Header, Spinner, StyledForm, SubmitButton } from '../components/StyledComponentLib'
+import { Formik, FormikHelpers } from 'formik'
 
-import Arrow from "../images/icons/arrow.svg"
-import { Formik } from "formik"
-import React from "react"
-import styled from "styled-components"
+import Arrow from '../images/icons/arrow.svg'
+import React from 'react'
+import styled from 'styled-components'
 
 const Blurb = styled.div`
   color: #fff;
@@ -36,12 +30,12 @@ const ProgressBar = ({ percentComplete, color, bkcolor }) => {
     <div
       style={{
         backgroundColor: `${bkcolor}`,
-        margin: "16px 0",
+        margin: '16px 0',
       }}
     >
       <div
         style={{
-          height: "4px",
+          height: '4px',
           width: `${percentComplete}%`,
           backgroundColor: `${color}`,
         }}
@@ -54,9 +48,21 @@ const BackButton = styled(Arrow)`
   transform: rotate(180deg);
 
   // Make the arrow white
-  filter: invert(100%) sepia(1%) saturate(7500%) hue-rotate(157deg)
-    brightness(110%) contrast(114%);
+  filter: invert(100%) sepia(1%) saturate(7500%) hue-rotate(157deg) brightness(110%) contrast(114%);
 `
+
+type FormWrapperProps = {
+  initialValues: Record<string, any>
+  validationSchema?: any
+  onSubmit: ((values: Record<string, any>, formikHelpers: FormikHelpers<Record<string, any>>) => void | Promise<any>) &
+    Function
+  header: string
+  FormContent: Function
+  percentComplete?: number
+  blurb?: string
+  goBackFunction?: Function
+  submitText?: string
+}
 
 const FormWrapper = ({
   initialValues,
@@ -68,20 +74,16 @@ const FormWrapper = ({
   blurb,
   goBackFunction,
   submitText,
-}) => {
+}: FormWrapperProps) => {
   const form = ({ isSubmitting, ...rest }) => {
     const buttonText = submitText || `Continue`
     return (
       <StyledForm>
-        {goBackFunction ? <BackButton onClick={goBackFunction} /> : ""}
+        {goBackFunction ? <BackButton onClick={goBackFunction} /> : ''}
         {percentComplete ? (
-          <ProgressBar
-            color="#f7c59f"
-            bkcolor="#788474"
-            percentComplete={percentComplete}
-          />
+          <ProgressBar color="#f7c59f" bkcolor="#788474" percentComplete={`${percentComplete}`} />
         ) : (
-          ""
+          ''
         )}
         <Header>{header}</Header>
         <FormContent isSubmitting={isSubmitting} {...rest} />
@@ -97,7 +99,7 @@ const FormWrapper = ({
             )}
           </SubmitButton>
         </FieldWrapper>
-        {blurb ? <Blurb>{blurb}</Blurb> : ""}
+        {blurb ? <Blurb>{blurb}</Blurb> : ''}
       </StyledForm>
     )
   }
