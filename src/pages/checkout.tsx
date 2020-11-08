@@ -13,6 +13,7 @@ import {
 } from '../components/StyledComponentLib'
 import { CardElement, Elements, useElements, useStripe } from '@stripe/react-stripe-js'
 import { Form, Formik } from 'formik'
+import { Link, navigate } from 'gatsby'
 import React, { useEffect, useState } from 'react'
 import { VALID_ZIP_PATTERN, getMaxlengthFunc, setOnboardingComplete } from '../util'
 import { createUser, getOrdersDemo } from '../actions'
@@ -25,16 +26,15 @@ import {
   onboardingZip,
 } from '../store'
 
+import Arrow from '../images/icons/arrow.svg'
 import BasketDates from '../components/BasketDates'
 import Image from '../components/Image'
 import Nav from '../components/Nav'
 import { OrderDetail } from '../types'
 import SEO from '../components/SEO'
 import { loadStripe } from '@stripe/stripe-js'
-import { navigate } from 'gatsby'
 import startCase from 'lodash-es/startCase'
 import styled from 'styled-components'
-import useLocalStorageState from 'use-local-storage-state'
 import { useRecoilValue } from 'recoil'
 
 const Columns = styled.div`
@@ -230,8 +230,10 @@ export const OrderSummary = ({ orderFrequency }: OrderSummaryProps) => {
         <DetailCell2 right>$35</DetailCell2>
         <DetailCell2>Shipping:</DetailCell2>
         <DetailCell2 right>Free</DetailCell2>
+        <br></br>
+        <br></br>
+        <div>You can edit your basket after confirming your order</div>
       </Card>
-
       {orderDemo && orderDemo.scheduledStatus ? (
         <BasketDates
           scheduledStatus="active" //Force active state because user hasn't paid yet
@@ -250,6 +252,13 @@ export const OrderSummary = ({ orderFrequency }: OrderSummaryProps) => {
     </>
   )
 }
+
+const BackButton = styled(Arrow)`
+  transform: rotate(180deg);
+
+  // Make the arrow white
+  filter: invert(100%) sepia(1%) saturate(7500%) hue-rotate(157deg) brightness(110%) contrast(114%);
+`
 
 const CheckoutForm = ({ onSubmit, handleChangeStripe, stripeError }) => {
   const email = useRecoilValue(onboardingEmail)
@@ -293,6 +302,9 @@ const CheckoutForm = ({ onSubmit, handleChangeStripe, stripeError }) => {
       {({ isSubmitting, errors, touched }) => {
         return (
           <Form>
+            <Link to="/getstarted#deliveryPreferences">
+              <BackButton />
+            </Link>
             <Header>Finish Creating Your Account</Header>
             <Fieldset>
               <FormField name="first" placeholder="First name*" />
@@ -311,12 +323,10 @@ const CheckoutForm = ({ onSubmit, handleChangeStripe, stripeError }) => {
               <CardElement id="card-element" options={{ style: CardElementStyle }} onChange={handleChangeStripe} />
             </CardFieldset>
             {stripeError ? <StripeError>{stripeError}</StripeError> : ''}
-            <Note>{`Please note, your first basket will be charged on Oct 29`}</Note>
-
+            <Note>{`Please note: You will recieve an order summary email the day before your card is charged`}</Note>
             <SubmitButton as="button" type="submit" disabled={isSubmitting}>
               Confirm Order And Customize Basket
             </SubmitButton>
-
             <FinePrint>
               <Bold>
                 By clicking "Confirm Order" you agree to our{' '}
@@ -344,7 +354,6 @@ const CheckoutForm = ({ onSubmit, handleChangeStripe, stripeError }) => {
               </div>
               <div>Cancelling your subscription will not cancel a delivery that you have already been charged for.</div>
             </FinePrint>
-
             <DisplayNoneIfScreenAbove767>
               <OrderSummary orderFrequency={orderFrequency} />
             </DisplayNoneIfScreenAbove767>

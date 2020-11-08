@@ -1,26 +1,41 @@
 import { CheckboxLabel, Header2 } from '../components/StyledComponentLib'
+import { onboardingNotifyDeliveryDates, onboardingOrderFrequency } from '../store'
 
 import { Field } from 'formik'
 import FormWrapper from '../components/FormWrapper'
 import React from 'react'
+import { useRecoilState } from 'recoil'
 
-const QuizDeliveryPreferences = ({ onSubmit, header, percentComplete, goBackFunction, submitText }) => {
+const QuizDeliveryPreferences = ({ nextFunction, header, percentComplete, goBackFunction, submitText }) => {
+  const [orderFrequency, setOrderFrequency] = useRecoilState(onboardingOrderFrequency)
+  const [notifyDeliverydates, setNotifyDeliverydates] = useRecoilState(onboardingNotifyDeliveryDates)
   const FormContent = ({ values }) => {
+    let notifyDeliverydatesChecked: boolean = values.notifyDeliverydates
+      ? values.notifyDeliverydates
+      : notifyDeliverydates
+    let orderFrequencyString: string = values.orderFrequency ? values.orderFrequency : orderFrequency
+
     return (
       <>
         <Header2>Your Delivery Day: Saturday</Header2>
 
-        <CheckboxLabel htmlFor="notify_moreDeliveryDates" isChecked={values.notify_moreDeliveryDates}>
-          <Field className="checkbox" type="checkbox" id="notify_moreDeliveryDates" name="notify_moreDeliveryDates" />
+        <CheckboxLabel htmlFor="notifyDeliverydates" isChecked={notifyDeliverydatesChecked}>
+          <Field className="checkbox" type="checkbox" id="notifyDeliverydates" name="notifyDeliverydates" />
           Let me know when more delivery dates are available
         </CheckboxLabel>
         <Header2>Delivery Frequency</Header2>
-        <CheckboxLabel htmlFor="everyWeek" isChecked={values.orderFrequency === 'everyWeek'}>
-          <Field className="checkbox" type="radio" id="everyWeek" name="orderFrequency" value="everyWeek" />
+        <CheckboxLabel htmlFor="every week" isChecked={orderFrequencyString === 'every week'}>
+          <Field className="checkbox" type="radio" id="every week" name="orderFrequency" value="every week" />
           Every Week
         </CheckboxLabel>
-        <CheckboxLabel htmlFor="everyOtherWeek" isChecked={values.orderFrequency === 'everyOtherWeek'}>
-          <Field className="checkbox" type="radio" id="everyOtherWeek" name="orderFrequency" value="everyOtherWeek" />
+        <CheckboxLabel htmlFor="every other week" isChecked={orderFrequencyString === 'every other week'}>
+          <Field
+            className="checkbox"
+            type="radio"
+            id="every other week"
+            name="orderFrequency"
+            value="every other week"
+          />
           Every Other Week
         </CheckboxLabel>
       </>
@@ -30,10 +45,15 @@ const QuizDeliveryPreferences = ({ onSubmit, header, percentComplete, goBackFunc
   return (
     <FormWrapper
       initialValues={{
-        notify_moreDeliveryDates: false,
-        orderFrequency: 'everyweek',
+        notifyDeliverydates: false,
+        orderFrequency: orderFrequency,
       }}
-      onSubmit={onSubmit}
+      onSubmit={(values, { setSubmitting }) => {
+        setOrderFrequency(values.orderFrequency)
+        setNotifyDeliverydates(values.notifyDeliverydates)
+        setSubmitting(false)
+        nextFunction()
+      }}
       FormContent={FormContent}
       header={header}
       percentComplete={percentComplete}

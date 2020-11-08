@@ -4,7 +4,6 @@ import { FieldWrapper, StyledErrorMessage, StyledField } from '../components/Sty
 import { onboardingEmail, onboardingZip } from '../store'
 
 import FormWrapper from '../components/FormWrapper'
-import { FormikHelpers } from 'formik'
 import React from 'react'
 import { VALID_ZIP_PATTERN } from '../util'
 import { useRecoilState } from 'recoil'
