@@ -1,6 +1,5 @@
 import AddToCartButton from '../components/AddToCartButton'
 import Image from '../components/Image'
-// import Chevron from "../components/Chevron"
 import Img from 'gatsby-image'
 import React from 'react'
 import { centsToString } from '../util'
@@ -38,10 +37,6 @@ const Title = styled.h1`
 const QuantityLabel = styled.span`
   color: #6c7668;
 `
-
-// const ChevronSmall = styled(Chevron)`
-//   font-size: 0.75rem;
-// `
 
 const Description = styled.div`
   color: #333;

@@ -1,12 +1,12 @@
-import { Card, Header, LineBreak } from "../components/StyledComponentLib"
-import React, { useState } from "react"
-import { graphql, useStaticQuery } from "gatsby"
+import { Card, Header, LineBreak } from '../components/StyledComponentLib'
+import React, { useState } from 'react'
+import { graphql, useStaticQuery } from 'gatsby'
 
-import BasketItem from "../components/BasketItem"
-import Chevron from "./Chevron"
-import Image from "../components/Image"
-import get from "lodash-es/get"
-import styled from "styled-components"
+import BasketItem from '../components/BasketItem'
+import Chevron from './Chevron'
+import Image from '../components/Image'
+import get from 'lodash-es/get'
+import styled from 'styled-components'
 
 const ThinLineBreak = styled(LineBreak)`
   height: 1px;
@@ -18,7 +18,7 @@ const Detail = styled.div`
   text-align: left;
   margin-left: 16px;
 
-  ${props => (props.bold ? "font-family: hk_grotesksemibold, sans-serif;" : "")}
+  ${props => (props.bold ? 'font-family: hk_grotesksemibold, sans-serif;' : '')}
 `
 
 const Title = styled(Detail)`
@@ -63,12 +63,7 @@ const BasketPreview = ({ numberOfVisibleItems }) => {
 
   const data = useStaticQuery(graphql`
     {
-      allAirtable(
-        filter: {
-          table: { eq: "productv2" }
-          data: { isLocalPluck: { eq: true } }
-        }
-      ) {
+      allAirtable(filter: { table: { eq: "productv2" }, data: { isLocalPluck: { eq: true } } }) {
         nodes {
           data {
             available
@@ -105,9 +100,7 @@ const BasketPreview = ({ numberOfVisibleItems }) => {
     return (
       <>
         <BasketItem
-          quantityLabel={`${product.data.unitQuantity || 1} ${
-            product.data.unitLabel || ""
-          }`}
+          quantityLabel={`${product.data.unitQuantity || 1} ${product.data.unitLabel || ''}`}
           name={product.data.name}
           oneLiner={product.data.oneLiner}
           priceLabel="$5.00"
@@ -116,11 +109,7 @@ const BasketPreview = ({ numberOfVisibleItems }) => {
           isOrganic={false}
           isInSeason={false}
           isCompact={true}
-          childImageSharp={get(
-            product,
-            "data.mainImage.localFiles[0].childImageSharp",
-            null
-          )}
+          childImageSharp={get(product, 'data.mainImage.localFiles[0].childImageSharp', null)}
         />
         <ThinLineBreak />
       </>
@@ -148,8 +137,7 @@ const BasketPreview = ({ numberOfVisibleItems }) => {
       <Card>
         <Title bold>The Local Pluck</Title>
         <Detail>
-          Our $35 starter basket is filled with 10-12 different types of the
-          best local produce growing right now
+          Our $35 starter basket is filled with 10-12 different types of the best local produce growing right now
         </Detail>
         <ThinLineBreak />
         <Detail bold>
@@ -182,7 +170,7 @@ const BasketPreview = ({ numberOfVisibleItems }) => {
       <Card>
         <Content>
           {showAllItems ? items : items.slice(0, numberOfVisibleItems)}
-          {numberOfVisibleItems < items.length ? BasketShowHideBtn : ""}
+          {numberOfVisibleItems < items.length ? BasketShowHideBtn : ''}
         </Content>
         <LineBreak />
         <Detail bold>Not big on squash? Need more kale?</Detail>
