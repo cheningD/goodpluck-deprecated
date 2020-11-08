@@ -200,7 +200,6 @@ export const OrderSummary = ({ orderFrequency }: OrderSummaryProps) => {
   useEffect(() => {
     async function fetchData() {
       const orderData: OrderDetail | null = await getOrdersDemo()
-      console.log('got order', orderData)
       if (orderData) {
         setFetchFailed(false)
         setOrderDemo(orderData)
