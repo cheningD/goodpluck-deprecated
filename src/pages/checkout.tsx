@@ -13,18 +13,29 @@ import {
 } from '../components/StyledComponentLib'
 import { CardElement, Elements, useElements, useStripe } from '@stripe/react-stripe-js'
 import { Form, Formik } from 'formik'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { VALID_ZIP_PATTERN, getMaxlengthFunc, setOnboardingComplete } from '../util'
+import { createUser, getOrdersDemo } from '../actions'
+import {
+  onboardingEmail,
+  onboardingMyCauses,
+  onboardingNotifyDeliveryDates,
+  onboardingOrderFrequency,
+  onboardingShoppingFor,
+  onboardingZip,
+} from '../store'
 
 import BasketDates from '../components/BasketDates'
 import Image from '../components/Image'
 import Nav from '../components/Nav'
+import { OrderDetail } from '../types'
 import SEO from '../components/SEO'
-import { createUser } from '../actions'
 import { loadStripe } from '@stripe/stripe-js'
 import { navigate } from 'gatsby'
+import startCase from 'lodash-es/startCase'
 import styled from 'styled-components'
 import useLocalStorageState from 'use-local-storage-state'
+import { useRecoilValue } from 'recoil'
 
 const Columns = styled.div`
   height: 100%;
@@ -103,7 +114,7 @@ const CardElementStyle = {
   base: {
     iconColor: '#788474',
     color: '#333',
-    fontWeight: 500,
+    fontWeight: '500',
     fontFamily: 'Arial, sans-serif',
     fontSize: '18px',
     fontSmoothing: 'antialiased',
@@ -177,7 +188,32 @@ const BasketImage = styled(Image)`
   margin: 0 16px -8px 0;
 `
 
-export const OrderSummary = () => {
+interface OrderSummaryProps {
+  orderFrequency: string
+}
+
+export const OrderSummary = ({ orderFrequency }: OrderSummaryProps) => {
+  const defaultOrder: OrderDetail | null = null
+  const [orderDemo, setOrderDemo] = useState(defaultOrder)
+  const [fetchFailed, setFetchFailed] = useState(false)
+
+  useEffect(() => {
+    async function fetchData() {
+      const orderData: OrderDetail | null = await getOrdersDemo()
+      console.log('got order', orderData)
+      if (orderData) {
+        setFetchFailed(false)
+        setOrderDemo(orderData)
+      } else {
+        setFetchFailed(true)
+      }
+    }
+
+    if (!fetchFailed && orderDemo === null) {
+      fetchData()
+    }
+  }, [])
+
   return (
     <>
       <Header>
@@ -189,19 +225,37 @@ export const OrderSummary = () => {
         <DetailHeader>The Local Pluck: our best seasonal produce from local farms</DetailHeader>
 
         <DetailCell2>Order frequency:</DetailCell2>
-        <DetailCell2 right>Every Week</DetailCell2>
+        <DetailCell2 right>{startCase(orderFrequency)}</DetailCell2>
         <DetailCell2>Base cost:</DetailCell2>
         <DetailCell2 right>$35</DetailCell2>
         <DetailCell2>Shipping:</DetailCell2>
         <DetailCell2 right>Free</DetailCell2>
       </Card>
 
-      <BasketDates />
+      {orderDemo && orderDemo.scheduledStatus ? (
+        <BasketDates
+          scheduledStatus="active" //Force active state because user hasn't paid yet
+          editStatus={null} //Force active state because user hasn't paid yet
+          chargedStatus={null}
+          deliveredStatus={null}
+          editBasketStartDate={orderDemo.editBasketStartDate}
+          editBasketEndDate={orderDemo.editBasketEndDate}
+          chargedDate={orderDemo.chargedDate}
+          deliveryDate={orderDemo.deliveryDate}
+          isPaused={orderDemo.isPaused}
+        />
+      ) : (
+        ''
+      )}
     </>
   )
 }
 
-const CheckoutForm = ({ onSubmit, handleChangeStripe, onboardingFormData, stripeError }) => {
+const CheckoutForm = ({ onSubmit, handleChangeStripe, stripeError }) => {
+  const email = useRecoilValue(onboardingEmail)
+  const zip = useRecoilValue(onboardingZip)
+  const orderFrequency = useRecoilValue(onboardingOrderFrequency)
+
   const checkoutSchema = yup.object().shape({
     first: yup.string().required('Please enter your first name').test('len', 'Too Long!', getMaxlengthFunc(100)),
     last: yup.string().required('Please enter your last name').test('len', 'Too Long!', getMaxlengthFunc(100)),
@@ -227,11 +281,11 @@ const CheckoutForm = ({ onSubmit, handleChangeStripe, onboardingFormData, stripe
       initialValues={{
         first: '',
         last: '',
-        email: onboardingFormData.email || '',
+        email: email || '',
         addressLine1: '',
         addressLine2: '',
         phone: '',
-        zip: onboardingFormData.zip || '',
+        zip: zip || '',
       }}
       validationSchema={checkoutSchema}
       onSubmit={onSubmit}
@@ -260,7 +314,7 @@ const CheckoutForm = ({ onSubmit, handleChangeStripe, onboardingFormData, stripe
             <Note>{`Please note, your first basket will be charged on Oct 29`}</Note>
 
             <SubmitButton as="button" type="submit" disabled={isSubmitting}>
-              Confirm Order
+              Confirm Order And Customize Basket
             </SubmitButton>
 
             <FinePrint>
@@ -292,7 +346,7 @@ const CheckoutForm = ({ onSubmit, handleChangeStripe, onboardingFormData, stripe
             </FinePrint>
 
             <DisplayNoneIfScreenAbove767>
-              <OrderSummary />
+              <OrderSummary orderFrequency={orderFrequency} />
             </DisplayNoneIfScreenAbove767>
           </Form>
         )
@@ -308,8 +362,10 @@ const stripePromise = loadStripe(
 // POST the token ID to your backend.
 
 const Checkout = () => {
-  const [onboardingFormData] = useLocalStorageState('goodpluck-new-user-form', {})
-
+  const shoppingFor = useRecoilValue(onboardingShoppingFor)
+  const myCauses = useRecoilValue(onboardingMyCauses)
+  const notifyDeliveryDates = useRecoilValue(onboardingNotifyDeliveryDates)
+  const orderFrequency = useRecoilValue(onboardingOrderFrequency)
   const [stripeErrorMessage, setStripeError] = useState(null)
   const stripe = useStripe()
   const elements = useElements()
@@ -325,9 +381,6 @@ const Checkout = () => {
 
   // Handle form submission.
   const handleSubmit = async value => {
-    console.log('Result from create account', value)
-    console.log('Result from onboarding form', onboardingFormData)
-
     const card = elements.getElement(CardElement)
     const result = await stripe.createToken(card)
     console.log('Result from stripe', result)
@@ -342,14 +395,17 @@ const Checkout = () => {
 
       const createUserParams = {
         addressLine1: value.addressLine1,
+        addressLine2: value.addressLine2 || '',
         email: value.email,
         first: value.first,
         last: value.last,
         phone: value.phone,
         zip: value.zip,
-        quizData: onboardingFormData,
         stripeToken: result.token.id,
-        orderFrequency: onboardingFormData.deliveryFrequency,
+        orderFrequency: orderFrequency,
+        notifyDeliveryDates: notifyDeliveryDates,
+        shoppingFor: shoppingFor,
+        myCauses: myCauses,
       }
 
       if (value.addressLine2) {
@@ -390,13 +446,12 @@ const Checkout = () => {
           <CheckoutForm
             onSubmit={handleSubmit}
             handleChangeStripe={handleChangeStripe}
-            onboardingFormData={onboardingFormData}
             stripeError={stripeErrorMessage}
           />
         </Column>
         <Column>
           <DisplayNoneIfScreenUnder767>
-            <OrderSummary />
+            <OrderSummary orderFrequency={orderFrequency} />
           </DisplayNoneIfScreenUnder767>
         </Column>
       </Columns>

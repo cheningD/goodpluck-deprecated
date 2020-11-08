@@ -125,3 +125,13 @@ export const onboardingMyCauses = atom({
   key: 'onboardingMyCauses', // unique ID (with respect to other atoms/selectors)
   default: [], // Empty array of strings is correct default for checkbox group
 })
+
+export const onboardingOrderFrequency = atom({
+  key: 'onboardingOrderFrequency',
+  default: 'every week',
+})
+
+export const onboardingNotifyDeliveryDates = atom({
+  key: 'onboardingNotifyDeliveryDates',
+  default: false,
+})
