@@ -74,18 +74,6 @@ export const isCurrentLink = pathToCheck => {
   return path.startsWith(pathToCheck)
 }
 
-export const getUnverifiedUserEmailFromOnboarding = (): string | null => {
-  if (typeof localStorage === `undefined`) {
-    return null
-  }
-
-  try {
-    return JSON.parse(localStorage.getItem('goodpluck-new-user-form')).email
-  } catch (err) {
-    return null
-  }
-}
-
 export const saveSignedInUserToLocalStorage = signedInUser => {
   if (typeof localStorage !== `undefined`) {
     localStorage.setItem('goodpluck_user', JSON.stringify(signedInUser))
