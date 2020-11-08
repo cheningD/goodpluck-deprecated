@@ -3,8 +3,11 @@ import { GoodPluckJSONResponse, OrderDetail, SignedInData } from './types'
 import { navigate } from 'gatsby'
 import { saveSignedInUserToLocalStorage } from './util'
 
+// For testing api on localhost
+const LOCAL_API_PREFIX = process.env.GATSBY_DEPLOY_ENVIRONMENT === 'DEVELOPMENT' ? 'http://127.0.0.1:8787' : ''
+
 export const createUser = async (params: Record<string, any>) => {
-  const response = await fetch('/api/createuser', {
+  const response = await fetch(`${LOCAL_API_PREFIX}/api/createuser`, {
     credentials: 'same-origin',
     method: 'POST',
     headers: {
@@ -19,7 +22,7 @@ export const createUser = async (params: Record<string, any>) => {
 }
 
 export const signIn = async params => {
-  const response = await fetch('/api/signin', {
+  const response = await fetch(`${LOCAL_API_PREFIX}/api/signin`, {
     credentials: 'same-origin',
     method: 'POST',
     headers: {
@@ -38,7 +41,7 @@ export const signIn = async params => {
  * @returns {boolean} - true iof you are now signed in
  */
 export const verifyEmail = async (authCodeId: string, code: string, email: string, setErrorTextFunc: Function) => {
-  const response = await fetch('/api/verifyemail', {
+  const response = await fetch(`${LOCAL_API_PREFIX}/api/verifyemail`, {
     credentials: 'same-origin',
     method: 'POST',
     headers: {
@@ -66,7 +69,7 @@ export const verifyEmail = async (authCodeId: string, code: string, email: strin
 }
 
 export const getSignedInData = async (): Promise<SignedInData | null> => {
-  const response = await fetch('/api/getsignedinuser', {
+  const response = await fetch(`${LOCAL_API_PREFIX}/api/getsignedinuser`, {
     credentials: 'same-origin',
   })
 
@@ -83,7 +86,7 @@ export const getSignedInData = async (): Promise<SignedInData | null> => {
 }
 
 export const restartSubscription = async (): Promise<GoodPluckJSONResponse> => {
-  const response = await fetch('/api/orders', {
+  const response = await fetch(`${LOCAL_API_PREFIX}/api/orders`, {
     credentials: 'same-origin',
     method: 'POST',
     headers: {
@@ -103,7 +106,7 @@ export const restartSubscription = async (): Promise<GoodPluckJSONResponse> => {
 }
 
 export const pauseSubscription = async (reason: string): Promise<GoodPluckJSONResponse> => {
-  const response = await fetch('/api/orders', {
+  const response = await fetch(`${LOCAL_API_PREFIX}/api/orders`, {
     credentials: 'same-origin',
     method: 'POST',
     headers: {
@@ -123,7 +126,7 @@ export const pauseSubscription = async (reason: string): Promise<GoodPluckJSONRe
 }
 
 export const getOrders = async (): Promise<Record<string, OrderDetail> | null> => {
-  const response = await fetch('/api/orders', {
+  const response = await fetch(`${LOCAL_API_PREFIX}/api/orders`, {
     credentials: 'same-origin',
   })
 
@@ -139,12 +142,29 @@ export const getOrders = async (): Promise<Record<string, OrderDetail> | null> =
   }
 }
 
+export const getOrdersDemo = async (): Promise<OrderDetail | null> => {
+  const response = await fetch(`${LOCAL_API_PREFIX}/api/orders/demo`, {
+    credentials: 'same-origin',
+  })
+
+  if (!response.ok) {
+    return null
+  }
+
+  try {
+    const responseJSON: GoodPluckJSONResponse = await response.json()
+    return responseJSON.data as OrderDetail
+  } catch (err) {
+    return null
+  }
+}
+
 export const logout = async () => {
   if (typeof localStorage !== `undefined`) {
     localStorage.clear()
   }
 
-  await fetch('/api/logout', {
+  await fetch(`${LOCAL_API_PREFIX}/api/logout`, {
     credentials: 'same-origin',
   })
   navigate('/')
