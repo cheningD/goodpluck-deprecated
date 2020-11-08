@@ -1,12 +1,12 @@
-import MissiveChatBox from "./src/components/MissiveChatBox"
-import React from "react"
-import { RecoilRoot } from "recoil"
+import MissiveChatBox from './src/components/MissiveChatBox'
+import React from 'react'
+import { RecoilRoot } from 'recoil'
 
 export default ({ element }) => {
   return (
-    <>
+    <RecoilRoot>
       <MissiveChatBox />
-      <RecoilRoot>{element}</RecoilRoot>
-    </>
+      {element}
+    </RecoilRoot>
   )
 }

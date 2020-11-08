@@ -11,7 +11,8 @@ import QuizMyCauses from '../components/QuizMyCauses'
 import QuizShoppingFor from '../components/QuizShoppingFor'
 import SEO from '../components/SEO'
 import { navigate } from 'gatsby'
-import useLocalStorageState from 'use-local-storage-state'
+import { onboardingEmail } from '../store'
+import { useRecoilValue } from 'recoil'
 
 const GetStarted = () => {
   const onSubmitHandler = (values, { setSubmitting }) => {
@@ -63,7 +64,7 @@ const GetStarted = () => {
       component: (
         <QuizDeliveryPreferences
           goBackFunction={() => setFormStep('chooseYourStarter')}
-          onSubmit={onSubmitHandler}
+          nextFunction={() => navigate('/checkout')}
           header="Choose your delivery preferences"
           percentComplete={80}
           submitText="Finish creating your account"
@@ -73,8 +74,24 @@ const GetStarted = () => {
     },
   }
 
-  // On refresh restart the quiz (don't save quiz in localstorage)
+  // On component load restore progress from url
   let currentPage = 'email'
+
+  let pageinUrlFragment
+  if (typeof window === `undefined`) {
+    pageinUrlFragment = ''
+  } else {
+    pageinUrlFragment = window.location.hash?.replace('#', '')
+  }
+  if (Object.keys(formSteps).includes(pageinUrlFragment)) {
+    currentPage = pageinUrlFragment
+  }
+
+  // If for some reason the email is missing, restart at email
+  if (!useRecoilValue(onboardingEmail)) {
+    currentPage = 'email'
+  }
+
   const [formStep, _setFormStep] = useState(currentPage)
   const setFormStep = step => {
     _setFormStep(step)
