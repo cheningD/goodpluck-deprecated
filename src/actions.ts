@@ -159,6 +159,41 @@ export const getOrdersDemo = async (): Promise<OrderDetail | null> => {
   }
 }
 
+export const getBasket = async (): Promise<string | null> => {
+  const response = await fetch(`${LOCAL_API_PREFIX}/api/basket`, {
+    credentials: 'same-origin',
+  })
+
+  if (!response.ok) {
+    return null
+  }
+
+  try {
+    const responseJSON = await response.json()
+    return responseJSON.data as string
+  } catch (err) {
+    return null
+  }
+}
+
+export const updateBasket = async (basketJSONString: string): Promise<String | null> => {
+  const response = await fetch(`${LOCAL_API_PREFIX}/api/basket`, {
+    credentials: 'same-origin',
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ data: basketJSONString }),
+  })
+
+  try {
+    const responseJSON = await response.json()
+    return responseJSON.data as string
+  } catch (err) {
+    return null
+  }
+}
+
 export const logout = async () => {
   if (typeof localStorage !== `undefined`) {
     localStorage.clear()
