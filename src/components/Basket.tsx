@@ -1,6 +1,6 @@
 import { Card, DetailCell2, LineBreak } from '../components/StyledComponentLib'
+import { Link, graphql, useStaticQuery } from 'gatsby'
 import { basketItems, shippingInCents, subtotalInCents } from '../store'
-import { graphql, useStaticQuery } from 'gatsby'
 
 import BasketItem from '../components/BasketItem'
 import { DateTime } from 'luxon'
@@ -14,7 +14,7 @@ const ThinLineBreak = styled(LineBreak)`
   height: 1px;
 `
 
-const Basket = ({ deliveryDate = null, orderFrequency = null, canEdit = false }) => {
+const Basket = ({ deliveryDate = null, orderFrequency = null, canEdit = false, addLocalPluckItems = false }) => {
   const data = useStaticQuery(graphql`
     {
       allAirtable(filter: { table: { eq: "productv2" } }) {
@@ -124,3 +124,14 @@ const Basket = ({ deliveryDate = null, orderFrequency = null, canEdit = false })
   )
 }
 export default Basket
+
+export const ZeroBasket = () => {
+  return (
+    <Card>
+      <div>There's nothing in your basket!</div>
+      <div>
+        Add something from the <Link to="/market">market</Link>
+      </div>
+    </Card>
+  )
+}
