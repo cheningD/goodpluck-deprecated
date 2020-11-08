@@ -1,4 +1,5 @@
 import { SetterOrUpdater, atom, selector } from 'recoil'
+import { getBasket, updateBasket } from './actions'
 
 // Helps for serializing maps
 function replacer(key, value) {
@@ -40,6 +41,15 @@ const localStorageEffect = key => ({ setSelf, onSet }) => {
   })
 }
 
+const getBasketFromServer = async ({ setSelf, onSet }) => {
+  const basketJSONString: string = await getBasket()
+  setSelf(JSON.parse(basketJSONString, reviver) || new Map())
+
+  onSet(async (newValue: Map<string, any>) => {
+    await updateBasket(JSON.stringify(newValue, replacer))
+  })
+}
+
 export const signedInUser = atom({
   key: 'signed_in_user', // unique ID (with respect to other atoms/selectors)
   default: null, // default value (aka initial value),
@@ -53,7 +63,7 @@ export const myOrders = atom({
 export const basketItems = atom({
   key: 'basket_items', // unique ID (with respect to other atoms/selectors)
   default: new Map(), // default value (aka initial value)
-  effects_UNSTABLE: [localStorageEffect('goodpluck_basket')],
+  effects_UNSTABLE: [getBasketFromServer],
 })
 
 export const basketCount = selector({
