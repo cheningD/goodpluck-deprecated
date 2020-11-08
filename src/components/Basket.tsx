@@ -54,14 +54,15 @@ const Basket = ({ deliveryDate = null, orderFrequency = null, canEdit = false })
   const shipping = useRecoilValue(shippingInCents)
   const items = Array.from(basket).map(([stripePriceId, { quantity }], index) => {
     const productNodes = nodes.filter(node => node.data.stripePriceId === stripePriceId)
-    if (!productNodes) {
+    if (productNodes.length < 1) {
+      return null
+    }
+
+    if (!productNodes[0].data) {
       return null
     }
     const product = productNodes[0].data
     console.log(`Product with stripePriceId = ${stripePriceId}`, product)
-    if (!product) {
-      return ''
-    }
 
     const quantityLabel = `${product.unitQuantity || 1} ${product.unitLabel || ''}`
 

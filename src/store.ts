@@ -66,7 +66,6 @@ export const subtotalInCents = selector({
   get: ({ get }) => {
     let priceInCents: number = 0
     get(basketItems).forEach(item => {
-      console.log('theee item:', item)
       priceInCents = priceInCents + item.quantity * item.unitPriceInCents
     })
     return priceInCents

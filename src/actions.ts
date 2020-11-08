@@ -4,7 +4,7 @@ import { navigate } from 'gatsby'
 import { saveSignedInUserToLocalStorage } from './util'
 
 // For testing api on localhost
-const LOCAL_API_PREFIX = process.env.GATSBY_DEPLOY_ENVIRONMENT === 'DEVELOPMENT' ? 'http://127.0.0.1:8787' : ''
+const LOCAL_API_PREFIX = process.env.GATSBY_DEPLOY_ENVIRONMENT === 'DEVELOPMENT' ? 'http://localhost:8787' : ''
 
 export const createUser = async (params: Record<string, any>) => {
   const response = await fetch(`${LOCAL_API_PREFIX}/api/createuser`, {
