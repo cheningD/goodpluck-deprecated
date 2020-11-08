@@ -14,10 +14,7 @@ import { navigate } from 'gatsby'
 import useLocalStorageState from 'use-local-storage-state'
 
 const GetStarted = () => {
-  const [formData, setFormData] = useLocalStorageState('goodpluck-new-user-form', {})
-
   const onSubmitHandler = (values, { setSubmitting }) => {
-    setFormData(Object.assign({}, formData, values))
     formSteps[formStep].next()
     setSubmitting(false)
   }
@@ -76,22 +73,10 @@ const GetStarted = () => {
     },
   }
 
-  // Restore your position in form on refresh
+  // On refresh restart the quiz (don't save quiz in localstorage)
   let currentPage = 'email'
-
-  let pageinUrlFragment
-  if (typeof window === `undefined`) {
-    pageinUrlFragment = ''
-  } else {
-    pageinUrlFragment = window.location.hash?.replace('#', '')
-  }
-  if (Object.keys(formSteps).includes(pageinUrlFragment)) {
-    currentPage = pageinUrlFragment
-  }
-
   const [formStep, _setFormStep] = useState(currentPage)
   const setFormStep = step => {
-    navigate(`#${step}`)
     _setFormStep(step)
   }
 
