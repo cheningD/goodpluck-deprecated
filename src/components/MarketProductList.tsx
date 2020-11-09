@@ -1,9 +1,11 @@
 import BasketItem from '../components/BasketItem'
 import { LineBreak } from '../components/StyledComponentLib'
 import React from 'react'
+import { basketItems } from '../store'
 import get from 'lodash-es/get'
 import { sortByPathFunc } from '../util'
 import styled from 'styled-components'
+import { useRecoilValue } from 'recoil'
 
 const ThinLineBreak = styled(LineBreak)`
   height: 1px;
@@ -69,15 +71,17 @@ const MarketProductList = ({ subcategoryNodes, productGroupNodes, department, fi
             <BasketItem
               canEdit={true}
               childImageSharp={get(productData, 'data.mainImage.localFiles[0].childImageSharp')}
-              description={productData.description}
+              isCompact={false}
               isInSeason={productData.isInSeason}
               isLocal={productData.isLocal}
               isOrganic={productData.isOrganic}
+              imageSrc={null}
               name={get(productGroup, 'data.name', '')}
               oneLiner={productData.oneLiner}
               quantityLabel={quantityLabel}
               stripePriceId={stripePriceIdForEnv}
               unitPriceInCents={productData.priceInCents} //Just a value
+              quantityInBasket={useRecoilValue(basketItems)?.get(stripePriceIdForEnv)?.quantity || 0}
             />
             <ThinLineBreak />
           </>

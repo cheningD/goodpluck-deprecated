@@ -38,15 +38,7 @@ const StyledChevron = styled(Chevron)`
   padding-top: 4px;
 `
 
-const AddToCartButton = ({ stripePriceId, unitPriceInCents }) => {
-  const [basket, setBasket] = useRecoilState(basketItems)
-
-  if (basket === null) {
-    return null
-  }
-
-  let quantityInBasket = basket.get(stripePriceId)?.quantity || 0
-
+const AddToCartButton = ({ stripePriceId, unitPriceInCents, quantityInBasket }) => {
   if (quantityInBasket === 0) {
     return (
       <Submit as="button" onClick={async () => await setItemQuantity(stripePriceId, 1, unitPriceInCents, setBasket)}>
