@@ -107,7 +107,6 @@ const Basket = ({ deliveryDate = null, orderFrequency = null, canEdit = false, a
       ) : (
         ''
       )}
-      <LineBreak />
       {items}
       <LineBreak />
       <DetailCell2>Shipping{shipping ? ' (Free above $30)' : ''}</DetailCell2>
