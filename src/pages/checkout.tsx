@@ -32,7 +32,6 @@ import Image from '../components/Image'
 import Nav from '../components/Nav'
 import { OrderDetail } from '../types'
 import SEO from '../components/SEO'
-import SetLocalPluckBasket from '../components/SetLocalPluckBasket'
 import { loadStripe } from '@stripe/stripe-js'
 import startCase from 'lodash-es/startCase'
 import styled from 'styled-components'
@@ -472,7 +471,6 @@ const CheckoutPage = () => (
   <Elements stripe={stripePromise}>
     <SEO title="Confirm Order | Goodpluck" />
     <Nav />
-    <SetLocalPluckBasket />
     <Checkout />
   </Elements>
 )
