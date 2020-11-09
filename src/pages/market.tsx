@@ -1,3 +1,4 @@
+import { MobileViewOnly, Spinner } from '../components/StyledComponentLib'
 import React, { useEffect, useState } from 'react'
 import { isSignedIn, signedInUser } from '../store'
 import { useRecoilState, useRecoilValue } from 'recoil'
@@ -5,7 +6,6 @@ import { useRecoilState, useRecoilValue } from 'recoil'
 import BasketAccountShopLinks from '../components/BasketAccountShopLinks'
 import { Link } from 'gatsby'
 import MarketCard from '../components/MarketCard'
-import { MobileViewOnly } from '../components/StyledComponentLib'
 import Nav from '../components/Nav'
 import SEO from '../components/SEO'
 import Select from 'react-select'
@@ -29,10 +29,12 @@ const H1 = styled.h1`
 
 const Market = () => {
   const [user, setUser] = useRecoilState(signedInUser)
+  const [fetchComplete, setFetchComplete] = useState(false)
 
   useEffect(() => {
     async function fetchData() {
       const signedInData: SignedInData = await getSignedInData()
+      setFetchComplete(true)
       if (signedInData && signedInData.signedInUser) {
         setUser(signedInData.signedInUser)
       }
@@ -43,21 +45,28 @@ const Market = () => {
     }
   }, [])
 
-  let content = (
-    <>
-      <MobileViewOnly>
-        <ShoppingMenu listItems={['Produce', 'Bakery', 'Eggs', 'Dairy', 'Meat & Seafood', 'Beverages']} size="large" />
-        <ShoppingMenu listItems={['Fruit', 'Vegetables', 'Melons, Cucumbers & Squashes']} size="small" />
-      </MobileViewOnly>
-      <MarketCard />
-    </>
-  )
+  let content = <Spinner />
 
-  if (!useRecoilValue(isSignedIn)) {
+  if (fetchComplete) {
     content = (
       <H1>
         Please <Link to="/signin">sign in</Link> to start shopping
       </H1>
+    )
+  }
+
+  if (useRecoilValue(isSignedIn)) {
+    content = (
+      <>
+        <MobileViewOnly>
+          <ShoppingMenu
+            listItems={['Produce', 'Bakery', 'Eggs', 'Dairy', 'Meat & Seafood', 'Beverages']}
+            size="large"
+          />
+          <ShoppingMenu listItems={['Fruit', 'Vegetables', 'Melons, Cucumbers & Squashes']} size="small" />
+        </MobileViewOnly>
+        <MarketCard />
+      </>
     )
   }
 
