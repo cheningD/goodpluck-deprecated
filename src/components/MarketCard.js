@@ -117,13 +117,20 @@ const MarketCard = () => {
             setMobileSidebarOpen(!mobileSidebarOpen)
           }}
         >
-          Show Departments <Hamburger isOpen={mobileSidebarOpen} color="#788474" />
-          {mobileSidebarOpen ? (
-            <MarketSidebar productGroupNodes={productGroupNodes} setDepartment={setDepartment} />
-          ) : (
-            ''
-          )}
+          {mobileSidebarOpen ? `Hide Departments` : `Show Departments`}{' '}
+          <Hamburger isOpen={mobileSidebarOpen} color="#788474" />
         </TabletAndMobileViewOnly>
+        {mobileSidebarOpen ? (
+          <MarketSidebar
+            productGroupNodes={productGroupNodes}
+            setDepartment={setDepartment}
+            onClick={() => {
+              setMobileSidebarOpen(false)
+            }}
+          />
+        ) : (
+          ''
+        )}
       </div>
       <Columns>
         <Sidebar>
