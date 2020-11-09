@@ -1,13 +1,15 @@
-import { ButtonSmall, TabletAndMobileViewOnly } from '../components/StyledComponentLib'
-import { basketCount, isSignedIn } from '../store'
+import { ButtonSmall, TabletAndMobileViewOnly } from './StyledComponentLib'
+import { Link, graphql, useStaticQuery } from 'gatsby'
+import { OrderDetail, SignedInData } from '../types'
+import React, { useEffect } from 'react'
+import { basketCount, basketItems, isSignedIn, myOrders, signedInUser } from '../store'
+import { getBasket, getOrders, getSignedInData, updateBasket } from '../actions'
+import { useRecoilState, useRecoilValue } from 'recoil'
 
 import { Hamburger } from './Hamburger'
 import Image from './Image'
-import { Link } from 'gatsby'
-import React from 'react'
 import { isCurrentLink } from '../util'
 import styled from 'styled-components'
-import { useRecoilValue } from 'recoil'
 
 const NavBar = styled.div`
   line-height: 1;
@@ -45,8 +47,10 @@ const BrandLink = styled(Link)`
     margin-right: 0;
   }
 `
-
-const NavMenu = styled.div`
+interface NavMenuProps {
+  isMobileNavOpen: boolean
+}
+const NavMenu = styled.div<NavMenuProps>`
   visibility: ${props => (props.isMobileNavOpen ? 'visible' : 'hidden')};
   display: ${props => (props.isMobileNavOpen ? 'block' : 'none')};
   background: #788474;
@@ -75,7 +79,10 @@ const GetStartedLink = styled(PrimaryButton)`
     display: none;
   }
 `
-const NavLink = styled(Link)`
+interface NavLinkProps {
+  current: boolean
+}
+const NavLink = styled(Link)<NavLinkProps>`
   font-size: 1.125rem;
   color: #fff;
   text-decoration-line: none;
@@ -116,7 +123,7 @@ const NavLink = styled(Link)`
     display: none;
   }
 `
-const SecondaryButton = styled(ButtonSmall)`
+const SecondaryButton = styled(ButtonSmall)<NavLinkProps>`
   background-color: #fff;
   border-radius: 4px;
   border: 2px solid #3f3a40;
@@ -170,7 +177,82 @@ const Cart = styled(Link)`
 `
 
 const Nav = () => {
-  const [isMobileNavOpen, setMobileNavIsOpen] = React.useState()
+  const data = useStaticQuery(graphql`
+    {
+      allAirtable(filter: { table: { eq: "productv2" } }) {
+        nodes {
+          data {
+            isLocalPluck
+            priceInCents
+            stripePriceId
+            testStripePriceId
+          }
+        }
+      }
+    }
+  `)
+  const [isMobileNavOpen, setMobileNavIsOpen] = React.useState(false)
+  const [user, setUser] = useRecoilState(signedInUser)
+  const [orders, setOrders] = useRecoilState(myOrders)
+  const [basket, setBasket] = useRecoilState(basketItems)
+
+  useEffect(() => {
+    async function fetchData() {
+      // GET SIGNED IN USER
+      const signedInData: SignedInData = await getSignedInData()
+      if (signedInData && signedInData.signedInUser) {
+        setUser(signedInData.signedInUser)
+      }
+
+      // GET ORDERS
+      const orderData: Record<string, OrderDetail> = await getOrders()
+      if (orderData) {
+        setOrders(orderData)
+      }
+
+      // GET BASKET
+      const _basket = await getBasket()
+      if (basket && basket.size > 0) {
+        setBasket(_basket)
+      } else {
+        // Set the default basket
+        const defaultBasket = new Map()
+        data.allAirtable.nodes
+          .filter(node => node.data.isLocalPluck)
+          .forEach(node => {
+            defaultBasket.set(node.data.stripePriceId, {
+              stripePriceId: node.data.stripePriceId,
+              unitPriceInCents: node.data.priceInCents,
+              quantity: 1,
+            })
+          })
+        setBasket(defaultBasket)
+        await updateBasket(defaultBasket)
+      }
+    }
+
+    if (!user || basket === null) {
+      fetchData()
+    }
+  }, [])
+
+  useEffect(() => {
+    async function fetchData() {
+      const signedInData: SignedInData = await getSignedInData()
+      if (signedInData && signedInData.signedInUser) {
+        setUser(signedInData.signedInUser)
+      }
+
+      const orderData: Record<string, OrderDetail> = await getOrders()
+      if (orderData) {
+        setOrders(orderData)
+      }
+    }
+
+    if (!user) {
+      fetchData()
+    }
+  }, [])
   const signedIn = useRecoilValue(isSignedIn)
 
   const toggleMobileNavOpen = React.useCallback(() => {
@@ -206,7 +288,7 @@ const Nav = () => {
         <NavWrapper>
           <BrandWrapper>
             <TabletAndMobileViewOnly>
-              <Hamburger isOpen={isMobileNavOpen} onClick={toggleMobileNavOpen} />
+              <Hamburger isOpen={isMobileNavOpen} onClick={toggleMobileNavOpen} color="#fff" />
             </TabletAndMobileViewOnly>
 
             <BrandLink to="/">GOODPLUCK</BrandLink>
