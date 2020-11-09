@@ -43,9 +43,12 @@ const localStorageEffect = key => ({ setSelf, onSet }) => {
 
 const getBasketFromServer = async ({ setSelf, onSet }) => {
   const basketJSONString: string = await getBasket()
-  setSelf(JSON.parse(basketJSONString, reviver) || new Map())
+  if (basketJSONString) {
+    setSelf(JSON.parse(basketJSONString, reviver) || new Map())
+  }
 
   onSet(async (newValue: Map<string, any>) => {
+    console.log('Setting basket to server')
     await updateBasket(JSON.stringify(newValue, replacer))
   })
 }
