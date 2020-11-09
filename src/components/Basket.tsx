@@ -56,7 +56,7 @@ const Basket = ({ deliveryDate = null, orderFrequency = null, canEdit = false, a
   useEffect(() => {
     const fetchData = async () => {
       const _basket = await getBasket()
-      if (_basket !== null) {
+      if (basket && basket.size > 0) {
         setBasket(_basket)
       } else {
         // Set the default basket
@@ -84,7 +84,10 @@ const Basket = ({ deliveryDate = null, orderFrequency = null, canEdit = false, a
   const shipping = useRecoilValue(shippingInCents)
   if (basket === null) {
     return <Spinner />
+  } else if (basket.size === 0) {
+    return <ZeroBasket />
   }
+
   const items = Array.from(basket).map(([stripePriceId, { quantity }], index) => {
     const productNodes = nodes.filter(node => node.data.stripePriceId === stripePriceId)
     if (productNodes.length < 1) {

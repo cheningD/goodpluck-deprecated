@@ -249,11 +249,11 @@ const YourPlan = ({ orderFrequency }) => {
         </DetailCell2>
       </StyledCard>
 
+      {showManage ? <PauseMySubscription /> : ''}
+
       <Button as="button" onClick={() => setShowManage(!showManage)}>
         {showManage ? `Hide` : `Manage`}
       </Button>
-
-      {showManage ? <PauseMySubscription /> : ''}
     </Section>
   )
 }
