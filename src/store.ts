@@ -65,8 +65,7 @@ export const myOrders = atom({
 
 export const basketItems = atom({
   key: 'basket_items', // unique ID (with respect to other atoms/selectors)
-  default: new Map(), // default value (aka initial value)
-  effects_UNSTABLE: [getBasketFromServer],
+  default: null, // default value (aka initial value)
 })
 
 export const basketCount = selector({
@@ -98,14 +97,15 @@ export const shippingInCents = selector({
   },
 })
 
-export const setItemQuantity = (
+export const setItemQuantity = async (
   stripePriceId: string,
   quantity: number,
   unitPriceInCents: number,
   setBasketFunc: SetterOrUpdater<Map<any, any>>,
-): void => {
+): Promise<void> => {
+  let newBasket
   setBasketFunc(oldBasket => {
-    let newBasket = new Map(oldBasket)
+    newBasket = new Map(oldBasket)
     if (quantity > 0) {
       newBasket.set(stripePriceId, { stripePriceId, quantity, unitPriceInCents })
     } else {
@@ -114,6 +114,8 @@ export const setItemQuantity = (
     console.log(`basket set ${stripePriceId} -> ${quantity}`)
     return newBasket
   })
+  // Todo should the update basket
+  await updateBasket(newBasket)
 }
 
 // Onboarding Quiz Data

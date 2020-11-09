@@ -40,3 +40,9 @@ export interface MissiveChatConfig {
   id: string
   user: MissiveChatConfigUser | Record<string, string>
 }
+
+export interface BasketItemData {
+  stripePriceId: string
+  quantity: number
+  unitPriceInCents: number
+}

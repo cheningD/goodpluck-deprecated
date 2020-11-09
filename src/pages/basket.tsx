@@ -4,7 +4,6 @@ import { Header } from '../components/StyledComponentLib'
 import Nav from '../components/Nav'
 import React from 'react'
 import SEO from '../components/SEO'
-import SetLocalPluckBasket from '../components/SetLocalPluckBasket'
 import styled from 'styled-components'
 
 const Page = styled.div`
@@ -29,7 +28,6 @@ const BasketPage = () => {
     <Page>
       <SEO title="My Basket" />
       <Nav />
-      <SetLocalPluckBasket />
       <BasketAccountShopLinks />
       <BasketContainer>
         <Basket canEdit={true} />
