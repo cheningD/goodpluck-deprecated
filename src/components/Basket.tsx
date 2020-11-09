@@ -62,8 +62,6 @@ const Basket = ({ deliveryDate = null, orderFrequency = null, canEdit = false, a
       return null
     }
     const product = productNodes[0].data
-    console.log(`Product with stripePriceId = ${stripePriceId}`, product)
-
     const quantityLabel = `${product.unitQuantity || 1} ${product.unitLabel || ''}`
 
     let stripePriceIdForEnv = product.stripePriceId

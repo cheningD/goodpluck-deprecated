@@ -2,7 +2,7 @@ import { SetterOrUpdater, atom, selector } from 'recoil'
 import { getBasket, updateBasket } from './actions'
 
 // Helps for serializing maps
-function replacer(key, value) {
+export const replacer = (key, value) => {
   const originalObject = this[key]
   if (originalObject instanceof Map) {
     return {

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { basketItems, setItemQuantity } from '../store'
+import { basketItems, replacer } from '../store'
 import { graphql, useStaticQuery } from 'gatsby'
 
 import { useRecoilState } from 'recoil'
@@ -25,11 +25,11 @@ const SetLocalPluckBasket = () => {
 
       data.allAirtable.nodes.forEach(node => {
         const stripePriceId = node.data.stripePriceId
-        const priceInCents = node.data.priceInCents
+        const unitPriceInCents = node.data.priceInCents
         const quantity = 1
         defaultBasket.set(stripePriceId, {
           stripePriceId,
-          priceInCents,
+          unitPriceInCents,
           quantity,
         })
         setBasket(defaultBasket)
