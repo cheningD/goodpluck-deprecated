@@ -7,7 +7,7 @@ import { useRecoilState } from 'recoil'
 const SetLocalPluckBasket = () => {
   const data = useStaticQuery(graphql`
     {
-      allAirtable(filter: { table: { eq: "productv2" } }) {
+      allAirtable(filter: { table: { eq: "productv2" }, data: { isLocalPluck: { eq: true } } }) {
         nodes {
           data {
             priceInCents
@@ -21,9 +21,19 @@ const SetLocalPluckBasket = () => {
   const [basket, setBasket] = useRecoilState(basketItems)
   useEffect(() => {
     if (!basket.size) {
-      data.allAirtable.nodes.forEach(node =>
-        setItemQuantity(node.data.stripePriceId, 1, node.data.priceInCents, setBasket),
-      )
+      const defaultBasket = new Map()
+
+      data.allAirtable.nodes.forEach(node => {
+        const stripePriceId = node.data.stripePriceId
+        const priceInCents = node.data.priceInCents
+        const quantity = 1
+        defaultBasket.set(stripePriceId, {
+          stripePriceId,
+          priceInCents,
+          quantity,
+        })
+        setBasket(defaultBasket)
+      })
     }
   }, [])
 
