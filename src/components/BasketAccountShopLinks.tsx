@@ -16,7 +16,7 @@ interface TabProps {
 
 const Tab = styled(Link)<TabProps>`
   font-family: hk_grotesksemibold, sans-serif;
-  font-size: 1.75rem;
+  font-size: 1.25rem;
   padding: 8px 16px;
   margin: 0 16px;
   color: var(--blackish);
@@ -28,7 +28,7 @@ const Tab = styled(Link)<TabProps>`
     props.current
       ? `
       border-bottom: 2px solid;
-      border-color:  var(-—peach-bg);
+      font-size: 1.5rem;
       `
       : ``}
 
@@ -42,6 +42,10 @@ const Tab = styled(Link)<TabProps>`
 
   &:active {
     top: -2px;
+  }
+
+  @media screen and (max-width: 786px) {
+    font-size: 1rem;
   }
 `
 
