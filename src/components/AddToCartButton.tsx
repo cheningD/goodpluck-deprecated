@@ -41,7 +41,10 @@ const StyledChevron = styled(Chevron)`
 const AddToCartButton = ({ stripePriceId, unitPriceInCents }) => {
   const [basket, setBasket] = useRecoilState(basketItems)
 
-  console.log('basket.get(stripePriceId)', basket.get(stripePriceId))
+  if (basket === null) {
+    return null
+  }
+
   let quantityInBasket = basket.get(stripePriceId)?.quantity || 0
 
   if (quantityInBasket === 0) {
