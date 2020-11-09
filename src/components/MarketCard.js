@@ -106,6 +106,11 @@ const MarketCard = () => {
 
   return (
     <Container>
+      <DetailCell2>Filter by:</DetailCell2>
+      <DetailCell2 right>
+        <FilterGroup options={filters} updateOptions={setFilters} />
+      </DetailCell2>
+      <LineBreak />
       <div>
         <TabletAndMobileViewOnly
           onClick={() => {
@@ -113,14 +118,13 @@ const MarketCard = () => {
           }}
         >
           Show Departments <Hamburger isOpen={mobileSidebarOpen} />
+          {mobileSidebarOpen ? (
+            <MarketSidebar productGroupNodes={productGroupNodes} setDepartment={setDepartment} />
+          ) : (
+            ''
+          )}
         </TabletAndMobileViewOnly>
       </div>
-      {mobileSidebarOpen ? <MarketSidebar productGroupNodes={productGroupNodes} setDepartment={setDepartment} /> : ''}
-      <DetailCell2>Filter by:</DetailCell2>
-      <DetailCell2 right>
-        <FilterGroup options={filters} updateOptions={setFilters} />
-      </DetailCell2>
-      <LineBreak />
       <Columns>
         <Sidebar>
           <MarketSidebar productGroupNodes={productGroupNodes} setDepartment={setDepartment} />
