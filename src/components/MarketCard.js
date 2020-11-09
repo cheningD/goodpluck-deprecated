@@ -1,17 +1,12 @@
-import {
-  Card,
-  DetailCell2,
-  LineBreak,
-  MobileViewOnly,
-} from "../components/StyledComponentLib"
-import React, { useState } from "react"
-import { graphql, useStaticQuery } from "gatsby"
+import { Card, DetailCell2, LineBreak, MobileViewOnly } from '../components/StyledComponentLib'
+import React, { useState } from 'react'
+import { graphql, useStaticQuery } from 'gatsby'
 
-import Image from "../components/Image"
-import MarketProductList from "../components/MarketProductList"
-import MarketSidebar from "./MarketSidebar"
-import get from "lodash-es/get"
-import styled from "styled-components"
+import Image from '../components/Image'
+import MarketProductList from '../components/MarketProductList'
+import MarketSidebar from './MarketSidebar'
+import get from 'lodash-es/get'
+import styled from 'styled-components'
 
 const Container = styled(Card)`
   margin: 16px auto;
@@ -42,13 +37,13 @@ const Content = styled.div`
   overflow: scroll;
 `
 
-const MarketCard = ({ deliveryDate, orderFrequency }) => {
+const MarketCard = () => {
   const [filters, setFilters] = useState({
     Local: false,
     Organic: false,
-    "In season": false,
+    // 'In season': false,
   })
-  const [department, setDepartment] = useState("Produce")
+  const [department, setDepartment] = useState('Produce')
   const data = useStaticQuery(graphql`
     {
       subcategories: allAirtable(filter: { table: { eq: "subCategory" } }) {
@@ -105,9 +100,7 @@ const MarketCard = ({ deliveryDate, orderFrequency }) => {
   `)
 
   // Remove unavailable products
-  let productGroupNodes = data.productGroups.nodes.filter(node =>
-    get(node, "data.productv2[0].data.available", false)
-  )
+  let productGroupNodes = data.productGroups.nodes.filter(node => get(node, 'data.productv2[0].data.available', false))
 
   return (
     <Container>
@@ -118,10 +111,7 @@ const MarketCard = ({ deliveryDate, orderFrequency }) => {
       <LineBreak />
       <Columns>
         <Sidebar>
-          <MarketSidebar
-            productGroupNodes={productGroupNodes}
-            setDepartment={setDepartment}
-          />
+          <MarketSidebar productGroupNodes={productGroupNodes} setDepartment={setDepartment} />
         </Sidebar>
         <Content id="MarketContainer">
           <MarketProductList
@@ -132,10 +122,7 @@ const MarketCard = ({ deliveryDate, orderFrequency }) => {
           />
           <MobileViewOnly>
             <h1>There's more in the market...</h1>
-            <MarketSidebar
-              productGroupNodes={productGroupNodes}
-              setDepartment={setDepartment}
-            />
+            <MarketSidebar productGroupNodes={productGroupNodes} setDepartment={setDepartment} />
           </MobileViewOnly>
         </Content>
       </Columns>
@@ -158,7 +145,7 @@ const FilterItem = styled.button`
   &:focus {
     color: #000;
   }
-  ${props => (props.checked ? `color: #000;` : "")}
+  ${props => (props.checked ? `color: #000;` : '')}
 `
 
 const Checkmark = styled(Image)`
@@ -175,24 +162,21 @@ margin-right: 8px;
 
 const FilterGroup = ({ options, updateOptions }) => {
   const filterItems = Object.keys(options).map(label => {
-    let imgSrc = "checkmark.png"
+    let imgSrc = 'checkmark.png'
     const imgAlt = `Toggle ${label}`
 
-    if (label === "Organic") {
-      imgSrc = "organic_icon_black.png"
-    } else if (label === "In season") {
-      imgSrc = "in_season_icon_black.png"
-    } else if (label === "Local") {
-      imgSrc = "mitten.png"
+    if (label === 'Organic') {
+      imgSrc = 'organic_icon_black.png'
+    } else if (label === 'In season') {
+      imgSrc = 'in_season_icon_black.png'
+    } else if (label === 'Local') {
+      imgSrc = 'mitten.png'
     }
 
     const toggleValue = {}
     toggleValue[label] = !options[label]
     return (
-      <FilterItem
-        checked={options[label]}
-        onClick={() => updateOptions(Object.assign({}, options, toggleValue))}
-      >
+      <FilterItem checked={options[label]} onClick={() => updateOptions(Object.assign({}, options, toggleValue))}>
         <Checkmark src={imgSrc} alt={imgAlt} checked={options[label]} />
         <span>{label}</span>
       </FilterItem>

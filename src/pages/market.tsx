@@ -1,4 +1,6 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { isSignedIn, signedInUser } from '../store'
+import { useRecoilState, useRecoilValue } from 'recoil'
 
 import BasketAccountShopLinks from '../components/BasketAccountShopLinks'
 import { Link } from 'gatsby'
@@ -7,9 +9,9 @@ import { MobileViewOnly } from '../components/StyledComponentLib'
 import Nav from '../components/Nav'
 import SEO from '../components/SEO'
 import Select from 'react-select'
-import { isSignedIn } from '../store'
+import { SignedInData } from '../types'
+import { getSignedInData } from '../actions'
 import styled from 'styled-components'
-import { useRecoilValue } from 'recoil'
 
 const Page = styled.div`
   background-color: var(--light-bg);
@@ -26,10 +28,25 @@ const H1 = styled.h1`
 `
 
 const Market = () => {
+  const [user, setUser] = useRecoilState(signedInUser)
+
+  useEffect(() => {
+    async function fetchData() {
+      const signedInData: SignedInData = await getSignedInData()
+      if (signedInData && signedInData.signedInUser) {
+        setUser(signedInData.signedInUser)
+      }
+    }
+
+    if (!user) {
+      fetchData()
+    }
+  }, [])
+
   let content = (
     <>
       <MobileViewOnly>
-        <ShoppingMenu listItems={['Produce', 'Bakery', 'Eggs', 'Dairy', 'Meat & Seafood', 'Beverages']} />
+        <ShoppingMenu listItems={['Produce', 'Bakery', 'Eggs', 'Dairy', 'Meat & Seafood', 'Beverages']} size="large" />
         <ShoppingMenu listItems={['Fruit', 'Vegetables', 'Melons, Cucumbers & Squashes']} size="small" />
       </MobileViewOnly>
       <MarketCard />
