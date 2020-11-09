@@ -117,7 +117,7 @@ const MarketCard = () => {
             setMobileSidebarOpen(!mobileSidebarOpen)
           }}
         >
-          Show Departments <Hamburger isOpen={mobileSidebarOpen} />
+          Show Departments <Hamburger isOpen={mobileSidebarOpen} color="#788474" />
           {mobileSidebarOpen ? (
             <MarketSidebar productGroupNodes={productGroupNodes} setDepartment={setDepartment} />
           ) : (
