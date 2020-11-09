@@ -74,96 +74,9 @@ export const isCurrentLink = pathToCheck => {
   return path.startsWith(pathToCheck)
 }
 
-export const saveSignedInUserToLocalStorage = signedInUser => {
-  if (typeof localStorage !== `undefined`) {
-    localStorage.setItem('goodpluck_user', JSON.stringify(signedInUser))
-  }
-}
-
 export const saveMissiveDigestToLocalStorage = missiveDigest => {
   if (typeof localStorage !== `undefined`) {
     localStorage.setItem('goodpluck_missive_digest', missiveDigest)
-  }
-}
-
-export const getSignedInUser = async () => {
-  //First check localstorage
-  if (typeof localStorage === `undefined`) {
-    return null
-  }
-
-  let userToRestore = localStorage.getItem('goodpluck_user')
-
-  if (!userToRestore) {
-    await getSignedInData()
-    userToRestore = localStorage.getItem('goodpluck_user')
-    if (!userToRestore) {
-      return null //Still no user, probably not signed in
-    }
-  }
-
-  let user
-  try {
-    user = JSON.parse(userToRestore)
-  } catch (err) {}
-  if (user && user.email) {
-    return user
-  }
-
-  return null
-}
-
-export const isSignedIn = () => {
-  if (typeof localStorage === `undefined`) {
-    return false
-  }
-
-  const signedInUser = localStorage.getItem('goodpluck_user')
-  if (signedInUser && signedInUser.email) {
-    return true
-  }
-}
-
-export const setOnboardingComplete = () => {
-  if (typeof localStorage === `undefined`) {
-    return false
-  }
-  localStorage.setItem('goodpluck_onboarding_status', 'done')
-}
-
-export const hasCompletedOnboarding = () => {
-  if (typeof localStorage === `undefined`) {
-    return false
-  }
-  return localStorage.getItem('goodpluck_onboarding_status') === 'done'
-}
-
-export const showGetStarted = () => {
-  if (typeof window === `undefined`) {
-    return true
-  }
-
-  const path = window.location.pathname
-  if (path.startsWith('/checkout') || path.startsWith('/getstarted')) {
-    return false
-  }
-
-  if (hasCompletedOnboarding() || isSignedIn()) {
-    return false
-  }
-  return true
-}
-
-export const showCartIcon = () => {
-  if (hasCompletedOnboarding()) {
-    return true
-  } else if (
-    typeof window !== `undefined` &&
-    window.location.pathname === '/' // Homepage
-  ) {
-    return true
-  } else {
-    return false
   }
 }
 

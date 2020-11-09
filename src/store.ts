@@ -7,6 +7,17 @@ export const signedInUser = atom({
   default: null, // default value (aka initial value),
 })
 
+export const isSignedIn = selector({
+  key: 'isSignedIn',
+  get: ({ get }) => {
+    const user = get(signedInUser)
+    if (user !== null && user.email) {
+      return true
+    }
+    return false
+  },
+})
+
 export const myOrders = atom({
   key: 'orders', // unique ID (with respect to other atoms/selectors)
   default: null, // default value (aka initial value),

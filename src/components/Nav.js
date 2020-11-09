@@ -1,22 +1,13 @@
-import {
-  ButtonSmall,
-  TabletAndMobileViewOnly,
-} from "../components/StyledComponentLib"
-import {
-  hasCompletedOnboarding,
-  isCurrentLink,
-  isSignedIn,
-  showCartIcon,
-  showGetStarted,
-} from "../util"
+import { ButtonSmall, TabletAndMobileViewOnly } from '../components/StyledComponentLib'
+import { basketCount, isSignedIn } from '../store'
 
-import { Hamburger } from "./Hamburger"
-import Image from "./Image"
-import { Link } from "gatsby"
-import React from "react"
-import { basketCount } from "../store"
-import styled from "styled-components"
-import { useRecoilValue } from "recoil"
+import { Hamburger } from './Hamburger'
+import Image from './Image'
+import { Link } from 'gatsby'
+import React from 'react'
+import { isCurrentLink } from '../util'
+import styled from 'styled-components'
+import { useRecoilValue } from 'recoil'
 
 const NavBar = styled.div`
   line-height: 1;
@@ -56,8 +47,8 @@ const BrandLink = styled(Link)`
 `
 
 const NavMenu = styled.div`
-  visibility: ${props => (props.isMobileNavOpen ? "visible" : "hidden")};
-  display: ${props => (props.isMobileNavOpen ? "block" : "none")};
+  visibility: ${props => (props.isMobileNavOpen ? 'visible' : 'hidden')};
+  display: ${props => (props.isMobileNavOpen ? 'block' : 'none')};
   background: #788474;
   height: 100vh;
   width: 100vw;
@@ -180,41 +171,31 @@ const Cart = styled(Link)`
 
 const Nav = () => {
   const [isMobileNavOpen, setMobileNavIsOpen] = React.useState()
+  const signedIn = useRecoilValue(isSignedIn)
 
   const toggleMobileNavOpen = React.useCallback(() => {
     setMobileNavIsOpen(!isMobileNavOpen)
   }, [isMobileNavOpen])
 
   let accountLink = (
-    <NavLink to="/signin" current={isCurrentLink("/signin")}>
+    <NavLink to="/signin" current={isCurrentLink('/signin')}>
       Sign In
     </NavLink>
   )
   let accountLink2 = (
-    <SecondaryButton to="/signin" current={isCurrentLink("/signin")}>
+    <SecondaryButton to="/signin" current={isCurrentLink('/signin')}>
       Sign In
     </SecondaryButton>
   )
 
-  if (isSignedIn()) {
+  if (signedIn) {
     accountLink = (
-      <NavLink to="/myaccount" current={isCurrentLink("/myaccount")}>
+      <NavLink to="/myaccount" current={isCurrentLink('/myaccount')}>
         My Account
       </NavLink>
     )
     accountLink2 = (
-      <SecondaryButton to="/myaccount" current={isCurrentLink("/myaccount")}>
-        My Account
-      </SecondaryButton>
-    )
-  } else if (hasCompletedOnboarding()) {
-    accountLink = (
-      <NavLink to="/signin?verify" current={isCurrentLink("/signin")}>
-        My Account
-      </NavLink>
-    )
-    accountLink2 = (
-      <SecondaryButton to="/signin?verify" current={isCurrentLink("/signin")}>
+      <SecondaryButton to="/myaccount" current={isCurrentLink('/myaccount')}>
         My Account
       </SecondaryButton>
     )
@@ -225,30 +206,17 @@ const Nav = () => {
         <NavWrapper>
           <BrandWrapper>
             <TabletAndMobileViewOnly>
-              <Hamburger
-                isOpen={isMobileNavOpen}
-                onClick={toggleMobileNavOpen}
-              />
+              <Hamburger isOpen={isMobileNavOpen} onClick={toggleMobileNavOpen} />
             </TabletAndMobileViewOnly>
 
             <BrandLink to="/">GOODPLUCK</BrandLink>
             {accountLink}
-            {showGetStarted() ? (
-              <GetStartedLink to="/getstarted">Get Started</GetStartedLink>
-            ) : (
-              ""
-            )}
-
-            {showCartIcon() ? <CartLink /> : ""}
+            {signedIn ? <CartLink /> : <GetStartedLink to="/getstarted">Get Started</GetStartedLink>}
           </BrandWrapper>
         </NavWrapper>
       </NavBar>
       <NavMenu isMobileNavOpen={isMobileNavOpen}>
-        {showGetStarted() ? (
-          <PrimaryButton to="/getstarted">Get Started</PrimaryButton>
-        ) : (
-          ""
-        )}
+        {signedIn ? '' : <PrimaryButton to="/getstarted">Get Started</PrimaryButton>}
         {accountLink2}
       </NavMenu>
     </>
@@ -256,22 +224,17 @@ const Nav = () => {
 }
 
 const CartLink = () => {
+  const signedIn = useRecoilValue(isSignedIn)
   let link_to
-  if (isSignedIn()) {
-    link_to = "/basket"
-  } else if (hasCompletedOnboarding()) {
-    link_to = "/basket"
+  if (signedIn) {
+    link_to = '/basket'
   } else {
-    link_to = "/getstarted"
+    link_to = '/getstarted'
   }
 
   return (
     <Cart to={link_to}>
-      <Image
-        src="cart_icon_green.png"
-        alt="my basket"
-        style={{ height: "30px", width: "30px" }}
-      />
+      <Image src="cart_icon_green.png" alt="my basket" style={{ height: '30px', width: '30px' }} />
       <BasketCount>{useRecoilValue(basketCount)}</BasketCount>
     </Cart>
   )

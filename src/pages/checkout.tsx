@@ -15,7 +15,7 @@ import { CardElement, Elements, useElements, useStripe } from '@stripe/react-str
 import { Form, Formik } from 'formik'
 import { Link, navigate } from 'gatsby'
 import React, { useEffect, useState } from 'react'
-import { VALID_ZIP_PATTERN, getMaxlengthFunc, setOnboardingComplete } from '../util'
+import { VALID_ZIP_PATTERN, getMaxlengthFunc } from '../util'
 import { createUser, getOrdersDemo } from '../actions'
 import {
   onboardingEmail,
@@ -439,7 +439,6 @@ const Checkout = () => {
         } else {
           console.log(`result from confirming intent... ${JSON.stringify(result)}   <--`, result)
           // Verify result.setupIntent.status === succeeded and then navigate to confirmation page
-          setOnboardingComplete()
           navigate('/myaccount')
         }
       }
