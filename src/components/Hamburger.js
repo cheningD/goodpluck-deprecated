@@ -61,7 +61,7 @@ const HamburgerBtn = styled.button`
 `
 
 export const Hamburger = React.memo(props => (
-  <HamburgerBtn aria-label="toggle menu" onClick={props.onClick} open={props.isOpen}>
+  <HamburgerBtn aria-label="toggle menu" onClick={props.onClick} open={props.isOpen} color={props.color || null}>
     <span className="hamburger-line hamburger--line-top" />
     <span className="hamburger-line hamburger--line-middle" />
     <span className="hamburger-line hamburger--line-bottom" />
