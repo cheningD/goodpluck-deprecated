@@ -37,6 +37,9 @@ export const subtotalInCents = selector({
   key: 'subtotalInCents',
   get: ({ get }) => {
     let priceInCents: number = 0
+    if (get(basketItems) === null) {
+      return 0
+    }
     get(basketItems).forEach(item => {
       priceInCents = priceInCents + item.quantity * item.unitPriceInCents
     })
@@ -49,7 +52,7 @@ export const shippingInCents = selector({
   get: ({ get }) => {
     console.log('subtotalInCents:', get(subtotalInCents))
 
-    if (get(subtotalInCents) >= 3000) {
+    if (get(subtotalInCents) === 0 || get(subtotalInCents) >= 3000) {
       return 0
     } else {
       return 699 // $6.99
