@@ -30,7 +30,12 @@ export const basketItems = atom({
 
 export const basketCount = selector({
   key: 'basketCount',
-  get: ({ get }) => get(basketItems).size,
+  get: ({ get }) => {
+    if (get(basketItems) === null) {
+      return 0
+    }
+    return get(basketItems).size
+  },
 })
 
 export const subtotalInCents = selector({
