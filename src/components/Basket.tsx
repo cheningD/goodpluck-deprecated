@@ -1,14 +1,15 @@
 import { Card, DetailCell2, LineBreak } from '../components/StyledComponentLib'
 import { Link, graphql, useStaticQuery } from 'gatsby'
+import React, { useEffect } from 'react'
 import { basketItems, shippingInCents, subtotalInCents } from '../store'
+import { getBasket, updateBasket } from '../actions'
+import { useRecoilState, useRecoilValue } from 'recoil'
 
 import BasketItem from '../components/BasketItem'
 import { DateTime } from 'luxon'
-import React from 'react'
 import { centsToString } from '../util'
 import get from 'lodash-es/get'
 import styled from 'styled-components'
-import { useRecoilValue } from 'recoil'
 
 const ThinLineBreak = styled(LineBreak)`
   height: 1px;
@@ -24,6 +25,7 @@ const Basket = ({ deliveryDate = null, orderFrequency = null, canEdit = false, a
             description
             isInSeason
             isLocal
+            isLocalPluck
             isOrganic
             name
             oneLiner
@@ -49,7 +51,35 @@ const Basket = ({ deliveryDate = null, orderFrequency = null, canEdit = false, a
     }
   `)
   const nodes = get(data, 'allAirtable.nodes', null)
-  const basket = useRecoilValue(basketItems)
+  const [basket, setBasket] = useRecoilState(basketItems)
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const _basket = await getBasket()
+      if (_basket !== null) {
+        setBasket(_basket)
+      } else {
+        // Set the default basket
+        const defaultBasket = new Map()
+        data.allAirtable.nodes
+          .filter(node => node.data.isLocalPluck)
+          .forEach(node => {
+            defaultBasket.set(node.data.stripePriceId, {
+              stripePriceId: node.data.stripePriceId,
+              unitPriceInCents: node.data.priceInCents,
+              quantity: 1,
+            })
+          })
+        setBasket(defaultBasket)
+        await updateBasket(defaultBasket)
+      }
+    }
+
+    if (basket === null) {
+      fetchData()
+    }
+  })
+
   const subtotal = useRecoilValue(subtotalInCents)
   const shipping = useRecoilValue(shippingInCents)
   const items = Array.from(basket).map(([stripePriceId, { quantity }], index) => {

@@ -46,7 +46,7 @@ const AddToCartButton = ({ stripePriceId, unitPriceInCents }) => {
 
   if (quantityInBasket === 0) {
     return (
-      <Submit as="button" onClick={() => setItemQuantity(stripePriceId, 1, unitPriceInCents, setBasket)}>
+      <Submit as="button" onClick={async () => await setItemQuantity(stripePriceId, 1, unitPriceInCents, setBasket)}>
         Add
       </Submit>
     )
@@ -69,7 +69,7 @@ const AddToCartButton = ({ stripePriceId, unitPriceInCents }) => {
     <AddToCartSelect
       classNamePrefix="add-to-cart-select"
       options={options}
-      onChange={option => setItemQuantity(stripePriceId, option.value, unitPriceInCents, setBasket)}
+      onChange={async option => await setItemQuantity(stripePriceId, option.value, unitPriceInCents, setBasket)}
       isSearchable={false}
       components={{
         IndicatorSeparator: null,

@@ -1,4 +1,4 @@
-import { GoodPluckJSONResponse, OrderDetail, SignedInData } from './types'
+import { BasketItemData, GoodPluckJSONResponse, OrderDetail, SignedInData } from './types'
 
 import { navigate } from 'gatsby'
 import { saveSignedInUserToLocalStorage } from './util'
@@ -159,7 +159,7 @@ export const getOrdersDemo = async (): Promise<OrderDetail | null> => {
   }
 }
 
-export const getBasket = async (): Promise<string | null> => {
+export const getBasket = async (): Promise<Map<string, BasketItemData> | null> => {
   const response = await fetch(`${LOCAL_API_PREFIX}/api/basket`, {
     credentials: 'same-origin',
   })
@@ -170,28 +170,32 @@ export const getBasket = async (): Promise<string | null> => {
 
   try {
     const responseJSON = await response.json()
-    return responseJSON.data as string
+    return new Map(responseJSON.data)
   } catch (err) {
     return null
   }
+  return null
 }
 
-export const updateBasket = async (basketJSONString: string): Promise<String | null> => {
+export const updateBasket = async (basket: Map<string, BasketItemData>): Promise<boolean> => {
   const response = await fetch(`${LOCAL_API_PREFIX}/api/basket`, {
     credentials: 'same-origin',
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ data: basketJSONString }),
+    body: JSON.stringify({ data: JSON.stringify(Array.from(basket.entries())) }),
   })
 
   try {
     const responseJSON = await response.json()
-    return responseJSON.data as string
+    if (responseJSON.data) {
+      return true
+    }
   } catch (err) {
-    return null
+    return false
   }
+  return false
 }
 
 export const logout = async () => {

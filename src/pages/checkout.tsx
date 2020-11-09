@@ -440,7 +440,7 @@ const Checkout = () => {
           console.log(`result from confirming intent... ${JSON.stringify(result)}   <--`, result)
           // Verify result.setupIntent.status === succeeded and then navigate to confirmation page
           setOnboardingComplete()
-          navigate('/basket')
+          navigate('/myaccount')
         }
       }
     }
