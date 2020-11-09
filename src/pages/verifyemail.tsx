@@ -1,13 +1,14 @@
-import { Header, Spinner } from "../components/StyledComponentLib"
-import { Link, navigate } from "gatsby"
-import React, { useEffect, useState } from "react"
+import { Link, navigate } from 'gatsby'
 
-import Arrow from "../images/icons/arrow.svg"
-import Nav from "../components/Nav"
-import Phone from "../images/icons/phone.svg"
-import SEO from "../components/SEO"
-import styled from "styled-components"
-import { verifyEmail } from "../actions"
+import Arrow from '../images/icons/arrow.svg'
+import { Header } from '../components/StyledComponentLib'
+import Nav from '../components/Nav'
+import Phone from '../images/icons/phone.svg'
+import React from 'react'
+import SEO from '../components/SEO'
+import { isSignedIn } from '../store'
+import styled from 'styled-components'
+import { useRecoilValue } from 'recoil'
 
 const Wrapper = styled.div`
   background-color: #6c7668;
@@ -30,8 +31,7 @@ const Content = styled.div`
 const WhiteArrow = styled(Arrow)`
   padding-right: 8px;
   // Make the arrow white
-  filter: invert(100%) sepia(1%) saturate(7500%) hue-rotate(157deg)
-    brightness(110%) contrast(114%);
+  filter: invert(100%) sepia(1%) saturate(7500%) hue-rotate(157deg) brightness(110%) contrast(114%);
 `
 
 const HelpText = styled.div`
@@ -59,47 +59,8 @@ const PhoneIcon = styled(Phone)`
 `
 
 const VerifyEmail = () => {
-  const [isVerifying, setIsVerifying] = useState(false)
-  const [errorText, setErrorText] = useState("")
-  let header = isVerifying
-    ? "Verifying your email..."
-    : "Approve this login from your email"
-
-  useEffect(() => {
-    async function fetchData(authCodeId: string, code: string, email: string) {
-      setIsVerifying(true)
-      const isSignedIn = await verifyEmail(
-        authCodeId,
-        code,
-        email,
-        setErrorText
-      )
-      setIsVerifying(false)
-      if (isSignedIn) {
-        navigate("/myaccount")
-      }
-    }
-
-    if (typeof window !== `undefined`) {
-      const params = new URLSearchParams(window.location.search)
-      if (
-        params.has("email") &&
-        params.has("code") &&
-        params.has("authCodeId")
-      ) {
-        fetchData(
-          params.get("authCodeId"),
-          params.get("code"),
-          params.get("email")
-        )
-      } else {
-        setIsVerifying(false)
-      }
-    }
-  }, [])
-
-  if (typeof window === `undefined`) {
-    return null
+  if (useRecoilValue(isSignedIn)) {
+    navigate('/myaccount')
   }
 
   return (
@@ -109,8 +70,8 @@ const VerifyEmail = () => {
 
       <Wrapper>
         <Content>
-          <Header>{errorText || header}</Header>
-          {isVerifying ? <Spinner /> : errorText ? "" : <PhoneIcon />}
+          <Header>Approve this login from your email</Header>
+          <PhoneIcon />
 
           <HelpText>
             <div>Need help signing in?</div>

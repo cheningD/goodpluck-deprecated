@@ -1,4 +1,4 @@
-import { Card, DetailCell2, LineBreak } from '../components/StyledComponentLib'
+import { Card, DetailCell2, LineBreak, Spinner } from '../components/StyledComponentLib'
 import { Link, graphql, useStaticQuery } from 'gatsby'
 import React, { useEffect } from 'react'
 import { basketItems, shippingInCents, subtotalInCents } from '../store'
@@ -82,14 +82,17 @@ const Basket = ({ deliveryDate = null, orderFrequency = null, canEdit = false, a
 
   const subtotal = useRecoilValue(subtotalInCents)
   const shipping = useRecoilValue(shippingInCents)
+  if (basket === null) {
+    return <Spinner />
+  }
   const items = Array.from(basket).map(([stripePriceId, { quantity }], index) => {
     const productNodes = nodes.filter(node => node.data.stripePriceId === stripePriceId)
     if (productNodes.length < 1) {
-      return null
+      return <ZeroBasket />
     }
 
     if (!productNodes[0].data) {
-      return null
+      return <ZeroBasket />
     }
     const product = productNodes[0].data
     const quantityLabel = `${product.unitQuantity || 1} ${product.unitLabel || ''}`
