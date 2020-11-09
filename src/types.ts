@@ -46,3 +46,21 @@ export interface BasketItemData {
   quantity: number
   unitPriceInCents: number
 }
+
+export interface createSetupIntentResponseJSON {
+  id: string
+  object: string
+  client_secret: string
+}
+export interface CreateUserSuccessResponseJSONData {
+  createCustomerResponseJSON: any
+  createSetupIntentResponseJSON: createSetupIntentResponseJSON
+  message: string
+  missiveDigest: string
+  signedInUser: SignedInUser
+}
+
+export interface CreateUserSuccessResponseJSON {
+  data: CreateUserSuccessResponseJSONData
+  message: string
+}

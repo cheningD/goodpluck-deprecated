@@ -1,11 +1,17 @@
-import { BasketItemData, GoodPluckJSONResponse, OrderDetail, SignedInData } from './types'
+import {
+  BasketItemData,
+  CreateUserSuccessResponseJSON,
+  GoodPluckJSONResponse,
+  OrderDetail,
+  SignedInData,
+} from './types'
 
 import { navigate } from 'gatsby'
 
 // For testing api on localhost
 const LOCAL_API_PREFIX = process.env.GATSBY_DEPLOY_ENVIRONMENT === 'DEVELOPMENT' ? 'http://localhost:8787' : ''
 
-export const createUser = async (params: Record<string, any>) => {
+export const createUser = async (params: Record<string, any>): Promise<CreateUserSuccessResponseJSON> => {
   const response = await fetch(`${LOCAL_API_PREFIX}/api/createuser`, {
     credentials: 'same-origin',
     method: 'POST',
