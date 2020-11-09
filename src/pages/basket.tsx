@@ -1,10 +1,12 @@
 import Basket from '../components/Basket'
 import BasketAccountShopLinks from '../components/BasketAccountShopLinks'
-import { Header } from '../components/StyledComponentLib'
+import { Link } from 'gatsby'
 import Nav from '../components/Nav'
 import React from 'react'
 import SEO from '../components/SEO'
+import { isSignedIn } from '../store'
 import styled from 'styled-components'
+import { useRecoilValue } from 'recoil'
 
 const Page = styled.div`
   background-color: var(--light-bg);
@@ -18,9 +20,13 @@ const BasketContainer = styled.div`
   margin: 32px auto;
 `
 
-const H1 = styled(Header)`
-  color: #000;
-  margin-bottom: 16px;
+const H1 = styled.h1`
+  color: var(—blackish);
+  font-family: hk_grotesksemibold, sans-serif;
+  font-size: 2rem;
+  margin: 0 auto;
+  padding: 32px 0;
+  text-align: center;
 `
 
 const BasketPage = () => {
@@ -29,9 +35,15 @@ const BasketPage = () => {
       <SEO title="My Basket" />
       <Nav />
       <BasketAccountShopLinks />
-      <BasketContainer>
-        <Basket canEdit={true} />
-      </BasketContainer>
+      {useRecoilValue(isSignedIn) ? (
+        <BasketContainer>
+          <Basket canEdit={true} />
+        </BasketContainer>
+      ) : (
+        <H1>
+          Please <Link to="/signin">sign in</Link> to see your basket
+        </H1>
+      )}
     </Page>
   )
 }

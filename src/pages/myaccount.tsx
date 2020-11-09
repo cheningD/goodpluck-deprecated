@@ -15,7 +15,8 @@ import { Form, Formik } from 'formik'
 import { OrderDetail, SignedInData } from '../types'
 import React, { useEffect, useState } from 'react'
 import { getOrders, getSignedInData, pauseSubscription, restartSubscription } from '../actions'
-import { myOrders, signedInUser } from '../store'
+import { isSignedIn, myOrders, signedInUser } from '../store'
+import { useRecoilState, useRecoilValue } from 'recoil'
 
 import BasketAccountShopLinks from '../components/BasketAccountShopLinks'
 import BasketDates from '../components/BasketDates'
@@ -25,7 +26,6 @@ import Nav from '../components/Nav'
 import SEO from '../components/SEO'
 import startCase from 'lodash-es/startCase'
 import styled from 'styled-components'
-import { useRecoilState } from 'recoil'
 
 const Page = styled.div`
   background-color: var(--light-bg);
@@ -87,14 +87,11 @@ const H2 = styled.h2`
 const MyAccount = () => {
   const [user, setUser] = useRecoilState(signedInUser)
   const [orders, setOrders] = useRecoilState(myOrders)
-  const [needsSignIn, setNeedsSignIn] = useState(false)
 
   useEffect(() => {
     async function fetchData() {
       const signedInData: SignedInData = await getSignedInData()
-      if (!signedInData || !signedInData.signedInUser) {
-        setNeedsSignIn(true)
-      } else {
+      if (signedInData && signedInData.signedInUser) {
         setUser(signedInData.signedInUser)
       }
 
@@ -114,12 +111,6 @@ const MyAccount = () => {
       <Header>Loading your account</Header>
       <Spinner />
     </>
-  )
-
-  const linkToSignIn = (
-    <H1>
-      Please <Link to="/signin">sign in</Link> to see your orders
-    </H1>
   )
 
   let upcomingOrderData: OrderDetail | null = null
@@ -144,8 +135,14 @@ const MyAccount = () => {
         <YourPlan orderFrequency={user.orderFrequency} />
       </>
     )
-  } else if (needsSignIn) {
-    content = linkToSignIn
+  }
+
+  if (!useRecoilValue(isSignedIn)) {
+    content = (
+      <H1>
+        Please <Link to="/signin">sign in</Link> to see your orders
+      </H1>
+    )
   }
 
   return (
