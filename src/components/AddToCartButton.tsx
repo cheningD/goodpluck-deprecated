@@ -1,8 +1,10 @@
+import { basketItems, setItemQuantity } from '../store'
+
 import Chevron from './Chevron'
 import React from 'react'
 import Select from 'react-select'
-import { setItemQuantity } from '../store'
 import styled from 'styled-components'
+import { useRecoilState } from 'recoil'
 
 const Submit = styled.button`
   background-color: #fff;
@@ -37,6 +39,7 @@ const StyledChevron = styled(Chevron)`
 `
 
 const AddToCartButton = ({ stripePriceId, unitPriceInCents, quantityInBasket }) => {
+  const [basket, setBasket] = useRecoilState(basketItems)
   if (quantityInBasket === 0) {
     return (
       <Submit as="button" onClick={async () => await setItemQuantity(stripePriceId, 1, unitPriceInCents, setBasket)}>
