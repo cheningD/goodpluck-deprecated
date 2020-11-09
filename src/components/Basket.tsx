@@ -90,12 +90,13 @@ const Basket = ({ deliveryDate = null, orderFrequency = null, canEdit = false, a
 
   const items = Array.from(basket).map(([stripePriceId, { quantity }], index) => {
     const productNodes = nodes.filter(node => node.data.stripePriceId === stripePriceId)
+    console.log('productNodes', productNodes)
     if (productNodes.length < 1) {
-      return <ZeroBasket />
+      return null
     }
 
     if (!productNodes[0].data) {
-      return <ZeroBasket />
+      return null
     }
     const product = productNodes[0].data
     const quantityLabel = `${product.unitQuantity || 1} ${product.unitLabel || ''}`
@@ -111,7 +112,6 @@ const Basket = ({ deliveryDate = null, orderFrequency = null, canEdit = false, a
         <BasketItem
           canEdit={true}
           childImageSharp={get(product, 'data.mainImage.localFiles[0].childImageSharp')}
-          description={product.description || ''}
           isInSeason={product.isInSeason}
           isLocal={product.isLocal}
           isOrganic={product.isOrganic}
@@ -120,6 +120,8 @@ const Basket = ({ deliveryDate = null, orderFrequency = null, canEdit = false, a
           quantityLabel={quantityLabel}
           stripePriceId={stripePriceIdForEnv}
           unitPriceInCents={product.priceInCents}
+          imageSrc={null}
+          isCompact={false}
         />
       </>
     )
