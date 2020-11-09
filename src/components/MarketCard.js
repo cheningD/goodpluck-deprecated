@@ -112,25 +112,26 @@ const MarketCard = () => {
       </DetailCell2>
       <LineBreak />
       <div>
-        <TabletAndMobileViewOnly
-          onClick={() => {
-            setMobileSidebarOpen(!mobileSidebarOpen)
-          }}
-        >
-          {mobileSidebarOpen ? `Hide Departments` : `Show Departments`}{' '}
-          <Hamburger isOpen={mobileSidebarOpen} color="#788474" />
-        </TabletAndMobileViewOnly>
-        {mobileSidebarOpen ? (
-          <MarketSidebar
-            productGroupNodes={productGroupNodes}
-            setDepartment={setDepartment}
+        <TabletAndMobileViewOnly>
+          <Hamburger
+            isOpen={mobileSidebarOpen}
             onClick={() => {
-              setMobileSidebarOpen(false)
+              setMobileSidebarOpen(!mobileSidebarOpen)
             }}
+            color="#788474"
           />
-        ) : (
-          ''
-        )}
+          {mobileSidebarOpen ? (
+            <MarketSidebar
+              productGroupNodes={productGroupNodes}
+              setDepartment={setDepartment}
+              onClick={() => {
+                setMobileSidebarOpen(false)
+              }}
+            />
+          ) : (
+            ''
+          )}
+        </TabletAndMobileViewOnly>
       </div>
       <Columns>
         <Sidebar>
