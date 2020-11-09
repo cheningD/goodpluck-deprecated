@@ -90,7 +90,6 @@ const Basket = ({ deliveryDate = null, orderFrequency = null, canEdit = false, a
 
   const items = Array.from(basket).map(([stripePriceId, { quantity }], index) => {
     const productNodes = nodes.filter(node => node.data.stripePriceId === stripePriceId)
-    console.log('productNodes', productNodes)
     if (productNodes.length < 1) {
       return null
     }
