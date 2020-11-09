@@ -40,12 +40,9 @@ const Tab = styled(Link)<TabProps>`
     border-color: var(--blackish);
   }
 
-  &:active {
-    top: -2px;
-  }
-
   @media screen and (max-width: 786px) {
     font-size: 1rem;
+    margin: 4px 0px;
   }
 `
 
