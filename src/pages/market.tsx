@@ -34,10 +34,10 @@ const Market = () => {
   useEffect(() => {
     async function fetchData() {
       const signedInData: SignedInData = await getSignedInData()
-      setFetchComplete(true)
       if (signedInData && signedInData.signedInUser) {
         setUser(signedInData.signedInUser)
       }
+      setFetchComplete(true)
     }
 
     if (!user) {

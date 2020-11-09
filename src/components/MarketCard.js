@@ -106,17 +106,15 @@ const MarketCard = () => {
 
   return (
     <Container>
-      <TabletAndMobileViewOnly>
-        Shaw{' '}
-        <Hamburger
-          isOpen={mobileSidebarOpen}
+      <div>
+        <TabletAndMobileViewOnly
           onClick={() => {
             setMobileSidebarOpen(!mobileSidebarOpen)
           }}
         >
-          Show Departments
-        </Hamburger>
-      </TabletAndMobileViewOnly>
+          Show Departments <Hamburger isOpen={mobileSidebarOpen} />
+        </TabletAndMobileViewOnly>
+      </div>
       {mobileSidebarOpen ? <MarketSidebar productGroupNodes={productGroupNodes} setDepartment={setDepartment} /> : ''}
       <DetailCell2>Filter by:</DetailCell2>
       <DetailCell2 right>
