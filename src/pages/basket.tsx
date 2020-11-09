@@ -1,14 +1,11 @@
-import React, { useEffect, useState } from 'react'
-
 import Basket from '../components/Basket'
 import BasketAccountShopLinks from '../components/BasketAccountShopLinks'
 import { Header } from '../components/StyledComponentLib'
 import Nav from '../components/Nav'
+import React from 'react'
 import SEO from '../components/SEO'
-import { SignedInData } from '../types'
-import { signedInUser } from '../store'
+import SetLocalPluckBasket from '../components/SetLocalPluckBasket'
 import styled from 'styled-components'
-import { useRecoilState } from 'recoil'
 
 const Page = styled.div`
   background-color: var(--light-bg);
@@ -32,6 +29,7 @@ const BasketPage = () => {
     <Page>
       <SEO title="My Basket" />
       <Nav />
+      <SetLocalPluckBasket />
       <BasketAccountShopLinks />
       <BasketContainer>
         <Basket canEdit={true} />
