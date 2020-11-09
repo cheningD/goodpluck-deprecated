@@ -1,10 +1,8 @@
-import { basketItems, setItemQuantity } from '../store'
-
 import Chevron from './Chevron'
 import React from 'react'
 import Select from 'react-select'
+import { setItemQuantity } from '../store'
 import styled from 'styled-components'
-import { useRecoilState } from 'recoil'
 
 const Submit = styled.button`
   background-color: #fff;
