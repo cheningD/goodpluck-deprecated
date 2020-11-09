@@ -1,7 +1,8 @@
-import { Card, DetailCell2, LineBreak, MobileViewOnly } from '../components/StyledComponentLib'
+import { Card, DetailCell2, LineBreak, MobileViewOnly, TabletAndMobileViewOnly } from '../components/StyledComponentLib'
 import React, { useState } from 'react'
 import { graphql, useStaticQuery } from 'gatsby'
 
+import { Hamburger } from './Hamburger'
 import Image from '../components/Image'
 import MarketProductList from '../components/MarketProductList'
 import MarketSidebar from './MarketSidebar'
@@ -44,6 +45,7 @@ const MarketCard = () => {
     // 'In season': false,
   })
   const [department, setDepartment] = useState('Produce')
+  const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false)
   const data = useStaticQuery(graphql`
     {
       subcategories: allAirtable(filter: { table: { eq: "subCategory" } }) {
@@ -104,6 +106,18 @@ const MarketCard = () => {
 
   return (
     <Container>
+      <TabletAndMobileViewOnly>
+        Shaw{' '}
+        <Hamburger
+          isOpen={mobileSidebarOpen}
+          onClick={() => {
+            setMobileSidebarOpen(!mobileSidebarOpen)
+          }}
+        >
+          Show Departments
+        </Hamburger>
+      </TabletAndMobileViewOnly>
+      {mobileSidebarOpen ? <MarketSidebar productGroupNodes={productGroupNodes} setDepartment={setDepartment} /> : ''}
       <DetailCell2>Filter by:</DetailCell2>
       <DetailCell2 right>
         <FilterGroup options={filters} updateOptions={setFilters} />

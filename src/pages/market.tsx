@@ -56,18 +56,7 @@ const Market = () => {
   }
 
   if (useRecoilValue(isSignedIn)) {
-    content = (
-      <>
-        <MobileViewOnly>
-          <ShoppingMenu
-            listItems={['Produce', 'Bakery', 'Eggs', 'Dairy', 'Meat & Seafood', 'Beverages']}
-            size="large"
-          />
-          <ShoppingMenu listItems={['Fruit', 'Vegetables', 'Melons, Cucumbers & Squashes']} size="small" />
-        </MobileViewOnly>
-        <MarketCard />
-      </>
-    )
+    content = <MarketCard />
   }
 
   return (
