@@ -422,7 +422,7 @@ const Checkout = () => {
       const createUserResponseJson = await createUser(createUserParams)
       console.log('createUserResponseJson', createUserResponseJson)
       if (true) {
-        const clientSecret = createUserResponseJson.createSetupIntentResponseJSON.client_secret
+        const clientSecret = createUserResponseJson.data.createSetupIntentResponseJSON.client_secret
         const result = await stripe.confirmCardSetup(clientSecret, {
           payment_method: {
             card: card,
