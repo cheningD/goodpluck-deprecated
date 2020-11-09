@@ -34,31 +34,7 @@ const H1 = styled.h1`
 `
 
 const BasketPage = () => {
-  const [user, setUser] = useRecoilState(signedInUser)
-  const [fetchComplete, setFetchComplete] = useState(false)
-
-  useEffect(() => {
-    async function fetchData() {
-      const signedInData: SignedInData = await getSignedInData()
-      setFetchComplete(true)
-      if (signedInData && signedInData.signedInUser) {
-        setUser(signedInData.signedInUser)
-      }
-    }
-
-    if (!user) {
-      fetchData()
-    }
-  }, [])
-
   let content = <Spinner />
-  if (fetchComplete) {
-    content = (
-      <H1>
-        Please <Link to="/signin">sign in</Link> to see your basket
-      </H1>
-    )
-  }
 
   if (useRecoilValue(isSignedIn)) {
     content = (

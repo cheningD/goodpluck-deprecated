@@ -28,32 +28,7 @@ const H1 = styled.h1`
 `
 
 const Market = () => {
-  const [user, setUser] = useRecoilState(signedInUser)
-  const [fetchComplete, setFetchComplete] = useState(false)
-
-  useEffect(() => {
-    async function fetchData() {
-      const signedInData: SignedInData = await getSignedInData()
-      if (signedInData && signedInData.signedInUser) {
-        setUser(signedInData.signedInUser)
-      }
-      setFetchComplete(true)
-    }
-
-    if (!user) {
-      fetchData()
-    }
-  }, [])
-
   let content = <Spinner />
-
-  if (fetchComplete) {
-    content = (
-      <H1>
-        Please <Link to="/signin">sign in</Link> to start shopping
-      </H1>
-    )
-  }
 
   if (useRecoilValue(isSignedIn)) {
     content = <MarketCard />
