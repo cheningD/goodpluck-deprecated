@@ -1,13 +1,16 @@
+import React, { useEffect, useState } from 'react'
+import { isSignedIn, signedInUser } from '../store'
+import { useRecoilState, useRecoilValue } from 'recoil'
+
 import Basket from '../components/Basket'
 import BasketAccountShopLinks from '../components/BasketAccountShopLinks'
 import { Link } from 'gatsby'
 import Nav from '../components/Nav'
-import React from 'react'
 import SEO from '../components/SEO'
+import { SignedInData } from '../types'
 import { Spinner } from '../components/StyledComponentLib'
-import { isSignedIn } from '../store'
+import { getSignedInData } from '../actions'
 import styled from 'styled-components'
-import { useRecoilValue } from 'recoil'
 
 const Page = styled.div`
   background-color: var(--light-bg);
