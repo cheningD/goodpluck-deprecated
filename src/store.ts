@@ -1,57 +1,6 @@
 import { SetterOrUpdater, atom, selector } from 'recoil'
-import { getBasket, updateBasket } from './actions'
 
-// Helps for serializing maps
-export const replacer = (key, value) => {
-  const originalObject = this[key]
-  if (originalObject instanceof Map) {
-    return {
-      dataType: 'Map',
-      value: Array.from(originalObject.entries()), // or with spread: value: [...originalObject]
-    }
-  } else {
-    return value
-  }
-}
-
-function reviver(key, value) {
-  if (typeof value === 'object' && value !== null) {
-    if (value.dataType === 'Map') {
-      return new Map(value.value)
-    }
-  }
-  return value
-}
-
-const localStorageEffect = key => ({ setSelf, onSet }) => {
-  if (typeof localStorage === `undefined`) {
-    return
-  }
-  const savedValue = localStorage.getItem(key)
-  if (savedValue != null) {
-    setSelf(JSON.parse(savedValue, reviver))
-  }
-
-  onSet((newValue: Map<string, any>) => {
-    if (newValue.size === 0) {
-      localStorage.removeItem(key)
-    } else {
-      localStorage.setItem(key, JSON.stringify(newValue, replacer))
-    }
-  })
-}
-
-const getBasketFromServer = async ({ setSelf, onSet }) => {
-  const basketJSONString: string = await getBasket()
-  if (basketJSONString) {
-    setSelf(JSON.parse(basketJSONString, reviver) || new Map())
-  }
-
-  onSet(async (newValue: Map<string, any>) => {
-    console.log('Setting basket to server')
-    await updateBasket(JSON.stringify(newValue, replacer))
-  })
-}
+import { updateBasket } from './actions'
 
 export const signedInUser = atom({
   key: 'signed_in_user', // unique ID (with respect to other atoms/selectors)
