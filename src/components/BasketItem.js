@@ -78,12 +78,17 @@ const BasketItem = ({
   quantityLabel,
   stripePriceId,
   unitPriceInCents,
+  quantityInBasket,
 }) => {
   let controls = ''
   if (canEdit) {
     controls = (
       <Controls>
-        <AddToCart stripePriceId={stripePriceId} unitPriceInCents={unitPriceInCents} />
+        <AddToCart
+          stripePriceId={stripePriceId}
+          unitPriceInCents={unitPriceInCents}
+          quantityInBasket={quantityInBasket}
+        />
         <Price>{centsToString(unitPriceInCents)}</Price>
       </Controls>
     )

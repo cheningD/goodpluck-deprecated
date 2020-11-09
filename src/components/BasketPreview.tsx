@@ -11,8 +11,10 @@ import styled from 'styled-components'
 const ThinLineBreak = styled(LineBreak)`
   height: 1px;
 `
-
-const Detail = styled.div`
+interface DetailProps {
+  bold?: boolean
+}
+const Detail = styled.div<DetailProps>`
   font-family: hk_grotesklight, sans-serif;
   width: 100%;
   text-align: left;
@@ -103,7 +105,6 @@ const BasketPreview = ({ numberOfVisibleItems }) => {
           quantityLabel={`${product.data.unitQuantity || 1} ${product.data.unitLabel || ''}`}
           name={product.data.name}
           oneLiner={product.data.oneLiner}
-          priceLabel="$5.00"
           canEdit={false}
           isLocal={true}
           isOrganic={false}
@@ -111,6 +112,9 @@ const BasketPreview = ({ numberOfVisibleItems }) => {
           isCompact={true}
           childImageSharp={get(product, 'data.mainImage.localFiles[0].childImageSharp', null)}
           quantityInBasket={0}
+          unitPriceInCents={0}
+          imageSrc={null}
+          stripePriceId={null}
         />
         <ThinLineBreak />
       </>
