@@ -57,8 +57,6 @@ export const subtotalInCents = selector({
 export const shippingInCents = selector({
   key: 'shippingInCents',
   get: ({ get }) => {
-    console.log('subtotalInCents:', get(subtotalInCents))
-
     if (get(subtotalInCents) === 0 || get(subtotalInCents) >= 3000) {
       return 0
     } else {

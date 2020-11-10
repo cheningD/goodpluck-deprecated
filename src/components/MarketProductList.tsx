@@ -63,9 +63,6 @@ const MarketProductList = ({ subcategoryNodes, productGroupNodes, department, fi
         const quantityLabel = `${productData.unitQuantity || 1} ${productData.unitLabel || ''}`
 
         let stripePriceIdForEnv = productData.stripePriceId
-        if (process.env.GATSBY_DEPLOY_ENVIRONMENT === 'STAGING') {
-          stripePriceIdForEnv = productData.testStripePriceId
-        }
         return (
           <>
             <BasketItem

@@ -42,7 +42,6 @@ const QuizEmailZip = ({ nextFunction, percentComplete, goBackFunction }: QuizEma
       initialValues={{ email, zip }}
       validationSchema={zipSchema}
       onSubmit={(values, { setSubmitting }) => {
-        console.log(`setEmail(${values.email}), setZip(${values.zip})`)
         setEmail(values.email)
         setZip(values.zip)
         setSubmitting(false)

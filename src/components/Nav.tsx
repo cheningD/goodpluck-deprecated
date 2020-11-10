@@ -185,7 +185,6 @@ const Nav = () => {
             isLocalPluck
             priceInCents
             stripePriceId
-            testStripePriceId
           }
         }
       }

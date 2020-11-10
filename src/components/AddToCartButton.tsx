@@ -78,11 +78,9 @@ const AddToCartButton = ({ stripePriceId, unitPriceInCents, quantityInBasket }) 
       classNamePrefix="add-to-cart-select"
       options={options}
       onChange={option => {
-        console.log('changed to option', option)
         if (option.value === 0) {
           let newBasket: Map<string, BasketItemData> = new Map(basket)
           newBasket.delete(stripePriceId)
-          console.log(`newBasket.has(${stripePriceId}) =   ${newBasket.has(stripePriceId)}, new basket:`, newBasket)
           setBasket(newBasket)
         } else {
           let newBasket: Map<string, BasketItemData> = new Map(basket)

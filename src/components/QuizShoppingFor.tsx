@@ -57,7 +57,6 @@ const QuizShoppingFor = ({ nextFunction, percentComplete, goBackFunction }: Quiz
     <FormWrapper
       initialValues={shoppingFor}
       onSubmit={(values, { setSubmitting }) => {
-        console.log(`setShoppingFor(${values.shoppingFor || []})`)
         setShoppingFor(values.shoppingFor || [])
         setSubmitting(false)
         nextFunction()
