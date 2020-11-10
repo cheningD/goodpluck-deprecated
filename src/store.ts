@@ -65,28 +65,7 @@ export const shippingInCents = selector({
   },
 })
 
-export const setItemQuantity = async (
-  stripePriceId: string,
-  quantity: number,
-  unitPriceInCents: number,
-  setBasketFunc: SetterOrUpdater<Map<any, any>>,
-): Promise<void> => {
-  setBasketFunc(async oldBasket => {
-    const newBasket: Map<string, any> = new Map(oldBasket)
-    if (quantity > 0) {
-      newBasket.set(stripePriceId, { stripePriceId, quantity, unitPriceInCents })
-    } else {
-      newBasket.delete(stripePriceId)
-    }
-    console.log(`basket set ${stripePriceId} -> ${quantity}`)
-    // Todo should the update basket
-    await updateBasket(newBasket)
-    return newBasket
-  })
-}
-
 // Onboarding Quiz Data
-
 export const onboardingEmail = atom({
   key: 'onboardingEmail',
   default: '', // Empty string is correct default for text forms
