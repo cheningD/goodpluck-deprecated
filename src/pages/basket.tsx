@@ -21,7 +21,7 @@ const BasketContainer = styled.div`
 `
 
 const H1 = styled.h1`
-  color: var(—blackish);
+  color: var(--blackish);
   font-family: hk_grotesksemibold, sans-serif;
   font-size: 2rem;
   margin: 0 auto;
