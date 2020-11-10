@@ -42,14 +42,14 @@ const StyledChevron = styled(Chevron)`
 const AddToCartButton = ({ stripePriceId, unitPriceInCents, quantityInBasket }) => {
   const [basket, _setBasket] = useRecoilState(basketItems)
   const setBasket = async (basket: Map<string, BasketItemData>) => {
-    await updateBasket(basket)
+    updateBasket(basket)
     _setBasket(basket)
   }
   if (quantityInBasket === 0) {
     return (
       <Submit
         as="button"
-        onClick={async () => {
+        onClick={() => {
           let newBasket: Map<string, BasketItemData> = new Map(basket)
           newBasket.set(stripePriceId, { stripePriceId, quantity: 1, unitPriceInCents })
           setBasket(newBasket)
@@ -77,12 +77,12 @@ const AddToCartButton = ({ stripePriceId, unitPriceInCents, quantityInBasket }) 
     <AddToCartSelect
       classNamePrefix="add-to-cart-select"
       options={options}
-      onChange={async option => {
+      onChange={option => {
         console.log('changed to option', option)
         if (option.value === 0) {
           let newBasket: Map<string, BasketItemData> = new Map(basket)
           newBasket.delete(stripePriceId)
-          console.log(`newBasket.has(stripePriceId) =   ${newBasket.has(stripePriceId)}, new basket:`, newBasket)
+          console.log(`newBasket.has(${stripePriceId}) =   ${newBasket.has(stripePriceId)}, new basket:`, newBasket)
           setBasket(newBasket)
         } else {
           let newBasket: Map<string, BasketItemData> = new Map(basket)
