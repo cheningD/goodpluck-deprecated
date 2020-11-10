@@ -78,9 +78,11 @@ const AddToCartButton = ({ stripePriceId, unitPriceInCents, quantityInBasket }) 
       classNamePrefix="add-to-cart-select"
       options={options}
       onChange={async option => {
+        console.log('changed to option', option)
         if (option.value === 0) {
           const newBasket: Map<string, BasketItemData> = new Map(basket)
           newBasket.delete(stripePriceId)
+          console.log('item deleted, new basket:', newBasket)
           setBasket(newBasket)
         } else {
           const newBasket: Map<string, BasketItemData> = new Map(basket)
