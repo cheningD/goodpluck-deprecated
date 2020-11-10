@@ -50,7 +50,7 @@ const AddToCartButton = ({ stripePriceId, unitPriceInCents, quantityInBasket }) 
       <Submit
         as="button"
         onClick={async () => {
-          const newBasket: Map<string, BasketItemData> = new Map(basket)
+          let newBasket: Map<string, BasketItemData> = new Map(basket)
           newBasket.set(stripePriceId, { stripePriceId, quantity: 1, unitPriceInCents })
           setBasket(newBasket)
         }}
@@ -80,12 +80,12 @@ const AddToCartButton = ({ stripePriceId, unitPriceInCents, quantityInBasket }) 
       onChange={async option => {
         console.log('changed to option', option)
         if (option.value === 0) {
-          const newBasket: Map<string, BasketItemData> = new Map(basket)
+          let newBasket: Map<string, BasketItemData> = new Map(basket)
           newBasket.delete(stripePriceId)
-          console.log('item deleted, new basket:', newBasket)
+          console.log(`newBasket.has(stripePriceId) =   ${newBasket.has(stripePriceId)}, new basket:`, newBasket)
           setBasket(newBasket)
         } else {
-          const newBasket: Map<string, BasketItemData> = new Map(basket)
+          let newBasket: Map<string, BasketItemData> = new Map(basket)
           newBasket.set(stripePriceId, { stripePriceId, quantity: option.value, unitPriceInCents })
           setBasket(newBasket)
         }
