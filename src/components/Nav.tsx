@@ -211,7 +211,7 @@ const Nav = () => {
 
       // GET BASKET
       const _basket = await getBasket()
-      if (basket && basket.size > 0) {
+      if (_basket && _basket.size > 0) {
         setBasket(_basket)
       } else {
         // Set the default basket
