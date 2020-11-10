@@ -197,23 +197,41 @@ const Nav = () => {
 
   useEffect(() => {
     async function fetchData() {
-      // GET SIGNED IN USER
-      const signedInData: SignedInData = await getSignedInData()
-      if (signedInData && signedInData.signedInUser) {
-        setUser(signedInData.signedInUser)
-      }
-
       // GET ORDERS
       const orderData: Record<string, OrderDetail> = await getOrders()
       if (orderData) {
         setOrders(orderData)
       }
+    }
+    if (orders === null) {
+      fetchData()
+    }
+  }, [])
 
+  useEffect(() => {
+    async function fetchData() {
+      // GET SIGNED IN USER
+      const signedInData: SignedInData = await getSignedInData()
+      if (signedInData && signedInData.signedInUser) {
+        setUser(signedInData.signedInUser)
+      }
+    }
+
+    if (!user) {
+      fetchData()
+    }
+  }, [])
+
+  useEffect(() => {
+    async function fetchData() {
       // GET BASKET
       const _basket = await getBasket()
+      console.log('GP LOG BASKET', _basket)
       if (_basket && _basket.size > 0) {
+        console.log('GP LOG SET BASKET', _basket)
         setBasket(_basket)
       } else {
+        console.log('GP LOG BASKET', _basket)
         // Set the default basket
         const defaultBasket = new Map()
         data.allAirtable.nodes
@@ -230,7 +248,7 @@ const Nav = () => {
       }
     }
 
-    if (!user || basket === null) {
+    if (basket === null) {
       fetchData()
     }
   }, [])
