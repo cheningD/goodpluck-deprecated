@@ -195,61 +195,62 @@ const Nav = () => {
   const [orders, setOrders] = useRecoilState(myOrders)
   const [basket, setBasket] = useRecoilState(basketItems)
 
-  useEffect(() => {
-    async function fetchData() {
-      // GET ORDERS
-      const orderData: Record<string, OrderDetail> = await getOrders()
-      if (orderData) {
-        setOrders(orderData)
-      }
+  const fetchOrders = async () => {
+    // GET ORDERS
+    const orderData: Record<string, OrderDetail> = await getOrders()
+    if (orderData) {
+      setOrders(orderData)
     }
+  }
+
+  useEffect(() => {
     if (orders === null) {
-      fetchData()
+      fetchOrders()
     }
   }, [])
 
-  useEffect(() => {
-    async function fetchData() {
-      // GET SIGNED IN USER
-      const signedInData: SignedInData = await getSignedInData()
-      if (signedInData && signedInData.signedInUser) {
-        setUser(signedInData.signedInUser)
-      }
+  const fetchUser = async () => {
+    // GET SIGNED IN USER
+    const signedInData: SignedInData = await getSignedInData()
+    if (signedInData && signedInData.signedInUser) {
+      setUser(signedInData.signedInUser)
     }
+  }
 
+  useEffect(() => {
     if (!user) {
-      fetchData()
+      fetchUser()
     }
   }, [])
 
-  useEffect(() => {
-    async function fetchData() {
-      // GET BASKET
-      const _basket = await getBasket()
+  const fetchBasket = async () => {
+    // GET BASKET
+    const _basket = await getBasket()
+    console.log('GP LOG BASKET', _basket)
+    if (_basket && _basket.size > 0) {
+      console.log('GP LOG SET BASKET', _basket)
+      setBasket(_basket)
+    } else {
       console.log('GP LOG BASKET', _basket)
-      if (_basket && _basket.size > 0) {
-        console.log('GP LOG SET BASKET', _basket)
-        setBasket(_basket)
-      } else {
-        console.log('GP LOG BASKET', _basket)
-        // Set the default basket
-        const defaultBasket = new Map()
-        data.allAirtable.nodes
-          .filter(node => node.data.isLocalPluck)
-          .forEach(node => {
-            defaultBasket.set(node.data.stripePriceId, {
-              stripePriceId: node.data.stripePriceId,
-              unitPriceInCents: node.data.priceInCents,
-              quantity: 1,
-            })
+      // Set the default basket
+      const defaultBasket = new Map()
+      data.allAirtable.nodes
+        .filter(node => node.data.isLocalPluck)
+        .forEach(node => {
+          defaultBasket.set(node.data.stripePriceId, {
+            stripePriceId: node.data.stripePriceId,
+            unitPriceInCents: node.data.priceInCents,
+            quantity: 1,
           })
-        setBasket(defaultBasket)
-        await updateBasket(defaultBasket)
-      }
+        })
+      setBasket(defaultBasket)
+      await updateBasket(defaultBasket)
     }
+  }
 
+  useEffect(() => {
     if (basket === null) {
-      fetchData()
+      fetchBasket()
     }
   }, [])
 
