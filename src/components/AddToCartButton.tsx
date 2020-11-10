@@ -42,7 +42,14 @@ const AddToCartButton = ({ stripePriceId, unitPriceInCents, quantityInBasket }) 
   const [basket, setBasket] = useRecoilState(basketItems)
   if (quantityInBasket === 0) {
     return (
-      <Submit as="button" onClick={async () => await setItemQuantity(stripePriceId, 1, unitPriceInCents, setBasket)}>
+      <Submit
+        as="button"
+        onClick={async () => {
+          const newBasket = new Map(basket)
+          newBasket.set(stripePriceId, { stripePriceId, quantity: 1, unitPriceInCents })
+          setBasket(newBasket)
+        }}
+      >
         Add
       </Submit>
     )
@@ -65,7 +72,17 @@ const AddToCartButton = ({ stripePriceId, unitPriceInCents, quantityInBasket }) 
     <AddToCartSelect
       classNamePrefix="add-to-cart-select"
       options={options}
-      onChange={async option => await setItemQuantity(stripePriceId, option.value, unitPriceInCents, setBasket)}
+      onChange={async option => {
+        if (option.value === 0) {
+          const newBasket = new Map(basket)
+          newBasket.delete(stripePriceId)
+          setBasket(newBasket)
+        } else {
+          const newBasket = new Map(basket)
+          newBasket.set(stripePriceId, { stripePriceId, quantity: option.value, unitPriceInCents })
+          setBasket(newBasket)
+        }
+      }}
       isSearchable={false}
       components={{
         IndicatorSeparator: null,

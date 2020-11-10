@@ -71,19 +71,18 @@ export const setItemQuantity = async (
   unitPriceInCents: number,
   setBasketFunc: SetterOrUpdater<Map<any, any>>,
 ): Promise<void> => {
-  let newBasket
-  setBasketFunc(oldBasket => {
-    newBasket = new Map(oldBasket)
+  setBasketFunc(async oldBasket => {
+    const newBasket: Map<string, any> = new Map(oldBasket)
     if (quantity > 0) {
       newBasket.set(stripePriceId, { stripePriceId, quantity, unitPriceInCents })
     } else {
       newBasket.delete(stripePriceId)
     }
     console.log(`basket set ${stripePriceId} -> ${quantity}`)
+    // Todo should the update basket
+    await updateBasket(newBasket)
     return newBasket
   })
-  // Todo should the update basket
-  await updateBasket(newBasket)
 }
 
 // Onboarding Quiz Data
