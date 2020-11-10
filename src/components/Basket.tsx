@@ -93,7 +93,7 @@ const Basket = ({ deliveryDate = null, orderFrequency = null, canEdit = false, a
           unitPriceInCents={product.priceInCents}
           imageSrc={null}
           isCompact={false}
-          quantityInBasket={basket.get(stripePriceId)?.quantity || 0}
+          quantityInBasket={quantity}
         />
       </>
     )
