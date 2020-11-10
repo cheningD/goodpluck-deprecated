@@ -38,6 +38,10 @@ const Content = styled.div`
   overflow: scroll;
 `
 
+const Hamburger2 = styled(Hamburger)`
+  margin-bottom: 8px;
+`
+
 const MarketCard = () => {
   const [filters, setFilters] = useState({
     Local: false,
@@ -112,7 +116,7 @@ const MarketCard = () => {
       <LineBreak />
       <div>
         <TabletAndMobileViewOnly>
-          <Hamburger
+          <Hamburger2
             isOpen={mobileSidebarOpen}
             onClick={() => {
               setMobileSidebarOpen(!mobileSidebarOpen)
