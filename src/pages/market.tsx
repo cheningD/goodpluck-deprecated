@@ -1,30 +1,19 @@
-import { MobileViewOnly, Spinner } from '../components/StyledComponentLib'
-import React, { useEffect, useState } from 'react'
-import { isSignedIn, signedInUser } from '../store'
-import { useRecoilState, useRecoilValue } from 'recoil'
+import React, { useState } from 'react'
 
 import BasketAccountShopLinks from '../components/BasketAccountShopLinks'
-import { Link } from 'gatsby'
 import MarketCard from '../components/MarketCard'
 import Nav from '../components/Nav'
 import SEO from '../components/SEO'
 import Select from 'react-select'
-import { SignedInData } from '../types'
-import { getSignedInData } from '../actions'
+import { Spinner } from '../components/StyledComponentLib'
+import { isSignedIn } from '../store'
 import styled from 'styled-components'
+import { useRecoilValue } from 'recoil'
 
 const Page = styled.div`
   background-color: var(--light-bg);
   min-height: 100vh;
   padding-bottom: 32px;
-`
-const H1 = styled.h1`
-  color: var(--blackish);
-  font-family: hk_grotesksemibold, sans-serif;
-  font-size: 2rem;
-  margin: 0 auto;
-  text-align: center;
-  padding: 32px 0;
 `
 
 const Market = () => {

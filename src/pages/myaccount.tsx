@@ -12,20 +12,20 @@ import {
   SubmitButton,
 } from '../components/StyledComponentLib'
 import { Form, Formik } from 'formik'
-import { OrderDetail, SignedInData } from '../types'
-import React, { useEffect, useState } from 'react'
-import { getOrders, getSignedInData, pauseSubscription, restartSubscription } from '../actions'
+import React, { useState } from 'react'
 import { isSignedIn, myOrders, signedInUser } from '../store'
-import { useRecoilState, useRecoilValue } from 'recoil'
+import { pauseSubscription, restartSubscription } from '../actions'
 
 import BasketAccountShopLinks from '../components/BasketAccountShopLinks'
 import BasketDates from '../components/BasketDates'
 import { DateTime } from 'luxon'
 import { Link } from 'gatsby'
 import Nav from '../components/Nav'
+import { OrderDetail } from '../types'
 import SEO from '../components/SEO'
 import startCase from 'lodash-es/startCase'
 import styled from 'styled-components'
+import { useRecoilValue } from 'recoil'
 
 const Page = styled.div`
   background-color: var(--light-bg);
