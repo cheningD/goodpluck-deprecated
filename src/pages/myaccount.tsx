@@ -184,7 +184,6 @@ const PauseMySubscription = ({}) => {
         initialValues={{ reason: '' }}
         validationSchema={handleEditSubscriptionSchema}
         onSubmit={async (values, actions) => {
-          console.log({ values, actions })
           const result = await pauseSubscription(values.reason)
           if (result.success) {
             if (typeof window !== `undefined`) {

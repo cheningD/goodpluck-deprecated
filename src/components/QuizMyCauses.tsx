@@ -114,7 +114,6 @@ const QuizMyCauses = ({ nextFunction, percentComplete, goBackFunction }: QuizMyC
     <FormWrapper
       initialValues={myCauses}
       onSubmit={(values, { setSubmitting }) => {
-        console.log(`setmyCauses(${values.myCauses || []})`)
         setmyCauses(values.myCauses || [])
         setSubmitting(false)
         nextFunction()

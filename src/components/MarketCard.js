@@ -79,7 +79,6 @@ const MarketCard = () => {
                 oneLiner
                 priceInCents
                 stripePriceId
-                testStripePriceId
                 unitLabel
                 unitQuantity
                 mainImage {

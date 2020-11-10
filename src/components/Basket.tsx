@@ -30,7 +30,6 @@ const Basket = ({ deliveryDate = null, orderFrequency = null, canEdit = false, a
             oneLiner
             priceInCents
             stripePriceId
-            testStripePriceId
             unitLabel
             unitQuantity
             mainImage {
@@ -61,24 +60,16 @@ const Basket = ({ deliveryDate = null, orderFrequency = null, canEdit = false, a
   }
 
   const items = Array.from(basket).map(([stripePriceId, { quantity }], index) => {
-    console.log('Creating a new array of basket items from basket', basket)
     const productNodes = nodes.filter(node => node.data.stripePriceId === stripePriceId)
     if (productNodes.length < 1) {
-      console.log(`productNodes empty returned null for ${stripePriceId}`, productNodes)
       return null
     }
 
     if (!productNodes[0].data) {
-      console.log(`productNodes malformed returned null for ${stripePriceId}`, productNodes)
       return null
     }
     const product = productNodes[0].data
     const quantityLabel = `${product.unitQuantity || 1} ${product.unitLabel || ''}`
-
-    let stripePriceIdForEnv = product.stripePriceId
-    if (process.env.GATSBY_DEPLOY_ENVIRONMENT === 'STAGING') {
-      stripePriceIdForEnv = product.testStripePriceId
-    }
 
     return (
       <>
@@ -92,7 +83,7 @@ const Basket = ({ deliveryDate = null, orderFrequency = null, canEdit = false, a
           name={product.name || ''}
           oneLiner={product.oneLiner || ''}
           quantityLabel={quantityLabel}
-          stripePriceId={stripePriceIdForEnv}
+          stripePriceId={product.stripePriceId}
           unitPriceInCents={product.priceInCents}
           imageSrc={null}
           isCompact={false}

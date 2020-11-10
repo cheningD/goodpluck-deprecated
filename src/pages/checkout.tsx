@@ -391,16 +391,13 @@ const Checkout = () => {
   const handleSubmit = async value => {
     const card = elements.getElement(CardElement)
     const result = await stripe.createToken(card)
-    console.log('Result from stripe', result)
     if (result.error) {
       // Inform the user if there was an error.
       setStripeError(result.error.message)
-      console.log('Errar with stripe!', setStripeError(result.error.message))
+      console.info('GP Stripe Error', setStripeError(result.error.message))
     } else {
       setStripeError(null)
       // Send the token to your server.
-      console.log('Sending token to server/....!')
-
       const createUserParams = {
         addressLine1: value.addressLine1,
         addressLine2: value.addressLine2 || '',
@@ -420,7 +417,6 @@ const Checkout = () => {
         createUserParams.addressLine2 = value.addressLine2
       }
       const createUserResponseJson = await createUser(createUserParams)
-      console.log('createUserResponseJson', createUserResponseJson)
       if (true) {
         const clientSecret = createUserResponseJson.data.createSetupIntentResponseJSON.client_secret
         const result = await stripe.confirmCardSetup(clientSecret, {
@@ -435,9 +431,8 @@ const Checkout = () => {
         if (result.error) {
           // Inform the user if there was an error.
           setStripeError(result.error.message)
-          console.log('Error confirming card!', setStripeError(result.error.message))
+          console.info('GP Card Error', setStripeError(result.error.message))
         } else {
-          console.log(`result from confirming intent... ${JSON.stringify(result)}   <--`, result)
           // Verify result.setupIntent.status === succeeded and then navigate to confirmation page
           navigate('/myaccount')
         }
