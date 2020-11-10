@@ -1,6 +1,6 @@
-import { SetterOrUpdater, atom, selector } from 'recoil'
+import { atom, selector } from 'recoil'
 
-import { updateBasket } from './actions'
+import { BasketItemData } from './types'
 
 export const signedInUser = atom({
   key: 'signed_in_user', // unique ID (with respect to other atoms/selectors)
@@ -23,9 +23,11 @@ export const myOrders = atom({
   default: null, // default value (aka initial value),
 })
 
+const basketDefault: Map<string, BasketItemData> | null = null
+
 export const basketItems = atom({
   key: 'basket_items', // unique ID (with respect to other atoms/selectors)
-  default: null, // default value (aka initial value)
+  default: basketDefault, // default value (aka initial value)
 })
 
 export const basketCount = selector({
