@@ -51,6 +51,7 @@ export const getSignedInData = async (): Promise<SignedInData | null> => {
     const responseJSON = await response.json()
     return responseJSON.data
   } catch (err) {
+    console.log(`Error in getSignedInData: ${err.message || err}`)
     return null
   }
 }
@@ -68,6 +69,7 @@ export const restartSubscription = async (): Promise<GoodPluckJSONResponse> => {
   try {
     return await response.json()
   } catch (err) {
+    console.log(`Error in restartSubscription: ${err.message || err}`)
     return {
       success: false,
       error: 'Something went wrong. Please contact us if this issue persists',
@@ -88,6 +90,7 @@ export const pauseSubscription = async (reason: string): Promise<GoodPluckJSONRe
   try {
     return await response.json()
   } catch (err) {
+    console.log(`Error in pauseSubscription: ${err.message || err}`)
     return {
       success: false,
       error: 'Something went wrong. Please contact us if this issue persists',
@@ -108,6 +111,7 @@ export const getOrders = async (): Promise<Record<string, OrderDetail> | null> =
     const responseJSON: GoodPluckJSONResponse = await response.json()
     return responseJSON.data
   } catch (err) {
+    console.log(`Error in getOrders: ${err.message || err}`)
     return null
   }
 }
@@ -125,6 +129,7 @@ export const getOrdersDemo = async (): Promise<OrderDetail | null> => {
     const responseJSON: GoodPluckJSONResponse = await response.json()
     return responseJSON.data as OrderDetail
   } catch (err) {
+    console.log(`Error in getOrdersDemo: ${err.message || err}`)
     return null
   }
 }
@@ -135,16 +140,19 @@ export const getBasket = async (): Promise<Map<string, BasketItemData> | null> =
   })
 
   if (!response.ok) {
+    console.log(`Error in getBasket: ${response}`)
     return null
   }
 
   try {
     const responseJSON = await response.json()
-    return new Map(responseJSON.data)
+    const newBasket: Map<string, BasketItemData> = new Map(responseJSON.data)
+    console.log('GP LOG new Basket', newBasket)
+    return newBasket
   } catch (err) {
+    console.log(`Error in getBasket: ${err.message || err}`)
     return null
   }
-  return null
 }
 
 export const updateBasket = async (basket: Map<string, BasketItemData>): Promise<boolean> => {
@@ -163,6 +171,7 @@ export const updateBasket = async (basket: Map<string, BasketItemData>): Promise
       return true
     }
   } catch (err) {
+    console.log(`Error in updateBasket: ${err.message || err}`)
     return false
   }
   return false
