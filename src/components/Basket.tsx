@@ -64,10 +64,12 @@ const Basket = ({ deliveryDate = null, orderFrequency = null, canEdit = false, a
     console.log('Creating a new array of basket items from basket', basket)
     const productNodes = nodes.filter(node => node.data.stripePriceId === stripePriceId)
     if (productNodes.length < 1) {
+      console.log(`productNodes empty returned null for ${stripePriceId}`, productNodes)
       return null
     }
 
     if (!productNodes[0].data) {
+      console.log(`productNodes malformed returned null for ${stripePriceId}`, productNodes)
       return null
     }
     const product = productNodes[0].data
