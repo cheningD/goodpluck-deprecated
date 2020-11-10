@@ -235,23 +235,6 @@ const Nav = () => {
     }
   }, [])
 
-  useEffect(() => {
-    async function fetchData() {
-      const signedInData: SignedInData = await getSignedInData()
-      if (signedInData && signedInData.signedInUser) {
-        setUser(signedInData.signedInUser)
-      }
-
-      const orderData: Record<string, OrderDetail> = await getOrders()
-      if (orderData) {
-        setOrders(orderData)
-      }
-    }
-
-    if (!user) {
-      fetchData()
-    }
-  }, [])
   const signedIn = useRecoilValue(isSignedIn)
 
   const toggleMobileNavOpen = React.useCallback(() => {
