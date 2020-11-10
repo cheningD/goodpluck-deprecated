@@ -51,8 +51,8 @@ const StyledCard = styled(Card)`
 `
 
 const Button = styled(SubmitButton)`
-  background-color: var(—white);
-  border-color: var(—blackish);
+  background-color: var(--white);
+  border-color: var(--blackish);
   margin: 16px auto;
   width: 100%;
   padding: 0 16px;
@@ -68,11 +68,11 @@ const DangerButton = styled(Button)`
 `
 
 const ErrorMessage = styled(StyledErrorMessage)`
-  color: var(—blackish);
+  color: var(--blackish);
 `
 
 const H1 = styled.h1`
-  color: var(—blackish);
+  color: var(--blackish);
   font-family: hk_grotesksemibold, sans-serif;
   font-size: 2rem;
   margin: 0;
@@ -80,7 +80,7 @@ const H1 = styled.h1`
 `
 
 const H2 = styled.h2`
-  color: var(—blackish);
+  color: var(--blackish);
   font-family: hk_grotesksemibold, sans-serif;
   font-size: 1.75rem;
 `
