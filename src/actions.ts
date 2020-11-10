@@ -146,11 +146,7 @@ export const getBasket = async (): Promise<Map<string, BasketItemData> | null> =
 
   try {
     const responseJSON = await response.json()
-    const newBasket: Map<string, BasketItemData> = new Map()
-    responseJSON.data.forEach(([key, value]) => {
-      newBasket.set(key, value)
-    })
-    console.log('GP LOG new Basket', newBasket)
+    const newBasket: Map<string, BasketItemData> = new Map(JSON.parse(responseJSON.data))
     return newBasket
   } catch (err) {
     console.log(`Error in getBasket: ${err.message || err}`)
