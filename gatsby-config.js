@@ -5,42 +5,39 @@
  */
 
 const path = require(`path`)
-const git = require("git-rev-sync")
+const git = require('git-rev-sync')
 
-require("dotenv").config({
+require('dotenv').config({
   path: `.env.${process.env.NODE_ENV}`,
 })
 
 if (!process.env.CLOUDFLARE_PURGE_CACHE_API_TOKEN) {
-  throw new Error("Missing env variable: CLOUDFLARE_PURGE_CACHE_API_TOKEN")
+  throw new Error('Missing env variable: CLOUDFLARE_PURGE_CACHE_API_TOKEN')
 }
 
 if (!process.env.CLOUDFLARE_ZONE_ID) {
-  throw new Error("Missing env variable: CLOUDFLARE_ZONE_ID")
+  throw new Error('Missing env variable: CLOUDFLARE_ZONE_ID')
 }
 
 module.exports = {
   /* Your site config here */
   siteMetadata: {
-    title: "Goodpluck: Local Farm Groceries Delivered | Detroit",
-    titleTemplate: "%s",
-    description:
-      "Goodpluck delivers groceries direct from local farms every saturday",
-    siteUrl: "https://www.goodpluck.com", // No trailing slash allowed!
-    image: "/static/shareimage.png", // Path to your image you placed in the 'static' folder
-    twitterUsername: "@goodpluckgrows",
+    title: 'Goodpluck: Local Farm Groceries Delivered | Detroit',
+    titleTemplate: '%s',
+    description: 'Goodpluck delivers groceries direct from local farms every saturday',
+    siteUrl: 'https://www.goodpluck.com', // No trailing slash allowed!
+    image: '/static/shareimage.png', // Path to your image you placed in the 'static' folder
+    twitterUsername: '@goodpluckgrows',
   },
   plugins: [
     {
-      resolve: "gatsby-plugin-sentry",
+      resolve: 'gatsby-plugin-sentry',
       options: {
-        dsn:
-          "https://91013a618f8e4b459860ca1f0eb20e08@o469653.ingest.sentry.io/5499468",
+        dsn: 'https://91013a618f8e4b459860ca1f0eb20e08@o469653.ingest.sentry.io/5499468',
         // Optional settings, see https://docs.sentry.io/clients/node/config/#optional-settings
         environment: process.env.NODE_ENV,
-        release: git.long() || "none found",
-        enabled: (() =>
-          ["production", "stage"].indexOf(process.env.NODE_ENV) !== -1)(),
+        release: git.long() || 'none found',
+        enabled: (() => ['production', 'stage'].indexOf(process.env.NODE_ENV) !== -1)(),
       },
     },
     {
@@ -57,29 +54,29 @@ module.exports = {
     `gatsby-plugin-sitemap`,
     `gatsby-plugin-styled-components`,
     {
-      resolve: "gatsby-plugin-preconnect",
+      resolve: 'gatsby-plugin-preconnect',
       options: {
         domains: [
-          "https://m.stripe.com",
-          "https://m.stripe.network",
-          "https://js.stripe.com",
-          "https://auth.missiveapp.com",
-          "https://webchat.missiveapp.com",
-          "https://www.gstatic.com",
-          "https://cdnjs.cloudflare.com",
-          "https://www.google.com",
+          'https://m.stripe.com',
+          'https://m.stripe.network',
+          'https://js.stripe.com',
+          'https://auth.missiveapp.com',
+          'https://webchat.missiveapp.com',
+          'https://www.gstatic.com',
+          'https://cdnjs.cloudflare.com',
+          'https://www.google.com',
         ],
       },
     },
     {
-      resolve: "gatsby-plugin-robots-txt",
+      resolve: 'gatsby-plugin-robots-txt',
       options: {
         env: {
           development: {
-            policy: [{ userAgent: "*", disallow: ["/"] }],
+            policy: [{ userAgent: '*', disallow: ['/'] }],
           },
           production: {
-            policy: [{ userAgent: "*", allow: "/" }],
+            policy: [{ userAgent: '*', allow: '/' }],
           },
         },
       },
@@ -87,15 +84,15 @@ module.exports = {
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
-        name: "GoodPluck",
-        short_name: "GoodPluck",
-        start_url: "/",
-        background_color: "#788474",
-        theme_color: "#788474",
+        name: 'GoodPluck',
+        short_name: 'GoodPluck',
+        start_url: '/',
+        background_color: '#788474',
+        theme_color: '#788474',
         // Enables "Add to Homescreen" prompt and disables browser UI (including back button)
         // see https://developers.google.com/web/fundamentals/web-app-manifest/#display
-        display: "standalone",
-        icon: "src/images/icon.png", // This path is relative to the root of the site.
+        display: 'standalone',
+        icon: 'src/images/icon.png', // This path is relative to the root of the site.
         // An optional attribute which provides support for CORS check.
         // If you do not provide a crossOrigin option, it will skip CORS for manifest.
         // Any invalid keyword or empty string defaults to `anonymous`
@@ -109,8 +106,8 @@ module.exports = {
         zoneId: process.env.CLOUDFLARE_ZONE_ID,
         condition: (api, options) => {
           return (
-            process.env.GATSBY_DEPLOY_ENVIRONMENT === "STAGING" ||
-            process.env.GATSBY_DEPLOY_ENVIRONMENT === "PRODUCTION"
+            process.env.GATSBY_DEPLOY_ENVIRONMENT === 'STAGING' ||
+            process.env.GATSBY_DEPLOY_ENVIRONMENT === 'PRODUCTION'
           )
         },
       },
@@ -122,7 +119,7 @@ module.exports = {
       },
     },
     {
-      resolve: "gatsby-plugin-react-svg",
+      resolve: 'gatsby-plugin-react-svg',
       options: {
         rule: {
           include: path.join(__dirname, `src`, `images/icons`),
@@ -151,6 +148,7 @@ module.exports = {
             baseId: process.env.AIRTABLE_BASE_ID,
             tableName: `productv2`,
             tableLinks: [`productGroup`, `supplier`],
+            mapping: { mainImage: `fileNode` },
           },
           {
             baseId: process.env.AIRTABLE_BASE_ID,
