@@ -363,9 +363,7 @@ const CheckoutForm = ({ onSubmit, handleChangeStripe, stripeError }) => {
   )
 }
 
-const stripePromise = loadStripe(
-  'pk_test_51H648LDnJ2NuGUX1oBIAwnMqH295Mt7bMXXw7J6xcWJaVmj3kGrpfrTvIaI78BE79CbIfgaMEZpCqLXCsYKxbJJQ00BwKIIHcH',
-)
+const stripePromise = loadStripe(process.env.GATSBY_STRIPE_API_PUBLIC_KEY)
 
 // POST the token ID to your backend.
 
