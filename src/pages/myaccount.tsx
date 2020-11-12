@@ -236,6 +236,8 @@ const YourPlan = ({ orderFrequency }) => {
       <Button as="button" onClick={() => setShowManage(!showManage)}>
         {showManage ? `Hide` : `Manage`}
       </Button>
+
+      <Button to="/logout">Logout</Button>
     </Section>
   )
 }

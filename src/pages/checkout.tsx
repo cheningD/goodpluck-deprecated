@@ -344,8 +344,7 @@ const CheckoutForm = ({ onSubmit, handleChangeStripe, stripeError }) => {
               </Bold>
 
               <div>
-                Canelling is easy and has no penalties. To cancel, sign in and click "My Account" at the top of the
-                page. The pause and cancel buttons will be under "Manage my order".
+                {`Canelling is easy and has no penalties. To cancel click "Stop my subscription" My Orders > Manage.`}
               </div>
               <div>
                 The amount charged will depend on the contents of your basket, which by default is equal to or less than
