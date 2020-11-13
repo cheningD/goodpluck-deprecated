@@ -362,7 +362,11 @@ const CheckoutForm = ({ onSubmit, handleChangeStripe, stripeError }) => {
   )
 }
 
-const stripePromise = loadStripe(process.env.GATSBY_STRIPE_API_PUBLIC_KEY)
+let stripe_api_key = process.env.GATSBY_STRIPE_API_PUBLIC_KEY
+if (process.env.GATSBY_DEPLOY_ENVIRONMENT !== 'PRODUCTION') {
+  stripe_api_key = process.env.GATSBY_STAGING_STRIPE_API_PUBLIC_KEY
+}
+const stripePromise = loadStripe(stripe_api_key)
 
 // POST the token ID to your backend.
 
