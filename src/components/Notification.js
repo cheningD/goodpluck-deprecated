@@ -1,7 +1,6 @@
-import Arrow from "../images/icons/arrow.svg"
-import { Link } from "gatsby"
-import React from "react"
-import styled from "styled-components"
+import { Link } from 'gatsby'
+import React from 'react'
+import styled from 'styled-components'
 
 const LinkWrapper = styled(Link)`
   max-width: 100%;
@@ -138,14 +137,6 @@ const NotificationText = styled.div`
   line-height: 22px;
   font-weight: 600;
 `
-const WhiteArrow = styled(Arrow)`
-  display: inline-block;
-  margin-left: 20px;
-  -webkit-box-flex: 0;
-  -webkit-flex: 0 0 auto;
-  -ms-flex: 0 0 auto;
-  flex: 0 0 auto;
-`
 
 const Notification = () => {
   return (
@@ -155,7 +146,6 @@ const Notification = () => {
           <Grid>
             <NotificationContent>
               <NotificationText>Now Delivering to Detroit!</NotificationText>
-              <WhiteArrow />
             </NotificationContent>
           </Grid>
         </Section>
