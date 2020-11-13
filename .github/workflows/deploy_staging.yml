@@ -3,7 +3,7 @@ name: Deploy to Workers staging.goodpluck.com
 on:
   push:
     branches:
-      - "staging/*"
+      - 'staging/*'
 
 jobs:
   build:
@@ -58,10 +58,11 @@ jobs:
           AIRTABLE_API_KEY: ${{secrets.AIRTABLE_API_KEY}}
           AIRTABLE_BASE_ID: ${{ secrets.AIRTABLE_BASE_ID }}
           GATSBY_STRIPE_API_PUBLIC_KEY: ${{secrets.GATSBY_STRIPE_API_PUBLIC_KEY}}
+          GATSBY_STAGING_STRIPE_API_PUBLIC_KEY: ${{secrets.GATSBY_STAGING_STRIPE_API_PUBLIC_KEY}}
           GATSBY_STRIPE_SHIPPING_LINE_ITEM_PRICE_ID: ${{secrets.GATSBY_STRIPE_SHIPPING_LINE_ITEM_PRICE_ID}}
           CLOUDFLARE_PURGE_CACHE_API_TOKEN: ${{secrets.CLOUDFLARE_PURGE_CACHE_API_TOKEN}}
           CLOUDFLARE_ZONE_ID: ${{secrets.CLOUDFLARE_ZONE_ID}}
-          GATSBY_DEPLOY_ENVIRONMENT: "STAGING"
+          GATSBY_DEPLOY_ENVIRONMENT: 'STAGING'
 
       - name: Install Wrangler
         run: sudo npm i @cloudflare/wrangler -g
