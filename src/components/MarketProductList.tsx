@@ -67,7 +67,7 @@ const MarketProductList = ({ subcategoryNodes, productGroupNodes, department, fi
           <>
             <BasketItem
               canEdit={true}
-              childImageSharp={get(productData, 'data.mainImage.localFiles[0].childImageSharp')}
+              childImageSharp={get(productData, 'mainImage.localFiles[0].childImageSharp')}
               isCompact={false}
               isInSeason={productData.isInSeason}
               isLocal={productData.isLocal}
