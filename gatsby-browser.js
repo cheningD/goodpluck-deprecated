@@ -14,3 +14,7 @@ if (!process.env.GATSBY_STRIPE_SHIPPING_LINE_ITEM_PRICE_ID) {
 if (!process.env.GATSBY_STRIPE_API_PUBLIC_KEY) {
   throw new Error('Missing required env variable: GATSBY_STRIPE_API_PUBLIC_KEY')
 }
+
+if (!process.env.GATSBY_STAGING_STRIPE_API_PUBLIC_KEY) {
+  throw new Error('Missing required env variable: GATSBY_STAGING_STRIPE_API_PUBLIC_KEY')
+}
