@@ -32,7 +32,7 @@ const H1 = styled.h1`
 const BasketPage = () => {
   let content = <Spinner />
 
-  if (useRecoilValue(isSignedIn)) {
+  if (useRecoilValue(isSignedIn) || process.env.GATSBY_DEPLOY_ENVIRONMENT === 'DEVELOPMENT') {
     content = (
       <BasketContainer>
         <Basket canEdit={true} />

@@ -19,7 +19,7 @@ const Page = styled.div`
 const Market = () => {
   let content = <Spinner />
 
-  if (useRecoilValue(isSignedIn)) {
+  if (useRecoilValue(isSignedIn) || process.env.GATSBY_DEPLOY_ENVIRONMENT === 'DEVELOPMENT') {
     content = <MarketCard />
   }
 
