@@ -86,7 +86,6 @@ const VerifyEmail = () => {
           verify(params.get('authCodeId'), params.get('code'), params.get('email'))
         } else {
           setLoading(false)
-          setErrorText('This link is invalid, Please try signing in again')
         }
       }
     }
