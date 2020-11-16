@@ -38,6 +38,36 @@ export const signIn = async params => {
   return response
 }
 
+/** If parameters validate, client recieves a session cookie
+ *
+ * @param authCodeId - The ID of the AuthCode created at sign in
+ * @param code - The 'secret' part of the AuthCode
+ * @param email - The email logging in
+ * @returns {boolean} - true iof you are now signed in
+ */
+export const verifyEmail = async (
+  authCodeId: string,
+  code: string,
+  email: string,
+): Promise<GoodPluckJSONResponse | null> => {
+  const response = await fetch('/api/verifyemail', {
+    credentials: 'same-origin',
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ authCodeId, code, email }),
+  })
+
+  try {
+    const responseJSON = await response.json()
+    return responseJSON
+  } catch (err) {
+    console.log(`Error in verify email: ${err.message || err}`)
+    return { error: 'Something went wrong, please try again' }
+  }
+}
+
 export const getSignedInData = async (): Promise<SignedInData | null> => {
   const response = await fetch(`${LOCAL_API_PREFIX}/api/getsignedinuser`, {
     credentials: 'same-origin',
