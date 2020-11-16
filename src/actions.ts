@@ -50,7 +50,7 @@ export const verifyEmail = async (
   code: string,
   email: string,
 ): Promise<GoodPluckJSONResponse | null> => {
-  const response = await fetch('/api/verifyemail', {
+  const response = await fetch(`${LOCAL_API_PREFIX}/api/verifyemail`, {
     credentials: 'same-origin',
     method: 'POST',
     headers: {
