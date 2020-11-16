@@ -8,7 +8,7 @@ import {
 
 import { navigate } from 'gatsby'
 
-// For testing api on localhost
+// For testing the api on localhost
 const LOCAL_API_PREFIX = process.env.GATSBY_DEPLOY_ENVIRONMENT === 'DEVELOPMENT' ? 'http://localhost:8787' : ''
 
 export const createUser = async (params: Record<string, any>): Promise<CreateUserSuccessResponseJSON> => {
