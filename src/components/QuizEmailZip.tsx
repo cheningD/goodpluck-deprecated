@@ -48,7 +48,7 @@ const QuizEmailZip = ({ nextFunction, percentComplete, goBackFunction }: QuizEma
         const accountAlreadyExists = await checkEmailExists(values.email)
 
         if (accountAlreadyExists) {
-          setErrorText('An account aclready exists for this email, please sign in.')
+          setErrorText('An account already exists for this email, please sign in.')
           setSubmitting(false)
         } else {
           setEmail(values.email)
