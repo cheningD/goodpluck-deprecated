@@ -237,7 +237,7 @@ const YourPlan = ({ orderFrequency }) => {
         {showManage ? `Hide` : `Manage`}
       </Button>
 
-      <Button to="/logout">Logout</Button>
+      <a href="/logout">Logout</a>
     </Section>
   )
 }
