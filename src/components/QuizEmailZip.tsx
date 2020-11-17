@@ -1,11 +1,12 @@
 import * as yup from 'yup'
 
-import { FieldWrapper, StyledErrorMessage, StyledField } from '../components/StyledComponentLib'
+import { Error, FieldWrapper, StyledErrorMessage, StyledField } from '../components/StyledComponentLib'
+import React, { useState } from 'react'
 import { onboardingEmail, onboardingZip } from '../store'
 
 import FormWrapper from '../components/FormWrapper'
-import React from 'react'
 import { VALID_ZIP_PATTERN } from '../util'
+import { checkEmailExists } from '../actions'
 import { useRecoilState } from 'recoil'
 
 type QuizEmailZipProps = {
@@ -22,9 +23,11 @@ const zipSchema = yup.object().shape({
 const QuizEmailZip = ({ nextFunction, percentComplete, goBackFunction }: QuizEmailZipProps) => {
   const [email, setEmail] = useRecoilState(onboardingEmail)
   const [zip, setZip] = useRecoilState(onboardingZip)
+  const [errorText, setErrorText] = useState('')
   const FormContent = () => {
     return (
       <>
+        {errorText ? <Error>{errorText}</Error> : ''}
         <FieldWrapper>
           <StyledField type="text" name="email" placeholder="Email" />
           <StyledErrorMessage name="email" component="div" />
@@ -41,11 +44,18 @@ const QuizEmailZip = ({ nextFunction, percentComplete, goBackFunction }: QuizEma
     <FormWrapper
       initialValues={{ email, zip }}
       validationSchema={zipSchema}
-      onSubmit={(values, { setSubmitting }) => {
-        setEmail(values.email)
-        setZip(values.zip)
-        setSubmitting(false)
-        nextFunction()
+      onSubmit={async (values, { setSubmitting }) => {
+        const accountAlreadyExists = await checkEmailExists(values.email)
+
+        if (accountAlreadyExists) {
+          setErrorText('An account aclready exists for this email, please sign in.')
+          setSubmitting(false)
+        } else {
+          setEmail(values.email)
+          setZip(values.zip)
+          nextFunction()
+          setSubmitting(false)
+        }
       }}
       FormContent={FormContent}
       header={"First, let's confirm that we deliver to you..."}
