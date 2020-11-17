@@ -56,12 +56,31 @@ export const verifyEmail = async (
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ authCodeId, code, email }),
+    body: JSON.stringify({ authCodeId, code, email: email.toLowerCase() }),
   })
 
   try {
     const responseJSON = await response.json()
     return responseJSON
+  } catch (err) {
+    console.log(`Error in verify email: ${err.message || err}`)
+    return { error: 'Something went wrong, please try again' }
+  }
+}
+
+export const checkEmailExists = async (email: string) => {
+  const response = await fetch(`${LOCAL_API_PREFIX}/api/checkemail`, {
+    credentials: 'same-origin',
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ email: email.toLowerCase() }),
+  })
+
+  try {
+    const responseJSON = await response.json()
+    return responseJSON.userExists === true ? true : false
   } catch (err) {
     console.log(`Error in verify email: ${err.message || err}`)
     return { error: 'Something went wrong, please try again' }
