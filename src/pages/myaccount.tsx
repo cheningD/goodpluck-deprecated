@@ -85,6 +85,10 @@ const H2 = styled.h2`
   font-size: 1.75rem;
 `
 
+const Logout = styled.a`
+  margin: 16px;
+`
+
 const MyAccount = () => {
   const user = useRecoilValue(signedInUser)
   const orders = useRecoilValue(myOrders)
@@ -134,6 +138,7 @@ const MyAccount = () => {
       <Nav />
       <BasketAccountShopLinks />
       <Content>{content}</Content>
+      <Logout href="/logout">Logout</Logout>
     </Page>
   )
 }
@@ -236,8 +241,6 @@ const YourPlan = ({ orderFrequency }) => {
       <Button as="button" onClick={() => setShowManage(!showManage)}>
         {showManage ? `Hide` : `Manage`}
       </Button>
-
-      <a href="/logout">Logout</a>
     </Section>
   )
 }
