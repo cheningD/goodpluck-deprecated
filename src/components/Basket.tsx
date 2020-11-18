@@ -76,7 +76,7 @@ const Basket = ({ deliveryDate = null, orderFrequency = null, canEdit = false, a
         {index === 0 ? '' : <ThinLineBreak />}
         <BasketItem
           canEdit={true}
-          childImageSharp={get(product, 'data.mainImage.localFiles[0].childImageSharp')}
+          childImageSharp={get(product, 'mainImage.localFiles[0].childImageSharp')}
           isInSeason={product.isInSeason}
           isLocal={product.isLocal}
           isOrganic={product.isOrganic}

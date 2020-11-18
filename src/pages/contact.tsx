@@ -1,4 +1,3 @@
-import Footer from '../components/footer'
 import Nav from '../components/Nav'
 import React from 'react'
 import SEO from '../components/SEO'
@@ -26,7 +25,6 @@ const Contact = () => {
           <div>Or, contact us at hello@goodpluck.com</div>
         </Content>
       </Page>
-      <Footer />
     </>
   )
 }
