@@ -1,11 +1,14 @@
+import { basketItems, myOrders } from '../store'
+import { useRecoilState, useRecoilValue } from 'recoil'
+
 import { BasketItemData } from '../types'
 import Chevron from './Chevron'
+import { DateTime } from 'luxon'
+import { OrderDetail } from '../types'
 import React from 'react'
 import Select from 'react-select'
-import { basketItems } from '../store'
 import styled from 'styled-components'
 import { updateBasket } from '../actions'
-import { useRecoilState } from 'recoil'
 
 const Submit = styled.button`
   background-color: #fff;
@@ -40,6 +43,21 @@ const StyledChevron = styled(Chevron)`
 `
 
 const AddToCartButton = ({ stripePriceId, unitPriceInCents, quantityInBasket }) => {
+  const orders = useRecoilValue(myOrders)
+
+  let upcomingOrderData: OrderDetail | null = null
+  if (orders && Object.keys(orders).length > 0) {
+    upcomingOrderData = orders[Object.keys(orders).slice().sort()[0]]
+  }
+
+  let canEditBasket: boolean = true
+  let basketConfirmationMessage = ''
+  const dateNow = DateTime.local()
+  // If editBasketEndDate is in the past, dont let them edit....
+  if (upcomingOrderData && DateTime.fromISO(upcomingOrderData.editBasketEndDate) < DateTime.local()) {
+    return <div></div>
+  }
+
   const [basket, _setBasket] = useRecoilState(basketItems)
   const setBasket = async (basket: Map<string, BasketItemData>) => {
     updateBasket(basket)
