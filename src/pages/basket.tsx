@@ -1,10 +1,13 @@
+import { isSignedIn, myOrders } from '../store'
+
 import Basket from '../components/Basket'
 import BasketAccountShopLinks from '../components/BasketAccountShopLinks'
+import { DateTime } from 'luxon'
 import Nav from '../components/Nav'
+import { OrderDetail } from '../types'
 import React from 'react'
 import SEO from '../components/SEO'
 import { Spinner } from '../components/StyledComponentLib'
-import { isSignedIn } from '../store'
 import styled from 'styled-components'
 import { useRecoilValue } from 'recoil'
 
@@ -30,12 +33,28 @@ const H1 = styled.h1`
 `
 
 const BasketPage = () => {
+  const orders = useRecoilValue(myOrders)
+
+  let upcomingOrderData: OrderDetail | null = null
+  if (orders && Object.keys(orders).length > 0) {
+    upcomingOrderData = orders[Object.keys(orders).slice().sort()[0]]
+  }
+
+  let canEditBasket: boolean = true
+  let basketConfirmationMessage = ''
+  const dateNow = DateTime.local()
+  // If editBasketEndDate is in the past, dont let them edit....
+  if (upcomingOrderData && DateTime.fromISO(upcomingOrderData.editBasketEndDate) < DateTime.local()) {
+    canEditBasket = false
+    basketConfirmationMessage = "Your basket has been confirmed. We're plucking your produce now!"
+  }
+
   let content = <Spinner />
 
   if (useRecoilValue(isSignedIn) || process.env.GATSBY_DEPLOY_ENVIRONMENT === 'DEVELOPMENT') {
     content = (
       <BasketContainer>
-        <Basket canEdit={true} />
+        <Basket canEdit={canEditBasket} />
       </BasketContainer>
     )
   }
@@ -45,6 +64,7 @@ const BasketPage = () => {
       <SEO title="My Basket" />
       <Nav />
       <BasketAccountShopLinks />
+      {basketConfirmationMessage}
       {content}
     </Page>
   )
