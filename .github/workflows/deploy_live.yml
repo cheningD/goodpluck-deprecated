@@ -30,6 +30,7 @@ jobs:
           CLOUDFLARE_PURGE_CACHE_API_TOKEN: ${{secrets.CLOUDFLARE_PURGE_CACHE_API_TOKEN}}
           CLOUDFLARE_ZONE_ID: ${{secrets.CLOUDFLARE_ZONE_ID}}
           GATSBY_DEPLOY_ENVIRONMENT: 'PRODUCTION'
+          GOOGLE_ANALYTICS_TRACKING_ID: ${{secrets.GOOGLE_ANALYTICS_TRACKING_ID}}
 
       - name: Install Wrangler
         run: sudo npm i @cloudflare/wrangler -g
