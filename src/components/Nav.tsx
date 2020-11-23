@@ -228,23 +228,11 @@ const Nav = () => {
     const _basket = await getBasket()
     console.log('GP LOG BASKET', _basket)
     if (_basket && _basket.size > 0) {
-      console.log('GP LOG SET BASKET', _basket)
       setBasket(_basket)
     } else {
-      console.log('GP LOG BASKET', _basket)
-      // Set the default basket
+      // Set the default basket as the empty map
       const defaultBasket = new Map()
-      data.allAirtable.nodes
-        .filter(node => node.data.isLocalPluck)
-        .forEach(node => {
-          defaultBasket.set(node.data.stripePriceId, {
-            stripePriceId: node.data.stripePriceId,
-            unitPriceInCents: node.data.priceInCents,
-            quantity: 1,
-          })
-        })
       setBasket(defaultBasket)
-      await updateBasket(defaultBasket)
     }
   }
 
