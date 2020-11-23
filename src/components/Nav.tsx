@@ -226,13 +226,8 @@ const Nav = () => {
   const fetchBasket = async () => {
     // GET BASKET
     const _basket = await getBasket()
-    console.log('GP LOG BASKET', _basket)
-    if (_basket && _basket.size > 0) {
+    if (_basket) {
       setBasket(_basket)
-    } else {
-      // Set the default basket as the empty map
-      const defaultBasket = new Map()
-      setBasket(defaultBasket)
     }
   }
 
