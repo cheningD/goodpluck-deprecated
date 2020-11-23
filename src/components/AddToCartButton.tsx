@@ -1,10 +1,9 @@
+import { BasketItemData, OrderDetail } from '../types'
 import { basketItems, myOrders } from '../store'
 import { useRecoilState, useRecoilValue } from 'recoil'
 
-import { BasketItemData } from '../types'
 import Chevron from './Chevron'
 import { DateTime } from 'luxon'
-import { OrderDetail } from '../types'
 import React from 'react'
 import Select from 'react-select'
 import styled from 'styled-components'
@@ -53,9 +52,10 @@ const AddToCartButton = ({ stripePriceId, unitPriceInCents, quantityInBasket }) 
   let canEditBasket: boolean = true
   let basketConfirmationMessage = ''
   const dateNow = DateTime.local()
+
   // If editBasketEndDate is in the past, dont let them edit....
   if (upcomingOrderData && DateTime.fromISO(upcomingOrderData.editBasketEndDate) < DateTime.local()) {
-    return <div></div>
+    return <div>{`Quantity: ${quantityInBasket}`}</div>
   }
 
   const [basket, _setBasket] = useRecoilState(basketItems)

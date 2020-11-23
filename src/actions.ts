@@ -9,7 +9,8 @@ import {
 import { navigate } from 'gatsby'
 
 // For testing the api on localhost
-const LOCAL_API_PREFIX = process.env.GATSBY_DEPLOY_ENVIRONMENT === 'DEVELOPMENT' ? 'https://staging.goodpluck.com' : ''
+const LOCAL_API_PREFIX =
+  process.env.GATSBY_DEPLOY_ENVIRONMENT === 'DEVELOPMENT' ? 'https://localhost.goodpluck.com' : ''
 
 export const createUser = async (params: Record<string, any>): Promise<CreateUserSuccessResponseJSON> => {
   const response = await fetch(`${LOCAL_API_PREFIX}/api/createuser`, {
@@ -36,6 +37,27 @@ export const signIn = async params => {
     body: JSON.stringify(params),
   })
   return response
+}
+
+export const signInAsTestUser = async (): Promise<any> => {
+  const response = await fetch(`${LOCAL_API_PREFIX}/api/signinastestuser`, {
+    credentials: 'same-origin',
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({}),
+  })
+
+  let data
+
+  try {
+    data = await response.json()
+  } catch (err) {
+    return response
+  }
+
+  return data
 }
 
 /** If parameters validate, client recieves a session cookie

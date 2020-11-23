@@ -1,11 +1,13 @@
+import React, { useState } from 'react'
 import { isSignedIn, myOrders } from '../store'
 
 import Basket from '../components/Basket'
 import BasketAccountShopLinks from '../components/BasketAccountShopLinks'
+import CountDown from '../components/CountDown'
 import { DateTime } from 'luxon'
+import { Link } from 'gatsby'
 import Nav from '../components/Nav'
 import { OrderDetail } from '../types'
-import React from 'react'
 import SEO from '../components/SEO'
 import { Spinner } from '../components/StyledComponentLib'
 import styled from 'styled-components'
@@ -33,30 +35,45 @@ const H1 = styled.h1`
 `
 
 const BasketPage = () => {
-  const orders = useRecoilValue(myOrders)
-
-  let upcomingOrderData: OrderDetail | null = null
-  if (orders && Object.keys(orders).length > 0) {
-    upcomingOrderData = orders[Object.keys(orders).slice().sort()[0]]
-  }
-
-  let canEditBasket: boolean = true
-  let basketConfirmationMessage = ''
-  const dateNow = DateTime.local()
-  // If editBasketEndDate is in the past, dont let them edit....
-  if (upcomingOrderData && DateTime.fromISO(upcomingOrderData.editBasketEndDate) < DateTime.local()) {
-    canEditBasket = false
-    basketConfirmationMessage = "Your basket has been confirmed. We're plucking your produce now!"
-  }
-
-  let content = <Spinner />
-
-  if (useRecoilValue(isSignedIn) || process.env.GATSBY_DEPLOY_ENVIRONMENT === 'DEVELOPMENT') {
+  let content
+  if (!useRecoilValue(isSignedIn)) {
     content = (
-      <BasketContainer>
-        <Basket canEdit={canEditBasket} />
-      </BasketContainer>
+      <H1>
+        Please <Link to="/signin">sign in</Link> to see your orders
+      </H1>
     )
+  } else {
+    const orders = useRecoilValue(myOrders)
+    const [countdown, setCountdown] = useState('')
+    const [intervalID, setIntervalID] = useState(0)
+
+    let upcomingOrderData: OrderDetail | null = null
+    if (orders && Object.keys(orders).length > 0) {
+      upcomingOrderData = orders[Object.keys(orders).slice().sort()[0]]
+    }
+
+    if (!upcomingOrderData) {
+      content = <Spinner />
+    } else if (DateTime.local() < DateTime.fromISO(upcomingOrderData.editBasketStartDate).set({ hour: 17 })) {
+      const startTime = DateTime.fromISO(upcomingOrderData.editBasketStartDate).set({ hour: 17 })
+      content = <CountDown startTime={startTime} />
+    } else if (DateTime.fromISO(upcomingOrderData.editBasketEndDate) < DateTime.local()) {
+      // You can no longer edit your basket
+      content = (
+        <>
+          <div>Your order is being finalized now.</div>
+          <BasketContainer>
+            <Basket canEdit={false} />
+          </BasketContainer>
+        </>
+      )
+    } else {
+      content = (
+        <BasketContainer>
+          <Basket canEdit={true} />
+        </BasketContainer>
+      )
+    }
   }
 
   return (
@@ -64,7 +81,6 @@ const BasketPage = () => {
       <SEO title="My Basket" />
       <Nav />
       <BasketAccountShopLinks />
-      {basketConfirmationMessage}
       {content}
     </Page>
   )
