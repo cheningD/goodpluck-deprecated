@@ -1,12 +1,15 @@
 import React, { useState } from 'react'
+import { isSignedIn, myOrders } from '../store'
 
 import BasketAccountShopLinks from '../components/BasketAccountShopLinks'
+import CountDown from '../components/Countdown'
+import { DateTime } from 'luxon'
 import MarketCard from '../components/MarketCard'
 import Nav from '../components/Nav'
+import { OrderDetail } from '../types'
 import SEO from '../components/SEO'
 import Select from 'react-select'
 import { Spinner } from '../components/StyledComponentLib'
-import { isSignedIn } from '../store'
 import styled from 'styled-components'
 import { useRecoilValue } from 'recoil'
 
@@ -17,9 +20,23 @@ const Page = styled.div`
 `
 
 const Market = () => {
-  let content = <Spinner />
+  let content
+  const orders = useRecoilValue(myOrders)
+  const [countdown, setCountdown] = useState('')
+  let upcomingOrderData: OrderDetail | null = null
+  if (orders && Object.keys(orders).length > 0) {
+    upcomingOrderData = orders[Object.keys(orders).slice().sort()[0]]
+  }
 
-  if (useRecoilValue(isSignedIn) || process.env.GATSBY_DEPLOY_ENVIRONMENT === 'DEVELOPMENT') {
+  if (!useRecoilValue(isSignedIn)) {
+    content = <Spinner />
+  } else if (
+    upcomingOrderData &&
+    DateTime.local() < DateTime.fromISO(upcomingOrderData.editBasketStartDate).set({ hour: 17 })
+  ) {
+    const startTime = DateTime.fromISO(upcomingOrderData.editBasketStartDate).set({ hour: 17 })
+    content = <CountDown startTime={startTime} />
+  } else {
     content = <MarketCard />
   }
 
