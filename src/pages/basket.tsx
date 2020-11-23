@@ -3,7 +3,7 @@ import { isSignedIn, myOrders } from '../store'
 
 import Basket from '../components/Basket'
 import BasketAccountShopLinks from '../components/BasketAccountShopLinks'
-import CountDown from '../components/CountDown'
+import Countdown from '../components/Countdown'
 import { DateTime } from 'luxon'
 import { Link } from 'gatsby'
 import Nav from '../components/Nav'
@@ -56,7 +56,7 @@ const BasketPage = () => {
       content = <Spinner />
     } else if (DateTime.local() < DateTime.fromISO(upcomingOrderData.editBasketStartDate).set({ hour: 17 })) {
       const startTime = DateTime.fromISO(upcomingOrderData.editBasketStartDate).set({ hour: 17 })
-      content = <CountDown startTime={startTime} />
+      content = <Countdown startTime={startTime} />
     } else if (DateTime.fromISO(upcomingOrderData.editBasketEndDate) < DateTime.local()) {
       // You can no longer edit your basket
       content = (
