@@ -18,8 +18,8 @@ const Countdown = ({ startTime }) => {
 
   content = (
     <div>
-      <div>The market opens at {startTime.toFormat(`h a 'on' LLL dd`)}</div>
-      <div>Come back in: {countdown || diff()} </div>
+      <h3>The market opens at {startTime.toFormat(`h a 'on' LLL dd`)}</h3>
+      <h3>Come back in: {countdown || diff()} </h3>
     </div>
   )
 
