@@ -65,11 +65,8 @@ jobs:
           GATSBY_DEPLOY_ENVIRONMENT: 'STAGING'
           GOOGLE_ANALYTICS_TRACKING_ID: ${{secrets.GOOGLE_ANALYTICS_TRACKING_ID}}
 
-      - name: Deploy
-        steps:
-          - uses: actions/checkout@v2
-          - name: Publish
-            uses: cloudflare/wrangler-action@1.3.0
-            with:
-              apiToken: ${{ secrets.CF_API_TOKEN }}
-              environment: 'staging'
+      - name: Publish
+        uses: cloudflare/wrangler-action@1.3.0
+        with:
+          apiToken: ${{ secrets.CF_API_TOKEN }}
+          environment: 'staging'
