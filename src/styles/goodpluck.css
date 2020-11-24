@@ -91,7 +91,7 @@ button {
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  font-family: Raleway, sans-serif;
+  font-family: hk_groteskregular, sans-serif;
   font-size: 1rem;
   cursor: pointer;
   text-align: center;
@@ -195,5 +195,5 @@ button:active {
 }
 
 .subheader--font {
-  font-family: Raleway, sans-serif;
+  font-family: hk_groteskregular, sans-serif;
 }

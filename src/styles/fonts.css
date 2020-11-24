@@ -1,128 +1,56 @@
 @font-face {
-  font-family: "Raleway";
-  src: url("../fonts/Raleway/Raleway-VariableFont_wght.ttf") format("truetype");
-  font-weight: 200;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "Raleway";
-  src: url("../fonts/Raleway/Raleway-VariableFont_wght.ttf") format("truetype");
-  font-weight: 400;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "Raleway";
-  src: url("../fonts/Raleway/Raleway-VariableFont_wght.ttf") format("truetype");
-  font-weight: 600;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "Raleway";
-  src: url("../fonts/Raleway/Raleway-VariableFont_wght.ttf") format("truetype");
-  font-weight: 800;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "Raleway";
-  src: url("../fonts/Raleway/Raleway-Italic-VariableFont_wght.ttf")
-    format("truetype");
-  font-weight: 200;
-  font-style: italic;
-}
-
-@font-face {
-  font-family: "Raleway";
-  src: url("../fonts/Raleway/Raleway-Italic-VariableFont_wght.ttf")
-    format("truetype");
-  font-weight: 400;
-  font-style: italic;
-}
-
-@font-face {
-  font-family: "Raleway";
-  src: url("../fonts/Raleway/Raleway-Italic-VariableFont_wght.ttf")
-    format("truetype");
-  font-weight: 600;
-  font-style: italic;
-}
-
-@font-face {
-  font-family: "Raleway";
-  src: url("../fonts/Raleway/Raleway-Italic-VariableFont_wght.ttf")
-    format("truetype");
-  font-weight: 800;
-  font-style: italic;
-}
-
-@font-face {
-  font-family: "Raleway";
-  src: url("../fonts/Raleway/Raleway-Italic-VariableFont_wght.ttf")
-    format("truetype");
-  font-weight: 900;
-  font-style: italic;
-}
-
-@font-face {
-  font-family: "fa solid";
-  src: url("../fonts/fa-solid-900.svg") format("svg");
-  src: url("../fonts/fa-solid-900.ttf") format("truetype");
-  src: url("../fonts/fa-solid-900.woff") format("woff");
-  src: url("../fonts/fa-solid-900.woff2") format("woff2");
+  font-family: 'fa solid';
+  src: url('../fonts/fa-solid-900.svg') format('svg');
+  src: url('../fonts/fa-solid-900.ttf') format('truetype');
+  src: url('../fonts/fa-solid-900.woff') format('woff');
+  src: url('../fonts/fa-solid-900.woff2') format('woff2');
   font-weight: 900;
   font-style: normal;
 }
 
 @font-face {
-  font-family: "Bebas Neue";
-  src: url("../fonts/BebasNeue-Regular.ttf") format("truetype");
+  font-family: 'Bebas Neue';
+  src: url('../fonts/BebasNeue-Regular.ttf') format('truetype');
   font-weight: 400;
   font-style: normal;
 }
 
 @font-face {
-  font-family: "hk_groteskbold";
-  src: url("../fonts/hkgrotesk/HKGrotesk-Bold.eot");
-  src: url("../fonts/hkgrotesk/HKGrotesk-Bold.eot?#iefix")
-      format("embedded-opentype"),
-    url("../fonts/hkgrotesk/HKGrotesk-Bold.woff2") format("woff2"),
-    url("../fonts/hkgrotesk/HKGrotesk-Bold.woff") format("woff");
+  font-family: 'hk_groteskbold';
+  src: url('../fonts/hkgrotesk/HKGrotesk-Bold.eot');
+  src: url('../fonts/hkgrotesk/HKGrotesk-Bold.eot?#iefix') format('embedded-opentype'),
+    url('../fonts/hkgrotesk/HKGrotesk-Bold.woff2') format('woff2'),
+    url('../fonts/hkgrotesk/HKGrotesk-Bold.woff') format('woff');
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
-  font-family: "hk_grotesklight";
-  src: url("../fonts/hkgrotesk/HKGrotesk-Light.eot");
-  src: url("../fonts/hkgrotesk/HKGrotesk-Light.eot?#iefix")
-      format("embedded-opentype"),
-    url("../fonts/hkgrotesk/HKGrotesk-Light.woff2") format("woff2"),
-    url("../fonts/hkgrotesk/HKGrotesk-Light.woff") format("woff");
+  font-family: 'hk_grotesklight';
+  src: url('../fonts/hkgrotesk/HKGrotesk-Light.eot');
+  src: url('../fonts/hkgrotesk/HKGrotesk-Light.eot?#iefix') format('embedded-opentype'),
+    url('../fonts/hkgrotesk/HKGrotesk-Light.woff2') format('woff2'),
+    url('../fonts/hkgrotesk/HKGrotesk-Light.woff') format('woff');
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
-  font-family: "hk_groteskregular";
-  src: url("../fonts/hkgrotesk/HKGrotesk-Regular.eot");
-  src: url("../fonts/hkgrotesk/HKGrotesk-Regular.eot?#iefix")
-      format("embedded-opentype"),
-    url("../fonts/hkgrotesk/HKGrotesk-Regular.woff2") format("woff2"),
-    url("../fonts/hkgrotesk/HKGrotesk-Regular.woff") format("woff");
+  font-family: 'hk_groteskregular';
+  src: url('../fonts/hkgrotesk/HKGrotesk-Regular.eot');
+  src: url('../fonts/hkgrotesk/HKGrotesk-Regular.eot?#iefix') format('embedded-opentype'),
+    url('../fonts/hkgrotesk/HKGrotesk-Regular.woff2') format('woff2'),
+    url('../fonts/hkgrotesk/HKGrotesk-Regular.woff') format('woff');
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
-  font-family: "hk_grotesksemibold";
-  src: url("../fonts/hkgrotesk/HKGrotesk-SemiBold.eot");
-  src: url("../fonts/hkgrotesk/HKGrotesk-SemiBold.eot?#iefix")
-      format("embedded-opentype"),
-    url("../fonts/hkgrotesk/HKGrotesk-SemiBold.woff2") format("woff2"),
-    url("../fonts/hkgrotesk/HKGrotesk-SemiBold.woff") format("woff");
+  font-family: 'hk_grotesksemibold';
+  src: url('../fonts/hkgrotesk/HKGrotesk-SemiBold.eot');
+  src: url('../fonts/hkgrotesk/HKGrotesk-SemiBold.eot?#iefix') format('embedded-opentype'),
+    url('../fonts/hkgrotesk/HKGrotesk-SemiBold.woff2') format('woff2'),
+    url('../fonts/hkgrotesk/HKGrotesk-SemiBold.woff') format('woff');
   font-weight: normal;
   font-style: normal;
 }
