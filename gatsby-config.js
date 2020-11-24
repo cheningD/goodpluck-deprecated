@@ -5,7 +5,6 @@
  */
 
 const path = require(`path`)
-const git = require('git-rev-sync')
 
 require('dotenv').config({
   path: `.env.${process.env.NODE_ENV}`,
