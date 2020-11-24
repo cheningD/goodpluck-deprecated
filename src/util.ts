@@ -81,5 +81,10 @@ export const saveMissiveDigestToLocalStorage = missiveDigest => {
 
 export const centsToString = (priceInCents: number) => {
   const num = priceInCents / 100.0
-  return num.toLocaleString('en-US', { style: 'currency', currency: 'USD' })
+  return num.toLocaleString('en-US', {
+    style: 'currency',
+    currency: 'USD',
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  })
 }
