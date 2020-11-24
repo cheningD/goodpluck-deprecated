@@ -79,5 +79,7 @@ export const saveMissiveDigestToLocalStorage = missiveDigest => {
   }
 }
 
-export const centsToString = (priceInCents: number) =>
-  priceInCents.toLocaleString('en-US', { style: 'currency', currency: 'USD' })
+export const centsToString = (priceInCents: number) => {
+  const num = priceInCents / 100.0
+  return num.toLocaleString('en-US', { style: 'currency', currency: 'USD' })
+}
