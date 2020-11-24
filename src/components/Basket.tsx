@@ -37,7 +37,7 @@ const Basket = ({ deliveryDate = null, orderFrequency = null, canEdit = false, a
               localFiles {
                 url
                 childImageSharp {
-                  fluid(maxWidth: 100px, maxHeight: 100px) {
+                  fluid(maxWidth: 100, maxHeight: 100) {
                     ...GatsbyImageSharpFluid_withWebp
                   }
                 }
