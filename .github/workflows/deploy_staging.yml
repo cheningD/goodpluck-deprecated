@@ -70,3 +70,5 @@ jobs:
         with:
           apiToken: ${{ secrets.CF_API_TOKEN_WORKERS_SITES }}
           environment: 'staging'
+        env:
+          USER: root
