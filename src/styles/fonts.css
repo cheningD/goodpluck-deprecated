@@ -1,14 +1,4 @@
 @font-face {
-  font-family: 'fa solid';
-  src: url('../fonts/fa-solid-900.svg') format('svg');
-  src: url('../fonts/fa-solid-900.ttf') format('truetype');
-  src: url('../fonts/fa-solid-900.woff') format('woff');
-  src: url('../fonts/fa-solid-900.woff2') format('woff2');
-  font-weight: 900;
-  font-style: normal;
-}
-
-@font-face {
   font-family: 'Bebas Neue';
   src: url('../fonts/BebasNeue-Regular.ttf') format('truetype');
   font-weight: 400;
