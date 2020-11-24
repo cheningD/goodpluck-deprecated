@@ -81,7 +81,7 @@ const BasketPreview = ({ numberOfVisibleItems }) => {
               localFiles {
                 url
                 childImageSharp {
-                  fluid(maxWidth: 400, maxHeight: 400) {
+                  fluid(maxWidth: 100, maxHeight: 100) {
                     ...GatsbyImageSharpFluid_withWebp
                   }
                 }
