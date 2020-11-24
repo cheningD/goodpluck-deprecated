@@ -1,4 +1,3 @@
-import { formatCurrencyString } from 'use-shopping-cart'
 import get from 'lodash-es/get'
 import isNil from 'lodash-es/isNil'
 import isObject from 'lodash-es/isObject'
@@ -80,4 +79,5 @@ export const saveMissiveDigestToLocalStorage = missiveDigest => {
   }
 }
 
-export const centsToString = (priceInCents: number) => formatCurrencyString({ value: priceInCents, currency: 'usd' })
+export const centsToString = (priceInCents: number) =>
+  priceInCents.toLocaleString('en-US', { style: 'currency', currency: 'USD' })
