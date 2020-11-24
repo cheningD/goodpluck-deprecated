@@ -2,7 +2,6 @@ import { BasketItemData, OrderDetail } from '../types'
 import { basketItems, myOrders } from '../store'
 import { useRecoilState, useRecoilValue } from 'recoil'
 
-import Chevron from './Chevron'
 import { DateTime } from 'luxon'
 import React from 'react'
 import Select from 'react-select'
@@ -34,11 +33,6 @@ const AddToCartSelect = styled(Select)`
   font-size: 0.875rem;
   margin-right: 16px;
   width: 7rem;
-`
-
-const StyledChevron = styled(Chevron)`
-  padding-right: 8px;
-  padding-top: 4px;
 `
 
 const AddToCartButton = ({ stripePriceId, unitPriceInCents, quantityInBasket }) => {
@@ -109,7 +103,6 @@ const AddToCartButton = ({ stripePriceId, unitPriceInCents, quantityInBasket }) 
       isSearchable={false}
       components={{
         IndicatorSeparator: null,
-        DropdownIndicator: () => <StyledChevron direction="down" />,
       }}
       value={{
         label: `Quantity: ${quantityInBasket}`,
