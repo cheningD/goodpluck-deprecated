@@ -110,10 +110,7 @@ const BasketItem = ({
           {isOrganic ? <Icon src="organic_icon.png" alt="organic" /> : ''}
           {isInSeason ? <Icon src="in_season_icon.png" alt="In seasion" /> : ''}
         </Title>
-        <Description>
-          {oneLiner}
-          {/* <ChevronSmall direction="down" />  //Todo: put this back in*/}
-        </Description>
+        <Description>{oneLiner}</Description>
         {controls}
       </Product>
     </ItemContainer>
