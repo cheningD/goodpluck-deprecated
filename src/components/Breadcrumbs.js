@@ -1,17 +1,17 @@
-import "./Breadcrumbs.css"
+import './Breadcrumbs.css'
 
-import * as React from "react"
+import * as React from 'react'
 
-import { listToClass, removeNonLetters } from "../util"
+import { listToClass, removeNonLetters } from '../util'
 
-import Chevron from "./Chevron"
-import { Link } from "gatsby"
-import { Portal } from "./Portal"
-import forEach from "lodash-es/forEach"
-import memoizeOne from "memoize-one"
-import omit from "lodash-es/omit"
-import reduce from "lodash-es/reduce"
-import { withDepartments } from "../hooks/useDepartments"
+import Chevron from './Chevron'
+import { Link } from 'gatsby'
+import { Portal } from './Portal'
+import forEach from 'lodash-es/forEach'
+//import memoizeOne from "memoize-one"
+import omit from 'lodash-es/omit'
+import reduce from 'lodash-es/reduce'
+import { withDepartments } from '../hooks/useDepartments'
 
 export class Breadcrumbs extends React.PureComponent {
   produceMenuRef = React.createRef()
@@ -56,10 +56,7 @@ export class Breadcrumbs extends React.PureComponent {
               <BreadCrumbMenu
                 onClick={this.toggleProduceMenu}
                 products={this.props.departments}
-                top={
-                  this.produceMenuRef.current?.getBoundingClientRect().bottom ||
-                  0
-                }
+                top={this.produceMenuRef.current?.getBoundingClientRect().bottom || 0}
               />
             )}
           </BreadCrumb>
@@ -85,33 +82,22 @@ const BreadCrumb = props => (
   <button
     ref={props.parentRef}
     onClick={props.onClick}
-    className={listToClass(["product--bread-crumb", props.classNames])}
+    className={listToClass(['product--bread-crumb', props.classNames])}
   >
     {props.children}
     {props.hideChevron ? (
-      ""
+      ''
     ) : (
-      <Chevron
-        classNames={"product--bread-crumb--chevron"}
-        direction={props.isOpen ? "up" : "down"}
-      />
+      <Chevron classNames={'product--bread-crumb--chevron'} direction={props.isOpen ? 'up' : 'down'} />
     )}
   </button>
 )
 
 const BreadCrumbMenu = props => (
-  <Portal
-    className="product--bread-crumb--menu__portal"
-    style={`top: ${props.top}px;`}
-  >
+  <Portal className="product--bread-crumb--menu__portal" style={`top: ${props.top}px;`}>
     <div className="product--bread-crumb--menu">
       {props.products.map(product => (
-        <Link
-          onClick={props.onClick}
-          className="product--bread-crumb--menu__link"
-          key={product.link}
-          to={product.link}
-        >
+        <Link onClick={props.onClick} className="product--bread-crumb--menu__link" key={product.link} to={product.link}>
           {product.title}
         </Link>
       ))}
@@ -125,13 +111,13 @@ class ProductTree {
   childMap = new Map()
 
   // this is not crazy heavy, but gets smashed as `<Breadcrumbs />` re-renders everytime `activeItem` changes
-  static create = memoizeOne(ProductTree._create)
+  static create = ProductTree._create
 
   static _create(sideBarLinks) {
     return reduce(
       sideBarLinks,
       (productTree, product) => {
-        productTree.products.push(omit(product, "children"))
+        productTree.products.push(omit(product, 'children'))
 
         const productHash = removeNonLetters(product.link)
         productTree.productMap.set(productHash, product)
@@ -143,7 +129,7 @@ class ProductTree {
 
         return productTree
       },
-      new ProductTree()
+      new ProductTree(),
     )
   }
 
@@ -178,13 +164,7 @@ class ProductTree {
 class ChildNode {
   static create(child, productHash) {
     const childHash = removeNonLetters(child.link)
-    return new ChildNode(
-      productHash,
-      child.link,
-      child.key,
-      child.title,
-      childHash
-    )
+    return new ChildNode(productHash, child.link, child.key, child.title, childHash)
   }
 
   constructor(productHash, link, key, title, hash) {
