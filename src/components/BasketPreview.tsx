@@ -3,7 +3,8 @@ import React, { useState } from 'react'
 import { graphql, useStaticQuery } from 'gatsby'
 
 import BasketItem from '../components/BasketItem'
-import Chevron from './Chevron'
+import ChevronDown from '../images/icons/chevron-down.svg'
+import ChevronUp from '../images/icons/chevron-up.svg'
 import Image from '../components/Image'
 import get from 'lodash-es/get'
 import styled from 'styled-components'
@@ -53,11 +54,6 @@ const Button = styled.button`
   padding: 16px;
   border: 2px solid #788474;
   border-radius: 4px;
-`
-
-const StyledChevron = styled(Chevron)`
-  padding-right: 8px;
-  padding-top: 4px;
 `
 
 const BasketPreview = ({ numberOfVisibleItems }) => {
@@ -124,14 +120,14 @@ const BasketPreview = ({ numberOfVisibleItems }) => {
   const showFewerBtn = (
     <Button type="button" onClick={() => setShowAllItems(false)}>
       See fewer items
-      <StyledChevron direction="up" />
+      <ChevronUp />
     </Button>
   )
 
   const showMoreBtn = (
     <Button type="button" onClick={() => setShowAllItems(true)}>
       {`See all ${items.length} items`}
-      <StyledChevron direction="down" />
+      <ChevronDown />
     </Button>
   )
 
