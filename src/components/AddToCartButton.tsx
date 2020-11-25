@@ -105,7 +105,7 @@ const AddToCartButton = ({ stripePriceId, unitPriceInCents, quantityInBasket }) 
         IndicatorSeparator: null,
       }}
       value={{
-        label: `Quantity: ${quantityInBasket}`,
+        label: `Qty: ${quantityInBasket}`,
         value: quantityInBasket,
       }}
     />
