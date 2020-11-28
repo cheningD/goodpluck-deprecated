@@ -1,7 +1,7 @@
 import { Card, Spinner } from '../components/StyledComponentLib'
 import { OrderDetail, SignedInUser } from '../types'
 import React, { useEffect, useRef, useState } from 'react'
-import { isSignedIn, myOrders, pastOrders, signedInUser } from '../store'
+import { isSignedIn, pastOrders, signedInUser } from '../store'
 import { useRecoilState, useRecoilValue } from 'recoil'
 
 import BasketDates from '../components/BasketDates'
@@ -71,7 +71,6 @@ const SelectDate = ({ setOrderDate, orderDates, selectedOrderDate }) => {
 const OrdersPage = () => {
   const mapContainerRef = useRef(null)
   const user: SignedInUser = useRecoilValue(signedInUser)
-  const orders = useRecoilValue(myOrders)
   const [oldOrders, setOldOrders] = useRecoilState(pastOrders)
   const [orderDate, setOrderDate] = useState(null)
 
@@ -112,7 +111,7 @@ const OrdersPage = () => {
 
   let content
   let hasOrders = false
-  if (orders && Object.keys(orders).length) {
+  if (oldOrders && Object.keys(oldOrders).length) {
     hasOrders = true
   }
   if (!useRecoilValue(isSignedIn)) {
