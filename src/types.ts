@@ -1,8 +1,11 @@
-interface SignedInUser {
+export interface SignedInUser {
   email: string
   first: string
   last: string
   orderFrequency: string // either "every week" or "every other week"
+  addressLine1: string
+  addressLine2?: string
+  zip: string
 }
 
 export interface SignedInData {
@@ -28,6 +31,8 @@ export interface OrderDetail {
   deliveryDate: string // in ISO format
   isFullfilled: boolean
   isPaused: boolean
+  basket?: [string, BasketItemAndProduct][] | null //A basket is represented asthe entries form of a js MAP e.g. [[key, object ] ...]
+  amountReceivedInCents: number | null
 }
 
 interface MissiveChatConfigUser {
@@ -45,6 +50,21 @@ export interface BasketItemData {
   stripePriceId: string
   quantity: number
   unitPriceInCents: number
+}
+
+export interface BasketItemAndProduct {
+  stripePriceId: string
+  quantity: number
+  unitPriceInCents: number
+  name: string
+  isLocalPluck: string
+  isOrganic: string
+  priceInCents: number
+  priceInDollars: string
+  productGroup: string
+  unitQuantity: number
+  unitLabel: string
+  supplier: string
 }
 
 export interface createSetupIntentResponseJSON {

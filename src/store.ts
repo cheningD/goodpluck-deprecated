@@ -23,6 +23,11 @@ export const myOrders = atom({
   default: null, // default value (aka initial value),
 })
 
+export const pastOrders = atom({
+  key: 'pastorders', // unique ID (with respect to other atoms/selectors)
+  default: null, // default value (aka initial value),
+})
+
 const basketDefault: Map<string, BasketItemData> | null = null
 
 export const basketItems = atom({
