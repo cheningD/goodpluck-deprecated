@@ -187,6 +187,24 @@ export const getOrders = async (): Promise<Record<string, OrderDetail> | null> =
   }
 }
 
+export const getOldOrders = async (): Promise<Record<string, OrderDetail> | null> => {
+  const response = await fetch(`${LOCAL_API_PREFIX}/api/pastorders`, {
+    credentials: 'same-origin',
+  })
+
+  if (!response.ok) {
+    return null
+  }
+
+  try {
+    const responseJSON: GoodPluckJSONResponse = await response.json()
+    return responseJSON.data
+  } catch (err) {
+    console.log(`Error in getOrders: ${err.message || err}`)
+    return null
+  }
+}
+
 export const getOrdersDemo = async (): Promise<OrderDetail | null> => {
   const response = await fetch(`${LOCAL_API_PREFIX}/api/orders/demo`, {
     credentials: 'same-origin',
