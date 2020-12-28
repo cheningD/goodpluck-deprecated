@@ -49,5 +49,3 @@ Deployed automatically with github actions.
 
 1. To deploy to staging (staging.goodpluck.com): `git push staging/<branch-name>`
 2. To Deploy to production (goodpluck.com): `git push live/<branch-name>`
-
-//Ignore: live/orders_page-f
