@@ -20,6 +20,9 @@ if (!process.env.CLOUDFLARE_ZONE_ID) {
 
 module.exports = {
   /* Your site config here */
+  flags: {
+    DEV_SSR: false,
+  },
   siteMetadata: {
     title: 'Goodpluck: Local Farm Groceries Delivered | Detroit',
     titleTemplate: '%s',
@@ -126,15 +129,8 @@ module.exports = {
     {
       resolve: `gatsby-source-airtable`,
       options: {
-        apiKey: process.env.AIRTABLE_API_KEY,
+        apiKey: 'keyBtiryUOaemY9jJ', //process.env.AIRTABLE_API_KEY,
         tables: [
-          {
-            baseId: process.env.AIRTABLE_BASE_ID,
-            tableName: `site_defaults`,
-            mapping: {
-              placeholderImage: `fileNode`,
-            },
-          },
           {
             baseId: process.env.AIRTABLE_BASE_ID,
             tableName: `productGroup`,
