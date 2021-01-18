@@ -54,6 +54,7 @@
     "yup": "^0.29.3"
   },
   "devDependencies": {
+    "@babel/plugin-transform-react-jsx-source": "^7.12.1",
     "@types/luxon": "^1.25.0",
     "@types/react-helmet": "^6.1.0",
     "@types/styled-components": "^5.1.4",

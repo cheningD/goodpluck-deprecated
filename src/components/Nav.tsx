@@ -177,19 +177,6 @@ const Cart = styled(Link)`
 `
 
 const Nav = () => {
-  const data = useStaticQuery(graphql`
-    {
-      allAirtable(filter: { table: { eq: "productv2" } }) {
-        nodes {
-          data {
-            isLocalPluck
-            priceInCents
-            stripePriceId
-          }
-        }
-      }
-    }
-  `)
   const [isMobileNavOpen, setMobileNavIsOpen] = React.useState(false)
   const [user, setUser] = useRecoilState(signedInUser)
   const [orders, setOrders] = useRecoilState(myOrders)
