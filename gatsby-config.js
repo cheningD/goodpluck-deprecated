@@ -140,12 +140,8 @@ module.exports = {
           {
             baseId: process.env.AIRTABLE_BASE_ID,
             tableName: `productv2`,
-            tableLinks: [`productGroup`, `supplier`],
+            tableLinks: [`productGroup`],
             mapping: { mainImage: `fileNode` },
-          },
-          {
-            baseId: process.env.AIRTABLE_BASE_ID,
-            tableName: `supplier`,
           },
           {
             baseId: process.env.AIRTABLE_BASE_ID,
