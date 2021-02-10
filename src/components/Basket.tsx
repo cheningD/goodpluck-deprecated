@@ -71,6 +71,7 @@ const Basket = ({ deliveryDate = null, orderFrequency = null, canEdit = false, a
     const product = productNodes[0].data
     const quantityLabel = `${product.unitQuantity || 1} ${product.unitLabel || ''}`
     // DOUBT: Why is the prop canEdit not passed down to BasketItem?
+    // TODO: BasketPreview.tsx should use the basket component, and the canEdit prop should be false
     return (
       <>
         {index === 0 ? '' : <ThinLineBreak />}
