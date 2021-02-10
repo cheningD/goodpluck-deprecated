@@ -130,13 +130,6 @@ module.exports = {
         tables: [
           {
             baseId: process.env.AIRTABLE_BASE_ID,
-            tableName: `site_defaults`,
-            mapping: {
-              placeholderImage: `fileNode`,
-            },
-          },
-          {
-            baseId: process.env.AIRTABLE_BASE_ID,
             tableName: `productGroup`,
             tableLinks: [`productv2`, `department_table`],
             mapping: { mainImage: `fileNode`, image2: `fileNode` },
@@ -144,12 +137,8 @@ module.exports = {
           {
             baseId: process.env.AIRTABLE_BASE_ID,
             tableName: `productv2`,
-            tableLinks: [`productGroup`, `supplier`],
+            tableLinks: [`productGroup`],
             mapping: { mainImage: `fileNode` },
-          },
-          {
-            baseId: process.env.AIRTABLE_BASE_ID,
-            tableName: `supplier`,
           },
           {
             baseId: process.env.AIRTABLE_BASE_ID,
