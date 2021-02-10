@@ -9,7 +9,7 @@ import {
 import { navigate } from 'gatsby'
 
 // For testing the api on localhost
-const LOCAL_API_PREFIX =
+export const LOCAL_API_PREFIX =
   process.env.GATSBY_DEPLOY_ENVIRONMENT === 'DEVELOPMENT' ? 'https://localhost.goodpluck.com' : ''
 
 export const createUser = async (params: Record<string, any>): Promise<CreateUserSuccessResponseJSON> => {

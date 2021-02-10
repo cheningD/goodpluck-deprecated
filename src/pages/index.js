@@ -16,7 +16,7 @@ const Body = styled.div`
 export default function Home() {
   return (
     <Body>
-      {/* <Notification /> */}
+      <Notification />
       <SEO />
       <Nav />
       <HeroSection />

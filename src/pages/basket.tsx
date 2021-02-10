@@ -48,15 +48,16 @@ const BasketPage = () => {
     const [intervalID, setIntervalID] = useState(0)
 
     let upcomingOrderData: OrderDetail | null = null
+
     if (orders && Object.keys(orders).length > 0) {
+      // DOUBT: What does this do here : Object.keys(orders).slice().sort()[0]
       upcomingOrderData = orders[Object.keys(orders).slice().sort()[0]]
     }
-
     if (!upcomingOrderData) {
-      content = <Spinner />
+      content = <Spinner data-testid="spinner" />
     } else if (DateTime.local() < DateTime.fromISO(upcomingOrderData.editBasketStartDate).set({ hour: 17 })) {
       const startTime = DateTime.fromISO(upcomingOrderData.editBasketStartDate).set({ hour: 17 })
-      content = <Countdown startTime={startTime} />
+      content = <Countdown startTime={startTime} data-testid="countdown" />
     } else if (DateTime.fromISO(upcomingOrderData.editBasketEndDate) < DateTime.local()) {
       // You can no longer edit your basket
       content = (
@@ -69,7 +70,7 @@ const BasketPage = () => {
       )
     } else {
       content = (
-        <BasketContainer>
+        <BasketContainer data-testid="editable-basket">
           <Basket canEdit={true} />
         </BasketContainer>
       )

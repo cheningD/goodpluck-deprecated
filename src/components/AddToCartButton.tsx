@@ -90,12 +90,11 @@ const AddToCartButton = ({ stripePriceId, unitPriceInCents, quantityInBasket }) 
       classNamePrefix="add-to-cart-select"
       options={options}
       onChange={option => {
+        let newBasket: Map<string, BasketItemData> = new Map(basket)
         if (option.value === 0) {
-          let newBasket: Map<string, BasketItemData> = new Map(basket)
           newBasket.delete(stripePriceId)
           setBasket(newBasket)
         } else {
-          let newBasket: Map<string, BasketItemData> = new Map(basket)
           newBasket.set(stripePriceId, { stripePriceId, quantity: option.value, unitPriceInCents })
           setBasket(newBasket)
         }
@@ -108,6 +107,7 @@ const AddToCartButton = ({ stripePriceId, unitPriceInCents, quantityInBasket }) 
         label: `Qty: ${quantityInBasket}`,
         value: quantityInBasket,
       }}
+      aria-label="add to cart"
     />
   )
 }

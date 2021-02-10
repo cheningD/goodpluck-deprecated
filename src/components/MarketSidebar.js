@@ -1,9 +1,9 @@
-import React, { useState } from "react"
+import React, { useState } from 'react'
 
-import { Link } from "react-scroll"
-import { get } from "lodash-es"
-import { sortByPathFunc } from "../util"
-import styled from "styled-components"
+import { Link } from 'react-scroll'
+import get from 'lodash-es/get'
+import { sortByPathFunc } from '../util'
+import styled from 'styled-components'
 
 const SidebarH1 = styled.h1`
   font-size: 1.25rem;
@@ -61,18 +61,16 @@ const SidebarH3 = styled(Link)`
 const MarketSidebar = ({ productGroupNodes, setDepartment }) => {
   // Sort Nodes
   productGroupNodes
-    .sort(sortByPathFunc("data.subcategory[0]"))
-    .sort(sortByPathFunc("data.sortOrderCategories"))
-    .sort(sortByPathFunc("data.sortOrderDepartments"))
+    .sort(sortByPathFunc('data.subcategory[0]'))
+    .sort(sortByPathFunc('data.sortOrderCategories'))
+    .sort(sortByPathFunc('data.sortOrderDepartments'))
 
   const isSubcategoryPresentMap = {}
   for (let node of productGroupNodes) {
-    isSubcategoryPresentMap[get(node, "data.subcategory[0]")] = node
+    isSubcategoryPresentMap[get(node, 'data.subcategory[0]')] = node
   }
 
-  const nodes = productGroupNodes.filter(
-    node => isSubcategoryPresentMap[get(node, "data.subcategory[0]")]
-  )
+  const nodes = productGroupNodes.filter(node => isSubcategoryPresentMap[get(node, 'data.subcategory[0]')])
 
   // FunctionsF
   const [selectedH1, _setSelectedH1] = useState(nodes[0].data.department[0])
@@ -80,9 +78,7 @@ const MarketSidebar = ({ productGroupNodes, setDepartment }) => {
   const [selectedH3, _setSelectedH3] = useState(nodes[0].data.subcategory[0])
 
   const setSelectedH3 = subcategory => {
-    const selectedNodeExample = nodes.filter(
-      node => node.data.subcategory[0] === subcategory
-    )[0]
+    const selectedNodeExample = nodes.filter(node => node.data.subcategory[0] === subcategory)[0]
 
     _setSelectedH3(selectedNodeExample.data.subcategory[0])
     _setSelectedH2(selectedNodeExample.data.category[0])
@@ -91,9 +87,7 @@ const MarketSidebar = ({ productGroupNodes, setDepartment }) => {
   }
 
   const setSelectedH2 = category => {
-    const selectedNodeExample = nodes.filter(
-      node => node.data.category[0] === category
-    )[0]
+    const selectedNodeExample = nodes.filter(node => node.data.category[0] === category)[0]
     _setSelectedH3(selectedNodeExample.data.subcategory[0])
     _setSelectedH2(selectedNodeExample.data.category[0])
     _setSelectedH1(selectedNodeExample.data.department[0])
@@ -101,9 +95,7 @@ const MarketSidebar = ({ productGroupNodes, setDepartment }) => {
   }
 
   const setSelectedH1 = department => {
-    const selectedNodeExample = nodes.filter(
-      node => node.data.department[0] === department
-    )[0]
+    const selectedNodeExample = nodes.filter(node => node.data.department[0] === department)[0]
     _setSelectedH3(selectedNodeExample.data.subcategory[0])
     _setSelectedH2(selectedNodeExample.data.category[0])
     _setSelectedH1(selectedNodeExample.data.department[0])
@@ -115,8 +107,9 @@ const MarketSidebar = ({ productGroupNodes, setDepartment }) => {
       .filter(node => node.data.category[0] === category)
       .map(node => node.data.subcategory[0])
       .filter((value, index, self) => self.indexOf(value) === index)
-      .map(subcategory => (
+      .map((subcategory, i) => (
         <SidebarH3
+          key={i}
           to={subcategory}
           containerId="MarketContainer"
           spy={true}
@@ -124,7 +117,7 @@ const MarketSidebar = ({ productGroupNodes, setDepartment }) => {
           offset={-70}
           duration={500}
           selected={selectedH3 === subcategory}
-          parentSelected={selectedH2 === category}
+          parentselected={selectedH2 === category}
           onClick={() => setSelectedH3(subcategory)}
         >
           {subcategory}
@@ -136,8 +129,8 @@ const MarketSidebar = ({ productGroupNodes, setDepartment }) => {
       .filter(node => node.data.department[0] === department)
       .map(node => node.data.category[0])
       .filter((value, index, self) => self.indexOf(value) === index)
-      .map(category => (
-        <>
+      .map((category, i) => (
+        <div key={i}>
           <SidebarH2
             to={category}
             containerId="MarketContainer"
@@ -146,28 +139,25 @@ const MarketSidebar = ({ productGroupNodes, setDepartment }) => {
             offset={-70}
             duration={500}
             selected={selectedH2 === category}
-            parentSelected={selectedH1 === department}
+            parentselected={selectedH1 === department}
             onClick={() => setSelectedH2(category)}
           >
             {category}
           </SidebarH2>
           {getSubCategoriesForCategory(category)}
-        </>
+        </div>
       ))
 
   const uniqueHeaders = nodes
     .map(node => node.data.department[0])
     .filter((value, index, self) => self.indexOf(value) === index)
-    .map(department => (
-      <>
-        <SidebarH1
-          selected={selectedH1 === department}
-          onClick={() => setSelectedH1(department)}
-        >
+    .map((department, i) => (
+      <div key={i}>
+        <SidebarH1 selected={selectedH1 === department} onClick={() => setSelectedH1(department)}>
           {department}
         </SidebarH1>
         {getCategoriesForDepartment(department)}
-      </>
+      </div>
     ))
 
   return <>{uniqueHeaders}</>

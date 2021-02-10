@@ -145,9 +145,7 @@ const Notification = () => {
         <Section>
           <Grid>
             <NotificationContent>
-              <NotificationText>
-                Happy Holidays! Next orders for Dec 19 and Jan 2. No baskets will be going out on Sat Dec 26.
-              </NotificationText>
+              <NotificationText>Now Delivering to Detroit!</NotificationText>
             </NotificationContent>
           </Grid>
         </Section>
