@@ -57,14 +57,14 @@ const MarketProductList = ({ subcategoryNodes, productGroupNodes, department, fi
     return filteredProductGroupNodes
       .filter(node => get(node, 'data.subcategory[0]', '') === subcategory)
 
-      .map(productGroup => {
+      .map((productGroup, i) => {
         const productData = get(productGroup, 'data.productv2[0].data', {})
 
         const quantityLabel = `${productData.unitQuantity || 1} ${productData.unitLabel || ''}`
 
         let stripePriceIdForEnv = productData.stripePriceId
         return (
-          <>
+          <div key={i}>
             <BasketItem
               canEdit={true}
               childImageSharp={get(productData, 'mainImage.localFiles[0].childImageSharp')}
@@ -81,7 +81,7 @@ const MarketProductList = ({ subcategoryNodes, productGroupNodes, department, fi
               quantityInBasket={useRecoilValue(basketItems)?.get(stripePriceIdForEnv)?.quantity || 0}
             />
             <ThinLineBreak />
-          </>
+          </div>
         )
       })
   }
@@ -94,7 +94,7 @@ const MarketProductList = ({ subcategoryNodes, productGroupNodes, department, fi
   const categorySections = categories.map(category => {
     const subcategorySections = subcategoryNodes
       .filter(node => get(node, 'data.category[0]') === category)
-      .map(node => {
+      .map((node, i) => {
         const subcategory = get(node, 'data.name')
         if (!subcategory) {
           return null
@@ -104,10 +104,10 @@ const MarketProductList = ({ subcategoryNodes, productGroupNodes, department, fi
         }
 
         return (
-          <>
+          <div key={i}>
             <MarketH2 id={subcategory}>{subcategory}</MarketH2>
             {getProductsBySubcategory(subcategory)}
-          </>
+          </div>
         )
       })
 

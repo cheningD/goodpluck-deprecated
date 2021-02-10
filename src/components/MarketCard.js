@@ -108,7 +108,7 @@ const MarketCard = () => {
   let productGroupNodes = data.productGroups.nodes.filter(node => get(node, 'data.productv2[0].data.available', false))
 
   return (
-    <Container>
+    <Container data-testid="market-card">
       <DetailCell2>Filter by:</DetailCell2>
       <DetailCell2 right>
         <FilterGroup options={filters} updateOptions={setFilters} />
@@ -188,7 +188,7 @@ margin-right: 8px;
 `
 
 const FilterGroup = ({ options, updateOptions }) => {
-  const filterItems = Object.keys(options).map(label => {
+  const filterItems = Object.keys(options).map((label, index) => {
     let imgSrc = 'checkmark.png'
     const imgAlt = `Toggle ${label}`
 
@@ -203,7 +203,11 @@ const FilterGroup = ({ options, updateOptions }) => {
     const toggleValue = {}
     toggleValue[label] = !options[label]
     return (
-      <FilterItem checked={options[label]} onClick={() => updateOptions(Object.assign({}, options, toggleValue))}>
+      <FilterItem
+        checked={options[label]}
+        onClick={() => updateOptions(Object.assign({}, options, toggleValue))}
+        key={index}
+      >
         <Checkmark src={imgSrc} alt={imgAlt} checked={options[label]} />
         <span>{label}</span>
       </FilterItem>

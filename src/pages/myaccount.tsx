@@ -255,13 +255,9 @@ const UpcomingBasket = ({
   chargedDate,
   deliveryDate,
   isPaused,
-  isCancelled,
-  cancelledReason,
 }) => {
   let message
-  if (isCancelled) {
-    message = <span>{`${cancelledReason}`}</span>
-  } else if (isPaused) {
+  if (isPaused) {
     message = (
       <span>
         Your next basket has been <Bold>paused.</Bold>

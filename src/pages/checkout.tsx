@@ -32,7 +32,7 @@ import Image from '../components/Image'
 import Nav from '../components/Nav'
 import { OrderDetail } from '../types'
 import SEO from '../components/SEO'
-import { loadStripe } from '@stripe/stripe-js'
+import { loadStripe } from '@stripe/stripe-js/pure'
 import startCase from 'lodash-es/startCase'
 import styled from 'styled-components'
 import { useRecoilValue } from 'recoil'
@@ -153,8 +153,8 @@ const FieldWrapper = styled.div`
 
 const FormField = ({ name, placeholder }) => (
   <FieldWrapper>
-    <TextInput type="text" name={name} placeholder={placeholder} />
-    <ErrorMessage name={name} component="div" />
+    <TextInput type="text" name={name} placeholder={placeholder} data-testid={`textinput-${name}`} />
+    <ErrorMessage name={name} component="div" data-testid={`error-${name}`} />
   </FieldWrapper>
 )
 
@@ -193,24 +193,29 @@ interface OrderSummaryProps {
 }
 
 export const OrderSummary = ({ orderFrequency }: OrderSummaryProps) => {
+  // DOUBT: Why do we need defaultOrder? Where does this come from?
   const defaultOrder: OrderDetail | null = null
   const [orderDemo, setOrderDemo] = useState(defaultOrder)
   const [fetchFailed, setFetchFailed] = useState(false)
 
   useEffect(() => {
+    let isMounted = true
     async function fetchData() {
       const orderData: OrderDetail | null = await getOrdersDemo()
-      if (orderData) {
-        setFetchFailed(false)
-        setOrderDemo(orderData)
-      } else {
-        setFetchFailed(true)
+      if (isMounted) {
+        if (orderData) {
+          setFetchFailed(false)
+          setOrderDemo(orderData)
+        } else {
+          setFetchFailed(true)
+        }
       }
     }
-
-    if (!fetchFailed && orderDemo === null) {
+    // If defaultOrder is null, is this required? Because this hook is ran only once and that is right after the component mounted
+    if (!fetchFailed && orderDemo === null && isMounted) {
       fetchData()
     }
+    return () => (isMounted = false)
   }, [])
 
   return (
@@ -259,18 +264,17 @@ const BackButton = styled(Arrow)`
   filter: invert(100%) sepia(1%) saturate(7500%) hue-rotate(157deg) brightness(110%) contrast(114%);
 `
 
-const CheckoutForm = ({ onSubmit, handleChangeStripe, stripeError }) => {
+export const CheckoutForm = ({ onSubmit, handleChangeStripe, stripeError }) => {
   const email = useRecoilValue(onboardingEmail)
   const zip = useRecoilValue(onboardingZip)
   const orderFrequency = useRecoilValue(onboardingOrderFrequency)
-
   const checkoutSchema = yup.object().shape({
     first: yup.string().required('Please enter your first name').test('len', 'Too Long!', getMaxlengthFunc(100)),
     last: yup.string().required('Please enter your last name').test('len', 'Too Long!', getMaxlengthFunc(100)),
     email: yup
       .string()
       .required('Please enter your email')
-      .email(`That email doesn't look right`)
+      .email("That email doesn't look right")
       .test('len', 'Too Long!', getMaxlengthFunc(300)),
     addressLine1: yup
       .string()
@@ -281,7 +285,7 @@ const CheckoutForm = ({ onSubmit, handleChangeStripe, stripeError }) => {
     zip: yup
       .string()
       .required('We need your 5 digit zip!')
-      .matches(VALID_ZIP_PATTERN, `That doesn't look quite right. Please enter your 5-digit zip code.`),
+      .matches(VALID_ZIP_PATTERN, "That doesn't look quite right. Please enter your 5-digit zip code."),
   })
 
   return (
@@ -301,7 +305,7 @@ const CheckoutForm = ({ onSubmit, handleChangeStripe, stripeError }) => {
       {({ isSubmitting, errors, touched }) => {
         return (
           <Form>
-            <Link to="/getstarted#deliveryPreferences">
+            <Link to="/getstarted#deliveryPreferences" data-testid="delivery-preferences-link">
               <BackButton />
             </Link>
             <Header>Finish Creating Your Account</Header>
@@ -321,7 +325,7 @@ const CheckoutForm = ({ onSubmit, handleChangeStripe, stripeError }) => {
             <CardFieldset>
               <CardElement id="card-element" options={{ style: CardElementStyle }} onChange={handleChangeStripe} />
             </CardFieldset>
-            {stripeError ? <StripeError>{stripeError}</StripeError> : ''}
+            {stripeError ? <StripeError data-testid="stripe-error">{stripeError}</StripeError> : ''}
             <Note>{`Please note: You will recieve an order summary email the day before your card is charged`}</Note>
             <SubmitButton as="button" type="submit" disabled={isSubmitting}>
               Confirm Order And Customize Basket
@@ -370,7 +374,7 @@ const stripePromise = loadStripe(stripe_api_key)
 
 // POST the token ID to your backend.
 
-const Checkout = () => {
+export const Checkout = () => {
   const shoppingFor = useRecoilValue(onboardingShoppingFor)
   const myCauses = useRecoilValue(onboardingMyCauses)
   const notifyDeliveryDates = useRecoilValue(onboardingNotifyDeliveryDates)
@@ -391,11 +395,11 @@ const Checkout = () => {
   // Handle form submission.
   const handleSubmit = async value => {
     const card = elements.getElement(CardElement)
-    const result = await stripe.createToken(card)
-    if (result.error) {
+    const createTokenResult = await stripe.createToken(card)
+    if (createTokenResult.error) {
       // Inform the user if there was an error.
-      setStripeError(result.error.message)
-      console.info('GP Stripe Error', setStripeError(result.error.message))
+      setStripeError(createTokenResult.error.message)
+      console.info('GP Stripe Error', setStripeError(createTokenResult.error.message))
     } else {
       setStripeError(null)
       // Send the token to your server.
@@ -407,42 +411,43 @@ const Checkout = () => {
         last: value.last,
         phone: value.phone,
         zip: value.zip,
-        stripeToken: result.token.id,
+        stripeToken: createTokenResult.token.id,
         orderFrequency: orderFrequency,
         notifyDeliveryDates: notifyDeliveryDates,
         shoppingFor: shoppingFor,
         myCauses: myCauses,
       }
-
-      if (value.addressLine2) {
-        createUserParams.addressLine2 = value.addressLine2
-      }
+      // DOUBT: Is this necessary? Arent we doing the same above?
+      // if (value.addressLine2) {
+      //   createUserParams.addressLine2 = value.addressLine2
+      // }
       const createUserResponseJson = await createUser(createUserParams)
-      if (true) {
-        const clientSecret = createUserResponseJson.data.createSetupIntentResponseJSON.client_secret
-        const result = await stripe.confirmCardSetup(clientSecret, {
-          payment_method: {
-            card: card,
-            billing_details: {
-              name: `${value.first} ${value.last}`,
-            },
+      // DOUBT: Why do we need this?
+      // if (true) {
+      const clientSecret = createUserResponseJson.data.createSetupIntentResponseJSON.client_secret
+      const cardSetupResponse = await stripe.confirmCardSetup(clientSecret, {
+        payment_method: {
+          card: card,
+          billing_details: {
+            name: `${value.first} ${value.last}`,
           },
-        })
-
-        if (result.error) {
-          // Inform the user if there was an error.
-          setStripeError(result.error.message)
-          console.info('GP Card Error', setStripeError(result.error.message))
-        } else {
-          // Verify result.setupIntent.status === succeeded and then navigate to confirmation page
-          navigate('/myaccount')
-        }
+        },
+      })
+      if (cardSetupResponse.error) {
+        // Inform the user if there was an error.
+        setStripeError(cardSetupResponse.error.message)
+        console.info('GP Card Error', setStripeError(cardSetupResponse.error.message))
+      } else {
+        // Verify cardSetupResponse.setupIntent.status === succeeded and then navigate to confirmation page
+        navigate('/myaccount')
       }
+      // }
     }
   }
 
   return (
     <>
+      <Nav />
       <SEO title="Checkout" />
       <Columns>
         <Column>
@@ -461,11 +466,9 @@ const Checkout = () => {
     </>
   )
 }
-
+// DOUBT: is to SEO components necessary here? Line 446 has one
 const CheckoutPage = () => (
   <Elements stripe={stripePromise}>
-    <SEO title="Confirm Order | Goodpluck" />
-    <Nav />
     <Checkout />
   </Elements>
 )

@@ -33,8 +33,6 @@ export interface OrderDetail {
   isPaused: boolean
   basket?: [string, BasketItemAndProduct][] | null //A basket is represented asthe entries form of a js MAP e.g. [[key, object ] ...]
   amountReceivedInCents: number | null
-  isCancelled: boolean
-  cancelledReason: string | null
 }
 
 interface MissiveChatConfigUser {
