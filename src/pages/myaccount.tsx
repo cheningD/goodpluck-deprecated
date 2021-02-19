@@ -3,13 +3,18 @@ import * as yup from 'yup'
 import {
   Bold,
   Card,
-  DetailCell2,
+  Column,
+  DangerButton,
   Error,
+  H1,
+  H2,
   Header,
+  PrimaryButton,
+  Row,
+  SecondaryButton,
   Spinner,
   StyledErrorMessage,
   StyledField,
-  SubmitButton,
 } from '../components/StyledComponentLib'
 import { Form, Formik } from 'formik'
 import React, { useState } from 'react'
@@ -30,6 +35,8 @@ import { useRecoilValue } from 'recoil'
 const Page = styled.div`
   background-color: var(--light-bg);
   min-height: 100vh;
+  width: 100%;
+  min-width: 320px;
 `
 const Content = styled.div`
   width: 100%;
@@ -40,53 +47,15 @@ const Content = styled.div`
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
-`
 
-const Section = styled.section`
-  margin: 0;
-`
-const StyledCard = styled(Card)`
-  width: 100%;
-  margin: 32px 0;
-`
-
-const Button = styled(SubmitButton)`
-  background-color: var(--white);
-  border-color: var(--blackish);
-  margin: 16px auto;
-  width: 100%;
-  padding: 0 16px;
-  max-width: 300px;
-  height: 50px;
-  text-transform: capitalize;
-  font-family: hk_grotesksemibold, sans-serif;
-  font-size: 1rem;
-`
-
-const DangerButton = styled(Button)`
-  border-color: #e34843;
+  // Phone screens
+  @media screen and (max-width: 479px) {
+    padding: 0 8px;
+  }
 `
 
 const ErrorMessage = styled(StyledErrorMessage)`
   color: var(--blackish);
-`
-
-const H1 = styled.h1`
-  color: var(--blackish);
-  font-family: hk_grotesksemibold, sans-serif;
-  font-size: 2rem;
-  margin: 0;
-  padding: 32px 0;
-`
-
-const H2 = styled.h2`
-  color: var(--blackish);
-  font-family: hk_grotesksemibold, sans-serif;
-  font-size: 1.75rem;
-`
-
-const Logout = styled.a`
-  margin: 16px;
 `
 
 const MyAccount = () => {
@@ -119,7 +88,8 @@ const MyAccount = () => {
       <>
         <H1>{`Hi ${user.first},`}</H1>
         <UpcomingBasket {...upcomingOrderData} />
-        <YourPlan orderFrequency={user.orderFrequency} />
+        <MyPlan orderFrequency={user.orderFrequency} />
+        <BillingInfo />
       </>
     )
   }
@@ -137,8 +107,10 @@ const MyAccount = () => {
       <SEO title="My Account | Goodpluck" />
       <Nav />
       <BasketAccountShopLinks />
-      <Content>{content}</Content>
-      <Logout href="/logout">Logout</Logout>
+      <Content>
+        {content}
+        <a href="/logout">Logout</a>
+      </Content>
     </Page>
   )
 }
@@ -173,9 +145,9 @@ const RestartMySubscription = ({}) => {
       >
         <Form>
           {errorText ? <Error>{errorText}</Error> : ''}
-          <Button as="button" type="submit">
+          <PrimaryButton as="button" type="submit">
             Restart my subscription
-          </Button>
+          </PrimaryButton>
         </Form>
       </Formik>
     </div>
@@ -185,7 +157,7 @@ const RestartMySubscription = ({}) => {
 const PauseMySubscription = ({}) => {
   const [errorText, setErrorText] = useState('')
   return (
-    <div>
+    <>
       <Formik
         initialValues={{ reason: '' }}
         validationSchema={handleEditSubscriptionSchema}
@@ -216,32 +188,88 @@ const PauseMySubscription = ({}) => {
           </DangerButton>
         </Form>
       </Formik>
-    </div>
+    </>
   )
 }
 
-const YourPlan = ({ orderFrequency }) => {
+const MyPlan = ({ orderFrequency }) => {
   const [showManage, setShowManage] = useState(false)
+  if (showManage) {
+    return (
+      <>
+        <H2>My plan</H2>
+        <Card>
+          <PauseMySubscription />
+          <SecondaryButton as="button" onClick={() => setShowManage(!showManage)}>
+            Hide
+          </SecondaryButton>
+        </Card>
+      </>
+    )
+  } else {
+    return (
+      <>
+        <H2>My plan</H2>
+        <Card>
+          <Row>
+            <Column flex="2">
+              <div>
+                Delivery Day: <strong>Saturday</strong>
+              </div>
+              <div>
+                Frequency: <strong>{startCase(orderFrequency)}</strong>
+              </div>
+            </Column>
+            <Column>
+              <SecondaryButton as="button" onClick={() => setShowManage(!showManage)}>
+                Pause Subscription
+              </SecondaryButton>
+            </Column>
+          </Row>
+        </Card>
+      </>
+    )
+  }
+}
+
+const BillingInfo = ({}) => {
+  const [showEdit, setShowEdit] = useState(false)
+  const defaultView = (
+    <Card>
+      <div>
+        <Row>
+          <Column flex={'3'}>
+            <div>Expires on 9/2026</div>
+            <div>Billing Zip: 48206</div>
+            <div>Card: **** **** **** 9596</div>
+          </Column>
+          <Column alignItems="flex-end">
+            <SecondaryButton as="button" onClick={() => setShowEdit(true)}>
+              Edit
+            </SecondaryButton>
+          </Column>
+        </Row>
+      </div>
+    </Card>
+  )
+  const editView = (
+    <Card>
+      <div>Credit or debit card</div>
+      <div>Stripe form goes here</div>
+      <PrimaryButton as="button" onClick={() => setShowEdit(false)}>
+        Update
+      </PrimaryButton>
+      <SecondaryButton as="button" onClick={() => setShowEdit(false)}>
+        Cancel
+      </SecondaryButton>
+    </Card>
+  )
+
   return (
-    <Section>
-      <H2>Your Plan</H2>
-      <StyledCard>
-        <DetailCell2>Delivery Day</DetailCell2>
-        <DetailCell2 bold right>
-          Saturday
-        </DetailCell2>
-        <DetailCell2>Frequency</DetailCell2>
-        <DetailCell2 bold right>
-          {startCase(orderFrequency)}
-        </DetailCell2>
-      </StyledCard>
-
-      {showManage ? <PauseMySubscription /> : ''}
-
-      <Button as="button" onClick={() => setShowManage(!showManage)}>
-        {showManage ? `Hide` : `Manage`}
-      </Button>
-    </Section>
+    <>
+      <H2>Billing Info</H2>
+      {showEdit ? editView : defaultView}
+    </>
   )
 }
 
@@ -296,20 +324,22 @@ const UpcomingBasket = ({
   }
 
   return (
-    <Section>
-      <H2>Your upcoming basket</H2>
-      {message}
-      <BasketDates
-        scheduledStatus={scheduledStatus}
-        editStatus={editStatus}
-        chargedStatus={chargedStatus}
-        deliveredStatus={deliveredStatus}
-        editBasketStartDate={editBasketStartDate}
-        editBasketEndDate={editBasketEndDate}
-        chargedDate={chargedDate}
-        deliveryDate={deliveryDate}
-        isPaused={isPaused}
-      />
-    </Section>
+    <>
+      <H2>My Next Basket</H2>
+      <Card>
+        {message}
+        <BasketDates
+          scheduledStatus={scheduledStatus}
+          editStatus={editStatus}
+          chargedStatus={chargedStatus}
+          deliveredStatus={deliveredStatus}
+          editBasketStartDate={editBasketStartDate}
+          editBasketEndDate={editBasketEndDate}
+          chargedDate={chargedDate}
+          deliveryDate={deliveryDate}
+          isPaused={isPaused}
+        />
+      </Card>
+    </>
   )
 }
