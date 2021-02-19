@@ -28,6 +28,7 @@ import { Link } from 'gatsby'
 import Nav from '../components/Nav'
 import { OrderDetail } from '../types'
 import SEO from '../components/SEO'
+import { StripeUpdateCard } from '../components/StripeUpdateCard'
 import startCase from 'lodash-es/startCase'
 import styled from 'styled-components'
 import { useRecoilValue } from 'recoil'
@@ -222,7 +223,7 @@ const MyPlan = ({ orderFrequency }) => {
             </Column>
             <Column>
               <SecondaryButton as="button" onClick={() => setShowManage(!showManage)}>
-                Pause Subscription
+                Pause subscription
               </SecondaryButton>
             </Column>
           </Row>
@@ -255,10 +256,7 @@ const BillingInfo = ({}) => {
   const editView = (
     <Card>
       <div>Credit or debit card</div>
-      <div>Stripe form goes here</div>
-      <PrimaryButton as="button" onClick={() => setShowEdit(false)}>
-        Update
-      </PrimaryButton>
+      <StripeUpdateCard />
       <SecondaryButton as="button" onClick={() => setShowEdit(false)}>
         Cancel
       </SecondaryButton>

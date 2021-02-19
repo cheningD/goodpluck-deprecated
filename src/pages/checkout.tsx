@@ -417,13 +417,9 @@ export const Checkout = () => {
         shoppingFor: shoppingFor,
         myCauses: myCauses,
       }
-      // DOUBT: Is this necessary? Arent we doing the same above?
-      // if (value.addressLine2) {
-      //   createUserParams.addressLine2 = value.addressLine2
-      // }
+
       const createUserResponseJson = await createUser(createUserParams)
-      // DOUBT: Why do we need this?
-      // if (true) {
+
       const clientSecret = createUserResponseJson.data.createSetupIntentResponseJSON.client_secret
       const cardSetupResponse = await stripe.confirmCardSetup(clientSecret, {
         payment_method: {
