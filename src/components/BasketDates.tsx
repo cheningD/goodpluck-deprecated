@@ -1,18 +1,6 @@
-import { Card } from '../components/StyledComponentLib'
 import { DateTime } from 'luxon'
 import React from 'react'
 import styled from 'styled-components'
-
-const StyledCard = styled(Card)`
-  width: 100%;
-  margin: 32px 0;
-`
-
-const Text = styled.div`
-  font-family: hk_grotesklight, sans-serif;
-  width: 100%;
-  text-align: left;
-`
 
 const Container = styled.div`
   width: 100%;
@@ -108,22 +96,25 @@ const DetailList = styled.ul`
   min-width: 150px;
   overflow: hidden;
   text-overflow: ellipsis;
-  margin-left: 8px;
   flex-grow: 4;
 `
 const DetailListItem = styled.li`
-  font-size: 14px;
   list-style: none;
   line-height: 30px;
   display: block;
-  padding-left: 8px;
+  padding-left: 16px;
 
   span {
     line-height: inherit;
     text-align: right;
     padding-left: 16px;
-    float: right;
     color: #5c5c5c;
+  }
+
+  // Phone screens
+  @media screen and (max-width: 479px) {
+    font-size: 15px;
+    padding-left: 8px;
   }
 `
 
@@ -143,31 +134,29 @@ const BasketDates = ({
   isPaused,
 }) => {
   return (
-    <StyledCard>
-      <Container>
-        <CheckboxList>
-          <CheckboxListItem active={scheduledStatus === 'active'} done={scheduledStatus === 'done'} />
-          <CheckboxListItem active={editStatus === 'active'} done={editStatus === 'done'} />
-          <CheckboxListItem active={chargedStatus === 'active'} done={chargedStatus === 'done'} />
-          <CheckboxListItem active={deliveredStatus === 'active'} done={deliveredStatus === 'done'} />
-        </CheckboxList>
-        <DetailList>
-          <DetailListItem>{scheduledStatus === 'done' ? `Scheduled` : `Confirm your order`}</DetailListItem>
-          <DetailListItem>
-            Customize your basket
-            <span>
-              {isoToNiceDate(editBasketStartDate, 'LLL dd')} - {isoToNiceDate(editBasketEndDate, 'LLL d')}
-            </span>
-          </DetailListItem>
-          <DetailListItem>
-            Card charged<span>{isoToNiceDate(chargedDate)}</span>
-          </DetailListItem>
-          <DetailListItem>
-            On your doorstep<span>{isoToNiceDate(deliveryDate)}</span>
-          </DetailListItem>
-        </DetailList>
-      </Container>
-    </StyledCard>
+    <Container>
+      <CheckboxList>
+        <CheckboxListItem active={scheduledStatus === 'active'} done={scheduledStatus === 'done'} />
+        <CheckboxListItem active={editStatus === 'active'} done={editStatus === 'done'} />
+        <CheckboxListItem active={chargedStatus === 'active'} done={chargedStatus === 'done'} />
+        <CheckboxListItem active={deliveredStatus === 'active'} done={deliveredStatus === 'done'} />
+      </CheckboxList>
+      <DetailList>
+        <DetailListItem>{scheduledStatus === 'done' ? `Scheduled` : `Confirm your order`}</DetailListItem>
+        <DetailListItem>
+          Edit your basket
+          <span>
+            {isoToNiceDate(editBasketStartDate, 'LLL dd')} - {isoToNiceDate(editBasketEndDate, 'LLL d')}
+          </span>
+        </DetailListItem>
+        <DetailListItem>
+          Card charged<span>{isoToNiceDate(chargedDate)}</span>
+        </DetailListItem>
+        <DetailListItem>
+          On your doorstep<span>{isoToNiceDate(deliveryDate)}</span>
+        </DetailListItem>
+      </DetailList>
+    </Container>
   )
 }
 

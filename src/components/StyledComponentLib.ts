@@ -24,6 +24,80 @@ export const DesktopViewOnly = styled.div`
   }
 `
 
+export const Row = styled.div`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 100%;
+`
+
+interface ColumnProps {
+  flex?: string
+  alignItems?: string
+}
+
+export const Column = styled.div<ColumnProps>`
+  display: flex;
+  flex-direction: column;
+  flex-basis: 100%;
+  justify-content: center;
+  ${props => (props.flex ? `flex: ${props.flex};` : 'flex: 1;')}
+  ${props => (props.alignItems ? `align-items: ${props.alignItems};` : '')}
+`
+
+interface ColumnProps {
+  flex?: string
+  alignItems?: string
+}
+
+export const PrimaryButton = styled.button`
+  background-color: var(--peach-bg);
+  border-radius: 4px;
+  border: 2px solid var(--blackish);
+  color: var(--blackish);
+  display: flex;
+  font-family: hk_grotesksemibold, sans-serif;
+  font-size: 1rem;
+  justify-content: center;
+  padding: 8px 0px;
+  margin: 16px 0;
+  width: 100%;
+
+  &:hover,
+  :focus {
+    background-color: var(--green-bg-light);
+    color: var(--blackish);
+  }
+
+  &:focus {
+    outline: 1px solid blue;
+    outline-offset: 0px;
+  }
+
+  &:active {
+    transform: scale(0.99);
+    outline: 0px none white;
+  }
+`
+
+export const LightButton = styled(PrimaryButton)`
+  background-color: #fff;
+`
+export const SecondaryButton = styled(PrimaryButton)`
+  background: none;
+  text-decoration: underline;
+  border-style: none;
+
+  &:focus,
+  :hover {
+    color: var(--green-bg-dark);
+    background: none;
+  }
+`
+export const DangerButton = styled(PrimaryButton)`
+  border-color: #e34843;
+`
+
 export const ButtonSmall = styled(Link)`
   display: -webkit-box;
   display: -webkit-flex;
@@ -98,14 +172,12 @@ export const SubmitButton = styled(ButtonSmall)`
 `
 
 export const Card = styled.div`
-  width: 100%;
-  border-radius: 4px;
   background-color: #fff;
-  padding: 16px;
-  display: flex;
-  flex-wrap: wrap;
-  margin-bottom: 32px;
+  border-radius: 4px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  margin-bottom: 32px;
+  padding: 16px;
+  width: 100%;
 `
 
 export const Header = styled.div`
@@ -134,6 +206,19 @@ export const Header2 = styled.div`
     font-size: 1.25rem;
     line-height: 1.5rem;
   }
+`
+
+export const H1 = styled.h1`
+  color: var(--blackish);
+  font-family: hk_grotesksemibold, sans-serif;
+  font-size: 2rem;
+`
+
+export const H2 = styled.h2`
+  color: var(--blackish);
+  font-family: hk_grotesksemibold, sans-serif;
+  font-size: 1.5rem;
+  margin: 16px 0 8px 0;
 `
 
 export const Bold = styled.span`

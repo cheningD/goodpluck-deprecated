@@ -16,7 +16,8 @@ html {
   --blackish: #3f3a40;
   --error-red: #e34843;
   --green-bg-dark: #6c7668;
-  --green-bg-light: #788474;
+  --green-bg-lighter: #788474;
+  --green-bg-light: #a1a99e;
 
   --primary-text: #3f3a40;
   --secondary-text: #666;
