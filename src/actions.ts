@@ -6,6 +6,7 @@ import {
   SignedInData,
 } from './types'
 
+import { Card } from '@stripe/stripe-js'
 import { navigate } from 'gatsby'
 
 // For testing the api on localhost
@@ -166,6 +167,30 @@ export const pauseSubscription = async (reason: string): Promise<GoodPluckJSONRe
       success: false,
       error: 'Something went wrong. Please contact us if this issue persists',
     }
+  }
+}
+
+export const updateStripeCard = async (stripeTokenCardObject: Card): Promise<Record<string, string> | null> => {
+  const response = await fetch(`${LOCAL_API_PREFIX}/api/updatecard`, {
+    credentials: 'same-origin',
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ source: stripeTokenCardObject }),
+  })
+
+  if (!response.ok) {
+    console.log(`Error in updateStripeCard: ${response.statusText}`)
+    return null
+  }
+
+  try {
+    const responseJSON: GoodPluckJSONResponse = await response.json()
+    return responseJSON.data
+  } catch (err) {
+    console.log(`Error in updateStripeCard: ${err.message || err}`)
+    return null
   }
 }
 

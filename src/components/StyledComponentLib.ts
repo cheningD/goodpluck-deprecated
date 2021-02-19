@@ -256,6 +256,56 @@ export const StyledForm = styled(Form)`
   }
 `
 
+const Fieldset = styled.fieldset`
+  margin: 16px 0 32px 0;
+  border-radius: 4px;
+  border: none;
+  padding: 0;
+  width: 100%;
+  background-color: #fff;
+  color: #3f3a40;
+  font-size: 1.125rem;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+`
+
+export const StripeCardFieldset = styled(Fieldset)`
+  padding: 11px 16px 11px 16px;
+  margin-bottom: 0px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+
+  .StripeElement--webkit-autofill2 {
+    background: transparent !important;
+  }
+
+  .StripeElement {
+    width: 100%;
+  }
+`
+
+export const CardElementStyle = {
+  base: {
+    iconColor: '#788474',
+    color: '#333',
+    fontWeight: '500',
+    fontFamily: 'Arial, sans-serif',
+    fontSize: '18px',
+    fontSmoothing: 'antialiased',
+
+    ':-webkit-autofill': {
+      color: '#fce883',
+    },
+    '::placeholder': {
+      color: '#333',
+    },
+  },
+  invalid: {
+    iconColor: '#CE5852',
+    color: '#CE5852',
+  },
+}
+
 export const LineBreak = styled.div`
   width: 100%;
   height: 2px;
