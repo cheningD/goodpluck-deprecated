@@ -30,6 +30,7 @@ import Nav from '../components/Nav'
 import { OrderDetail } from '../types'
 import SEO from '../components/SEO'
 import { StripeUpdateCard } from '../components/StripeUpdateCard'
+import { sleep } from '../util'
 import startCase from 'lodash-es/startCase'
 import styled from 'styled-components'
 
@@ -239,6 +240,11 @@ const BillingInfo = ({}) => {
   const signedIn = useRecoilValue(isSignedIn)
 
   const fetchCustomer = async () => {
+    while (!signedIn) {
+      console.log('Waiting for signin')
+      await sleep(1000)
+    }
+
     // GET SIGNED IN USER
     const stripeCustomer = await retrieveCustomer()
     if (stripeCustomer && stripeCustomer.default_source) {
@@ -247,9 +253,7 @@ const BillingInfo = ({}) => {
   }
 
   useEffect(() => {
-    if (signedIn && !stripeCustomer) {
-      fetchCustomer()
-    }
+    fetchCustomer()
   }, [signedIn])
 
   let cardInfo

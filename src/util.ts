@@ -2,6 +2,10 @@ import get from 'lodash-es/get'
 import isNil from 'lodash-es/isNil'
 import isObject from 'lodash-es/isObject'
 
+export const sleep = async (ms: number) => {
+  await new Promise(resolve => setTimeout(resolve, ms))
+}
+
 export const sortByPathFunc = path => {
   return (a, b) => {
     // Compare strings
