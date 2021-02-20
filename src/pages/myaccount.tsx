@@ -236,6 +236,7 @@ const MyPlan = ({ orderFrequency }) => {
 const BillingInfo = ({}) => {
   const [showEdit, setShowEdit] = useState(false)
   const [customer, setCustomer] = useRecoilState(stripeCustomer)
+  const signedIn = useRecoilValue(isSignedIn)
 
   const fetchCustomer = async () => {
     // GET SIGNED IN USER
@@ -246,10 +247,10 @@ const BillingInfo = ({}) => {
   }
 
   useEffect(() => {
-    if (isSignedIn && !stripeCustomer) {
+    if (signedIn && !stripeCustomer) {
       fetchCustomer()
     }
-  }, [isSignedIn])
+  }, [signedIn])
 
   let cardInfo
   if (customer && customer.defaultSourceObject.card) {
@@ -273,7 +274,18 @@ const BillingInfo = ({}) => {
   }
   const defaultView = (
     <Card>
-      <div>{cardInfo ? cardInfo : 'Loading...'}</div>
+      <div>
+        {cardInfo ? (
+          cardInfo
+        ) : (
+          <>
+            <Spinner color="var(--peach-bg)" />
+            <SecondaryButton as="button" onClick={() => setShowEdit(true)}>
+              Edit
+            </SecondaryButton>
+          </>
+        )}
+      </div>
     </Card>
   )
   const editView = (
