@@ -4,6 +4,7 @@ import {
   GoodPluckJSONResponse,
   OrderDetail,
   SignedInData,
+  StripeCustomer,
 } from './types'
 
 import { Card } from '@stripe/stripe-js'
@@ -128,6 +129,24 @@ export const getSignedInData = async (): Promise<SignedInData | null> => {
   }
 }
 
+export const retrieveCustomer = async (): Promise<StripeCustomer | null> => {
+  const response = await fetch(`${LOCAL_API_PREFIX}/api/retrieveCustomer`, {
+    credentials: 'same-origin',
+  })
+
+  if (!response.ok) {
+    return null
+  }
+
+  try {
+    const responseJSON = await response.json()
+    return responseJSON.data
+  } catch (err) {
+    console.log(`Error in retrieveCustomer: ${err.message || err}`)
+    return null
+  }
+}
+
 export const restartSubscription = async (): Promise<GoodPluckJSONResponse> => {
   const response = await fetch(`${LOCAL_API_PREFIX}/api/orders`, {
     credentials: 'same-origin',
@@ -170,14 +189,14 @@ export const pauseSubscription = async (reason: string): Promise<GoodPluckJSONRe
   }
 }
 
-export const updateStripeCard = async (stripeTokenCardObject: Card): Promise<Record<string, string> | null> => {
+export const updateStripeCard = async (tokenID: string): Promise<Record<string, string> | null> => {
   const response = await fetch(`${LOCAL_API_PREFIX}/api/updatecard`, {
     credentials: 'same-origin',
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ source: stripeTokenCardObject }),
+    body: JSON.stringify({ tokenID: tokenID }),
   })
 
   if (!response.ok) {

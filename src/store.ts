@@ -1,10 +1,15 @@
+import { BasketItemData, StripeCustomer } from './types'
 import { atom, selector } from 'recoil'
-
-import { BasketItemData } from './types'
 
 export const signedInUser = atom({
   key: 'signed_in_user', // unique ID (with respect to other atoms/selectors)
   default: null, // default value (aka initial value),
+})
+
+const stripeCustomerDefault: StripeCustomer | null = null
+export const stripeCustomer = atom({
+  key: 'stripeCustomer', // unique ID (with respect to other atoms/selectors)
+  default: stripeCustomerDefault, // default value (aka initial value),
 })
 
 export const isSignedIn = selector({

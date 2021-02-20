@@ -13,6 +13,51 @@ export interface SignedInData {
   missiveDigest: string
 }
 
+interface StripeAddress {
+  postal_code: string | null
+}
+interface StripeBillingDetails {
+  address: StripeAddress
+}
+
+interface StripeCard {
+  brand: string
+  country: string
+  exp_month: number
+  exp_year: number
+  funding: string // "credit"
+  last4: string
+}
+
+interface DefaultSourceObject {
+  card: StripeCard
+  billing_details: StripeBillingDetails
+}
+
+export interface StripeCustomer {
+  defaultSourceObject: DefaultSourceObject
+  id?: string
+  object?: string
+  address?: any
+  balance?: number
+  created?: number
+  currency?: string
+  default_source?: string
+  delinquent?: false
+  description?: any
+  discount?: any
+  email?: any
+  invoice_prefix?: string
+  invoice_settings?: any
+  livemode: boolean
+  metadata?: any
+  name?: any
+  next_invoice_sequence?: number
+  phone?: any
+  preferred_locales?: any[]
+  shipping?: any
+  tax_exempt: string
+}
 export interface GoodPluckJSONResponse {
   data?: Record<string, any>
   success?: boolean
