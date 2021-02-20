@@ -256,19 +256,6 @@ export const StyledForm = styled(Form)`
   }
 `
 
-const Fieldset = styled.fieldset`
-  margin: 16px 0 32px 0;
-  border-radius: 4px;
-  border: none;
-  padding: 0;
-  width: 100%;
-  background-color: #fff;
-  color: #3f3a40;
-  font-size: 1.125rem;
-  overflow: hidden;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-`
-
 export const CardElementStyle = {
   base: {
     iconColor: '#788474',
