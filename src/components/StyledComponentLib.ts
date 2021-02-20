@@ -269,21 +269,6 @@ const Fieldset = styled.fieldset`
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 `
 
-export const StripeCardFieldset = styled(Fieldset)`
-  padding: 11px 16px 11px 16px;
-  margin-bottom: 0px;
-  border-bottom-right-radius: 0;
-  border-bottom-left-radius: 0;
-
-  .StripeElement--webkit-autofill2 {
-    background: transparent !important;
-  }
-
-  .StripeElement {
-    width: 100%;
-  }
-`
-
 export const CardElementStyle = {
   base: {
     iconColor: '#788474',
