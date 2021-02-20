@@ -7,7 +7,7 @@ const Tabs = styled.div`
   flex-flow: row wrap;
   justify-content: space-around;
   align-items: baseline;
-  margin: 32px 16px;
+  margin: 16px;
 `
 
 interface TabProps {
