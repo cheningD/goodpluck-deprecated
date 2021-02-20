@@ -130,7 +130,7 @@ export const getSignedInData = async (): Promise<SignedInData | null> => {
 }
 
 export const retrieveCustomer = async (): Promise<StripeCustomer | null> => {
-  const response = await fetch(`${LOCAL_API_PREFIX}/api/retrieveCustomer`, {
+  const response = await fetch(`${LOCAL_API_PREFIX}/api/retrievecustomer`, {
     credentials: 'same-origin',
   })
 

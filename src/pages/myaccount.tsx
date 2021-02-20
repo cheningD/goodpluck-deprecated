@@ -247,7 +247,7 @@ const BillingInfo = ({}) => {
 
     // GET SIGNED IN USER
     const stripeCustomer = await retrieveCustomer()
-    if (stripeCustomer && stripeCustomer.default_source) {
+    if (stripeCustomer && stripeCustomer.defaultSourceObject) {
       setCustomer(stripeCustomer)
     }
   }
@@ -284,9 +284,6 @@ const BillingInfo = ({}) => {
         ) : (
           <>
             <Spinner color="var(--peach-bg)" />
-            <SecondaryButton as="button" onClick={() => setShowEdit(true)}>
-              Edit
-            </SecondaryButton>
           </>
         )}
       </div>
