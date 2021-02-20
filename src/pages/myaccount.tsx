@@ -17,6 +17,7 @@ import {
   StyledField,
 } from '../components/StyledComponentLib'
 import { Form, Formik } from 'formik'
+import { Link, navigate } from 'gatsby'
 import React, { useEffect, useState } from 'react'
 import { isSignedIn, myOrders, signedInUser, stripeCustomer } from '../store'
 import { pauseSubscription, restartSubscription, retrieveCustomer } from '../actions'
@@ -25,7 +26,6 @@ import { useRecoilState, useRecoilValue } from 'recoil'
 import BasketAccountShopLinks from '../components/BasketAccountShopLinks'
 import BasketDates from '../components/BasketDates'
 import { DateTime } from 'luxon'
-import { Link } from 'gatsby'
 import Nav from '../components/Nav'
 import { OrderDetail } from '../types'
 import SEO from '../components/SEO'
@@ -236,6 +236,7 @@ const MyPlan = ({ orderFrequency }) => {
 
 const BillingInfo = ({}) => {
   const [showEdit, setShowEdit] = useState(false)
+  const [isSubmitting, setSubmitting] = useState(false)
   const [customer, setCustomer] = useRecoilState(stripeCustomer)
   const signedIn = useRecoilValue(isSignedIn)
 
@@ -292,7 +293,14 @@ const BillingInfo = ({}) => {
   const editView = (
     <Card>
       <div>Credit or debit card</div>
-      <StripeUpdateCard />
+      <StripeUpdateCard
+        onSuccess={async () => {
+          setSubmitting(true)
+          await fetchCustomer()
+          setShowEdit(false)
+          setSubmitting(false)
+        }}
+      />
       <SecondaryButton as="button" onClick={() => setShowEdit(false)}>
         Cancel
       </SecondaryButton>
@@ -302,7 +310,8 @@ const BillingInfo = ({}) => {
   return (
     <>
       <H2>Billing Info</H2>
-      {showEdit ? editView : defaultView}
+      {isSubmitting ? <Spinner color="var(--peacvh-bg)" /> : ''}
+      {showEdit && !isSubmitting ? editView : defaultView}
     </>
   )
 }

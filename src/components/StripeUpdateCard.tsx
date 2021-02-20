@@ -31,15 +31,15 @@ const CardContainer = styled.div`
   margin: 16px 0px 24px;
 `
 
-export const StripeUpdateCard = () => {
+export const StripeUpdateCard = ({ onSuccess }) => {
   return (
     <Elements stripe={stripePromise}>
-      <StripeUpdateCardForm />
+      <StripeUpdateCardForm onSuccess={onSuccess} />
     </Elements>
   )
 }
 
-const StripeUpdateCardForm = () => {
+const StripeUpdateCardForm = ({ onSuccess }) => {
   const [stripeError, setStripeError] = useState(null)
   const stripe = useStripe()
   const elements = useElements()
@@ -60,22 +60,8 @@ const StripeUpdateCardForm = () => {
       if (!result || result.error) {
         console.log('Update card failed, please try again.', result)
       } else {
-        console.log('RESULT CAME BACK:', result)
+        onSuccess()
       }
-      // TODO: Is confirmCardSetup the right function to update a card?
-      // const cardSetupResponse = await stripe.confirmCardSetup(clientSecret, {
-      //   payment_method: {
-      //     card: card,
-      //   },
-      // })
-      // if (cardSetupResponse.error) {
-      //   // Inform the user if there was an error.
-      //   setStripeError(cardSetupResponse.error.message)
-      //   console.info('GP Card Error', setStripeError(cardSetupResponse.error.message))
-      // } else {
-      //   // Verify cardSetupResponse.setupIntent.status === succeeded and then navigate to confirmation page
-      //   navigate('/myaccount')
-      // }
     }
   }
 
