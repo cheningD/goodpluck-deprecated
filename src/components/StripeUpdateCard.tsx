@@ -53,9 +53,9 @@ const StripeUpdateCardForm = () => {
       console.info('GP Stripe Error', setStripeError(createTokenResult.error.message))
     } else {
       setStripeError(null)
-      const result = await updateStripeCard(createTokenResult.token.card)
+      const result = await updateStripeCard(createTokenResult.token.id)
 
-      if (result === null) {
+      if (!result || result.error) {
         console.log('Update card failed, please try again.', result)
       } else {
         console.log('RESULT CAME BACK:', result)

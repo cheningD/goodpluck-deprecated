@@ -17,9 +17,10 @@ import {
   StyledField,
 } from '../components/StyledComponentLib'
 import { Form, Formik } from 'formik'
-import React, { useState } from 'react'
-import { isSignedIn, myOrders, signedInUser } from '../store'
-import { pauseSubscription, restartSubscription } from '../actions'
+import React, { useEffect, useState } from 'react'
+import { isSignedIn, myOrders, signedInUser, stripeCustomer } from '../store'
+import { pauseSubscription, restartSubscription, retrieveCustomer } from '../actions'
+import { useRecoilState, useRecoilValue } from 'recoil'
 
 import BasketAccountShopLinks from '../components/BasketAccountShopLinks'
 import BasketDates from '../components/BasketDates'
@@ -31,7 +32,6 @@ import SEO from '../components/SEO'
 import { StripeUpdateCard } from '../components/StripeUpdateCard'
 import startCase from 'lodash-es/startCase'
 import styled from 'styled-components'
-import { useRecoilValue } from 'recoil'
 
 const Page = styled.div`
   background-color: var(--light-bg);
@@ -235,22 +235,45 @@ const MyPlan = ({ orderFrequency }) => {
 
 const BillingInfo = ({}) => {
   const [showEdit, setShowEdit] = useState(false)
+  const [customer, setCustomer] = useRecoilState(stripeCustomer)
+
+  const fetchCustomer = async () => {
+    // GET SIGNED IN USER
+    const stripeCustomer = await retrieveCustomer()
+    if (stripeCustomer && stripeCustomer.default_source) {
+      setCustomer(stripeCustomer)
+    }
+  }
+
+  useEffect(() => {
+    if (isSignedIn && !stripeCustomer) {
+      fetchCustomer()
+    }
+  }, [isSignedIn])
+
+  let cardInfo
+  if (customer && customer.defaultSourceObject.card) {
+    cardInfo = (
+      <Row>
+        <Column flex={'3'}>
+          <div>
+            Expires on{' '}
+            {`${customer.defaultSourceObject.card.exp_month || ''}/${customer.defaultSourceObject.card.exp_year || ''}`}
+          </div>
+          <div>Billing Zip: {`${customer.defaultSourceObject.billing_details.address.postal_code || ''}`}</div>
+          <div>Card: **** **** **** {`${customer.defaultSourceObject.card.last4 || ''}`}</div>
+        </Column>
+        <Column alignItems="flex-end">
+          <SecondaryButton as="button" onClick={() => setShowEdit(true)}>
+            Edit
+          </SecondaryButton>
+        </Column>
+      </Row>
+    )
+  }
   const defaultView = (
     <Card>
-      <div>
-        <Row>
-          <Column flex={'3'}>
-            <div>Expires on 9/2026</div>
-            <div>Billing Zip: 48206</div>
-            <div>Card: **** **** **** 9596</div>
-          </Column>
-          <Column alignItems="flex-end">
-            <SecondaryButton as="button" onClick={() => setShowEdit(true)}>
-              Edit
-            </SecondaryButton>
-          </Column>
-        </Row>
-      </div>
+      <div>{cardInfo ? cardInfo : 'Loading...'}</div>
     </Card>
   )
   const editView = (

@@ -3,7 +3,7 @@ import { Link, graphql, useStaticQuery } from 'gatsby'
 import { OrderDetail, SignedInData } from '../types'
 import React, { useEffect } from 'react'
 import { basketCount, basketItems, isSignedIn, myOrders, signedInUser } from '../store'
-import { getBasket, getOrders, getSignedInData, updateBasket } from '../actions'
+import { getBasket, getOrders, getSignedInData } from '../actions'
 import { useRecoilState, useRecoilValue } from 'recoil'
 
 import { Hamburger } from './Hamburger'
