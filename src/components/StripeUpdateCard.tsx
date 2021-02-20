@@ -47,6 +47,8 @@ const StripeUpdateCardForm = () => {
     const card = elements.getElement(CardElement)
     const createTokenResult = await stripe.createToken(card)
 
+    console.log('createTokenResult', createTokenResult)
+
     if (createTokenResult.error) {
       // Inform the user if there was an error.
       setStripeError(createTokenResult.error.message)

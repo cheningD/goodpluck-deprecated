@@ -383,8 +383,8 @@ export const Spinner = styled.div`
     height: 32px;
     margin: 8px;
     border-radius: 50%;
-    border: 3px solid #fff;
-    border-color: #fff transparent #fff transparent;
+    border: 3px solid ${props => props.color || '#fff'};
+    border-color: ${props => props.color || '#fff'} transparent ${props => props.color || '#fff'} transparent;
     animation: ${ldsDualRing} 1.2s linear infinite;
   }
 `
