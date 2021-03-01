@@ -14,6 +14,10 @@ const ThinLineBreak = styled(LineBreak)`
   height: 1px;
 `
 
+const Right = styled.span`
+  float: right;
+`
+
 const Basket = ({ deliveryDate = null, orderFrequency = null, canEdit = false, addLocalPluckItems = false }) => {
   const data = useStaticQuery(graphql`
     {
@@ -114,14 +118,18 @@ const Basket = ({ deliveryDate = null, orderFrequency = null, canEdit = false, a
       )}
       {items}
       <LineBreak />
-      <DetailCell2>Shipping{shipping ? ' (Free above $30)' : ''}</DetailCell2>
-      <DetailCell2 right>{shipping ? centsToString(shipping) : 'Free'}</DetailCell2>
-      <DetailCell2>Subtotal</DetailCell2>
-      <DetailCell2 right>{centsToString(subtotal)}</DetailCell2>
-      <DetailCell2 bold>To be charged</DetailCell2>
-      <DetailCell2 bold right>
-        {centsToString(shipping + subtotal)}
-      </DetailCell2>
+      <div>
+        <span>Shipping{shipping ? ' (Free above $30)' : ''}</span>
+        <Right>{shipping ? centsToString(shipping) : 'Free'}</Right>
+      </div>
+      <div>
+        <span>Subtotal</span>
+        <Right>{centsToString(subtotal)}</Right>
+      </div>
+      <div>
+        <strong>To be charged</strong>
+        <Right>{centsToString(shipping + subtotal)}</Right>
+      </div>
     </Card>
   )
 }

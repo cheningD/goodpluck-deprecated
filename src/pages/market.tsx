@@ -5,6 +5,7 @@ import BasketAccountShopLinks from '../components/BasketAccountShopLinks'
 import CountDown from '../components/Countdown'
 import { DateTime } from 'luxon'
 import MarketCard from '../components/MarketCard'
+import MarketView from '../components/MarketView'
 import Nav from '../components/Nav'
 import { OrderDetail } from '../types'
 import SEO from '../components/SEO'
@@ -36,7 +37,8 @@ const Market = () => {
     const startTime = DateTime.fromISO(upcomingOrderData.editBasketStartDate).set({ hour: 17 })
     content = <CountDown startTime={startTime} />
   } else {
-    content = <MarketCard />
+    // content = <MarketCard />
+    content = <MarketView />
   }
   return (
     <Page>
