@@ -54,6 +54,12 @@ const MarketProductList = ({ subcategoryNodes, productGroupNodes, department, fi
   }
 
   const getProductsBySubcategory = subcategory => {
+    console.log(`1 subcategory: ${subcategory}`)
+
+    const firstNode = filteredProductGroupNodes.filter(node => get(node, 'data.subcategory[0]', '') === subcategory)[0]
+
+    console.log(`2 firstNode: ${JSON.stringify(firstNode)}`)
+
     return filteredProductGroupNodes
       .filter(node => get(node, 'data.subcategory[0]', '') === subcategory)
 
@@ -99,9 +105,11 @@ const MarketProductList = ({ subcategoryNodes, productGroupNodes, department, fi
         if (!subcategory) {
           return null
         }
-        if (getProductsBySubcategory(subcategory).length === 0) {
-          return ''
-        }
+
+        // console.log(`getProductsBySubcategory: ${getProductsBySubcategory}`)
+        // if (getProductsBySubcategory(subcategory).length === 0) {
+        //   return ''
+        // }
 
         return (
           <div key={i}>
