@@ -21,7 +21,7 @@ const MarketH1 = styled.h1`
   font-family: Bebas Neue, sans-serif;
   line-height: 1;
   margin: 3rem 0 0 0;
-  color: #6c7668;
+  color: var(--green-bg-dark);
   letter-spacing: 0.1rem;
 `
 
