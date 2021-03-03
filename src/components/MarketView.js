@@ -1,10 +1,13 @@
 import { Card, LineBreak } from './StyledComponentLib'
+import React, { useState } from 'react'
 import { graphql, useStaticQuery } from 'gatsby'
 
 import BasketItem from '../components/BasketItem'
-import React from 'react'
+import Fuse from 'fuse.js'
+import SearchBar from '../components/SearchBar'
 import { basketItems } from '../store'
 import get from 'lodash-es/get'
+import memoize from 'lodash-es/memoize'
 import sortBy from 'lodash-es/sortBy'
 import styled from 'styled-components'
 import { useRecoilValue } from 'recoil'
@@ -36,7 +39,26 @@ const Container = styled(Card)`
   margin 0 auto;
 `
 
-const MarketCard2 = () => {
+const searchOptions = {
+  includeScore: false,
+  threshold: 0.2,
+  shouldSort: false,
+  // Search in `author` and in `tags` array
+  keys: ['name', 'oneLiner', 'subCategories', 'categories'],
+}
+
+const sortProducts = memoize(
+  _products => {
+    let products = sortBy(_products, i => (i.subCategories ? i.subCategories[0] : null))
+    products = sortBy(products, i => (i.categories ? i.categories[0] : null))
+    products = sortBy(products, i => (i.departments ? i.departments[0] : null))
+    return products
+  },
+  () => '1',
+)
+
+const MarketView = () => {
+  const [searchTerm, setSearchTerm] = useState('')
   const _basketItems = useRecoilValue(basketItems)
   const data = useStaticQuery(graphql`
     {
@@ -79,10 +101,13 @@ const MarketCard2 = () => {
   `)
 
   // Use a stable sort to get products in order
-  let products = data.products.edges.map(edge => edge.node.data)
-  products = sortBy(products, i => (i.subCategories ? i.subCategories[0] : null))
-  products = sortBy(products, i => (i.categories ? i.categories[0] : null))
-  products = sortBy(products, i => (i.departments ? i.departments[0] : null))
+  let products = sortProducts(data.products.edges.map(edge => edge.node.data))
+  const fuse = new Fuse(products, searchOptions)
+
+  if (searchTerm) {
+    products = fuse.search(searchTerm).map(result => result.item)
+    console.log('fuzzy searched!')
+  }
 
   const marketItems = []
   let prevProduct = null
@@ -99,10 +124,15 @@ const MarketCard2 = () => {
     }
   }
 
-  return <Container>{marketItems}</Container>
+  return (
+    <Container>
+      <SearchBar updateSearchTerm={value => setSearchTerm(value)} />
+      {products.length > 0 ? marketItems : searchTerm ? <div>Couldn't find anything like "{searchTerm}"</div> : ''}
+    </Container>
+  )
 }
 
-export default MarketCard2
+export default MarketView
 
 const productToElement = (p, _basketItems) => {
   return (

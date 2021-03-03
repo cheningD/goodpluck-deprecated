@@ -106,9 +106,10 @@ const BasketItem = ({
       <Product>
         <Title>
           <QuantityLabel>{quantityLabel}</QuantityLabel>
-          &nbsp; {name} {isLocal ? <Icon src="mitten.png" alt="grown in michigan" /> : ''}
+          &nbsp; {name}
+          {/* {isLocal ? <Icon src="mitten.png" alt="grown in michigan" /> : ''}
           {isOrganic ? <Icon src="organic_icon.png" alt="organic" /> : ''}
-          {isInSeason ? <Icon src="in_season_icon.png" alt="In seasion" /> : ''}
+          {isInSeason ? <Icon src="in_season_icon.png" alt="In seasion" /> : ''} */}
         </Title>
         <Description>{oneLiner}</Description>
         {controls}
