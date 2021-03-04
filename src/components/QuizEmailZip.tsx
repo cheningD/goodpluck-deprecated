@@ -57,7 +57,7 @@ const QuizEmailZip = ({ nextFunction, percentComplete, goBackFunction }: QuizEma
           // User exists Failure
           setErrorText('An account already exists for this email, please sign in.')
           setSubmitting(false)
-        } else if (result.zipInDeliveryZone) {
+        } else if (!result.zipInDeliveryZone) {
           // Zip is not in delivery zone
           const search = new URLSearchParams({
             email,

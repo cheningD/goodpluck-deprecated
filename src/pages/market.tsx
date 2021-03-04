@@ -4,12 +4,10 @@ import { isSignedIn, myOrders } from '../store'
 import BasketAccountShopLinks from '../components/BasketAccountShopLinks'
 import CountDown from '../components/Countdown'
 import { DateTime } from 'luxon'
-import MarketCard from '../components/MarketCard'
 import MarketView from '../components/MarketView'
 import Nav from '../components/Nav'
 import { OrderDetail } from '../types'
 import SEO from '../components/SEO'
-import Select from 'react-select'
 import { Spinner } from '../components/StyledComponentLib'
 import styled from 'styled-components'
 import { useRecoilValue } from 'recoil'
@@ -37,7 +35,6 @@ const Market = () => {
     const startTime = DateTime.fromISO(upcomingOrderData.editBasketStartDate).set({ hour: 17 })
     content = <CountDown startTime={startTime} />
   } else {
-    // content = <MarketCard />
     content = <MarketView />
   }
   return (
