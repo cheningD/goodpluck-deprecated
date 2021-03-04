@@ -1,9 +1,8 @@
-import { H2, SecondaryButton, StyledField } from '../components/StyledComponentLib'
-
 import FormWrapper from '../components/FormWrapper'
 import Nav from '../components/Nav'
 import React from 'react'
 import SEO from '../components/SEO'
+import { SecondaryButton } from '../components/StyledComponentLib'
 import { navigate } from 'gatsby'
 import styled from 'styled-components'
 
@@ -56,14 +55,10 @@ export default function Waitlist() {
         header={`Unfortunately we don't deliver to ${city || zip || 'your area'} yet!`}
         percentComplete={0}
         submitText="Join Waitlist"
-      />
-      <SecondaryButton
-        onClick={() => {
+        goBackFunction={() => {
           navigate('/getstarted')
         }}
-      >
-        Try a different zip
-      </SecondaryButton>
+      />
     </>
   )
 }
