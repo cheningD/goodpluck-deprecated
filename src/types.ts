@@ -38,12 +38,11 @@ export interface StripeCustomer {
   defaultSourceObject: DefaultSourceObject
   livemode: boolean
 }
-export interface GoodPluckJSONResponse {
+export interface GoodpluckJSONResponse {
   data?: Record<string, any>
   success?: boolean
   error?: string
 }
-
 export interface OrderDetail {
   mondayOfOrderDateString: string // Orders are indexed by the YYYY-MM-DD of the Monday of the delivery date
   scheduledStatus: string | null // null or "active" or "done" or "error"
@@ -110,4 +109,14 @@ export interface CreateUserSuccessResponseJSONData {
 export interface CreateUserSuccessResponseJSON {
   data: CreateUserSuccessResponseJSONData
   message: string
+}
+
+export interface CheckEmailAndZipJSONResponse {
+  userExists?: boolean
+  zipInDeliveryZone?: boolean
+  zipInWaitlistZone?: boolean
+  zipCity?: string
+  zipCounty?: string
+  error?: string
+  success: boolean
 }

@@ -5,7 +5,7 @@ import { isSignedIn, signedInUser } from '../store'
 import { useRecoilState, useRecoilValue } from 'recoil'
 
 import Arrow from '../images/icons/arrow.svg'
-import { GoodPluckJSONResponse } from '../types'
+import { GoodpluckJSONResponse } from '../types'
 import Nav from '../components/Nav'
 import Phone from '../images/icons/phone.svg'
 import SEO from '../components/SEO'
@@ -68,7 +68,7 @@ const VerifyEmail = () => {
 
   const verify = async (authCodeId: string, code: string, email: string) => {
     setLoading(true)
-    const json: GoodPluckJSONResponse = await verifyEmail(authCodeId, code, email)
+    const json: GoodpluckJSONResponse = await verifyEmail(authCodeId, code, email)
     if (json.error) {
       setErrorText(json.error)
       setLoading(false)

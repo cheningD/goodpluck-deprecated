@@ -1,7 +1,9 @@
 import {
   BasketItemData,
+  CheckEmailAndZipJSONResponse,
   CreateUserSuccessResponseJSON,
-  GoodPluckJSONResponse,
+  GoodpluckError,
+  GoodpluckJSONResponse,
   OrderDetail,
   SignedInData,
   StripeCustomer,
@@ -73,7 +75,7 @@ export const verifyEmail = async (
   authCodeId: string,
   code: string,
   email: string,
-): Promise<GoodPluckJSONResponse | null> => {
+): Promise<GoodpluckJSONResponse | null> => {
   const response = await fetch(`${LOCAL_API_PREFIX}/api/verifyemail`, {
     credentials: 'same-origin',
     method: 'POST',
@@ -92,23 +94,16 @@ export const verifyEmail = async (
   }
 }
 
-export const checkEmailExists = async (email: string) => {
+export const checkEmailZip = async (email: string, zip: string): Promise<CheckEmailAndZipJSONResponse> => {
   const response = await fetch(`${LOCAL_API_PREFIX}/api/checkemail`, {
     credentials: 'same-origin',
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ email: email.toLowerCase() }),
+    body: JSON.stringify({ email: email.toLowerCase(), zip }),
   })
-
-  try {
-    const responseJSON = await response.json()
-    return responseJSON.userExists === true ? true : false
-  } catch (err) {
-    console.log(`Error in verify email: ${err.message || err}`)
-    return { error: 'Something went wrong, please try again' }
-  }
+  return await response.json()
 }
 
 export const getSignedInData = async (): Promise<SignedInData | null> => {
@@ -147,7 +142,7 @@ export const retrieveCustomer = async (): Promise<StripeCustomer | null> => {
   }
 }
 
-export const restartSubscription = async (): Promise<GoodPluckJSONResponse> => {
+export const restartSubscription = async (): Promise<GoodpluckJSONResponse> => {
   const response = await fetch(`${LOCAL_API_PREFIX}/api/orders`, {
     credentials: 'same-origin',
     method: 'POST',
@@ -168,7 +163,7 @@ export const restartSubscription = async (): Promise<GoodPluckJSONResponse> => {
   }
 }
 
-export const pauseSubscription = async (reason: string): Promise<GoodPluckJSONResponse> => {
+export const pauseSubscription = async (reason: string): Promise<GoodpluckJSONResponse> => {
   const response = await fetch(`${LOCAL_API_PREFIX}/api/orders`, {
     credentials: 'same-origin',
     method: 'POST',
@@ -205,7 +200,7 @@ export const updateStripeCard = async (tokenID: string): Promise<Record<string, 
   }
 
   try {
-    const responseJSON: GoodPluckJSONResponse = await response.json()
+    const responseJSON: GoodpluckJSONResponse = await response.json()
     return responseJSON.data
   } catch (err) {
     console.log(`Error in updateStripeCard: ${err.message || err}`)
@@ -223,7 +218,7 @@ export const getOrders = async (): Promise<Record<string, OrderDetail> | null> =
   }
 
   try {
-    const responseJSON: GoodPluckJSONResponse = await response.json()
+    const responseJSON: GoodpluckJSONResponse = await response.json()
     return responseJSON.data
   } catch (err) {
     console.log(`Error in getOrders: ${err.message || err}`)
@@ -241,7 +236,7 @@ export const getOldOrders = async (): Promise<Record<string, OrderDetail> | null
   }
 
   try {
-    const responseJSON: GoodPluckJSONResponse = await response.json()
+    const responseJSON: GoodpluckJSONResponse = await response.json()
     return responseJSON.data
   } catch (err) {
     console.log(`Error in getOrders: ${err.message || err}`)
@@ -259,7 +254,7 @@ export const getOrdersDemo = async (): Promise<OrderDetail | null> => {
   }
 
   try {
-    const responseJSON: GoodPluckJSONResponse = await response.json()
+    const responseJSON: GoodpluckJSONResponse = await response.json()
     return responseJSON.data as OrderDetail
   } catch (err) {
     console.log(`Error in getOrdersDemo: ${err.message || err}`)

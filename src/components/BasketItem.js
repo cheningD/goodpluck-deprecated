@@ -55,12 +55,12 @@ const Price = styled.span`
   font-family: hk_grotesksemibold, sans-serif;
 `
 
-const Icon = styled(Image)`
-  width: 20px;
-  height: 20px;
-  margin-right: 8px;
-  display: inline-block;
-`
+// const Icon = styled(Image)`
+//   width: 20px;
+//   height: 20px;
+//   margin-right: 8px;
+//   display: inline-block;
+// `
 
 const AddToCart = styled(AddToCartButton)`
   display: inline-block;

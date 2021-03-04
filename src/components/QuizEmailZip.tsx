@@ -4,9 +4,11 @@ import { Error, FieldWrapper, StyledErrorMessage, StyledField } from '../compone
 import React, { useState } from 'react'
 import { onboardingEmail, onboardingZip } from '../store'
 
+import { CheckEmailAndZipJSONResponse } from '../types'
 import FormWrapper from '../components/FormWrapper'
 import { VALID_ZIP_PATTERN } from '../util'
-import { checkEmailExists } from '../actions'
+import { checkEmailZip } from '../actions'
+import { navigate } from 'gatsby'
 import { useRecoilState } from 'recoil'
 
 type QuizEmailZipProps = {
@@ -45,12 +47,27 @@ const QuizEmailZip = ({ nextFunction, percentComplete, goBackFunction }: QuizEma
       initialValues={{ email, zip }}
       validationSchema={zipSchema}
       onSubmit={async (values, { setSubmitting }) => {
-        const accountAlreadyExists = await checkEmailExists(values.email)
+        const result: CheckEmailAndZipJSONResponse = await checkEmailZip(values.email, values.zip)
 
-        if (accountAlreadyExists) {
+        if (result.error) {
+          // Generic Failure
+          setErrorText(result.error)
+          setSubmitting(false)
+        } else if (result.userExists) {
+          // User exists Failure
           setErrorText('An account already exists for this email, please sign in.')
           setSubmitting(false)
+        } else if (result.zipInDeliveryZone) {
+          // Zip is not in delivery zone
+          const search = new URLSearchParams({
+            email,
+            zip,
+            waitlistZone: result.zipInWaitlistZone ? 'true' : 'false',
+            city: result.zipCity,
+          }).toString()
+          navigate(`/waitlist?${search}`)
         } else {
+          // Success, go to next step
           setEmail(values.email)
           setZip(values.zip)
           nextFunction()
