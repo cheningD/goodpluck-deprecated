@@ -59,7 +59,13 @@ const QuizEmailZip = ({ nextFunction, percentComplete, goBackFunction }: QuizEma
           setSubmitting(false)
         } else if (!result.zipInDeliveryZone) {
           // Zip is not in delivery zone
-          const waitlistParams = { email, zip }
+          const waitlistParams = {}
+          if (result.email) {
+            waitlistParams['email'] = result.email
+          }
+          if (result.zip) {
+            waitlistParams['zip'] = result.zip
+          }
           if (result.zipInWaitlistZone) {
             waitlistParams['waitlistZone'] = 'true'
           }

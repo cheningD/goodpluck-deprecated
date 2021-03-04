@@ -112,6 +112,8 @@ export interface CreateUserSuccessResponseJSON {
 }
 
 export interface CheckEmailAndZipJSONResponse {
+  email?: string
+  zip?: string
   userExists?: boolean
   zipInDeliveryZone?: boolean
   zipInWaitlistZone?: boolean

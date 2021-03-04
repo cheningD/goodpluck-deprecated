@@ -2,7 +2,6 @@ import FormWrapper from '../components/FormWrapper'
 import Nav from '../components/Nav'
 import React from 'react'
 import SEO from '../components/SEO'
-import { SecondaryButton } from '../components/StyledComponentLib'
 import { navigate } from 'gatsby'
 import styled from 'styled-components'
 
