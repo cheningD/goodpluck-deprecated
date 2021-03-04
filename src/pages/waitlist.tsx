@@ -35,7 +35,9 @@ export default function Waitlist() {
     return (
       <LightText>
         <h2>{waitlistZone ? `But...` : ''}</h2>
-        <h2>{waitlistZone ? `${city ? `${city} is` : 'you are'} in our next launch area!` : ''}</h2>
+        <h2>
+          {waitlistZone ? `${city ? `${city} is` : 'your area is'} on our shortlist of where to launch next!` : ''}
+        </h2>
         <span>Add your email to our waitlist to be notified when Goodpluck is available in your community</span>
       </LightText>
     )
