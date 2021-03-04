@@ -34,6 +34,7 @@ const SearchBar = ({ updateSearchTerm }) => {
         <SecondaryButton
           onClick={() => {
             setSearchTerm('')
+            updateSearchTermDebounced('')
           }}
         >
           Clear Search
