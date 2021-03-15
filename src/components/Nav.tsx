@@ -179,7 +179,7 @@ const Cart = styled(Link)`
 const Nav = () => {
   const data = useStaticQuery(graphql`
     {
-      allAirtable(filter: { table: { eq: "productv2" } }) {
+      allAirtable(filter: { table: { eq: "product" } }) {
         nodes {
           data {
             isLocalPluck

@@ -21,7 +21,7 @@ const Right = styled.span`
 const Basket = ({ deliveryDate = null, orderFrequency = null, canEdit = false, addLocalPluckItems = false }) => {
   const data = useStaticQuery(graphql`
     {
-      allAirtable(filter: { table: { eq: "productv2" } }) {
+      allAirtable(filter: { table: { eq: "product" } }) {
         nodes {
           data {
             available

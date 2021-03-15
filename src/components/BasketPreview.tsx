@@ -61,7 +61,7 @@ const BasketPreview = ({ numberOfVisibleItems }) => {
 
   const data = useStaticQuery(graphql`
     {
-      allAirtable(filter: { table: { eq: "productv2" }, data: { isLocalPluck: { eq: true } } }) {
+      allAirtable(filter: { table: { eq: "product" }, data: { isLocalPluck: { eq: true } } }) {
         nodes {
           data {
             available

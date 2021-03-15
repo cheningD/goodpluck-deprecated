@@ -87,7 +87,6 @@ export interface BasketItemAndProduct {
   isOrganic: string
   priceInCents: number
   priceInDollars: string
-  productGroup: string
   unitQuantity: number
   unitLabel: string
   supplier: string

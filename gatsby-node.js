@@ -28,8 +28,6 @@ exports.createSchemaCustomization = ({ actions }) => {
       sku: String
       slug: String
       sortOrderCategories: [Int]
-      subcategory: [String]
-      suppliersForProductGroup: [String]
     }
   `
   createTypes(typeDefs)
