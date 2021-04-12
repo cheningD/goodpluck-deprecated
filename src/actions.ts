@@ -143,13 +143,12 @@ export const retrieveCustomer = async (): Promise<StripeCustomer | null> => {
 }
 
 export const restartSubscription = async (): Promise<GoodpluckJSONResponse> => {
-  const response = await fetch(`${LOCAL_API_PREFIX}/api/orders`, {
+  const response = await fetch(`${LOCAL_API_PREFIX}/api/restartsubscription`, {
     credentials: 'same-origin',
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ subscriptionIsActive: true, reason: 'Subscription Restarted' }),
   })
 
   try {
@@ -164,13 +163,13 @@ export const restartSubscription = async (): Promise<GoodpluckJSONResponse> => {
 }
 
 export const pauseSubscription = async (reason: string): Promise<GoodpluckJSONResponse> => {
-  const response = await fetch(`${LOCAL_API_PREFIX}/api/orders`, {
+  const response = await fetch(`${LOCAL_API_PREFIX}/api/pausesubscription`, {
     credentials: 'same-origin',
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ subscriptionIsActive: false, reason: reason }),
+    body: JSON.stringify({ reason: reason }),
   })
 
   try {
