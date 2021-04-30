@@ -239,17 +239,19 @@ export const OrderSummary = ({ orderFrequency }: OrderSummaryProps) => {
         <div>You can edit your basket after confirming your order</div>
       </Card>
       {orderDemo && orderDemo.scheduledStatus ? (
-        <BasketDates
-          scheduledStatus="active" //Force active state because user hasn't paid yet
-          editStatus={null} //Force active state because user hasn't paid yet
-          chargedStatus={null}
-          deliveredStatus={null}
-          editBasketStartDate={orderDemo.editBasketStartDate}
-          editBasketEndDate={orderDemo.editBasketEndDate}
-          chargedDate={orderDemo.chargedDate}
-          deliveryDate={orderDemo.deliveryDate}
-          isPaused={orderDemo.isPaused}
-        />
+        <Card>
+          <BasketDates
+            scheduledStatus="active" //Force active state because user hasn't paid yet
+            editStatus={null} //Force active state because user hasn't paid yet
+            chargedStatus={null}
+            deliveredStatus={null}
+            editBasketStartDate={orderDemo.editBasketStartDate}
+            editBasketEndDate={orderDemo.editBasketEndDate}
+            chargedDate={orderDemo.chargedDate}
+            deliveryDate={orderDemo.deliveryDate}
+            isPaused={orderDemo.isPaused}
+          />
+        </Card>
       ) : (
         ''
       )}
