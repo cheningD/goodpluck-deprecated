@@ -1,6 +1,24 @@
-## Goodpluck frontend
+## Goodpluck.com
 
-This repo is basede on the gatsby hello world starter
+## Process for making a change (creating a PR) [draft]
+
+We use rebase git flow. (See https://www.benmarshall.me/git-rebase/)
+
+[ ] Make sure master is up to date `git checkout master && git pull`
+[ ] Create a feature branch `git checkout -b`
+[ ] Make changes
+[ ] Commit using "Fixes #issue-number" syntax `git commit -m "Fixes #33 - No more spiders"`
+[ ] Push em, and ask for a review
+
+## Deploying
+
+Once your change is in master you can trigger a deploy by rebasing master onto the live/master or the staging/master branch. Github will automatically deploy pushes to those branches.  
+[ ] Update master `git checkout master && git pull origin master`  
+[ ] Update live/master `git checkout live/master && git rebase master`  
+[ ] Deploy
+
+1. To deploy to staging (staging.goodpluck.com): `git push staging/<branch-name>`
+2. To Deploy to production (goodpluck.com): `git push live/<branch-name>`
 
 ## Acceptance test
 
@@ -42,12 +60,3 @@ This repo is basede on the gatsby hello world starter
 - logout
 
 [ ] Try to 'Get Started' with the exact same email. It should tell you to sign in.
-
-## Deploying
-
-Deployed automatically with github actions.
-
-1. To deploy to staging (staging.goodpluck.com): `git push staging/<branch-name>`
-2. To Deploy to production (goodpluck.com): `git push live/<branch-name>`
-
-Deploy: 2021-03-08
