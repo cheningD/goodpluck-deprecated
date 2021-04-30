@@ -1,5 +1,7 @@
 ## Goodpluck.com
 
+This is a Gatsby App. Product Data comes from Airtable. Ity connects to teh [backend application](https://github.com/cheningD/goodpluck_cf_worker)
+
 ## Process for making a change (creating a PR) [draft]
 
 We use rebase git flow. (See https://www.benmarshall.me/git-rebase/)
