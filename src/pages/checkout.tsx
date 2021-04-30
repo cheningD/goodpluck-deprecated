@@ -228,15 +228,11 @@ export const OrderSummary = ({ orderFrequency }: OrderSummaryProps) => {
       <Card>
         <DetailHeader>The Local Pluck: our best seasonal produce from local farms</DetailHeader>
 
-        <DetailCell2>Order frequency:</DetailCell2>
-        <DetailCell2 right>{startCase(orderFrequency)}</DetailCell2>
-        <DetailCell2>Base cost:</DetailCell2>
-        <DetailCell2 right>$35</DetailCell2>
-        <DetailCell2>Shipping:</DetailCell2>
-        <DetailCell2 right>Free</DetailCell2>
+        <div>Order frequency: {startCase(orderFrequency)}</div>
+        <div>Base cost: $35 - $40</div>
+        <div>Shipping: Free</div>
         <br></br>
-        <br></br>
-        <div>You can edit your basket after confirming your order</div>
+        <div>You can customize your basket after confirming your order</div>
       </Card>
       {orderDemo && orderDemo.scheduledStatus ? (
         <Card>
