@@ -62,3 +62,5 @@ Once your change is in master you can trigger a deploy by rebasing master onto t
 - logout
 
 [ ] Try to 'Get Started' with the exact same email. It should tell you to sign in.
+
+Redeploy
