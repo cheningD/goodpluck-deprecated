@@ -45,11 +45,6 @@ export const Column = styled.div<ColumnProps>`
   ${props => (props.alignItems ? `align-items: ${props.alignItems};` : '')}
 `
 
-interface ColumnProps {
-  flex?: string
-  alignItems?: string
-}
-
 export const PrimaryButton = styled.button`
   background-color: var(--peach-bg);
   border-radius: 4px;
@@ -83,10 +78,24 @@ export const PrimaryButton = styled.button`
 export const LightButton = styled(PrimaryButton)`
   background-color: #fff;
 `
-export const SecondaryButton = styled(PrimaryButton)`
+interface SecondaryButtonProps {
+  inline?: boolean
+}
+
+export const SecondaryButton = styled(PrimaryButton)<SecondaryButtonProps>`
   background: none;
   text-decoration: underline;
   border-style: none;
+
+  ${props =>
+    props.inline
+      ? `
+         width: fit-content;
+         display: inline-block;
+         padding: 0 0 0 16px;
+         margin: 0 0;
+         `
+      : ``}
 
   &:focus,
   :hover {

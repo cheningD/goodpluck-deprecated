@@ -1,3 +1,4 @@
+import { DateTime } from 'luxon'
 import get from 'lodash-es/get'
 import isNil from 'lodash-es/isNil'
 import isObject from 'lodash-es/isObject'
@@ -38,6 +39,10 @@ export function listToClass(className) {
 //Returns a string with all non letters [a-z] removed
 export const removeNonLetters = (input: string): string => (input && input.replace ? input.replace(/[^a-z]/gi, '') : '')
 export const removeNonNumbers = (input: string): string => (input && input.replace ? input.replace(/[^0-9]/gi, '') : '')
+
+export const isoToNiceDate = (isoString: string, format: string = '') => {
+  return DateTime.fromISO(isoString).toFormat(format || `ccc, LLL dd`)
+}
 
 export const getAndValidateZipFromLocalStorage = () => {
   let zip = ''

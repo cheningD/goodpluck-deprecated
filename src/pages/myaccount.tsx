@@ -17,20 +17,20 @@ import {
   StyledField,
 } from '../components/StyledComponentLib'
 import { Form, Formik } from 'formik'
-import { Link, navigate } from 'gatsby'
 import React, { useEffect, useState } from 'react'
+import { editOrder, pauseSubscription, restartSubscription, retrieveCustomer } from '../actions'
 import { isSignedIn, myOrders, signedInUser, stripeCustomer } from '../store'
-import { pauseSubscription, restartSubscription, retrieveCustomer } from '../actions'
+import { isoToNiceDate, sleep } from '../util'
 import { useRecoilState, useRecoilValue } from 'recoil'
 
 import BasketAccountShopLinks from '../components/BasketAccountShopLinks'
 import BasketDates from '../components/BasketDates'
 import { DateTime } from 'luxon'
+import { Link } from 'gatsby'
 import Nav from '../components/Nav'
 import { OrderDetail } from '../types'
 import SEO from '../components/SEO'
 import { StripeUpdateCard } from '../components/StripeUpdateCard'
-import { sleep } from '../util'
 import startCase from 'lodash-es/startCase'
 import styled from 'styled-components'
 
@@ -62,7 +62,15 @@ const ErrorMessage = styled(StyledErrorMessage)`
 
 const MyAccount = () => {
   const user = useRecoilValue(signedInUser)
-  const orders = useRecoilValue(myOrders)
+  const [orders, setOrders] = useRecoilState(myOrders)
+  const setSkipped = async (orderMondayIndex: string, skip: boolean) => {
+    const response = await editOrder(orderMondayIndex, skip)
+    console.log('response is:', JSON.stringify(response))
+    console.log('updatedOrder is:', response.data.updatedOrder)
+    if (response.data.updatedOrder) {
+      setOrders(Object.assign({}, orders, { [orderMondayIndex]: response.data.updatedOrder }))
+    }
+  }
 
   const loadingMsg = (
     <>
@@ -91,6 +99,7 @@ const MyAccount = () => {
         <H1>{`Hi ${user.first},`}</H1>
         <UpcomingBasket {...upcomingOrderData} />
         <MyPlan orderFrequency={user.orderFrequency} />
+        <UpcomingOrders orders={orders} setSkipped={setSkipped} />
         <BillingInfo />
       </>
     )
@@ -232,6 +241,61 @@ const MyPlan = ({ orderFrequency }) => {
       </>
     )
   }
+}
+
+interface UpcomingOrderProps {
+  skipped: boolean
+}
+
+const UpcomingOrder = styled.div<UpcomingOrderProps>`
+  margin-bottom: 8px;
+  ${props =>
+    props.skipped
+      ? `
+    color: var(--secondary-text);
+  `
+      : ''}
+`
+
+const UpcomingOrders = ({ orders, setSkipped }) => {
+  if (!orders) {
+    return <Spinner color="var(--peach-bg)" />
+  }
+  const sortedOrders = Object.keys(orders)
+    .slice()
+    .sort()
+    .map(orderIndexMonday => {
+      const order = orders[orderIndexMonday]
+      let orderIsSkipped = order.skipped || false
+      let orderCanBeSkipped = !order.paid && DateTime.fromISO(order.editBasketEndDate) >= DateTime.local()
+
+      let editButton: JSX.Element
+
+      if (orderCanBeSkipped) {
+        editButton = (
+          <SecondaryButton
+            inline={true}
+            as="button"
+            onClick={async () => await setSkipped(orderIndexMonday, !orderIsSkipped)}
+          >
+            {orderIsSkipped ? 'resume order' : 'skip'}
+          </SecondaryButton>
+        )
+      }
+
+      return (
+        <UpcomingOrder skipped={orderIsSkipped} key={orderIndexMonday}>
+          <strong>{isoToNiceDate(order.deliveryDate)}</strong> {orderIsSkipped ? '(skipped) ' : ''}
+          {editButton}
+        </UpcomingOrder>
+      )
+    })
+  return (
+    <>
+      <H2>Upcoming Orders</H2>
+      <Card>{sortedOrders}</Card>
+    </>
+  )
 }
 
 const BillingInfo = ({}) => {

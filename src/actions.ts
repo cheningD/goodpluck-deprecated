@@ -183,6 +183,27 @@ export const pauseSubscription = async (reason: string): Promise<GoodpluckJSONRe
   }
 }
 
+export const editOrder = async (orderMondayIndex: string, skip: boolean): Promise<GoodpluckJSONResponse> => {
+  const response = await fetch(`${LOCAL_API_PREFIX}/api/editorder`, {
+    credentials: 'same-origin',
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ orderMondayIndex, skip }),
+  })
+
+  try {
+    return await response.json()
+  } catch (err) {
+    console.log(`Error in pauseSubscription: ${err.message || err}`)
+    return {
+      success: false,
+      error: 'Something went wrong. Please contact us if this issue persists',
+    }
+  }
+}
+
 export const updateStripeCard = async (tokenID: string): Promise<Record<string, string> | null> => {
   const response = await fetch(`${LOCAL_API_PREFIX}/api/updatecard`, {
     credentials: 'same-origin',
