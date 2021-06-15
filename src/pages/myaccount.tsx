@@ -31,6 +31,7 @@ import Nav from '../components/Nav'
 import { OrderDetail } from '../types'
 import SEO from '../components/SEO'
 import { StripeUpdateCard } from '../components/StripeUpdateCard'
+import UpcomingOrders from '../components/UpcomingOrders'
 import startCase from 'lodash-es/startCase'
 import styled from 'styled-components'
 
@@ -97,7 +98,7 @@ const MyAccount = () => {
     content = (
       <>
         <H1>{`Hi ${user.first},`}</H1>
-        <UpcomingBasket {...upcomingOrderData} />
+        <UpcomingBasket setSkipped={setSkipped} {...upcomingOrderData} />
         <MyPlan orderFrequency={user.orderFrequency} />
         <UpcomingOrders orders={orders} setSkipped={setSkipped} />
         <BillingInfo />
@@ -225,10 +226,10 @@ const MyPlan = ({ orderFrequency }) => {
           <Row>
             <Column flex="2">
               <div>
-                Delivery Day: <strong>Saturday</strong>
+                Delivery Day: <Bold>Saturday</Bold>
               </div>
               <div>
-                Frequency: <strong>{startCase(orderFrequency)}</strong>
+                Frequency: <Bold>{startCase(orderFrequency)}</Bold>
               </div>
             </Column>
             <Column>
@@ -241,61 +242,6 @@ const MyPlan = ({ orderFrequency }) => {
       </>
     )
   }
-}
-
-interface UpcomingOrderProps {
-  skipped: boolean
-}
-
-const UpcomingOrder = styled.div<UpcomingOrderProps>`
-  margin-bottom: 8px;
-  ${props =>
-    props.skipped
-      ? `
-    color: var(--secondary-text);
-  `
-      : ''}
-`
-
-const UpcomingOrders = ({ orders, setSkipped }) => {
-  if (!orders) {
-    return <Spinner color="var(--peach-bg)" />
-  }
-  const sortedOrders = Object.keys(orders)
-    .slice()
-    .sort()
-    .map(orderIndexMonday => {
-      const order = orders[orderIndexMonday]
-      let orderIsSkipped = order.skipped || false
-      let orderCanBeSkipped = !order.paid && DateTime.fromISO(order.editBasketEndDate) >= DateTime.local()
-
-      let editButton: JSX.Element
-
-      if (orderCanBeSkipped) {
-        editButton = (
-          <SecondaryButton
-            inline={true}
-            as="button"
-            onClick={async () => await setSkipped(orderIndexMonday, !orderIsSkipped)}
-          >
-            {orderIsSkipped ? 'resume order' : 'skip'}
-          </SecondaryButton>
-        )
-      }
-
-      return (
-        <UpcomingOrder skipped={orderIsSkipped} key={orderIndexMonday}>
-          <strong>{isoToNiceDate(order.deliveryDate)}</strong> {orderIsSkipped ? '(skipped) ' : ''}
-          {editButton}
-        </UpcomingOrder>
-      )
-    })
-  return (
-    <>
-      <H2>Upcoming Orders</H2>
-      <Card>{sortedOrders}</Card>
-    </>
-  )
 }
 
 const BillingInfo = ({}) => {
@@ -381,6 +327,7 @@ const BillingInfo = ({}) => {
 }
 
 const UpcomingBasket = ({
+  mondayOfOrderDateString,
   scheduledStatus,
   editStatus,
   chargedStatus,
@@ -389,17 +336,24 @@ const UpcomingBasket = ({
   editBasketEndDate,
   chargedDate,
   deliveryDate,
-  isPaused,
+  skipped,
   isCancelled,
   cancelledReason,
+  setSkipped,
 }) => {
   let message
   if (isCancelled) {
     message = <span>{`${cancelledReason}`}</span>
-  } else if (isPaused) {
+  } else if (skipped) {
     message = (
       <span>
-        Your next basket has been <Bold>paused.</Bold>
+        You are <Bold>skipping</Bold> this week's basket.
+        <div>
+          You won't be charged or recieve a basket on <Bold>{isoToNiceDate(deliveryDate)}</Bold>{' '}
+        </div>
+        <PrimaryButton as="button" type="button" onClick={async () => await setSkipped(mondayOfOrderDateString, false)}>
+          Un-skip this basket
+        </PrimaryButton>
       </span>
     )
   } else if (editStatus === 'done') {
@@ -435,17 +389,20 @@ const UpcomingBasket = ({
       <H2>My Next Basket</H2>
       <Card>
         {message}
-        <BasketDates
-          scheduledStatus={scheduledStatus}
-          editStatus={editStatus}
-          chargedStatus={chargedStatus}
-          deliveredStatus={deliveredStatus}
-          editBasketStartDate={editBasketStartDate}
-          editBasketEndDate={editBasketEndDate}
-          chargedDate={chargedDate}
-          deliveryDate={deliveryDate}
-          isPaused={isPaused}
-        />
+        {isCancelled || skipped ? (
+          ''
+        ) : (
+          <BasketDates
+            scheduledStatus={scheduledStatus}
+            editStatus={editStatus}
+            chargedStatus={chargedStatus}
+            deliveredStatus={deliveredStatus}
+            editBasketStartDate={editBasketStartDate}
+            editBasketEndDate={editBasketEndDate}
+            chargedDate={chargedDate}
+            deliveryDate={deliveryDate}
+          />
+        )}
       </Card>
     </>
   )

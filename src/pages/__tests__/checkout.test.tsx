@@ -1,13 +1,15 @@
+import * as actions from '../../actions'
+
+import CheckoutPage, { CheckoutForm } from '../checkout'
+import { act, fireEvent, render, waitFor } from '../../../test-utils'
+import { findByTestId, queryByTestId, waitForElementToBeRemoved } from '@testing-library/react'
+
 import { DateTime } from 'luxon'
+import React from 'react'
+import { mockStripe } from '../../../setup-test-env'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 import userEvent from '@testing-library/user-event'
-import React from 'react'
-import { render, fireEvent, waitFor, act } from '../../../test-utils'
-import * as actions from '../../actions'
-import CheckoutPage, { CheckoutForm } from '../checkout'
-import { mockStripe } from '../../../setup-test-env'
-import { findByTestId, queryByTestId, waitForElementToBeRemoved } from '@testing-library/react'
 
 const { LOCAL_API_PREFIX } = actions
 const server = setupServer(
@@ -27,7 +29,7 @@ const server = setupServer(
           editStatus: 'active',
           isCancelled: false,
           isFullfilled: false,
-          isPaused: false,
+          skipped: false,
           mondayOfOrderDateString: '2020-12-28',
           paymentID: null,
           scheduledStatus: 'done',

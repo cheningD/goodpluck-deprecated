@@ -134,7 +134,7 @@ const OrdersPage = () => {
         editBasketEndDate={order.editBasketEndDate}
         chargedDate={order.chargedDate}
         deliveryDate={order.deliveryDate}
-        isPaused={order.isPaused}
+        skipped={order.skipped}
       />
     )
 

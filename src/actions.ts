@@ -2,7 +2,6 @@ import {
   BasketItemData,
   CheckEmailAndZipJSONResponse,
   CreateUserSuccessResponseJSON,
-  GoodpluckError,
   GoodpluckJSONResponse,
   OrderDetail,
   SignedInData,
