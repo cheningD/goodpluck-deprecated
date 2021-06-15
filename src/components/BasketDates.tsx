@@ -1,5 +1,5 @@
-import { DateTime } from 'luxon'
 import React from 'react'
+import { isoToNiceDate } from '../util'
 import styled from 'styled-components'
 
 const Container = styled.div`
@@ -117,10 +117,6 @@ const DetailListItem = styled.li`
     padding-left: 8px;
   }
 `
-
-const isoToNiceDate = (isoString: string, format: string = '') => {
-  return DateTime.fromISO(isoString).toFormat(format || `ccc, LLL dd`)
-}
 
 const BasketDates = ({
   scheduledStatus, // null or "active" or "done" or "error"
