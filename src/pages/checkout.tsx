@@ -245,7 +245,6 @@ export const OrderSummary = ({ orderFrequency }: OrderSummaryProps) => {
             editBasketEndDate={orderDemo.editBasketEndDate}
             chargedDate={orderDemo.chargedDate}
             deliveryDate={orderDemo.deliveryDate}
-            isPaused={orderDemo.isPaused}
           />
         </Card>
       ) : (

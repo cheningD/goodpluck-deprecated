@@ -127,7 +127,6 @@ const BasketDates = ({
   editBasketEndDate,
   chargedDate,
   deliveryDate,
-  isPaused,
 }) => {
   return (
     <Container>

@@ -1,9 +1,9 @@
+import { myOrders, signedInUser } from '../../store'
+
+import Basket from '../basket'
 import { DateTime } from 'luxon'
 import React from 'react'
-
 import { render } from '../../../test-utils'
-import { myOrders, signedInUser } from '../../store'
-import Basket from '../basket'
 
 describe('Basket', () => {
   describe('when not authenticated', () => {
@@ -57,7 +57,7 @@ describe('Basket', () => {
               editStatus: 'active',
               isCancelled: false,
               isFullfilled: false,
-              isPaused: false,
+              skipped: false,
               mondayOfOrderDateString: '2020-12-28',
               paid: null,
               paymentID: null,
@@ -92,7 +92,7 @@ describe('Basket', () => {
               editStatus: 'active',
               isCancelled: false,
               isFullfilled: false,
-              isPaused: false,
+              skipped: false,
               mondayOfOrderDateString: '2020-12-28',
               paid: null,
               paymentID: null,
@@ -128,7 +128,7 @@ describe('Basket', () => {
               editStatus: 'active',
               isCancelled: false,
               isFullfilled: false,
-              isPaused: false,
+              skipped: false,
               mondayOfOrderDateString: '2020-12-28',
               paid: null,
               paymentID: null,

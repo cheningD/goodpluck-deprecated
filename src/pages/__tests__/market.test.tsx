@@ -1,9 +1,9 @@
-import React from 'react'
-import { DateTime } from 'luxon'
+import { myOrders, signedInUser } from '../../store'
 
-import { render } from '../../../test-utils'
-import { signedInUser, myOrders } from '../../store'
+import { DateTime } from 'luxon'
 import Market from '../market'
+import React from 'react'
+import { render } from '../../../test-utils'
 
 describe('Market', () => {
   beforeEach(() => jest.clearAllMocks())
@@ -43,7 +43,7 @@ describe('Market', () => {
             editStatus: 'active',
             isCancelled: false,
             isFullfilled: false,
-            isPaused: false,
+            skipped: false,
             mondayOfOrderDateString: '2020-12-28',
             paid: null,
             paymentID: null,
@@ -83,7 +83,7 @@ describe('Market', () => {
             editStatus: 'active',
             isCancelled: false,
             isFullfilled: false,
-            isPaused: false,
+            skipped: false,
             mondayOfOrderDateString: '2020-12-28',
             paid: null,
             paymentID: null,
