@@ -8,6 +8,7 @@ import {
   StripeCustomer,
 } from './types'
 
+import { navigate } from 'gatsby'
 import toast from 'react-hot-toast'
 
 // For testing the api on localhost
