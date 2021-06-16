@@ -8,6 +8,7 @@ import { useRecoilState, useRecoilValue } from 'recoil'
 
 import { Hamburger } from './Hamburger'
 import Image from './Image'
+import { Toaster } from 'react-hot-toast'
 import { isCurrentLink } from '../util'
 import styled from 'styled-components'
 
@@ -268,6 +269,7 @@ const Nav = () => {
   }
   return (
     <>
+      <Toaster />
       <NavBar>
         <NavWrapper>
           <BrandWrapper>

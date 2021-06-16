@@ -79,20 +79,23 @@ const BasketItem = ({
   stripePriceId,
   unitPriceInCents,
   quantityInBasket,
+  showControls,
 }) => {
-  let controls = ''
-  if (canEdit) {
-    controls = (
-      <Controls>
+  let controls = (
+    <Controls>
+      {canEdit ? (
         <AddToCart
           stripePriceId={stripePriceId}
           unitPriceInCents={unitPriceInCents}
           quantityInBasket={quantityInBasket}
         />
-        <Price>{centsToString(unitPriceInCents)}</Price>
-      </Controls>
-    )
-  }
+      ) : (
+        `Qty: ${quantityInBasket || 0}`
+      )}
+      <Price>{centsToString(unitPriceInCents)}</Price>
+    </Controls>
+  )
+
   let image = ''
   if (childImageSharp) {
     image = <Img fluid={childImageSharp.fluid} alt={name} />
@@ -112,7 +115,7 @@ const BasketItem = ({
           {isInSeason ? <Icon src="in_season_icon.png" alt="In seasion" /> : ''} */}
         </Title>
         <Description>{oneLiner}</Description>
-        {controls}
+        {showControls ? controls : ''}
       </Product>
     </ItemContainer>
   )

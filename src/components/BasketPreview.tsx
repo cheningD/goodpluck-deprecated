@@ -102,6 +102,7 @@ const BasketPreview = ({ numberOfVisibleItems }) => {
           name={product.data.name}
           oneLiner={product.data.oneLiner}
           canEdit={false}
+          showControls={false}
           isLocal={true}
           isOrganic={false}
           isInSeason={false}

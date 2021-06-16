@@ -34,16 +34,10 @@ const MarketH2 = styled.h2`
   letter-spacing: 0.1rem;
 `
 
-const Container = styled(Card)`
-  max-width: 800px;
-  margin 0 auto;
-`
-
 const searchOptions = {
   includeScore: false,
   threshold: 0.2,
   shouldSort: false,
-  // Search in `author` and in `tags` array
   keys: ['name', 'oneLiner', 'subCategories', 'categories'],
 }
 
@@ -57,7 +51,7 @@ const sortProducts = memoize(
   () => '1',
 )
 
-const MarketView = () => {
+const MarketView = ({ canEdit }) => {
   const [searchTerm, setSearchTerm] = useState('')
   const _basketItems = useRecoilValue(basketItems)
   const data = useStaticQuery(graphql`
@@ -119,27 +113,28 @@ const MarketView = () => {
       marketItems.push(<MarketH2>{product.subCategories[0]}</MarketH2>)
     }
     if (get(product, 'sku') && get(product, 'sku') !== get(prevProduct, 'sku')) {
-      marketItems.push(productToElement(product, _basketItems))
+      marketItems.push(productToElement(product, _basketItems, canEdit))
       prevProduct = product
     }
   }
 
   return (
-    <Container>
+    <Card>
       <SearchBar updateSearchTerm={value => setSearchTerm(value)} />
       {products.length > 0 ? marketItems : searchTerm ? <div>Couldn't find anything like "{searchTerm}"</div> : ''}
-    </Container>
+    </Card>
   )
 }
 
 export default MarketView
 
-const productToElement = (p, _basketItems) => {
+const productToElement = (p, _basketItems, canEdit) => {
   return (
     <div>
       <div key={p.sku}>
         <BasketItem
-          canEdit={true}
+          canEdit={canEdit}
+          showControls={true}
           childImageSharp={get(p, 'mainImage.localFiles[0].childImageSharp')}
           isCompact={false}
           isInSeason={true}

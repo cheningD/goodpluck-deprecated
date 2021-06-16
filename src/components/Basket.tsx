@@ -18,7 +18,7 @@ const Right = styled.span`
   float: right;
 `
 
-const Basket = ({ deliveryDate = null, orderFrequency = null, canEdit = false, addLocalPluckItems = false }) => {
+const Basket = ({ deliveryDate = null, orderFrequency = null, canEdit = false, skipped = false }) => {
   const data = useStaticQuery(graphql`
     {
       allAirtable(filter: { table: { eq: "product" } }) {
@@ -74,13 +74,12 @@ const Basket = ({ deliveryDate = null, orderFrequency = null, canEdit = false, a
     }
     const product = productNodes[0].data
     const quantityLabel = `${product.unitQuantity || 1} ${product.unitLabel || ''}`
-    // DOUBT: Why is the prop canEdit not passed down to BasketItem?
-    // TODO: BasketPreview.tsx should use the basket component, and the canEdit prop should be false
     return (
       <>
         {index === 0 ? '' : <ThinLineBreak />}
         <BasketItem
-          canEdit={true}
+          canEdit={canEdit}
+          showControls={true}
           childImageSharp={get(product, 'mainImage.localFiles[0].childImageSharp')}
           isInSeason={product.isInSeason}
           isLocal={product.isLocal}
@@ -128,7 +127,7 @@ const Basket = ({ deliveryDate = null, orderFrequency = null, canEdit = false, a
       </div>
       <div>
         <strong>To be charged</strong>
-        <Right>{centsToString(shipping + subtotal)}</Right>
+        <Right>{skipped ? 'Skipping this order!' : centsToString(shipping + subtotal)}</Right>
       </div>
     </Card>
   )
