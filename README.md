@@ -17,7 +17,7 @@ We use rebase git flow. (See https://www.benmarshall.me/git-rebase/)
 Once your change is in master you can trigger a deploy by rebasing master onto the live/master or the staging/master branch. Github will automatically deploy pushes to those branches.  
 [ ] Update master `git checkout master && git pull origin master`  
 [ ] Update live/master `git checkout live/master && git rebase master`  
-[ ] Deploy
+[ ] Deploy `git push`
 
 1. To deploy to staging (staging.goodpluck.com): `git push staging/<branch-name>`
 2. To Deploy to production (goodpluck.com): `git push live/<branch-name>`
