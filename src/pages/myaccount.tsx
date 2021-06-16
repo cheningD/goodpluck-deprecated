@@ -18,13 +18,13 @@ import {
 } from '../components/StyledComponentLib'
 import { Form, Formik } from 'formik'
 import React, { useEffect, useState } from 'react'
-import { editOrder, pauseSubscription, restartSubscription, retrieveCustomer } from '../actions'
+import { getSetSkippedFunc, pauseSubscription, restartSubscription, retrieveCustomer } from '../actions'
 import { isSignedIn, myOrders, signedInUser, stripeCustomer } from '../store'
-import { isoToNiceDate, sleep } from '../util'
 import { useRecoilState, useRecoilValue } from 'recoil'
 
 import BasketAccountShopLinks from '../components/BasketAccountShopLinks'
 import BasketDates from '../components/BasketDates'
+import BasketSkippedCard from '../components/BasketSkippedCard'
 import { DateTime } from 'luxon'
 import { Link } from 'gatsby'
 import Nav from '../components/Nav'
@@ -32,6 +32,7 @@ import { OrderDetail } from '../types'
 import SEO from '../components/SEO'
 import { StripeUpdateCard } from '../components/StripeUpdateCard'
 import UpcomingOrders from '../components/UpcomingOrders'
+import { sleep } from '../util'
 import startCase from 'lodash-es/startCase'
 import styled from 'styled-components'
 
@@ -64,14 +65,7 @@ const ErrorMessage = styled(StyledErrorMessage)`
 const MyAccount = () => {
   const user = useRecoilValue(signedInUser)
   const [orders, setOrders] = useRecoilState(myOrders)
-  const setSkipped = async (orderMondayIndex: string, skip: boolean) => {
-    const response = await editOrder(orderMondayIndex, skip)
-    console.log('response is:', JSON.stringify(response))
-    console.log('updatedOrder is:', response.data.updatedOrder)
-    if (response.data.updatedOrder) {
-      setOrders(Object.assign({}, orders, { [orderMondayIndex]: response.data.updatedOrder }))
-    }
-  }
+  const setSkipped = getSetSkippedFunc(orders, setOrders)
 
   const loadingMsg = (
     <>
@@ -346,15 +340,11 @@ const UpcomingBasket = ({
     message = <span>{`${cancelledReason}`}</span>
   } else if (skipped) {
     message = (
-      <span>
-        You are <Bold>skipping</Bold> this week's basket.
-        <div>
-          You won't be charged or recieve a basket on <Bold>{isoToNiceDate(deliveryDate)}</Bold>{' '}
-        </div>
-        <PrimaryButton as="button" type="button" onClick={async () => await setSkipped(mondayOfOrderDateString, false)}>
-          Un-skip this basket
-        </PrimaryButton>
-      </span>
+      <BasketSkippedCard
+        setSkipped={setSkipped}
+        deliveryDate={deliveryDate}
+        mondayOfOrderDateString={mondayOfOrderDateString}
+      />
     )
   } else if (editStatus === 'done') {
     message = (

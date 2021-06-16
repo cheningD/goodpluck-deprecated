@@ -1,17 +1,19 @@
-import React, { useState } from 'react'
+import { Card, Spinner } from '../components/StyledComponentLib'
 import { isSignedIn, myOrders } from '../store'
+import { useRecoilState, useRecoilValue } from 'recoil'
 
 import Basket from '../components/Basket'
 import BasketAccountShopLinks from '../components/BasketAccountShopLinks'
+import BasketSkippedCard from '../components/BasketSkippedCard'
 import Countdown from '../components/Countdown'
 import { DateTime } from 'luxon'
 import { Link } from 'gatsby'
 import Nav from '../components/Nav'
 import { OrderDetail } from '../types'
+import React from 'react'
 import SEO from '../components/SEO'
-import { Spinner } from '../components/StyledComponentLib'
+import { getSetSkippedFunc } from '../actions'
 import styled from 'styled-components'
-import { useRecoilValue } from 'recoil'
 
 const Page = styled.div`
   background-color: var(--light-bg);
@@ -43,9 +45,8 @@ const BasketPage = () => {
       </H1>
     )
   } else {
-    const orders = useRecoilValue(myOrders)
-    const [countdown, setCountdown] = useState('')
-    const [intervalID, setIntervalID] = useState(0)
+    const [orders, setOrders] = useRecoilState(myOrders)
+    const setSkipped = getSetSkippedFunc(orders, setOrders)
 
     let upcomingOrderData: OrderDetail | null = null
 
@@ -55,18 +56,35 @@ const BasketPage = () => {
     }
     if (!upcomingOrderData) {
       content = <Spinner data-testid="spinner" />
+    } else if (upcomingOrderData.skipped) {
+      content = (
+        <BasketContainer>
+          <Card>
+            <BasketSkippedCard
+              setSkipped={setSkipped}
+              deliveryDate={upcomingOrderData.deliveryDate}
+              mondayOfOrderDateString={upcomingOrderData.mondayOfOrderDateString}
+            />
+          </Card>
+          <Basket canEdit={false} skipped={true} />
+        </BasketContainer>
+      )
     } else if (DateTime.local() < DateTime.fromISO(upcomingOrderData.editBasketStartDate).set({ hour: 17 })) {
       const startTime = DateTime.fromISO(upcomingOrderData.editBasketStartDate).set({ hour: 17 })
-      content = <Countdown startTime={startTime} data-testid="countdown" />
+      content = (
+        <BasketContainer>
+          <Card>
+            <Countdown startTime={startTime} data-testid="countdown" />
+          </Card>
+        </BasketContainer>
+      )
     } else if (DateTime.fromISO(upcomingOrderData.editBasketEndDate) < DateTime.local()) {
       // You can no longer edit your basket
       content = (
-        <>
-          <div>Your order is being finalized now.</div>
-          <BasketContainer>
-            <Basket canEdit={false} />
-          </BasketContainer>
-        </>
+        <BasketContainer>
+          <Card>Your order is being finalized now.</Card>
+          <Basket canEdit={false} />
+        </BasketContainer>
       )
     } else {
       content = (

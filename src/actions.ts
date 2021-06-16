@@ -8,8 +8,7 @@ import {
   StripeCustomer,
 } from './types'
 
-import { Card } from '@stripe/stripe-js'
-import { navigate } from 'gatsby'
+import toast from 'react-hot-toast'
 
 // For testing the api on localhost
 export const LOCAL_API_PREFIX =
@@ -182,8 +181,28 @@ export const pauseSubscription = async (reason: string): Promise<GoodpluckJSONRe
   }
 }
 
-export const editOrder = async (orderMondayIndex: string, skip: boolean): Promise<GoodpluckJSONResponse> => {
-  const response = await fetch(`${LOCAL_API_PREFIX}/api/editorder`, {
+export const getSetSkippedFunc = (orders, setOrders: Function) => {
+  const setSkipped = async (orderMondayIndex: string, skip: boolean) => {
+    const response = await editOrder(orderMondayIndex, skip)
+    let data: Record<string, any>
+    try {
+      data = await response.json()
+    } catch (err) {}
+
+    if (data && data.updatedOrder) {
+      setOrders(Object.assign({}, orders, { [orderMondayIndex]: data.updatedOrder }))
+    } else if (data && data.error) {
+      toast.error(`That didn't work: ${data.error || ''}`)
+    } else {
+      toast.error('That didnt work: Something went wrong when we tried to edit this order.')
+      // Todo: Alert sentry
+    }
+  }
+  return setSkipped
+}
+
+export const editOrder = async (orderMondayIndex: string, skip: boolean): Promise<Response> => {
+  return await fetch(`${LOCAL_API_PREFIX}/api/editorder`, {
     credentials: 'same-origin',
     method: 'POST',
     headers: {
@@ -191,16 +210,6 @@ export const editOrder = async (orderMondayIndex: string, skip: boolean): Promis
     },
     body: JSON.stringify({ orderMondayIndex, skip }),
   })
-
-  try {
-    return await response.json()
-  } catch (err) {
-    console.log(`Error in pauseSubscription: ${err.message || err}`)
-    return {
-      success: false,
-      error: 'Something went wrong. Please contact us if this issue persists',
-    }
-  }
 }
 
 export const updateStripeCard = async (tokenID: string): Promise<Record<string, string> | null> => {

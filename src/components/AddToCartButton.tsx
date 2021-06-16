@@ -43,10 +43,6 @@ const AddToCartButton = ({ stripePriceId, unitPriceInCents, quantityInBasket }) 
     upcomingOrderData = orders[Object.keys(orders).slice().sort()[0]]
   }
 
-  let canEditBasket: boolean = true
-  let basketConfirmationMessage = ''
-  const dateNow = DateTime.local()
-
   // If editBasketEndDate is in the past, dont let them edit....
   if (upcomingOrderData && DateTime.fromISO(upcomingOrderData.editBasketEndDate) < DateTime.local()) {
     return <div>{`Quantity: ${quantityInBasket}`}</div>
