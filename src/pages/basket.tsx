@@ -56,7 +56,7 @@ const BasketPage = () => {
     }
     if (!upcomingOrderData) {
       content = <Spinner data-testid="spinner" />
-    } else if (upcomingOrderData.skipped) {
+    } else if (upcomingOrderData && upcomingOrderData.skipped) {
       content = (
         <BasketContainer>
           <Card>
