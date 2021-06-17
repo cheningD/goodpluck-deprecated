@@ -47,7 +47,7 @@ const MarketContent = () => {
   }
   if (!useRecoilValue(isSignedIn)) {
     return <Spinner data-testid="spinner" />
-  } else if (upcomingOrderData.skipped) {
+  } else if (upcomingOrderData && upcomingOrderData.skipped) {
     return (
       <>
         <Card>
