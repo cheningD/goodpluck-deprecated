@@ -187,7 +187,8 @@ export const getSetSkippedFunc = (orders, setOrders: Function) => {
     const response = await editOrder(orderMondayIndex, skip)
     let data: Record<string, any>
     try {
-      data = await response.json()
+      let jsonData = await response.json()
+      data = jsonData.data
     } catch (err) {}
 
     if (data && data.updatedOrder) {
