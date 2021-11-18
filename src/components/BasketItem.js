@@ -1,6 +1,6 @@
 import AddToCartButton from '../components/AddToCartButton'
 import Image from '../components/Image'
-import Img from 'gatsby-image'
+import { GatsbyImage } from "gatsby-plugin-image";
 import React from 'react'
 import { centsToString } from '../util'
 import styled from 'styled-components'
@@ -98,7 +98,7 @@ const BasketItem = ({
 
   let image = ''
   if (childImageSharp) {
-    image = <Img fluid={childImageSharp.fluid} alt={name} />
+    image = <GatsbyImage image={childImageSharp.gatsbyImageData} alt={name} />
   } else {
     image = <ItemImage src={imageSrc || 'placeholder.jpg'} alt="placeholder-image" />
   }

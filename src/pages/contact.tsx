@@ -1,6 +1,6 @@
 import Nav from '../components/Nav'
 import React from 'react'
-import SEO from '../components/SEO'
+import Seo from '../components/Seo'
 import styled from 'styled-components'
 
 const Page = styled.div`
@@ -17,7 +17,7 @@ const Contact = () => {
   return (
     <>
       <Page>
-        <SEO title="Contact Us | Goodpluck" />
+        <Seo title="Contact Us | Goodpluck" />
         <Nav />
         <Content>
           <h1>Contact Us</h1>

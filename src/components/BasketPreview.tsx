@@ -59,39 +59,36 @@ const Button = styled.button`
 const BasketPreview = ({ numberOfVisibleItems }) => {
   const [showAllItems, setShowAllItems] = useState(false)
 
-  const data = useStaticQuery(graphql`
-    {
-      allAirtable(filter: { table: { eq: "product" }, data: { isLocalPluck: { eq: true } } }) {
-        nodes {
-          data {
-            available
-            description
-            isInSeason
-            isLocal
-            isLocalPluck
-            isOrganic
-            name
-            oneLiner
-            priceInCents
-            stripePriceId
-            unitLabel
-            unitQuantity
-            mainImage {
-              id
-              localFiles {
-                url
-                childImageSharp {
-                  fluid(maxWidth: 100, maxHeight: 100) {
-                    ...GatsbyImageSharpFluid_withWebp
-                  }
-                }
-              }
+  const data = useStaticQuery(graphql`{
+  allAirtable(filter: {table: {eq: "product"}, data: {isLocalPluck: {eq: true}}}) {
+    nodes {
+      data {
+        available
+        description
+        isInSeason
+        isLocal
+        isLocalPluck
+        isOrganic
+        name
+        oneLiner
+        priceInCents
+        stripePriceId
+        unitLabel
+        unitQuantity
+        mainImage {
+          id
+          localFiles {
+            url
+            childImageSharp {
+              gatsbyImageData(width: 100, height: 100, layout: CONSTRAINED)
             }
           }
         }
       }
     }
-  `)
+  }
+}
+`)
 
   const products = data.allAirtable.nodes
   const items = products.map(product => {

@@ -3,7 +3,7 @@ import MissiveChatBox from './src/components/MissiveChatBox'
 import React from 'react'
 import { RecoilRoot } from 'recoil'
 
-export default ({ element }) => {
+const Wrap = ({ element }) => {
   return (
     <>
       <RecoilRoot>
@@ -14,3 +14,4 @@ export default ({ element }) => {
     </>
   )
 }
+export default Wrap

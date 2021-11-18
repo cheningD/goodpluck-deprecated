@@ -29,7 +29,7 @@ import { DateTime } from 'luxon'
 import { Link } from 'gatsby'
 import Nav from '../components/Nav'
 import { OrderDetail } from '../types'
-import SEO from '../components/SEO'
+import Seo from '../components/Seo'
 import { StripeUpdateCard } from '../components/StripeUpdateCard'
 import UpcomingOrders from '../components/UpcomingOrders'
 import { sleep } from '../util'
@@ -110,7 +110,7 @@ const MyAccount = () => {
 
   return (
     <Page>
-      <SEO title="My Account | Goodpluck" />
+      <Seo title="My Account | Goodpluck" />
       <Nav />
       <BasketAccountShopLinks />
       <Content>

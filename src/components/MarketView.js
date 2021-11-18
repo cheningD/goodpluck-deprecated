@@ -54,45 +54,42 @@ const sortProducts = memoize(
 const MarketView = ({ canEdit }) => {
   const [searchTerm, setSearchTerm] = useState('')
   const _basketItems = useRecoilValue(basketItems)
-  const data = useStaticQuery(graphql`
-    {
-      products: allAirtable(
-        filter: { table: {}, data: { available: { eq: true } } }
-        sort: { fields: data___name, order: ASC }
-      ) {
-        edges {
-          node {
+  const data = useStaticQuery(graphql`{
+  products: allAirtable(
+    filter: {table: {}, data: {available: {eq: true}}}
+    sort: {fields: data___name, order: ASC}
+  ) {
+    edges {
+      node {
+        id
+        data {
+          available
+          name
+          oneLiner
+          priceInCents
+          sku
+          stripePriceId
+          unitLabel
+          unitQuantity
+          mainImage {
             id
-            data {
-              available
-              name
-              oneLiner
-              priceInCents
-              sku
-              stripePriceId
-              unitLabel
-              unitQuantity
-              mainImage {
-                id
-                localFiles {
-                  url
-                  childImageSharp {
-                    fluid(maxWidth: 100, maxHeight: 100) {
-                      ...GatsbyImageSharpFluid_withWebp
-                    }
-                  }
-                }
+            localFiles {
+              url
+              childImageSharp {
+                gatsbyImageData(width: 100, height: 100, layout: CONSTRAINED)
               }
-              suppliers
-              departments
-              categories
-              subCategories
             }
           }
+          suppliers
+          departments
+          categories
+          subCategories
         }
       }
     }
-  `)
+  }
+}
+`)
 
   // Use a stable sort to get products in order
   let products = sortProducts(data.products.edges.map(edge => edge.node.data))

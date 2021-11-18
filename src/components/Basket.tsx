@@ -19,39 +19,36 @@ const Right = styled.span`
 `
 
 const Basket = ({ deliveryDate = null, orderFrequency = null, canEdit = false, skipped = false }) => {
-  const data = useStaticQuery(graphql`
-    {
-      allAirtable(filter: { table: { eq: "product" } }) {
-        nodes {
-          data {
-            available
-            description
-            isInSeason
-            isLocal
-            isLocalPluck
-            isOrganic
-            name
-            oneLiner
-            priceInCents
-            stripePriceId
-            unitLabel
-            unitQuantity
-            mainImage {
-              id
-              localFiles {
-                url
-                childImageSharp {
-                  fluid(maxWidth: 100, maxHeight: 100) {
-                    ...GatsbyImageSharpFluid_withWebp
-                  }
-                }
-              }
+  const data = useStaticQuery(graphql`{
+  allAirtable(filter: {table: {eq: "product"}}) {
+    nodes {
+      data {
+        available
+        description
+        isInSeason
+        isLocal
+        isLocalPluck
+        isOrganic
+        name
+        oneLiner
+        priceInCents
+        stripePriceId
+        unitLabel
+        unitQuantity
+        mainImage {
+          id
+          localFiles {
+            url
+            childImageSharp {
+              gatsbyImageData(width: 100, height: 100, layout: CONSTRAINED)
             }
           }
         }
       }
     }
-  `)
+  }
+}
+`)
   const nodes = get(data, 'allAirtable.nodes', null)
   const [basket, setBasket] = useRecoilState(basketItems)
 

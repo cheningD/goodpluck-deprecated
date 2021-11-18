@@ -44,6 +44,7 @@ module.exports = {
         path: path.join(__dirname, `src`, `images`),
       },
     },
+    `gatsby-plugin-image`,
     `gatsby-plugin-sharp`,
     `gatsby-transformer-sharp`,
     `gatsby-plugin-preact`,
@@ -81,8 +82,8 @@ module.exports = {
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
-        name: 'GoodPluck',
-        short_name: 'GoodPluck',
+        name: 'Goodpluck',
+        short_name: 'Goodpluck',
         start_url: '/',
         background_color: '#788474',
         theme_color: '#788474',
@@ -134,6 +135,21 @@ module.exports = {
             mapping: { mainImage: `fileNode` },
           },
         ],
+      },
+    },
+    {
+      resolve: '@chakra-ui/gatsby-plugin',
+      options: {
+        /**
+         * @property {boolean} [resetCSS=true]
+         * if false, this plugin will not use `<CSSReset />
+         */
+        resetCSS: true,
+        /**
+         * @property {boolean} [isUsingColorMode=true]
+         * if false, this plugin will not use <ColorModeProvider />
+         */
+        isUsingColorMode: true,
       },
     },
   ],

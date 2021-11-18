@@ -12,7 +12,7 @@ interface Props {
   article: boolean
 }
 
-const SEO = ({ title = null, description = null, image = null, article = false }) => {
+const Seo = ({ title = null, description = null, image = null, article = false }) => {
   const { pathname } = useLocation()
   const { site } = useStaticQuery(query)
 
@@ -54,9 +54,9 @@ const SEO = ({ title = null, description = null, image = null, article = false }
   )
 }
 
-export default SEO
+export default Seo
 
-SEO.propTypes = {
+Seo.propTypes = {
   title: PropTypes.string,
   description: PropTypes.string,
   image: PropTypes.string,

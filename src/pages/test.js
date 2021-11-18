@@ -1,7 +1,7 @@
 import { Error, SubmitButton } from '../components/StyledComponentLib'
 import React, { useState } from 'react'
 
-import SEO from '../components/SEO'
+import Seo from '../components/Seo'
 import { signInAsTestUser } from '../actions'
 
 export default function Test() {
@@ -12,7 +12,7 @@ export default function Test() {
 
   return (
     <div>
-      <SEO title="Localhost Testing Page | Goodpluck" />
+      <Seo title="Localhost Testing Page | Goodpluck" />
       <h1>Localhost Testing Page</h1>
       <div>Currently you are always signed in as testuser@goodpluck.com on localhost</div>
       <SubmitButton as="button" onClick={async () => setResult(JSON.stringify(await signInAsTestUser()))}>

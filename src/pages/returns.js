@@ -1,11 +1,11 @@
 import Nav from '../components/Nav'
 import React from 'react'
-import SEO from '../components/SEO'
+import Seo from '../components/Seo'
 
 export default function Returns() {
   return (
     <>
-      <SEO title="Returns | Goodpluck" />
+      <Seo title="Returns | Goodpluck" />
       <Nav />
       <h1>Returns, Refunds and Credits Policy</h1>
       <p>
