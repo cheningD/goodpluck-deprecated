@@ -8,8 +8,8 @@ import BasketDates from '../components/BasketDates'
 import { Helmet } from 'react-helmet'
 import { Link } from 'gatsby'
 import Nav from '../components/Nav'
-import SEO from '../components/SEO'
 import Select from 'react-select'
+import Seo from '../components/Seo'
 import { centsToString } from '../util'
 import { getOldOrders } from '../actions'
 // import mapboxgl from 'mapbox-gl'
@@ -174,7 +174,7 @@ const OrdersPage = () => {
       <Helmet>
         <link href="https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.css" rel="stylesheet" />
       </Helmet>
-      <SEO title="My Basket" />
+      <Seo title="My Basket" />
       <Nav />
 
       <Container>{content}</Container>

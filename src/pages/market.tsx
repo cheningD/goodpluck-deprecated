@@ -10,7 +10,7 @@ import { DateTime } from 'luxon'
 import MarketView from '../components/MarketView'
 import Nav from '../components/Nav'
 import { OrderDetail } from '../types'
-import SEO from '../components/SEO'
+import Seo from '../components/Seo'
 import { getSetSkippedFunc } from '../actions'
 import styled from 'styled-components'
 
@@ -28,7 +28,7 @@ const Container = styled.div`
 const Market = () => {
   return (
     <Page>
-      <SEO title="Market | Local Produce" />
+      <Seo title="Market | Local Produce" />
       <Nav />
       <BasketAccountShopLinks />
       <Container>

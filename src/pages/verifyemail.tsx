@@ -8,7 +8,7 @@ import Arrow from '../images/icons/arrow.svg'
 import { GoodpluckJSONResponse } from '../types'
 import Nav from '../components/Nav'
 import Phone from '../images/icons/phone.svg'
-import SEO from '../components/SEO'
+import Seo from '../components/Seo'
 import styled from 'styled-components'
 import { verifyEmail } from '../actions'
 
@@ -103,7 +103,7 @@ const VerifyEmail = () => {
   }
   return (
     <>
-      <SEO title="Verify Email | Goodpluck" />
+      <Seo title="Verify Email | Goodpluck" />
       <Nav />
 
       <Wrapper>

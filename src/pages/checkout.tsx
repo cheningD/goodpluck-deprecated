@@ -31,7 +31,7 @@ import BasketDates from '../components/BasketDates'
 import Image from '../components/Image'
 import Nav from '../components/Nav'
 import { OrderDetail } from '../types'
-import SEO from '../components/SEO'
+import Seo from '../components/Seo'
 import { loadStripe } from '@stripe/stripe-js/pure'
 import startCase from 'lodash-es/startCase'
 import styled from 'styled-components'
@@ -441,7 +441,7 @@ export const Checkout = () => {
   return (
     <>
       <Nav />
-      <SEO title="Checkout" />
+      <Seo title="Checkout" />
       <Columns>
         <Column>
           <CheckoutForm

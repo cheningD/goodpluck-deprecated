@@ -9,7 +9,7 @@ import QuizDeliveryPreferences from '../components/QuizDeliveryPreferences'
 import QuizEmailZip from '../components/QuizEmailZip'
 import QuizMyCauses from '../components/QuizMyCauses'
 import QuizShoppingFor from '../components/QuizShoppingFor'
-import SEO from '../components/SEO'
+import Seo from '../components/Seo'
 import { navigate } from 'gatsby'
 import { onboardingEmail } from '../store'
 import { useRecoilValue } from 'recoil'
@@ -101,7 +101,7 @@ const GetStarted = () => {
 
   return (
     <>
-      <SEO title="Get Started | Goodpluck" />
+      <Seo title="Get Started | Goodpluck" />
       <Nav />
       {currentForm}
     </>

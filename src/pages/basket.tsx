@@ -11,7 +11,7 @@ import { Link } from 'gatsby'
 import Nav from '../components/Nav'
 import { OrderDetail } from '../types'
 import React from 'react'
-import SEO from '../components/SEO'
+import Seo from '../components/Seo'
 import { getSetSkippedFunc } from '../actions'
 import styled from 'styled-components'
 
@@ -97,7 +97,7 @@ const BasketPage = () => {
 
   return (
     <Page>
-      <SEO title="My Basket" />
+      <Seo title="My Basket" />
       <Nav />
       <BasketAccountShopLinks />
       {content}

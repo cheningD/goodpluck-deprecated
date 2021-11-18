@@ -1,5 +1,5 @@
-import React from "react"
-import styled from "styled-components"
+import React from 'react'
+import styled from 'styled-components'
 
 const Section = styled.section`
   background-color: #788474;
@@ -21,7 +21,7 @@ const Card = styled.div`
   }
 `
 
-const FAQ = styled.div`
+const Faq = styled.div`
   color: #2d2d2e;
   width: 100%;
   padding: 0;
@@ -52,38 +52,31 @@ const FAQSection = () => {
     <Section>
       <Card>
         <H1>FAQ</H1>
-        <FAQ>
+        <Faq>
           <H2>Is this a local produce box?</H2>
           <Text>
-            Our <strong>Local Pluck Basket</strong> is filled with the best
-            local produce growing each week and is a great starting point to
-            building your order.
+            Our <strong>Local Pluck Basket</strong> is filled with the best local produce growing each week and is a
+            great starting point to building your order.
           </Text>
-          <Text>
-            You can add or remove items from our selection of local and
-            sustainable produce and groceries.
-          </Text>
-        </FAQ>
+          <Text>You can add or remove items from our selection of local and sustainable produce and groceries.</Text>
+        </Faq>
 
-        <FAQ>
+        <Faq>
           <H2>Is the subscription flexible?</H2>
           <Text>Yes!</Text>
-          <Text>
-            You can skip, pause or cancel at any time, without any gotchas.
-          </Text>
-        </FAQ>
+          <Text>You can skip, pause or cancel at any time, without any gotchas.</Text>
+        </Faq>
 
-        <FAQ>
+        <Faq>
           <H2>When and how will my order arrive?</H2>
           <Text>You can choose your preferred delivery day on signup.</Text>
           <Text>
-            Depending on the weather, we protect your fresh produce fresh with a
-            variety of compostable bags and ice packs, eco-friendly insulation
-            and recyclable boxes
+            Depending on the weather, we protect your fresh produce fresh with a variety of compostable bags and ice
+            packs, eco-friendly insulation and recyclable boxes
           </Text>
-        </FAQ>
+        </Faq>
 
-        <FAQ>
+        <Faq>
           <H2>Have more questions?</H2>
           <button
             className="gp-button-link"
@@ -93,7 +86,7 @@ const FAQSection = () => {
           >
             Chat with us!
           </button>
-        </FAQ>
+        </Faq>
       </Card>
     </Section>
   )

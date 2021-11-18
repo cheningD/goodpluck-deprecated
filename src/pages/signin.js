@@ -1,4 +1,4 @@
-import * as yup from "yup"
+import * as yup from 'yup'
 
 import {
   Error,
@@ -7,21 +7,18 @@ import {
   StyledErrorMessage,
   StyledField,
   TermsLink,
-} from "../components/StyledComponentLib"
-import React, { useState } from "react"
+} from '../components/StyledComponentLib'
+import React, { useState } from 'react'
 
-import FormWrapper from "../components/FormWrapper"
-import Nav from "../components/Nav"
-import SEO from "../components/SEO"
-import { navigate } from "gatsby"
-import { signIn } from "../actions"
+import FormWrapper from '../components/FormWrapper'
+import Nav from '../components/Nav'
+import Seo from '../components/Seo'
+import { navigate } from 'gatsby'
+import { signIn } from '../actions'
 
 const SignInForm = ({ onSubmit, errorText }) => {
   const signInSchema = yup.object().shape({
-    email: yup
-      .string()
-      .required("Please enter your email")
-      .email(`That email doesn't look right`),
+    email: yup.string().required('Please enter your email').email(`That email doesn't look right`),
   })
 
   let errorBar
@@ -43,11 +40,11 @@ const SignInForm = ({ onSubmit, errorText }) => {
 
   let blurb = (
     <FinePrint>
-      By clicking the button above you agree to our{" "}
+      By clicking the button above you agree to our{' '}
       <TermsLink href="/terms" target="_blank">
         Terms of Service
-      </TermsLink>{" "}
-      and{" "}
+      </TermsLink>{' '}
+      and{' '}
       <TermsLink href="/privacy" target="_blank">
         Privacy Policy
       </TermsLink>
@@ -55,21 +52,21 @@ const SignInForm = ({ onSubmit, errorText }) => {
     </FinePrint>
   )
 
-  let header = "Sign In With Your Email"
-  let submitText = "Sign In"
+  let header = 'Sign In With Your Email'
+  let submitText = 'Sign In'
 
   if (typeof window !== `undefined`) {
     const params = new URLSearchParams(window.location.search)
-    if (params.has("verify")) {
-      header = "Verify your email to continue to your account"
-      submitText = "Verify my email"
-      blurb = ""
+    if (params.has('verify')) {
+      header = 'Verify your email to continue to your account'
+      submitText = 'Verify my email'
+      blurb = ''
     }
   }
 
   return (
     <FormWrapper
-      initialValues={{ email: "" }}
+      initialValues={{ email: '' }}
       validationSchema={signInSchema}
       onSubmit={onSubmit}
       FormContent={FormContent}
@@ -81,7 +78,7 @@ const SignInForm = ({ onSubmit, errorText }) => {
 }
 
 export default function SignIn() {
-  const [errorText, setErrorText] = useState("")
+  const [errorText, setErrorText] = useState('')
 
   const sendSignInRequest = async (values, { setSubmitting }) => {
     // Send request
@@ -99,7 +96,7 @@ export default function SignIn() {
 
   return (
     <>
-      <SEO title="Sign In | Goodpluck" />
+      <Seo title="Sign In | Goodpluck" />
       <Nav />
       <SignInForm onSubmit={sendSignInRequest} errorText={errorText} />
     </>

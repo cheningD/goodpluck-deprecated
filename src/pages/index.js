@@ -5,7 +5,7 @@ import HowItWorksSection from '../components/HowItWorksSection'
 import Nav from '../components/Nav'
 import NewsletterSignup from '../components/NewsletterSignup'
 import React from 'react'
-import SEO from '../components/SEO'
+import Seo from '../components/Seo'
 import styled from 'styled-components'
 
 const Body = styled.div`
@@ -16,7 +16,7 @@ export default function Home() {
   return (
     <Body>
       {/* <Notification /> */}
-      <SEO />
+      <Seo />
       <Nav />
       <HeroSection />
       <FeaturesSection />

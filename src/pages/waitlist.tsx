@@ -1,7 +1,7 @@
 import FormWrapper from '../components/FormWrapper'
 import Nav from '../components/Nav'
 import React from 'react'
-import SEO from '../components/SEO'
+import Seo from '../components/Seo'
 import { navigate } from 'gatsby'
 import styled from 'styled-components'
 
@@ -44,7 +44,7 @@ export default function Waitlist() {
   }
   return (
     <>
-      <SEO title="Sign In | Goodpluck" />
+      <Seo title="Sign In | Goodpluck" />
       <Nav />
 
       <FormWrapper

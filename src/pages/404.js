@@ -1,10 +1,10 @@
-import React from "react"
-import SEO from "../components/SEO"
+import React from 'react'
+import Seo from '../components/Seo'
 
 export default function Header() {
   return (
     <div>
-      <SEO title="404 - sorry, couldn't find that..." />
+      <Seo title="404 - sorry, couldn't find that..." />
       404. Not Found
     </div>
   )
