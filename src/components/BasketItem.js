@@ -1,66 +1,9 @@
+import { Container, Flex, HStack, Heading, Text, VStack } from '@chakra-ui/react'
+import { GatsbyImage, StaticImage } from 'gatsby-plugin-image'
+
 import AddToCartButton from '../components/AddToCartButton'
-import Image from '../components/Image'
-import { GatsbyImage } from "gatsby-plugin-image";
 import React from 'react'
-import { centsToString } from '../util'
 import styled from 'styled-components'
-
-const ItemContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  cursor: pointer;
-`
-
-const ImageContainer = styled.div`
-
-  width: ${props => (props.isCompact ? '64px;' : '100px;')}
-  height: ${props => (props.isCompact ? '64px;' : '100px;')}
-  
-`
-const ItemImage = styled(Image)`
-  border-radius: 4px;
-`
-
-const Product = styled.div`
-  padding-left: 16px;
-  font-family: hk_groteskregular, sans-serif;
-  font-size: 1rem;
-  width: 100%;
-`
-
-const Title = styled.h1`
-  margin: 0;
-  font-size: 1.25rem;
-  font-family: hk_grotesksemibold, sans-serif;
-`
-const QuantityLabel = styled.span`
-  color: #6c7668;
-`
-
-const Description = styled.div`
-  color: #333;
-  margin-bottom: 8px;
-`
-
-const Controls = styled.div`
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-  align-items: baseline;
-`
-
-const Price = styled.span`
-  color: #6c7668;
-  font-family: hk_grotesksemibold, sans-serif;
-`
-
-// const Icon = styled(Image)`
-//   width: 20px;
-//   height: 20px;
-//   margin-right: 8px;
-//   display: inline-block;
-// `
 
 const AddToCart = styled(AddToCartButton)`
   display: inline-block;
@@ -82,7 +25,7 @@ const BasketItem = ({
   showControls,
 }) => {
   let controls = (
-    <Controls>
+    <HStack justify="space-between" align="end" w="100%">
       {canEdit ? (
         <AddToCart
           stripePriceId={stripePriceId}
@@ -92,32 +35,50 @@ const BasketItem = ({
       ) : (
         `Qty: ${quantityInBasket || 0}`
       )}
-      <Price>{centsToString(unitPriceInCents)}</Price>
-    </Controls>
+      <Container maxW="20%" p="0">
+        <Text as="sam" fontSize="2xl" color="#6c7668">
+          {`${Math.floor(unitPriceInCents / 100.0)}`}
+        </Text>
+        <Text as="sup" fontSize="sm" color="#6c7668">
+          {String(unitPriceInCents % 100.0).padStart(2, '0')}
+        </Text>
+      </Container>
+    </HStack>
   )
 
   let image = ''
   if (childImageSharp) {
     image = <GatsbyImage image={childImageSharp.gatsbyImageData} alt={name} />
   } else {
-    image = <ItemImage src={imageSrc || 'placeholder.jpg'} alt="placeholder-image" />
+    image = (
+      <StaticImage
+        height={120}
+        width={200}
+        transformOptions={{ fit: 'cover' }}
+        src="../images/placeholder.jpg"
+        alt="placeholder-image"
+      />
+    )
   }
 
   return (
-    <ItemContainer>
-      <ImageContainer isCompact={isCompact}>{image}</ImageContainer>
-      <Product>
-        <Title>
-          <QuantityLabel>{quantityLabel}</QuantityLabel>
-          &nbsp; {name}
-          {/* {isLocal ? <Icon src="mitten.png" alt="grown in michigan" /> : ''}
-          {isOrganic ? <Icon src="organic_icon.png" alt="organic" /> : ''}
-          {isInSeason ? <Icon src="in_season_icon.png" alt="In seasion" /> : ''} */}
-        </Title>
-        <Description>{oneLiner}</Description>
+    <Flex minH="120px">
+      {image}
+      <VStack justify="space-between" align="start" minW="66%" flexGrow="1" m={0} p="2">
+        <VStack align="start" spacing="1">
+          <Heading fontSize={['sm', 'lg']}>
+            <Text as="em" color="#6c7668">
+              {quantityLabel}
+            </Text>
+            &nbsp;{name}
+          </Heading>
+          <Text fontSize={['sm', 'lg']} as="em">
+            {oneLiner}
+          </Text>
+        </VStack>
         {showControls ? controls : ''}
-      </Product>
-    </ItemContainer>
+      </VStack>
+    </Flex>
   )
 }
 export default BasketItem

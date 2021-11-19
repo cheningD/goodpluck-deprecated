@@ -1,3 +1,4 @@
+import { Container, Input } from '@chakra-ui/react'
 import React, { useRef, useState } from 'react'
 
 import { SecondaryButton } from './StyledComponentLib'
@@ -20,8 +21,8 @@ const SearchBar = ({ updateSearchTerm }) => {
   const updateSearchTermDebounced = useRef(debounce(updateSearchTerm, 100)).current
 
   return (
-    <>
-      <Search
+    <Container px={[2, 2, 0]}>
+      <Input
         type="text"
         placeholder="Search all products"
         value={searchTerm}
@@ -42,7 +43,7 @@ const SearchBar = ({ updateSearchTerm }) => {
       ) : (
         ''
       )}
-    </>
+    </Container>
   )
 }
 
