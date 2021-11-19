@@ -1,4 +1,4 @@
-import { Card, LineBreak } from './StyledComponentLib'
+import { Container, Divider, Heading } from '@chakra-ui/react'
 import React, { useState } from 'react'
 import { graphql, useStaticQuery } from 'gatsby'
 
@@ -9,30 +9,7 @@ import { basketItems } from '../store'
 import get from 'lodash-es/get'
 import memoize from 'lodash-es/memoize'
 import sortBy from 'lodash-es/sortBy'
-import styled from 'styled-components'
 import { useRecoilValue } from 'recoil'
-
-const ThinLineBreak = styled(LineBreak)`
-  height: 1px;
-`
-
-const MarketH1 = styled.h1`
-  font-size: 2rem;
-  font-family: Bebas Neue, sans-serif;
-  line-height: 1;
-  margin: 3rem 0 0 0;
-  color: var(--green-bg-dark);
-  letter-spacing: 0.1rem;
-`
-
-const MarketH2 = styled.h2`
-  font-size: 1.5rem;
-  font-family: Bebas Neue, sans-serif;
-  font-family: hk_groteskbold, sans-serif;
-  line-height: 1;
-  margin: 2rem 0 1.5rem 0;
-  letter-spacing: 0.1rem;
-`
 
 const searchOptions = {
   includeScore: false,
@@ -54,42 +31,43 @@ const sortProducts = memoize(
 const MarketView = ({ canEdit }) => {
   const [searchTerm, setSearchTerm] = useState('')
   const _basketItems = useRecoilValue(basketItems)
-  const data = useStaticQuery(graphql`{
-  products: allAirtable(
-    filter: {table: {}, data: {available: {eq: true}}}
-    sort: {fields: data___name, order: ASC}
-  ) {
-    edges {
-      node {
-        id
-        data {
-          available
-          name
-          oneLiner
-          priceInCents
-          sku
-          stripePriceId
-          unitLabel
-          unitQuantity
-          mainImage {
+  const data = useStaticQuery(graphql`
+    {
+      products: allAirtable(
+        filter: { table: {}, data: { available: { eq: true } } }
+        sort: { fields: data___name, order: ASC }
+      ) {
+        edges {
+          node {
             id
-            localFiles {
-              url
-              childImageSharp {
-                gatsbyImageData(width: 100, height: 100, layout: CONSTRAINED)
+            data {
+              available
+              name
+              oneLiner
+              priceInCents
+              sku
+              stripePriceId
+              unitLabel
+              unitQuantity
+              mainImage {
+                id
+                localFiles {
+                  url
+                  childImageSharp {
+                    gatsbyImageData(height: 120, width: 180, transformOptions: { fit: COVER })
+                  }
+                }
               }
+              suppliers
+              departments
+              categories
+              subCategories
             }
           }
-          suppliers
-          departments
-          categories
-          subCategories
         }
       }
     }
-  }
-}
-`)
+  `)
 
   // Use a stable sort to get products in order
   let products = sortProducts(data.products.edges.map(edge => edge.node.data))
@@ -104,10 +82,26 @@ const MarketView = ({ canEdit }) => {
   let prevProduct = null
   for (const product of products) {
     if (get(product, 'categories[0]') && get(product, 'categories[0]') !== get(prevProduct, 'categories[0]')) {
-      marketItems.push(<MarketH1>{product.categories[0]}</MarketH1>)
+      marketItems.push(
+        <Heading
+          as="h1"
+          size="2xl"
+          px={[2, 2, 0]}
+          mt="6"
+          fontFamily="Bebas Neue, sans-serif"
+          letterSpacing="wide"
+          color="var(--green-bg-dark)"
+        >
+          {product.categories[0]}
+        </Heading>,
+      )
     }
     if (get(product, 'subCategories[0]') && get(product, 'subCategories[0]') !== get(prevProduct, 'subCategories[0]')) {
-      marketItems.push(<MarketH2>{product.subCategories[0]}</MarketH2>)
+      marketItems.push(
+        <Heading as="h2" size="lg" px={[2, 2, 0]} mt="8" mb="4">
+          {product.subCategories[0]}
+        </Heading>,
+      )
     }
     if (get(product, 'sku') && get(product, 'sku') !== get(prevProduct, 'sku')) {
       marketItems.push(productToElement(product, _basketItems, canEdit))
@@ -116,10 +110,10 @@ const MarketView = ({ canEdit }) => {
   }
 
   return (
-    <Card>
+    <Container bg="white" borderRadius={[0, 0, 'md']} py={[2, 2, 4]} px={[0, 0, 4]} minW={['100%', '100%', '48em']}>
       <SearchBar updateSearchTerm={value => setSearchTerm(value)} />
       {products.length > 0 ? marketItems : searchTerm ? <div>Couldn't find anything like "{searchTerm}"</div> : ''}
-    </Card>
+    </Container>
   )
 }
 
@@ -127,26 +121,25 @@ export default MarketView
 
 const productToElement = (p, _basketItems, canEdit) => {
   return (
-    <div>
-      <div key={p.sku}>
-        <BasketItem
-          canEdit={canEdit}
-          showControls={true}
-          childImageSharp={get(p, 'mainImage.localFiles[0].childImageSharp')}
-          isCompact={false}
-          isInSeason={true}
-          isLocal={true}
-          isOrganic={false}
-          imageSrc={null}
-          name={p.name}
-          oneLiner={p.oneLiner}
-          quantityLabel={`${p.unitQuantity || 1} ${p.unitLabel || ''}`}
-          stripePriceId={p.sku}
-          unitPriceInCents={p.priceInCents} //Just a value
-          quantityInBasket={_basketItems?.get(p.sku)?.quantity || 0}
-        />
-      </div>
-      <ThinLineBreak />
-    </div>
+    <>
+      <BasketItem
+        key={p.sku}
+        canEdit={canEdit}
+        showControls={true}
+        childImageSharp={get(p, 'mainImage.localFiles[0].childImageSharp')}
+        isCompact={false}
+        isInSeason={true}
+        isLocal={true}
+        isOrganic={false}
+        imageSrc={null}
+        name={p.name}
+        oneLiner={p.oneLiner}
+        quantityLabel={`${p.unitQuantity || 1} ${p.unitLabel || ''}`}
+        stripePriceId={p.sku}
+        unitPriceInCents={p.priceInCents} //Just a value
+        quantityInBasket={_basketItems?.get(p.sku)?.quantity || 0}
+      />
+      <Divider />
+    </>
   )
 }
