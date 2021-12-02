@@ -11,6 +11,7 @@ import { createUser } from '../actions'
 import { loadStripe } from '@stripe/stripe-js/pure'
 import { navigate } from 'gatsby-link'
 import { useForm } from 'react-hook-form'
+import { useLocalStorage } from '../util'
 import { yupResolver } from '@hookform/resolvers/yup'
 
 let stripe_api_key = process.env.GATSBY_STRIPE_API_PUBLIC_KEY
@@ -44,7 +45,8 @@ const schema1 = {
 }
 
 // Handle form submission.
-const handleFinalSubmit = async (elements, stripe, setStripeError) => {
+const handleFinalSubmit = async (elements, stripe, setStripeError, setIsLoading) => {
+  setIsLoading(true)
   const first = 'testn'
   const last = 'restn'
   const card = elements.getElement(CardElement)
@@ -115,17 +117,19 @@ const CheckoutForm = () => {
   const [stripeError, setStripeError] = useState(null)
   const stripe = useStripe()
   const elements = useElements()
+  const [storage, setStorage] = useLocalStorage('formValues', null)
 
   const {
     register,
     handleSubmit,
     watch,
-    formState: { errors, dirtyFields },
-  } = useForm({ resolver: yupResolver(stageToSchema[stage]), mode: 'onBlur' })
+    formState: { errors },
+  } = useForm({ resolver: yupResolver(stageToSchema[stage]), mode: 'onBlur', defaultValues: storage })
 
   const onSubmit = (data: any) => {
     console.log("I'm submitting")
-    console.log(data)
+    console.log(`data: ${JSON.stringify(data)}`)
+    console.log(`storage ${JSON.stringify(storage)}`)
     if (stage == 0) {
       console.log("I'm changing stage 0 --> 1")
       setStage(1)
@@ -134,15 +138,15 @@ const CheckoutForm = () => {
       setStage(2)
     } else if (stage === 2) {
       console.log("I'm changing stage 2 --> Checkout")
-      handleFinalSubmit(elements, stripe, setStripeError)
+      handleFinalSubmit(elements, stripe, setStripeError, setIsLoading)
     }
   }
 
   const stage0IsError = errors.first || errors.last || errors.email
-  const stage0IsValid = dirtyFields.first && dirtyFields.last && dirtyFields.email && !stage0IsError
+  const stage0IsValid = !!watch('first') && !!watch('last') && !!watch('email') && !stage0IsError
 
   const stage1IsError = errors.addressLine1 || errors.addressLine2 || errors.zip || errors.phone
-  const stage1IsValid = dirtyFields.addressLine1 && dirtyFields.zip && dirtyFields.phone && !stage1IsError
+  const stage1IsValid = !!watch('addressLine1') && !!watch('zip') && !!watch('phone') && !stage1IsError
 
   //Stage 2 is stripe
   const stage2IsValid = false
@@ -155,7 +159,7 @@ const CheckoutForm = () => {
         isLoading={isLoading}
         heading="Create your account"
         onSubmit={onSubmit}
-        progress={99}
+        progress={98}
         goBackFunc={() => navigate('/signup5')}
         handleSubmit={handleSubmit}
         submitStr={stageTosubmitStr[stage]}

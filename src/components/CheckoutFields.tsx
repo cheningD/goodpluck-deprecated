@@ -4,7 +4,6 @@ import {
   AccordionIcon,
   AccordionItem,
   AccordionPanel,
-  Container,
   FormControl,
   FormErrorMessage,
   FormLabel,
@@ -13,12 +12,14 @@ import {
   Input,
   InputGroup,
   InputLeftElement,
+  Link,
   Text,
   VStack,
 } from '@chakra-ui/react'
 import { CheckCircleIcon, PhoneIcon, SmallAddIcon } from '@chakra-ui/icons'
 import React, { useState } from 'react'
 
+import GatsbyLink from 'gatsby-link'
 import StripeCardElement from './StripeCardElement'
 
 const EmailBlock = ({ register, errors }) => {
@@ -67,7 +68,12 @@ const AddressBlock = ({ register, errors, addressLine2 }) => {
       )}
       <FormControl id="zip" isRequired isInvalid={!!errors.zip}>
         <FormLabel>Zip code</FormLabel>
-        <Input type="zip" placeholder="e.g 48201" {...register('zip')} />
+        <HStack spacing={4}>
+          <Input type="zip" isDisabled placeholder="e.g 48201" {...register('zip')} />
+          <Link color="teal.500" fontSize="l" as={GatsbyLink} to="/signup">
+            edit
+          </Link>
+        </HStack>
         <FormErrorMessage>{errors.zip?.message}</FormErrorMessage>
       </FormControl>
       <FormControl id="phone" isRequired isInvalid={!!errors.phone}>
@@ -78,12 +84,9 @@ const AddressBlock = ({ register, errors, addressLine2 }) => {
         </InputGroup>
         <FormErrorMessage>{errors.phone?.message}</FormErrorMessage>
       </FormControl>
-      <FormControl id="instructions" isRequired isInvalid={!!errors.instructions}>
+      <FormControl id="instructions" isInvalid={!!errors.instructions}>
         <FormLabel>Delivery Instructions</FormLabel>
-        <Input
-          placeholder="e.g Building Code = 1234 | Where should we place your basket?"
-          {...register('instructions')}
-        />
+        <Input placeholder="e.g Building Code = 1234, by the front door" {...register('instructions')} />
         <FormErrorMessage>{errors.instructions?.message}</FormErrorMessage>
       </FormControl>
     </VStack>

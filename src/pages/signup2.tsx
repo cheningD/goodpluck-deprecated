@@ -8,6 +8,7 @@ import { FormLayout } from '../components/FormLayout'
 import RadioCard from '../components/RadioCard'
 import Seo from '../components/Seo'
 import { navigate } from 'gatsby-link'
+import { useLocalStorage } from '../util'
 import { yupResolver } from '@hookform/resolvers/yup'
 
 const schema = yup.object().shape({
@@ -15,18 +16,18 @@ const schema = yup.object().shape({
 })
 
 const SignupGoals = () => {
+  const [storage, setStorage] = useLocalStorage('formValues', null)
+
   const {
-    register,
     control,
     handleSubmit,
     watch,
     formState: { errors },
-  } = useForm({ resolver: yupResolver(schema) })
-
-  const [isLoading, setIsLoading] = useState(false)
+  } = useForm({ resolver: yupResolver(schema), defaultValues: storage })
+  const formData = watch()
 
   const onSubmit = (data: any) => {
-    console.log(data)
+    setStorage(Object.assign({}, storage, data))
     navigate('/signup3')
   }
 
@@ -44,7 +45,7 @@ const SignupGoals = () => {
       <Seo title="Signup | Goodpluck" />
       <FormLayout
         progress={40}
-        isLoading={isLoading}
+        isLoading={false}
         heading="How many eaters are there in your household?"
         goBackFunc={() => {
           navigate('/signup1')
@@ -60,6 +61,7 @@ const SignupGoals = () => {
               <Stack spacing={6} {...group} {...field}>
                 {options.map(value => {
                   const radio = getRadioProps({ value })
+                  radio.isChecked = value === formData['numHousehold']
                   return (
                     <RadioCard key={value} {...radio}>
                       {value}

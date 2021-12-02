@@ -8,6 +8,7 @@ import { FormLayout } from '../components/FormLayout'
 import RadioCard from '../components/RadioCard'
 import Seo from '../components/Seo'
 import { navigate } from 'gatsby-link'
+import { useLocalStorage } from '../util'
 import { yupResolver } from '@hookform/resolvers/yup'
 
 const schema = yup.object().shape({
@@ -15,7 +16,7 @@ const schema = yup.object().shape({
   deliveryFrequency: yup.string().required('Please make a choice'),
 })
 
-const DeliveryDate = ({ control, errors }) => {
+const DeliveryDate = ({ control, errors, formData }) => {
   const options = ['Saturday Afternoon (by 8 pm)', 'Sunday Morning (by noon)']
 
   const { getRootProps, getRadioProps } = useRadioGroup({
@@ -39,6 +40,7 @@ const DeliveryDate = ({ control, errors }) => {
             <HStack spacing={4} {...group} {...field}>
               {options.map(value => {
                 const radio = getRadioProps({ value })
+                radio.isChecked = value === formData['deliveryDate']
                 return (
                   <RadioCard key={value} {...radio}>
                     {value}
@@ -58,7 +60,7 @@ const DeliveryDate = ({ control, errors }) => {
   )
 }
 
-const DeliveryFrequency = ({ control, errors }) => {
+const DeliveryFrequency = ({ control, errors, formData }) => {
   const options = ['Every Week', 'Every Other Week']
 
   const { getRootProps, getRadioProps } = useRadioGroup({
@@ -81,6 +83,7 @@ const DeliveryFrequency = ({ control, errors }) => {
             <HStack spacing={4} {...group} {...field}>
               {options.map(value => {
                 const radio = getRadioProps({ value })
+                radio.isChecked = value === formData['deliveryFrequency']
                 return (
                   <RadioCard key={value} {...radio}>
                     {value}
@@ -97,25 +100,28 @@ const DeliveryFrequency = ({ control, errors }) => {
 }
 
 const Signup5 = () => {
-  const [isLoading, setIsLoading] = useState(false)
+  const [storage, setStorage] = useLocalStorage('formValues', null)
 
   const onSubmit = (data: any) => {
     console.log(data)
-    navigate('/checkout')
+    setStorage(Object.assign({}, storage, data))
+    navigate('/signup6')
   }
 
   const {
     control,
     handleSubmit,
+    watch,
     formState: { errors },
-  } = useForm({ resolver: yupResolver(schema) })
+  } = useForm({ resolver: yupResolver(schema), defaultValues: storage })
 
+  const formData = watch()
   return (
     <>
       <Seo title="Signup | Goodpluck" />
       <FormLayout
         progress={80}
-        isLoading={isLoading}
+        isLoading={false}
         heading="Set Your Delivery Preferences"
         goBackFunc={() => {
           navigate('/signup4')
@@ -123,8 +129,8 @@ const Signup5 = () => {
         onSubmit={onSubmit}
         handleSubmit={handleSubmit}
       >
-        <DeliveryDate control={control} errors={errors} />
-        <DeliveryFrequency control={control} errors={errors} />
+        <DeliveryDate control={control} errors={errors} formData={formData} />
+        <DeliveryFrequency control={control} errors={errors} formData={formData} />
       </FormLayout>
     </>
   )

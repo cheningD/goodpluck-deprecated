@@ -2,12 +2,13 @@ import * as yup from 'yup'
 
 import { Controller, useForm } from 'react-hook-form'
 import { FormControl, FormErrorMessage, SimpleGrid, useRadioGroup } from '@chakra-ui/react'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { FormLayout } from '../components/FormLayout'
 import RadioCard from '../components/RadioCard'
 import Seo from '../components/Seo'
 import { navigate } from 'gatsby-link'
+import { useLocalStorage } from '../util'
 import { yupResolver } from '@hookform/resolvers/yup'
 
 const schema = yup.object().shape({
@@ -15,16 +16,22 @@ const schema = yup.object().shape({
 })
 
 const SignupGoals = () => {
+  const [storage, setStorage] = useLocalStorage('formValues', null)
+
   const {
     control,
     handleSubmit,
+    watch,
     formState: { errors },
-  } = useForm({ resolver: yupResolver(schema) })
+  } = useForm({
+    resolver: yupResolver(schema),
+    defaultValues: storage,
+  })
 
-  const [isLoading, setIsLoading] = useState(false)
+  const formData = watch()
 
   const onSubmit = (data: any) => {
-    console.log(data)
+    setStorage(Object.assign({}, storage, data))
     navigate('/signup2')
   }
 
@@ -49,7 +56,7 @@ const SignupGoals = () => {
       <Seo title="Signup | Goodpluck" />
       <FormLayout
         progress={20}
-        isLoading={isLoading}
+        isLoading={false}
         heading="What brings you to Goodpluck?"
         subheading="Choose your main reason"
         goBackFunc={() => {
@@ -67,6 +74,7 @@ const SignupGoals = () => {
               <SimpleGrid columns={2} spacing={4} {...group} {...field}>
                 {options.map(value => {
                   const radio = getRadioProps({ value })
+                  radio.isChecked = value === formData['goal']
                   return (
                     <RadioCard key={value} {...radio}>
                       {value}
