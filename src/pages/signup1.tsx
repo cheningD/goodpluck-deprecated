@@ -1,11 +1,11 @@
 import * as yup from 'yup'
 
 import { Controller, useForm } from 'react-hook-form'
-import { FormControl, FormErrorMessage, SimpleGrid, useRadioGroup } from '@chakra-ui/react'
-import React, { useEffect, useState } from 'react'
+import { FormControl, FormErrorMessage, SimpleGrid, VStack, useRadioGroup } from '@chakra-ui/react'
 
 import { FormLayout } from '../components/FormLayout'
 import RadioCard from '../components/RadioCard'
+import React from 'react'
 import Seo from '../components/Seo'
 import { navigate } from 'gatsby-link'
 import { useLocalStorage } from '../util'
@@ -55,7 +55,7 @@ const SignupGoals = () => {
     <>
       <Seo title="Signup | Goodpluck" />
       <FormLayout
-        progress={20}
+        progress={15}
         isLoading={false}
         heading="What brings you to Goodpluck?"
         subheading="Choose your main reason"

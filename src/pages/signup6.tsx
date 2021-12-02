@@ -1,11 +1,15 @@
 import * as yup from 'yup'
 
 import { CardElement, Elements, useElements, useStripe } from '@stripe/react-stripe-js'
+import { Link, Text } from '@chakra-ui/react'
 import React, { useState } from 'react'
+import { Stack, VStack } from '@chakra-ui/react'
 import { VALID_ZIP_PATTERN, getMaxlengthFunc } from '../util'
 
 import CheckoutFields from '../components/CheckoutFields'
+import CheckoutSummary from '../components/CheckoutSummary'
 import { FormLayout } from '../components/FormLayout'
+import GatsbyLink from 'gatsby-link'
 import Seo from '../components/Seo'
 import { createUser } from '../actions'
 import { loadStripe } from '@stripe/stripe-js/pure'
@@ -111,6 +115,19 @@ const stageToSchema = {
   2: yup.object().shape(Object.assign({}, schema, schema1)),
 }
 
+const blurb = (
+  <Text>
+    By clicking "Confirm Order" you agree to our{' '}
+    <Link as={GatsbyLink} to="/terms" color="teal.500" target="_blank">
+      Terms of Service
+    </Link>{' '}
+    and{' '}
+    <Link as={GatsbyLink} to="/privacy" color="teal.500" target="_blank">
+      Privacy Policy
+    </Link>
+  </Text>
+)
+
 const CheckoutForm = () => {
   const [isLoading, setIsLoading] = useState(false)
   const [stage, setStage] = useState(0)
@@ -123,6 +140,7 @@ const CheckoutForm = () => {
     register,
     handleSubmit,
     watch,
+    trigger,
     formState: { errors },
   } = useForm({ resolver: yupResolver(stageToSchema[stage]), mode: 'onBlur', defaultValues: storage })
 
@@ -152,38 +170,55 @@ const CheckoutForm = () => {
   const stage2IsValid = false
 
   return (
-    <>
+    <VStack bgColor="var(--light-bg)">
       <Seo title="Signup | Goodpluck" />
 
-      <FormLayout
-        isLoading={isLoading}
-        heading="Create your account"
-        onSubmit={onSubmit}
-        progress={98}
-        goBackFunc={() => navigate('/signup5')}
-        handleSubmit={handleSubmit}
-        submitStr={stageTosubmitStr[stage]}
+      <Stack
+        direction={['column', 'column', 'row']}
+        align={['center', 'center', 'start']}
+        mb="16"
+        borderRadius="lg"
+        overflow="hidden"
+        spacing={4}
       >
-        <CheckoutFields
-          first={watch('first')}
-          last={watch('last')}
-          email={watch('email')}
-          addressLine1={watch('addressLine1')}
-          addressLine2={watch('addressLine2')}
-          zip={watch('zip')}
-          phone={watch('phone')}
-          stage={stage}
-          setStage={setStage}
-          stage0IsValid={stage0IsValid}
-          stage1IsValid={stage1IsValid}
-          stage2IsValid={stage2IsValid}
-          register={register}
-          errors={errors}
-          stripeError={stripeError}
-          setStripeError={setStripeError}
+        <FormLayout
+          isLoading={isLoading}
+          heading="Finish Creating Your Account"
+          onSubmit={onSubmit}
+          progress={90}
+          goBackFunc={() => navigate('/signup5')}
+          handleSubmit={handleSubmit}
+          submitStr={stageTosubmitStr[stage]}
+          blurb={stage === 2 ? blurb : ''}
+        >
+          <CheckoutFields
+            first={watch('first')}
+            last={watch('last')}
+            email={watch('email')}
+            addressLine1={watch('addressLine1')}
+            addressLine2={watch('addressLine2')}
+            zip={watch('zip')}
+            phone={watch('phone')}
+            stage={stage}
+            setStage={setStage}
+            stage0IsValid={stage0IsValid}
+            stage1IsValid={stage1IsValid}
+            stage2IsValid={stage2IsValid}
+            register={register}
+            errors={errors}
+            stripeError={stripeError}
+            setStripeError={setStripeError}
+            handleSubmit={handleSubmit}
+            onSubmit={onSubmit}
+            trigger={trigger}
+          />
+        </FormLayout>
+        <CheckoutSummary
+          deliveryDay={storage['deliveryDate'] || ''}
+          deliveryFrequency={storage['deliveryFrequency'] || ''}
         />
-      </FormLayout>
-    </>
+      </Stack>
+    </VStack>
   )
 }
 
