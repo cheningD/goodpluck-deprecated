@@ -9,6 +9,7 @@ import Seo from '../components/Seo'
 import { VALID_ZIP_PATTERN } from '../util'
 import { navigate } from 'gatsby-link'
 import { useForm } from 'react-hook-form'
+import { useLocalStorage } from '../util'
 import { yupResolver } from '@hookform/resolvers/yup'
 
 const schema = yup.object().shape({
@@ -17,17 +18,15 @@ const schema = yup.object().shape({
 })
 
 const Signup = () => {
+  const [storage, setStorage] = useLocalStorage('formValues', null)
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({ resolver: yupResolver(schema) })
-
-  const [isLoading, setIsLoading] = useState(false)
+  } = useForm({ resolver: yupResolver(schema), defaultValues: storage })
 
   const onSubmit = (data: any) => {
-    console.log(data)
-    setIsLoading(true)
+    setStorage(Object.assign({}, storage, data))
     navigate('/signup1')
   }
 
@@ -36,7 +35,7 @@ const Signup = () => {
       <Seo title="Signup | Goodpluck" />
       <Nav />
       <FormLayout
-        isLoading={isLoading}
+        isLoading={false}
         heading="First, let's confirm that we deliver to you"
         onSubmit={onSubmit}
         handleSubmit={handleSubmit}

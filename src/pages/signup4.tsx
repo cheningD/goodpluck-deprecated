@@ -9,23 +9,18 @@ import Seo from '../components/Seo'
 import { StaticImage } from 'gatsby-plugin-image'
 import { navigate } from 'gatsby-link'
 import { useForm } from 'react-hook-form'
+import { useLocalStorage } from '../util'
 import { yupResolver } from '@hookform/resolvers/yup'
 
 const schema = yup.object().shape({})
 
 const BuildBasket = () => {
-  const {
-    register,
-    handleSubmit,
-    watch,
-    formState: { errors },
-  } = useForm({ resolver: yupResolver(schema) })
+  const [storage, setStorage] = useLocalStorage('formValues', null)
 
-  const [isLoading, setIsLoading] = useState(false)
+  const { handleSubmit } = useForm({ resolver: yupResolver(schema), defaultValues: storage })
 
   const onSubmit = (data: any) => {
-    console.log(data)
-    setIsLoading(true)
+    setStorage(Object.assign({}, storage, data))
     navigate('/signup5')
   }
 
@@ -34,7 +29,7 @@ const BuildBasket = () => {
       <Seo title="Your Basket | Goodpluck" />
       <FormLayout
         progress={60}
-        isLoading={isLoading}
+        isLoading={false}
         heading="Your First Basket"
         onSubmit={onSubmit}
         handleSubmit={handleSubmit}
