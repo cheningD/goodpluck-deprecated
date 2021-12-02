@@ -1,7 +1,7 @@
 import * as yup from 'yup'
 
 import { Controller, useForm } from 'react-hook-form'
-import { FormControl, FormErrorMessage, Stack, useRadioGroup } from '@chakra-ui/react'
+import { FormControl, FormErrorMessage, Stack, VStack, useRadioGroup } from '@chakra-ui/react'
 import React, { useState } from 'react'
 
 import { FormLayout } from '../components/FormLayout'
@@ -41,10 +41,10 @@ const SignupGoals = () => {
   const group = getRootProps()
 
   return (
-    <>
+    <VStack bgColor="var(--light-bg)">
       <Seo title="Signup | Goodpluck" />
       <FormLayout
-        progress={40}
+        progress={30}
         isLoading={false}
         heading="How many eaters are there in your household?"
         goBackFunc={() => {
@@ -74,7 +74,7 @@ const SignupGoals = () => {
           )}
         />
       </FormLayout>
-    </>
+    </VStack>
   )
 }
 export default SignupGoals

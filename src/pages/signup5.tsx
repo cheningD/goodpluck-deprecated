@@ -1,11 +1,11 @@
 import * as yup from 'yup'
 
 import { Controller, useForm } from 'react-hook-form'
-import { FormControl, FormErrorMessage, FormHelperText, HStack, Heading, Text, useRadioGroup } from '@chakra-ui/react'
-import React, { useState } from 'react'
+import { FormControl, FormErrorMessage, FormHelperText, HStack, Heading, VStack, useRadioGroup } from '@chakra-ui/react'
 
 import { FormLayout } from '../components/FormLayout'
 import RadioCard from '../components/RadioCard'
+import React from 'react'
 import Seo from '../components/Seo'
 import { navigate } from 'gatsby-link'
 import { useLocalStorage } from '../util'
@@ -37,7 +37,7 @@ const DeliveryDate = ({ control, errors, formData }) => {
         control={control}
         render={({ field }) => (
           <FormControl id="deliveryDate" isInvalid={!!errors.deliveryDate}>
-            <HStack spacing={4} {...group} {...field}>
+            <HStack justifyContent="center" spacing={4} {...group} {...field}>
               {options.map(value => {
                 const radio = getRadioProps({ value })
                 radio.isChecked = value === formData['deliveryDate']
@@ -80,7 +80,7 @@ const DeliveryFrequency = ({ control, errors, formData }) => {
         control={control}
         render={({ field }) => (
           <FormControl id="deliveryFrequency" isInvalid={!!errors.deliveryFrequency}>
-            <HStack spacing={4} {...group} {...field}>
+            <HStack justifyContent="center" spacing={4} {...group} {...field}>
               {options.map(value => {
                 const radio = getRadioProps({ value })
                 radio.isChecked = value === formData['deliveryFrequency']
@@ -117,10 +117,10 @@ const Signup5 = () => {
 
   const formData = watch()
   return (
-    <>
+    <VStack bgColor="var(--light-bg)">
       <Seo title="Signup | Goodpluck" />
       <FormLayout
-        progress={80}
+        progress={75}
         isLoading={false}
         heading="Set Your Delivery Preferences"
         goBackFunc={() => {
@@ -132,7 +132,7 @@ const Signup5 = () => {
         <DeliveryDate control={control} errors={errors} formData={formData} />
         <DeliveryFrequency control={control} errors={errors} formData={formData} />
       </FormLayout>
-    </>
+    </VStack>
   )
 }
 export default Signup5

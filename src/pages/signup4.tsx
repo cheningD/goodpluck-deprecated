@@ -1,10 +1,10 @@
 import * as yup from 'yup'
 
-import { Flex, Heading, Image, List, ListIcon, ListItem, Text, VStack } from '@chakra-ui/react'
-import React, { useState } from 'react'
+import { Flex, Heading, List, ListIcon, ListItem, Stack, Text, VStack } from '@chakra-ui/react'
 
 import { CheckCircleIcon } from '@chakra-ui/icons'
 import { FormLayout } from '../components/FormLayout'
+import React from 'react'
 import Seo from '../components/Seo'
 import { StaticImage } from 'gatsby-plugin-image'
 import { navigate } from 'gatsby-link'
@@ -25,7 +25,7 @@ const BuildBasket = () => {
   }
 
   return (
-    <>
+    <VStack bgColor="var(--light-bg)">
       <Seo title="Your Basket | Goodpluck" />
       <FormLayout
         progress={60}
@@ -47,7 +47,7 @@ const BuildBasket = () => {
           <StaticImage width={400} src="../images/producebox.jpg" alt="Delicious Produce" />
           <VStack justify="space-between" align="start" p="2">
             <Heading fontSize={['md', 'lg']}>
-              The Pluck: 10-12 varieties of the best local produce growing near you right now
+              Inside: 10-12 varieties of the best seasonal produce growing near you right now
             </Heading>
             <Text fontSize="sm" as="em">
               Most produce is grown within 2 hours of your doorstep using sustainable or organic practices
@@ -78,12 +78,12 @@ const BuildBasket = () => {
             Yours to customize
           </Heading>
           <Text textAlign="center" px={4}>
-            Swap, add or remove any item to your basket. Choose from <strong>100s of items from small farms</strong> in
-            our market.
+            Swap, add or remove any item in your basket. Choose from{' '}
+            <strong>100 more items from small sustainable farms</strong> in our seasonal market.
           </Text>
         </VStack>
       </FormLayout>
-    </>
+    </VStack>
   )
 }
 export default BuildBasket

@@ -110,14 +110,19 @@ const CheckoutFields = ({
   stage2IsValid,
   stripeError,
   setStripeError,
+  handleSubmit,
+  onSubmit,
+  trigger,
 }) => {
   return (
-    <Accordion index={[stage]} allowToggle>
+    <Accordion index={[stage]}>
       <AccordionItem>
         <AccordionButton
           onClick={() => {
-            if (stage > 0) {
+            if (stage !== 0) {
               setStage(0)
+            } else {
+              trigger()
             }
           }}
         >
@@ -147,8 +152,12 @@ const CheckoutFields = ({
       <AccordionItem>
         <AccordionButton
           onClick={() => {
-            if (stage0IsValid) {
+            if (stage === 0 && trigger()) {
+              handleSubmit(onSubmit)()
+            } else if (stage === 2) {
               setStage(1)
+            } else {
+              trigger()
             }
           }}
         >
@@ -159,7 +168,7 @@ const CheckoutFields = ({
                 <Heading fontSize="md" textAlign="start">
                   {addressLine1 && addressLine2 ? `${addressLine1}, ${addressLine2}` : `${addressLine1 || ''}`}
                   <Heading fontSize="md" textAlign="start">
-                    {phone ? `${zip}, ${phone}` : `${zip || ''}`}
+                    {zip ? `MI${zip}` : ''}
                   </Heading>
                 </Heading>
               ) : (
@@ -180,8 +189,8 @@ const CheckoutFields = ({
           justifyContent="start"
           onClick={() => {
             // Do not allow progress if stage0 is invalid
-            if (stage0IsValid && stage1IsValid) {
-              setStage(3)
+            if (trigger()) {
+              handleSubmit(onSubmit)()
             }
           }}
         >
