@@ -273,9 +273,14 @@ export const getOldOrders = async (): Promise<Record<string, OrderDetail> | null
   }
 }
 
-export const getOrdersDemo = async (): Promise<OrderDetail | null> => {
+export const getOrdersDemo = async (deliveryDayPreference): Promise<OrderDetail | null> => {
   const response = await fetch(`${LOCAL_API_PREFIX}/api/orders/demo`, {
     credentials: 'same-origin',
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ deliveryDay: deliveryDayPreference }),
   })
 
   if (!response.ok) {

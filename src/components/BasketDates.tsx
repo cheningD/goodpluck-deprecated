@@ -1,15 +1,8 @@
+import { HStack } from '@chakra-ui/react'
 import React from 'react'
 import { isoToNiceDate } from '../util'
 import styled from 'styled-components'
 
-const Container = styled.div`
-  width: 100%;
-  margin: 0 auto;
-  padding-top: 10px;
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: flex-start;
-`
 const CheckboxList = styled.ul`
   width: 22px;
   display: block;
@@ -129,7 +122,7 @@ const BasketDates = ({
   deliveryDate,
 }) => {
   return (
-    <Container>
+    <HStack justify="flex-start">
       <CheckboxList>
         <CheckboxListItem active={scheduledStatus === 'active'} done={scheduledStatus === 'done'} />
         <CheckboxListItem active={editStatus === 'active'} done={editStatus === 'done'} />
@@ -139,9 +132,9 @@ const BasketDates = ({
       <DetailList>
         <DetailListItem>{scheduledStatus === 'done' ? `Scheduled` : `Confirm your order`}</DetailListItem>
         <DetailListItem>
-          Edit your basket
+          Customize your basket
           <span>
-            {isoToNiceDate(editBasketStartDate, 'LLL dd')} - {isoToNiceDate(editBasketEndDate, 'LLL d')}
+            {isoToNiceDate(editBasketStartDate)} - {isoToNiceDate(editBasketEndDate)}
           </span>
         </DetailListItem>
         <DetailListItem>
@@ -151,7 +144,7 @@ const BasketDates = ({
           On your doorstep<span>{isoToNiceDate(deliveryDate)}</span>
         </DetailListItem>
       </DetailList>
-    </Container>
+    </HStack>
   )
 }
 

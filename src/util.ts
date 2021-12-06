@@ -42,7 +42,7 @@ export const removeNonLetters = (input: string): string => (input && input.repla
 export const removeNonNumbers = (input: string): string => (input && input.replace ? input.replace(/[^0-9]/gi, '') : '')
 
 export const isoToNiceDate = (isoString: string, format: string = '') => {
-  return DateTime.fromISO(isoString).toFormat(format || `ccc, LLL dd`)
+  return DateTime.fromISO(isoString).toFormat(format || `ccc, LLL d`)
 }
 
 export const getAndValidateZipFromLocalStorage = () => {

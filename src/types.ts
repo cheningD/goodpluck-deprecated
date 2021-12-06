@@ -121,3 +121,13 @@ export interface CheckEmailAndZipJSONResponse {
   error?: string
   success: boolean
 }
+
+export interface SignupData {
+  deliveryFrequency?: string
+  deliveryDate?: string
+  numHousehold?: string // e.g.  "1-2", "3-4", "5+"
+  organicOrRegular?: string // e.g. "Both"
+  zip: string
+  email: string
+  goal: string
+}
