@@ -39,7 +39,7 @@ const schema1 = {
   addressLine2: yup.string().test('len', 'Too Long!', getMaxlengthFunc(100)),
   phone: yup
     .string()
-    .required('We need your phonee number for delivery updates only')
+    .required('We need your phone number for delivery updates only')
     .test('len', 'Too Long!', getMaxlengthFunc(100)),
   zip: yup
     .string()

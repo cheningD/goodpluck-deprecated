@@ -1,11 +1,29 @@
 import { Divider, HStack, Heading, Text, VStack } from '@chakra-ui/react'
+import React, { useEffect, useState } from 'react'
 
 import BasketDates from './BasketDates'
 import { CheckCircleIcon } from '@chakra-ui/icons'
-import React from 'react'
+import { OrderDetail } from '../types'
 import { StaticImage } from 'gatsby-plugin-image'
+import { getOrdersDemo } from '../actions'
 
 const CheckoutSummary = ({ deliveryDay, deliveryFrequency }) => {
+  const [orderDemo, setOrderDemo] = useState<OrderDetail | undefined>()
+
+  useEffect(() => {
+    async function fetchData() {
+      let deliveryDayPreference = 'saturday'
+      if (deliveryDay && deliveryDay.toLowerCase().includes('sunday')) {
+        deliveryDayPreference = 'sunday'
+      }
+      const orderData: OrderDetail | null = await getOrdersDemo(deliveryDayPreference)
+      if (orderData) {
+        setOrderDemo(orderData)
+      }
+    }
+    fetchData()
+  }, [deliveryDay])
+
   return (
     <div>
       <VStack
@@ -35,16 +53,20 @@ const CheckoutSummary = ({ deliveryDay, deliveryFrequency }) => {
             <Heading fontSize="md">10-12 varieties of the best seasonal produce growing near you right now</Heading>
           </HStack>
 
-          <BasketDates
-            scheduledStatus="active" //Force active state because user hasn't paid yet
-            editStatus={null}
-            chargedStatus={null}
-            deliveredStatus={null}
-            editBasketStartDate={'2021-11-29T09:12:19Z'}
-            editBasketEndDate={'2021-12-02T09:12:19Z'}
-            chargedDate={'2021-12-03T09:12:19Z'}
-            deliveryDate={'2021-12-04T09:12:19Z'}
-          />
+          {orderDemo && orderDemo.editBasketStartDate ? (
+            <BasketDates
+              scheduledStatus="active" //Force active state because user hasn't paid yet
+              editStatus={null}
+              chargedStatus={null}
+              deliveredStatus={null}
+              editBasketStartDate={orderDemo.editBasketStartDate}
+              editBasketEndDate={orderDemo.editBasketEndDate}
+              chargedDate={orderDemo.chargedDate}
+              deliveryDate={orderDemo.deliveryDate}
+            />
+          ) : (
+            ''
+          )}
         </VStack>
         <VStack spacing={2} align="stretch">
           <Heading as="h2" fontSize="xl" textAlign="left">
@@ -56,12 +78,14 @@ const CheckoutSummary = ({ deliveryDay, deliveryFrequency }) => {
           </Text>
         </VStack>
 
-        <Text textAlign="center" color="teal.500">
-          <CheckCircleIcon color="teal.500" /> You can skip, pause or cancel at antime
-        </Text>
-        <Text textAlign="center" color="teal.500">
-          <CheckCircleIcon color="teal.500" /> FREE to signup, no charge until after shopping window closes
-        </Text>
+        <VStack spacing={2} align="stretch">
+          <Text textAlign="left" color="teal.500">
+            <CheckCircleIcon pb={0.5} color="teal.500" /> You can skip, pause or cancel at antime
+          </Text>
+          <Text textAlign="left" color="teal.500">
+            <CheckCircleIcon pb={0.5} color="teal.500" /> FREE to signup, no charge until after shopping window closes
+          </Text>
+        </VStack>
         <Divider />
         <VStack spacing={2} align="stretch">
           <HStack justifyContent="space-between" alignContent="space-between">
