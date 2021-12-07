@@ -1,11 +1,13 @@
-import { Button, Heading, Progress, Stack, Text } from '@chakra-ui/react'
+import { Button, Container, HStack, Heading, Progress, Stack, Text, VStack } from '@chakra-ui/react'
 
 import { ArrowBackIcon } from '@chakra-ui/icons'
 import React from 'react'
+import Seo from '../components/Seo'
+import { SimpleNav } from './SimpleNav'
 
 type FormLayoutProps = {
   children: any
-  progress?: number
+  progress: number
   heading?: string
   subheading?: string
   submitStr?: string
@@ -15,6 +17,7 @@ type FormLayoutProps = {
   handleSubmit: Function
   isSubmitDisabled?: boolean
   blurb?: any
+  sidebar?: any
 }
 
 export const FormLayout = ({
@@ -29,41 +32,54 @@ export const FormLayout = ({
   onSubmit,
   isSubmitDisabled,
   blurb,
+  sidebar,
 }: FormLayoutProps) => {
-  const progressBar = progress ? <Progress colorScheme="green" size="sm" value={progress} /> : ''
-  const header = heading ? <Heading textAlign="center">{heading}</Heading> : ''
-  const subheader = subheading ? <Text textAlign="center">{subheading}</Text> : ''
-  const backArrow = goBackFunc ? (
-    <ArrowBackIcon
-      onClick={() => {
-        goBackFunc()
-      }}
-    />
-  ) : (
-    ''
-  )
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <>
+      <Seo title="Signup | Goodpluck" />
+      <SimpleNav />
       <Stack
-        spacing="8"
-        p="4"
-        mx={[0, 'auto']}
-        maxW="500px"
-        my={[4, 8, 16]}
-        bgColor="white"
-        borderRadius="lg"
-        boxShadow="md"
+        bgColor="var(--light-bg)"
+        direction={['column', 'column', 'column', 'row']}
+        justify="center"
+        px={[0, 4]}
+        spacing={4}
       >
-        {backArrow}
-        {progressBar}
-        {header}
-        {subheader}
-        {children}
-        <Button type="submit" isLoading={isLoading} isDisabled={isSubmitDisabled || false} colorScheme="orange">
-          {submitStr || 'Continue'}
-        </Button>
-        {blurb}
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <VStack
+            bg="white"
+            borderRadius="lg"
+            boxShadow="md"
+            maxW={[500, 500, 600]}
+            mx={[0, 'auto']}
+            my={[4, 12]}
+            overflow="hidden"
+            p={4}
+            spacing={8}
+          >
+            <HStack justify="space-between" align="center">
+              {goBackFunc ? <ArrowBackIcon w={6} h={6} onClick={() => goBackFunc()} /> : ''}
+              <Container w={[250, 400, 450]} px={2}>
+                <Progress colorScheme="brand" size="sm" value={progress} />
+              </Container>
+            </HStack>
+            <Heading textAlign="center">{heading}</Heading>
+            {subheading ? <Text textAlign="center">{subheading}</Text> : ''}
+            {children}
+            <Button
+              type="submit"
+              isLoading={isLoading}
+              isDisabled={isSubmitDisabled || false}
+              colorScheme="brand"
+              w="100%"
+            >
+              {submitStr || 'Continue'}
+            </Button>
+            {blurb}
+          </VStack>
+        </form>
+        <div>{sidebar}</div>
       </Stack>
-    </form>
+    </>
   )
 }

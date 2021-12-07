@@ -117,22 +117,19 @@ const Signup5 = () => {
 
   const formData = watch()
   return (
-    <VStack bgColor="var(--light-bg)">
-      <Seo title="Signup | Goodpluck" />
-      <FormLayout
-        progress={75}
-        isLoading={false}
-        heading="Set Your Delivery Preferences"
-        goBackFunc={() => {
-          navigate('/signup4')
-        }}
-        onSubmit={onSubmit}
-        handleSubmit={handleSubmit}
-      >
-        <DeliveryDate control={control} errors={errors} formData={formData} />
-        <DeliveryFrequency control={control} errors={errors} formData={formData} />
-      </FormLayout>
-    </VStack>
+    <FormLayout
+      progress={75}
+      isLoading={false}
+      heading="Set Your Delivery Preferences"
+      goBackFunc={() => {
+        navigate('/signup4')
+      }}
+      onSubmit={onSubmit}
+      handleSubmit={handleSubmit}
+    >
+      <DeliveryDate control={control} errors={errors} formData={formData} />
+      <DeliveryFrequency control={control} errors={errors} formData={formData} />
+    </FormLayout>
   )
 }
 export default Signup5

@@ -1,12 +1,10 @@
 import * as yup from 'yup'
 
 import { CheckEmailAndZipJSONResponse, SignupData } from '../types'
-import { FormControl, FormErrorMessage, FormLabel, Input } from '@chakra-ui/react'
+import { FormControl, FormErrorMessage, FormLabel, Input, VStack } from '@chakra-ui/react'
 import React, { useState } from 'react'
 
 import { FormLayout } from '../components/FormLayout'
-import Nav from '../components/Nav'
-import Seo from '../components/Seo'
 import { VALID_ZIP_PATTERN } from '../util'
 import { checkEmailZip } from '../actions'
 import { navigate } from 'gatsby-link'
@@ -76,27 +74,27 @@ const Signup = () => {
   }
 
   return (
-    <>
-      <Seo title="Signup | Goodpluck" />
-      <Nav />
-      <FormLayout
-        isLoading={false}
-        heading="First, let's confirm that we deliver to you"
-        onSubmit={onSubmit}
-        handleSubmit={handleSubmit}
-      >
-        <FormControl id="zip" isInvalid={!!errors.zip}>
-          <FormLabel>Zip</FormLabel>
-          <Input placeholder="e.g. 48201" {...register('zip')} />
-          <FormErrorMessage>{errors.zip?.message}</FormErrorMessage>
-        </FormControl>
-        <FormControl id="email" isInvalid={!!errors.email}>
-          <FormLabel>Email</FormLabel>
-          <Input type="email" placeholder="Email" {...register('email')} />
-          <FormErrorMessage>{errors.email?.message}</FormErrorMessage>
-        </FormControl>
-      </FormLayout>
-    </>
+    <FormLayout
+      progress={0}
+      isLoading={false}
+      heading="First, let's confirm that we deliver to you"
+      onSubmit={onSubmit}
+      handleSubmit={handleSubmit}
+      goBackFunc={() => {
+        navigate('/')
+      }}
+    >
+      <FormControl id="zip" isInvalid={!!errors.zip}>
+        <FormLabel>Zip</FormLabel>
+        <Input placeholder="e.g. 48201" {...register('zip')} />
+        <FormErrorMessage>{errors.zip?.message}</FormErrorMessage>
+      </FormControl>
+      <FormControl id="email" isInvalid={!!errors.email}>
+        <FormLabel>Email</FormLabel>
+        <Input type="email" placeholder="Email" {...register('email')} />
+        <FormErrorMessage>{errors.email?.message}</FormErrorMessage>
+      </FormControl>
+    </FormLayout>
   )
 }
 export default Signup
