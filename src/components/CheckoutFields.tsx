@@ -62,7 +62,7 @@ const AddressBlock = ({ register, errors, addressLine2 }) => {
           <FormErrorMessage>{errors.addressLine2?.message}</FormErrorMessage>
         </FormControl>
       ) : (
-        <Text textColor="green.500" onClick={() => setShowAddressLine2(true)}>
+        <Text textColor="brand.400" onClick={() => setShowAddressLine2(true)}>
           <SmallAddIcon /> Apt, suite, etc
         </Text>
       )}
@@ -70,7 +70,7 @@ const AddressBlock = ({ register, errors, addressLine2 }) => {
         <FormLabel>Zip code</FormLabel>
         <HStack spacing={4}>
           <Input type="zip" isDisabled placeholder="e.g 48201" {...register('zip')} />
-          <Link color="teal.500" fontSize="l" as={GatsbyLink} to="/signup">
+          <Link color="brand.400" fontSize="l" as={GatsbyLink} to="/signup">
             edit
           </Link>
         </HStack>
@@ -85,7 +85,7 @@ const AddressBlock = ({ register, errors, addressLine2 }) => {
         <FormErrorMessage>{errors.phone?.message}</FormErrorMessage>
       </FormControl>
       <FormControl id="instructions" isInvalid={!!errors.instructions}>
-        <FormLabel>Delivery Instructions</FormLabel>
+        <FormLabel>Any Delivery Instructions?</FormLabel>
         <Input placeholder="e.g Building Code = 1234, by the front door" {...register('instructions')} />
         <FormErrorMessage>{errors.instructions?.message}</FormErrorMessage>
       </FormControl>
@@ -115,7 +115,7 @@ const CheckoutFields = ({
   trigger,
 }) => {
   return (
-    <Accordion index={[stage]}>
+    <Accordion index={[stage]} w="100%">
       <AccordionItem>
         <AccordionButton
           onClick={() => {

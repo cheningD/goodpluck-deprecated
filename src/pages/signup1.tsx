@@ -52,42 +52,39 @@ const SignupGoals = () => {
   const group = getRootProps()
 
   return (
-    <>
-      <Seo title="Signup | Goodpluck" />
-      <FormLayout
-        progress={15}
-        isLoading={false}
-        heading="What brings you to Goodpluck?"
-        subheading="Choose your main reason"
-        goBackFunc={() => {
-          navigate('/signup')
-        }}
-        onSubmit={onSubmit}
-        handleSubmit={handleSubmit}
-        isSubmitDisabled={false}
-      >
-        <Controller
-          name="goal"
-          control={control}
-          render={({ field }) => (
-            <FormControl id="goal" isInvalid={!!errors.goal}>
-              <SimpleGrid columns={2} spacing={4} {...group} {...field}>
-                {options.map(value => {
-                  const radio = getRadioProps({ value })
-                  radio.isChecked = value === formData['goal']
-                  return (
-                    <RadioCard key={value} {...radio}>
-                      {value}
-                    </RadioCard>
-                  )
-                })}
-                <FormErrorMessage>{errors.goal?.message}</FormErrorMessage>
-              </SimpleGrid>
-            </FormControl>
-          )}
-        />
-      </FormLayout>
-    </>
+    <FormLayout
+      progress={15}
+      isLoading={false}
+      heading="What brings you to Goodpluck?"
+      subheading="Choose your main reason"
+      goBackFunc={() => {
+        navigate('/signup')
+      }}
+      onSubmit={onSubmit}
+      handleSubmit={handleSubmit}
+      isSubmitDisabled={false}
+    >
+      <Controller
+        name="goal"
+        control={control}
+        render={({ field }) => (
+          <FormControl id="goal" isInvalid={!!errors.goal}>
+            <SimpleGrid columns={2} spacing={4} {...group} {...field}>
+              {options.map(value => {
+                const radio = getRadioProps({ value })
+                radio.isChecked = value === formData['goal']
+                return (
+                  <RadioCard key={value} {...radio}>
+                    {value}
+                  </RadioCard>
+                )
+              })}
+              <FormErrorMessage>{errors.goal?.message}</FormErrorMessage>
+            </SimpleGrid>
+          </FormControl>
+        )}
+      />
+    </FormLayout>
   )
 }
 export default SignupGoals

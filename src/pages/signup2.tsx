@@ -41,40 +41,37 @@ const SignupGoals = () => {
   const group = getRootProps()
 
   return (
-    <VStack bgColor="var(--light-bg)">
-      <Seo title="Signup | Goodpluck" />
-      <FormLayout
-        progress={30}
-        isLoading={false}
-        heading="How many eaters are there in your household?"
-        goBackFunc={() => {
-          navigate('/signup1')
-        }}
-        onSubmit={onSubmit}
-        handleSubmit={handleSubmit}
-      >
-        <Controller
-          name="numHousehold"
-          control={control}
-          render={({ field }) => (
-            <FormControl id="numHousehold" isInvalid={!!errors.numHousehold}>
-              <Stack spacing={6} {...group} {...field}>
-                {options.map(value => {
-                  const radio = getRadioProps({ value })
-                  radio.isChecked = value === formData['numHousehold']
-                  return (
-                    <RadioCard key={value} {...radio}>
-                      {value}
-                    </RadioCard>
-                  )
-                })}
-                <FormErrorMessage>{errors.numHousehold?.message}</FormErrorMessage>
-              </Stack>
-            </FormControl>
-          )}
-        />
-      </FormLayout>
-    </VStack>
+    <FormLayout
+      progress={30}
+      isLoading={false}
+      heading="How many eaters are there in your household?"
+      goBackFunc={() => {
+        navigate('/signup1')
+      }}
+      onSubmit={onSubmit}
+      handleSubmit={handleSubmit}
+    >
+      <Controller
+        name="numHousehold"
+        control={control}
+        render={({ field }) => (
+          <FormControl id="numHousehold" isInvalid={!!errors.numHousehold}>
+            <Stack spacing={6} {...group} {...field}>
+              {options.map(value => {
+                const radio = getRadioProps({ value })
+                radio.isChecked = value === formData['numHousehold']
+                return (
+                  <RadioCard key={value} {...radio}>
+                    {value}
+                  </RadioCard>
+                )
+              })}
+              <FormErrorMessage>{errors.numHousehold?.message}</FormErrorMessage>
+            </Stack>
+          </FormControl>
+        )}
+      />
+    </FormLayout>
   )
 }
 export default SignupGoals

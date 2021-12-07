@@ -40,41 +40,38 @@ const Signup3 = () => {
   const group = getRootProps()
 
   return (
-    <VStack bgColor="var(--light-bg)">
-      <Seo title="Signup | Goodpluck" />
-      <FormLayout
-        progress={45}
-        isLoading={false}
-        heading="What kind of produce do you normally buy?"
-        goBackFunc={() => {
-          navigate('/signup2')
-        }}
-        onSubmit={onSubmit}
-        handleSubmit={handleSubmit}
-      >
-        <Controller
-          name="organicOrRegular"
-          control={control}
-          render={({ field }) => (
-            <FormControl id="organicOrRegular" isInvalid={!!errors.organicOrRegular}>
-              <Stack spacing={6} {...group} {...field}>
-                {options.map(value => {
-                  const radio = getRadioProps({ value })
-                  radio.isChecked = value === formData['organicOrRegular']
+    <FormLayout
+      progress={45}
+      isLoading={false}
+      heading="What kind of produce do you normally buy?"
+      goBackFunc={() => {
+        navigate('/signup2')
+      }}
+      onSubmit={onSubmit}
+      handleSubmit={handleSubmit}
+    >
+      <Controller
+        name="organicOrRegular"
+        control={control}
+        render={({ field }) => (
+          <FormControl id="organicOrRegular" isInvalid={!!errors.organicOrRegular}>
+            <Stack spacing={6} {...group} {...field}>
+              {options.map(value => {
+                const radio = getRadioProps({ value })
+                radio.isChecked = value === formData['organicOrRegular']
 
-                  return (
-                    <RadioCard key={value} {...radio}>
-                      {value}
-                    </RadioCard>
-                  )
-                })}
-                <FormErrorMessage>{errors.organicOrRegular?.message}</FormErrorMessage>
-              </Stack>
-            </FormControl>
-          )}
-        />
-      </FormLayout>
-    </VStack>
+                return (
+                  <RadioCard key={value} {...radio}>
+                    {value}
+                  </RadioCard>
+                )
+              })}
+              <FormErrorMessage>{errors.organicOrRegular?.message}</FormErrorMessage>
+            </Stack>
+          </FormControl>
+        )}
+      />
+    </FormLayout>
   )
 }
 export default Signup3

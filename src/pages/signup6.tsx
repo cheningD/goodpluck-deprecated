@@ -118,11 +118,11 @@ const stageToSchema = {
 const blurb = (
   <Text>
     By clicking "Confirm Order" you agree to our{' '}
-    <Link as={GatsbyLink} to="/terms" color="teal.500" target="_blank">
+    <Link as={GatsbyLink} to="/terms" color="brand.800" target="_blank">
       Terms of Service
     </Link>{' '}
     and{' '}
-    <Link as={GatsbyLink} to="/privacy" color="teal.500" target="_blank">
+    <Link as={GatsbyLink} to="/privacy" color="brand.800" target="_blank">
       Privacy Policy
     </Link>
   </Text>
@@ -169,56 +169,47 @@ const CheckoutForm = () => {
   //Stage 2 is stripe
   const stage2IsValid = false
 
-  return (
-    <VStack bgColor="var(--light-bg)">
-      <Seo title="Signup | Goodpluck" />
+  const sidebar = (
+    <CheckoutSummary
+      deliveryDay={storage['deliveryDate'] || ''}
+      deliveryFrequency={storage['deliveryFrequency'] || ''}
+    />
+  )
 
-      <Stack
-        direction={['column', 'column', 'row']}
-        align={['center', 'center', 'start']}
-        mb="16"
-        borderRadius="lg"
-        overflow="hidden"
-        spacing={4}
-      >
-        <FormLayout
-          isLoading={isLoading}
-          heading="Finish Creating Your Account"
-          onSubmit={onSubmit}
-          progress={90}
-          goBackFunc={() => navigate('/signup5')}
-          handleSubmit={handleSubmit}
-          submitStr={stageTosubmitStr[stage]}
-          blurb={stage === 2 ? blurb : ''}
-        >
-          <CheckoutFields
-            first={watch('first')}
-            last={watch('last')}
-            email={watch('email')}
-            addressLine1={watch('addressLine1')}
-            addressLine2={watch('addressLine2')}
-            zip={watch('zip')}
-            phone={watch('phone')}
-            stage={stage}
-            setStage={setStage}
-            stage0IsValid={stage0IsValid}
-            stage1IsValid={stage1IsValid}
-            stage2IsValid={stage2IsValid}
-            register={register}
-            errors={errors}
-            stripeError={stripeError}
-            setStripeError={setStripeError}
-            handleSubmit={handleSubmit}
-            onSubmit={onSubmit}
-            trigger={trigger}
-          />
-        </FormLayout>
-        <CheckoutSummary
-          deliveryDay={storage['deliveryDate'] || ''}
-          deliveryFrequency={storage['deliveryFrequency'] || ''}
-        />
-      </Stack>
-    </VStack>
+  return (
+    <FormLayout
+      isLoading={isLoading}
+      heading="Finish Creating Your Account"
+      onSubmit={onSubmit}
+      progress={90}
+      goBackFunc={() => navigate('/signup5')}
+      handleSubmit={handleSubmit}
+      submitStr={stageTosubmitStr[stage]}
+      blurb={stage === 2 ? blurb : ''}
+      sidebar={sidebar}
+    >
+      <CheckoutFields
+        first={watch('first')}
+        last={watch('last')}
+        email={watch('email')}
+        addressLine1={watch('addressLine1')}
+        addressLine2={watch('addressLine2')}
+        zip={watch('zip')}
+        phone={watch('phone')}
+        stage={stage}
+        setStage={setStage}
+        stage0IsValid={stage0IsValid}
+        stage1IsValid={stage1IsValid}
+        stage2IsValid={stage2IsValid}
+        register={register}
+        errors={errors}
+        stripeError={stripeError}
+        setStripeError={setStripeError}
+        handleSubmit={handleSubmit}
+        onSubmit={onSubmit}
+        trigger={trigger}
+      />
+    </FormLayout>
   )
 }
 
