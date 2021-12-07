@@ -138,7 +138,7 @@ const CheckoutForm = () => {
   const [stripeError, setStripeError] = useState(null)
   const stripe = useStripe()
   const elements = useElements()
-  const [storage, setStorage] = useLocalStorage('formValues', null)
+  const [storage, setStorage] = useLocalStorage('formValues', {})
 
   const {
     register,
