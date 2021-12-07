@@ -130,7 +130,7 @@ const BasketDates = ({
         <CheckboxListItem active={deliveredStatus === 'active'} done={deliveredStatus === 'done'} />
       </CheckboxList>
       <DetailList>
-        <DetailListItem>{scheduledStatus === 'done' ? `Scheduled` : `Confirm your order`}</DetailListItem>
+        <DetailListItem>{scheduledStatus === 'done' ? `Scheduled` : `Finish creating your account`}</DetailListItem>
         <DetailListItem>
           Customize your basket
           <span>

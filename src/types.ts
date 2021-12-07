@@ -106,8 +106,9 @@ export interface CreateUserSuccessResponseJSONData {
 }
 
 export interface CreateUserSuccessResponseJSON {
-  data: CreateUserSuccessResponseJSONData
-  message: string
+  data?: CreateUserSuccessResponseJSONData
+  message?: string
+  error?: string
 }
 
 export interface CheckEmailAndZipJSONResponse {
@@ -123,11 +124,17 @@ export interface CheckEmailAndZipJSONResponse {
 }
 
 export interface SignupData {
-  deliveryFrequency?: string
+  addressLine1?: string
+  addressLine2?: string
   deliveryDate?: string
-  numHousehold?: string // e.g.  "1-2", "3-4", "5+"
-  organicOrRegular?: string // e.g. "Both"
-  zip: string
+  deliveryFrequency?: string
   email: string
+  first: string
+  last: string
   goal: string
+  instructions?: string
+  numHousehold?: string // e.g.  "1-2", "3-4", "5+"
+  organicPreference?: string // e.g. "Both"
+  phone?: string
+  zip: string
 }

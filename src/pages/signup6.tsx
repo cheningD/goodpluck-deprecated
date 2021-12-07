@@ -3,17 +3,17 @@ import * as yup from 'yup'
 import { CardElement, Elements, useElements, useStripe } from '@stripe/react-stripe-js'
 import { Link, Text } from '@chakra-ui/react'
 import React, { useState } from 'react'
-import { Stack, VStack } from '@chakra-ui/react'
-import { VALID_ZIP_PATTERN, getMaxlengthFunc } from '../util'
+import { VALID_ZIP_PATTERN, getMaxlengthFunc, removeNonNumbers } from '../util'
 
 import CheckoutFields from '../components/CheckoutFields'
 import CheckoutSummary from '../components/CheckoutSummary'
 import { FormLayout } from '../components/FormLayout'
 import GatsbyLink from 'gatsby-link'
-import Seo from '../components/Seo'
+import { SignupData } from '../types'
 import { createUser } from '../actions'
 import { loadStripe } from '@stripe/stripe-js/pure'
 import { navigate } from 'gatsby-link'
+import toast from 'react-hot-toast'
 import { useForm } from 'react-hook-form'
 import { useLocalStorage } from '../util'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -49,10 +49,8 @@ const schema1 = {
 }
 
 // Handle form submission.
-const handleFinalSubmit = async (elements, stripe, setStripeError, setIsLoading) => {
+const handleFinalSubmit = async (data: SignupData, elements, stripe, setStripeError, setIsLoading) => {
   setIsLoading(true)
-  const first = 'testn'
-  const last = 'restn'
   const card = elements.getElement(CardElement)
   const createTokenResult = await stripe.createToken(card)
   if (createTokenResult.error) {
@@ -64,30 +62,36 @@ const handleFinalSubmit = async (elements, stripe, setStripeError, setIsLoading)
     setStripeError(null)
     // Send the token to your server.
     const createUserParams = {
-      // addressLine1: value.addressLine1,
-      // addressLine2: value.addressLine2 || '',
-      // email: value.email,
-      // first: value.first,
-      // last: value.last,
-      // phone: value.phone,
-      // zip: value.zip,
-      // stripeToken: createTokenResult.token.id,
-      // orderFrequency: orderFrequency,
-      // notifyDeliveryDates: notifyDeliveryDates,
-      // shoppingFor: shoppingFor,
-      // myCauses: myCauses,
+      addressLine1: data.addressLine1,
+      addressLine2: data.addressLine2 || '',
+      deliveryDate: data.deliveryDate,
+      email: data.email,
+      first: data.first,
+      goal: (data.goal || '').toLowerCase(),
+      last: data.last,
+      numHousehold: data.numHousehold,
+      orderFrequency: (data.deliveryFrequency || '').toLowerCase(),
+      organicPreference: (data.organicPreference || '').toLowerCase(),
+      phone: removeNonNumbers(data.phone || ''),
+      stripeToken: createTokenResult.token.id,
+      zip: data.zip,
     }
 
     const createUserResponseJson = await createUser(createUserParams)
-
+    if (createUserResponseJson.error) {
+      setIsLoading(false)
+      toast.error('Something went wrong, If this problem persists please contact us')
+    }
     console.log(`createUserResponseJson: ${JSON.stringify(createUserResponseJson)}`)
+
+    createUserResponseJson
 
     const clientSecret = createUserResponseJson.data.createSetupIntentResponseJSON.client_secret
     const cardSetupResponse = await stripe.confirmCardSetup(clientSecret, {
       payment_method: {
         card: card,
         billing_details: {
-          name: `${first} ${last}`,
+          name: `${data.first} ${data.last}`,
         },
       },
     })
@@ -144,7 +148,7 @@ const CheckoutForm = () => {
     formState: { errors },
   } = useForm({ resolver: yupResolver(stageToSchema[stage]), mode: 'onBlur', defaultValues: storage })
 
-  const onSubmit = (data: any) => {
+  const onSubmit = (data: SignupData) => {
     console.log("I'm submitting")
     console.log(`data: ${JSON.stringify(data)}`)
     console.log(`storage ${JSON.stringify(storage)}`)
@@ -156,7 +160,7 @@ const CheckoutForm = () => {
       setStage(2)
     } else if (stage === 2) {
       console.log("I'm changing stage 2 --> Checkout")
-      handleFinalSubmit(elements, stripe, setStripeError, setIsLoading)
+      handleFinalSubmit(data, elements, stripe, setStripeError, setIsLoading)
     }
   }
 
@@ -169,6 +173,8 @@ const CheckoutForm = () => {
   //Stage 2 is stripe
   const stage2IsValid = false
 
+  const isSubmitDisabled: boolean = (stage === 0 && !stage0IsValid) || (stage === 1 && !stage1IsValid)
+
   const sidebar = (
     <CheckoutSummary
       deliveryDay={storage['deliveryDate'] || ''}
@@ -179,6 +185,7 @@ const CheckoutForm = () => {
   return (
     <FormLayout
       isLoading={isLoading}
+      isSubmitDisabled={isSubmitDisabled}
       heading="Finish Creating Your Account"
       onSubmit={onSubmit}
       progress={90}

@@ -12,7 +12,7 @@ import { useLocalStorage } from '../util'
 import { yupResolver } from '@hookform/resolvers/yup'
 
 const schema = yup.object().shape({
-  organicOrRegular: yup.string().required('Please make a choice, no judgement here:)'),
+  organicPreference: yup.string().required('Please make a choice, no judgement here:)'),
 })
 
 const Signup3 = () => {
@@ -33,7 +33,7 @@ const Signup3 = () => {
   const options = ['Organic', 'Regular', 'Both']
 
   const { getRootProps, getRadioProps } = useRadioGroup({
-    name: 'organicOrRegular',
+    name: 'organicPreference',
     onChange: console.log,
   })
 
@@ -51,14 +51,14 @@ const Signup3 = () => {
       handleSubmit={handleSubmit}
     >
       <Controller
-        name="organicOrRegular"
+        name="organicPreference"
         control={control}
         render={({ field }) => (
-          <FormControl id="organicOrRegular" isInvalid={!!errors.organicOrRegular}>
+          <FormControl id="organicPreference" isInvalid={!!errors.organicPreference}>
             <Stack spacing={6} {...group} {...field}>
               {options.map(value => {
                 const radio = getRadioProps({ value })
-                radio.isChecked = value === formData['organicOrRegular']
+                radio.isChecked = value === formData['organicPreference']
 
                 return (
                   <RadioCard key={value} {...radio}>
@@ -66,7 +66,7 @@ const Signup3 = () => {
                   </RadioCard>
                 )
               })}
-              <FormErrorMessage>{errors.organicOrRegular?.message}</FormErrorMessage>
+              <FormErrorMessage>{errors.organicPreference?.message}</FormErrorMessage>
             </Stack>
           </FormControl>
         )}
