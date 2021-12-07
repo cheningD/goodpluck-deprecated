@@ -29,7 +29,7 @@ const CheckoutSummary = ({ deliveryDay, deliveryFrequency }) => {
       bg="white"
       borderRadius="lg"
       boxShadow="md"
-      maxW={[500, 500, 450]}
+      maxW={[500, 500, 500, 450]}
       mx={[0, 'auto']}
       my={[4, 12]}
       overflow="hidden"
