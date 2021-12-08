@@ -45,7 +45,7 @@ const BuildBasket = () => {
         <StaticImage width={400} src="../images/producebox.jpg" alt="Delicious Produce" />
         <VStack justify="space-between" align="start" p="2">
           <Heading fontSize={['md', 'lg']}>
-            Inside: 10-12 varieties of the best seasonal produce growing near you right now
+            10-12 varieties of the best seasonal produce growing near you right now
           </Heading>
           <Text fontSize="sm" as="em">
             Most produce is grown within 2 hours of your doorstep using sustainable or organic practices
