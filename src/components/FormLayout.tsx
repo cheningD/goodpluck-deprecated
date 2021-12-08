@@ -30,7 +30,7 @@ export const FormLayout = ({
   goBackFunc,
   handleSubmit,
   onSubmit,
-  isSubmitDisabled,
+  isSubmitDisabled = false,
   blurb,
   sidebar,
 }: FormLayoutProps) => {
@@ -43,6 +43,7 @@ export const FormLayout = ({
         direction={['column', 'column', 'column', 'row']}
         justify="center"
         px={[0, 4]}
+        pb={8}
         spacing={4}
       >
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -69,9 +70,18 @@ export const FormLayout = ({
             <Button
               type="submit"
               isLoading={isLoading}
-              isDisabled={isSubmitDisabled || false}
+              loadingText="Working"
+              isDisabled={isSubmitDisabled}
               colorScheme="brand"
               w="100%"
+              _hover={{
+                _disabled: {
+                  bgColor: 'brand.500',
+                  color: 'white',
+                },
+                bgColor: 'brand.600',
+                color: 'peach.300',
+              }}
             >
               {submitStr || 'Continue'}
             </Button>
