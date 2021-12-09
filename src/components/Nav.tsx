@@ -1,3 +1,5 @@
+import * as Sentry from '@sentry/gatsby'
+
 import { Box, Button, Flex, HStack, IconButton, Link, Stack, Text, useDisclosure } from '@chakra-ui/react'
 import { CloseIcon, HamburgerIcon } from '@chakra-ui/icons'
 import GatsbyLink, { navigate } from 'gatsby-link'
@@ -55,6 +57,7 @@ export default function Nav() {
     const signedInData: SignedInData = await getSignedInData()
     if (signedInData && signedInData.signedInUser) {
       setUser(signedInData.signedInUser)
+      Sentry.setUser({ email: signedInData.signedInUser.email })
     }
   }
 
