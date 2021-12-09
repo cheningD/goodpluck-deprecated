@@ -92,13 +92,47 @@ export interface BasketItemAndProduct {
   supplier: string
 }
 
+interface stripeResponseError {
+  code: string // e.g. 'card_declined'
+  decline_code: string // e.g. 'insufficient_funds'
+  doc_url: string // e.g. 'https:/string // e.g. /stripe.com/docs/error-codes/card-declined'
+  message: string // e.g. 'Your card has insufficient funds.'
+  param: string // e.g. ''
+  type: string // e.g. 'card_error'
+}
+interface createCustomerResponseJSON {
+  error?: stripeResponseError
+  id?: string // e.g.  "cus_AJ6y9TsgwMryBy"
+  object?: string // e.g.  "customer"
+  address?: string // e.g.  null
+  balance?: number // e.g.  0
+  created?: number // e.g.  1489794295
+  currency?: string // e.g.  "usd"
+  default_source?: string // e.g.  "card_19yUkd2eZvKYlo2CLbEQmC4z"
+  delinquent?: boolean // e.g.  true
+  description?: string // e.g.  "My First Test Customer (created for API docs)"
+  discount?: string // e.g.  null
+  email?: string // e.g.  "hellen_denesik@example.com"
+  invoice_prefix?: string // e.g.  "9B6FEC4"
+  invoice_settings?: any
+  livemode?: boolean // e.g.  false
+  metadata?: any
+  name?: string // e.g.  null
+  next_invoice_sequence?: number // e.g.  47194
+  phone?: string // e.g.  null
+  preferred_locales?: string[] // e.g.  []
+  shipping?: any // e.g.  null. or {address: xxx, name: xxx, phone:xxx}
+  tax_exempt?: string // e.g.  "none"
+}
+
 export interface createSetupIntentResponseJSON {
-  id: string
-  object: string
-  client_secret: string
+  id?: string
+  object?: string
+  client_secret?: string
+  error?: stripeResponseError
 }
 export interface CreateUserSuccessResponseJSONData {
-  createCustomerResponseJSON: any
+  createCustomerResponseJSON: createCustomerResponseJSON
   createSetupIntentResponseJSON: createSetupIntentResponseJSON
   message: string
   missiveDigest: string

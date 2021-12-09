@@ -119,7 +119,7 @@ const CheckoutFields = ({
       <AccordionItem>
         <AccordionButton
           onClick={() => {
-            if (stage !== 0) {
+            if (stage > 0) {
               setStage(0)
             } else {
               trigger()
@@ -189,7 +189,7 @@ const CheckoutFields = ({
           justifyContent="start"
           onClick={() => {
             // Do not allow progress if stage0 is invalid
-            if (trigger()) {
+            if (stage < 2 && trigger()) {
               handleSubmit(onSubmit)()
             }
           }}
