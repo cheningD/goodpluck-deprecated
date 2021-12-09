@@ -122,7 +122,7 @@ export default function Nav() {
               ))}
             </HStack>
           </HStack>
-          {!signedIn ? (
+          {signedIn ? (
             <NavLink to="/basket">
               <CartLink />
             </NavLink>
