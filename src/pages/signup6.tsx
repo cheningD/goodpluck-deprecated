@@ -1,3 +1,4 @@
+import * as Sentry from '@sentry/gatsby'
 import * as yup from 'yup'
 
 import { CardElement, Elements, useElements, useStripe } from '@stripe/react-stripe-js'
@@ -51,6 +52,7 @@ const schema1 = {
 // Handle form submission.
 const handleFinalSubmit = async (data: SignupData, elements, stripe, setStripeError, setIsLoading) => {
   setIsLoading(true)
+  Sentry.setUser({ email: `Unverified: ${data.email}` })
   const card = elements.getElement(CardElement)
   const createTokenResult = await stripe.createToken(card)
   if (createTokenResult.error) {
@@ -81,11 +83,41 @@ const handleFinalSubmit = async (data: SignupData, elements, stripe, setStripeEr
     if (createUserResponseJson.error) {
       setIsLoading(false)
       toast.error('Something went wrong, If this problem persists please contact us')
+    } else if (
+      createUserResponseJson.data &&
+      createUserResponseJson.data.createCustomerResponseJSON &&
+      createUserResponseJson.data.createCustomerResponseJSON.error
+    ) {
+      setIsLoading(false)
+      if (createUserResponseJson.data.createCustomerResponseJSON.error.type === 'card_error') {
+        toast.error(createUserResponseJson.data.createCustomerResponseJSON.error.message)
+        setStripeError()
+      } else {
+        //It's our fault, alert sentry
+        toast.error('Something went wrong, If this problem persists please contact us')
+        throw new Error(
+          `Customer ${data.email} encounterd unexpected stripe error ${JSON.stringify(
+            createUserResponseJson.data.createCustomerResponseJSON.error,
+          )}`,
+        )
+      }
     }
     console.log(`createUserResponseJson: ${JSON.stringify(createUserResponseJson)}`)
 
-    createUserResponseJson
-
+    // Handle if card not setup properly
+    if (
+      createUserResponseJson.data.createSetupIntentResponseJSON.error ||
+      !createUserResponseJson.data.createSetupIntentResponseJSON.client_secret
+    ) {
+      setIsLoading(false)
+      //It's our fault, alert sentry
+      toast.error('Something went wrong, If this problem persists please contact us')
+      throw new Error(
+        `Customer ${data.email} encounterd unexpected stripe error ${JSON.stringify(
+          createUserResponseJson.data.createSetupIntentResponseJSON.error,
+        )}`,
+      )
+    }
     const clientSecret = createUserResponseJson.data.createSetupIntentResponseJSON.client_secret
     const cardSetupResponse = await stripe.confirmCardSetup(clientSecret, {
       payment_method: {

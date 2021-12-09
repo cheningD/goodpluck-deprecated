@@ -42,7 +42,7 @@ export const FormLayout = ({
         bgColor="var(--light-bg)"
         direction={['column', 'column', 'column', 'row']}
         justify="center"
-        px={[0, 4]}
+        px={[2, 4]}
         pb={8}
         spacing={4}
       >
