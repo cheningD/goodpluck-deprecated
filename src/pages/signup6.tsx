@@ -82,7 +82,8 @@ const handleFinalSubmit = async (data: SignupData, elements, stripe, setStripeEr
     const createUserResponseJson = await createUser(createUserParams)
     if (createUserResponseJson.error) {
       setIsLoading(false)
-      toast.error('Something went wrong, If this problem persists please contact us')
+      toast.error(createUserResponseJson.error)
+      return null
     } else if (
       createUserResponseJson.data &&
       createUserResponseJson.data.createCustomerResponseJSON &&
@@ -92,9 +93,10 @@ const handleFinalSubmit = async (data: SignupData, elements, stripe, setStripeEr
       if (createUserResponseJson.data.createCustomerResponseJSON.error.type === 'card_error') {
         toast.error(createUserResponseJson.data.createCustomerResponseJSON.error.message)
         setStripeError()
+        return null
       } else {
         //It's our fault, alert sentry
-        toast.error('Something went wrong, If this problem persists please contact us')
+        toast.error('Something went wrong, if this problem persists please contact us')
         throw new Error(
           `Customer ${data.email} encounterd unexpected stripe error ${JSON.stringify(
             createUserResponseJson.data.createCustomerResponseJSON.error,
@@ -111,7 +113,7 @@ const handleFinalSubmit = async (data: SignupData, elements, stripe, setStripeEr
     ) {
       setIsLoading(false)
       //It's our fault, alert sentry
-      toast.error('Something went wrong, If this problem persists please contact us')
+      toast.error('Something went wrong, if this problem persists please contact us')
       throw new Error(
         `Customer ${data.email} encounterd unexpected stripe error ${JSON.stringify(
           createUserResponseJson.data.createSetupIntentResponseJSON.error,

@@ -116,7 +116,7 @@ export default function Nav() {
             </Box>
             <HStack as={'nav'} spacing={4} display={{ base: 'none', md: 'flex' }}>
               {links.map(link => (
-                <NavLink key={link} to={removeNonLetters(link.toLowerCase())}>
+                <NavLink key={link} to={`/${removeNonLetters(link.toLowerCase())}`}>
                   {link}
                 </NavLink>
               ))}
