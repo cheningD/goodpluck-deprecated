@@ -4,6 +4,16 @@ import isNil from 'lodash-es/isNil'
 import isObject from 'lodash-es/isObject'
 import { useState } from 'react'
 
+// Mondays only - Weeks that no delivieries are available
+export const BLACKOUT_DATES: Record<string, string> = {
+  '2020-12-21': 'No deliveries this week because of the holiday',
+  '2021-09-20': 'Service Break Sep 20 - Oct 11',
+  '2021-09-27': 'Service Break Sep 20 - Oct 11',
+  '2021-10-04': 'Service Break Sep 20 - Oct 11',
+  '2021-12-20': 'No deliveries this week because of the holiday',
+  '2021-12-27': 'Happy 2022! No deliveries today!',
+}
+
 export const sleep = async (ms: number) => {
   await new Promise(resolve => setTimeout(resolve, ms))
 }
