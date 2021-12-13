@@ -1,8 +1,9 @@
+import { BLACKOUT_DATES, isoToNiceDate } from '../util'
 import { Bold, Card, H2, SecondaryButton, Spinner } from './StyledComponentLib'
+import { HStack, Text } from '@chakra-ui/layout'
 
 import { DateTime } from 'luxon'
 import React from 'react'
-import { isoToNiceDate } from '../util'
 import styled from 'styled-components'
 
 interface UpcomingOrderProps {
@@ -34,7 +35,9 @@ const UpcomingOrders = ({ orders, setSkipped }) => {
 
       let editButton: JSX.Element
 
-      if (orderCanBeSkipped) {
+      if (BLACKOUT_DATES && BLACKOUT_DATES[orderIndexMonday]) {
+        editButton = <Text>{BLACKOUT_DATES[orderIndexMonday]}</Text>
+      } else if (orderCanBeSkipped) {
         editButton = (
           <SecondaryButton
             inline={true}
@@ -48,8 +51,10 @@ const UpcomingOrders = ({ orders, setSkipped }) => {
 
       return (
         <UpcomingOrder skipped={orderIsSkipped} key={orderIndexMonday}>
-          <Bold>{isoToNiceDate(order.deliveryDate)}</Bold> {orderIsSkipped ? '(skipped) ' : ''}
-          {editButton}
+          <HStack>
+            <Text fontFamily="heading">{isoToNiceDate(order.deliveryDate)}</Text> {orderIsSkipped ? '(skipped) ' : ''}
+            {editButton}
+          </HStack>
         </UpcomingOrder>
       )
     })
