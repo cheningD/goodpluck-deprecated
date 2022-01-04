@@ -1,6 +1,7 @@
 import { HStack, Text } from '@chakra-ui/react'
 import { basketCount, isSignedIn } from '../store'
 
+import Emoji from './Emoji'
 import Image from './Image'
 import React from 'react'
 import { useRecoilValue } from 'recoil'
@@ -11,12 +12,12 @@ export const CartLink = () => {
   if (signedIn) {
     link_to = '/basket'
   } else {
-    link_to = '/getstarted'
+    link_to = '/signup'
   }
 
   return (
     <HStack>
-      <Image src="cart_icon_green.png" alt="my basket" style={{ height: '30px', width: '30px' }} />
+      <Emoji symbol="🧺" label="basket" fontSize="3xl" />
       <Text color="white">{useRecoilValue(basketCount)}</Text>
     </HStack>
   )

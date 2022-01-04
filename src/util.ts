@@ -42,11 +42,6 @@ export const getMaxlengthFunc = max => {
 export const VALID_ZIP_PATTERN_5_DIGITS = /^[0-9]{5}$/
 export const VALID_ZIP_PATTERN = /^[0-9]{5}(?:-[0-9]{4})?$/
 
-export function listToClass(className) {
-  const classNames = Array.isArray(className) ? className : [className]
-  return classNames.filter(c => typeof c === 'string').join(' ')
-}
-
 //Returns a string with all non letters [a-z] removed
 export const removeNonLetters = (input: string): string => (input && input.replace ? input.replace(/[^a-z]/gi, '') : '')
 export const removeNonNumbers = (input: string): string => (input && input.replace ? input.replace(/[^0-9]/gi, '') : '')

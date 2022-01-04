@@ -57,7 +57,7 @@ export default function Waitlist() {
         percentComplete={0}
         submitText="Join Waitlist"
         goBackFunction={() => {
-          navigate('/getstarted')
+          navigate('/signup')
         }}
       />
     </>
