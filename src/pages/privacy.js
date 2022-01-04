@@ -1,3 +1,4 @@
+import Footer from '../components/Footer'
 import { Helmet } from 'react-helmet'
 import Nav from '../components/Nav'
 import React from 'react'
@@ -18,6 +19,7 @@ export default function Privacy() {
       <Nav />
 
       <div name="termly-embed" data-id="d0d093cd-d150-4a3b-bfae-2163c896e7c0" data-type="iframe"></div>
+      <Footer />
     </>
   )
 }

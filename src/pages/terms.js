@@ -1,3 +1,4 @@
+import Footer from '../components/Footer'
 import { Helmet } from 'react-helmet'
 import Nav from '../components/Nav'
 import React from 'react'
@@ -17,6 +18,7 @@ export default function Terms() {
       <Nav />
 
       <div name="termly-embed" data-id="b2d69771-b7ea-40c3-a44a-9618b080cb45" data-type="iframe"></div>
+      <Footer />
     </>
   )
 }

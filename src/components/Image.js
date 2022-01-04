@@ -15,7 +15,7 @@ const Image = ({ src, alt, ...rest }) => {
             extension
             publicURL
             childImageSharp {
-              gatsbyImageData(height: 200, width: 200, transformOptions: { fit: COVER })
+              gatsbyImageData(width: 800, transformOptions: { fit: CONTAIN })
             }
           }
         }
@@ -38,6 +38,7 @@ const Image = ({ src, alt, ...rest }) => {
 Image.propTypes = {
   src: PropTypes.string.isRequired,
   alt: PropTypes.string.isRequired,
+  width: PropTypes.number,
 }
 
 export default Image

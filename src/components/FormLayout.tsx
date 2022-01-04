@@ -1,9 +1,13 @@
 import { Button, Container, HStack, Heading, Progress, Stack, Text, VStack } from '@chakra-ui/react'
 
 import { ArrowBackIcon } from '@chakra-ui/icons'
+import Features from './Features'
+import Footer from './Footer'
+import HowItWorks from './HowItWorks'
 import React from 'react'
 import Seo from '../components/Seo'
 import { SimpleNav } from './SimpleNav'
+import Testimonial from './Testimonial'
 
 type FormLayoutProps = {
   children: any
@@ -90,6 +94,9 @@ export const FormLayout = ({
         </form>
         <div>{sidebar}</div>
       </Stack>
+      <Testimonial />
+      <Features />
+      <Footer />
     </>
   )
 }

@@ -56,6 +56,7 @@
     "react-helmet": "^6.1.0",
     "react-hook-form": "^7.20.2",
     "react-hot-toast": "^2.0.0",
+    "react-icons": "^4.3.1",
     "react-script-tag": "^1.1.2",
     "react-scroll": "^1.8.1",
     "react-select": "^5.2.1",
