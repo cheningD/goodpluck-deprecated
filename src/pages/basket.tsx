@@ -1,4 +1,5 @@
 import { Card, Spinner } from '../components/StyledComponentLib'
+import { Heading, Link, Text } from '@chakra-ui/react'
 import { isSignedIn, myOrders } from '../store'
 import { useRecoilState, useRecoilValue } from 'recoil'
 
@@ -7,7 +8,7 @@ import BasketAccountShopLinks from '../components/BasketAccountShopLinks'
 import BasketSkippedCard from '../components/BasketSkippedCard'
 import Countdown from '../components/Countdown'
 import { DateTime } from 'luxon'
-import { Link } from 'gatsby'
+import GatsbyLink from 'gatsby-link'
 import Nav from '../components/Nav'
 import { OrderDetail } from '../types'
 import React from 'react'
@@ -40,9 +41,15 @@ const BasketPage = () => {
   let content
   if (!useRecoilValue(isSignedIn)) {
     content = (
-      <H1>
-        Please <Link to="/signin">sign in</Link> to see your orders
-      </H1>
+      <Heading>
+        Please{' '}
+        <Text as="u" color="blue.500">
+          <Link as={GatsbyLink} to="/signin">
+            sign in
+          </Link>
+        </Text>{' '}
+        to view your basket
+      </Heading>
     )
   } else {
     const [orders, setOrders] = useRecoilState(myOrders)
