@@ -1,12 +1,14 @@
-import { Card, Spinner } from '../components/StyledComponentLib'
+import { Heading, Link, Text } from '@chakra-ui/react'
 import { isSignedIn, myOrders } from '../store'
 import { useRecoilState, useRecoilValue } from 'recoil'
 
 import BasketAccountShopLinks from '../components/BasketAccountShopLinks'
 import BasketSkippedCard from '../components/BasketSkippedCard'
+import { Card } from '../components/StyledComponentLib'
 import { Container } from '@chakra-ui/react'
 import CountDown from '../components/Countdown'
 import { DateTime } from 'luxon'
+import GatsbyLink from 'gatsby-link'
 import MarketView from '../components/MarketView'
 import Nav from '../components/Nav'
 import { OrderDetail } from '../types'
@@ -33,7 +35,17 @@ const MarketContent = () => {
     upcomingOrderData = orders[Object.keys(orders).slice().sort()[0]]
   }
   if (!useRecoilValue(isSignedIn)) {
-    return <Spinner data-testid="spinner" />
+    return (
+      <Heading>
+        Please{' '}
+        <Text as="u" color="blue.500">
+          <Link as={GatsbyLink} to="/signin">
+            sign in
+          </Link>
+        </Text>{' '}
+        to shop the market
+      </Heading>
+    )
   } else if (upcomingOrderData && upcomingOrderData.skipped) {
     return (
       <Container bg="tomato" p={[0, 0, 4]} w="100%" mx={[0, 0, 'auto']}>

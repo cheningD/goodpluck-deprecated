@@ -17,6 +17,7 @@ import {
   StyledField,
 } from '../components/StyledComponentLib'
 import { Form, Formik } from 'formik'
+import { Heading, Link, Text } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
 import { getSetSkippedFunc, pauseSubscription, restartSubscription, retrieveCustomer } from '../actions'
 import { isSignedIn, myOrders, signedInUser, stripeCustomer } from '../store'
@@ -26,7 +27,7 @@ import BasketAccountShopLinks from '../components/BasketAccountShopLinks'
 import BasketDates from '../components/BasketDates'
 import BasketSkippedCard from '../components/BasketSkippedCard'
 import { DateTime } from 'luxon'
-import { Link } from 'gatsby'
+import GatsbyLink from 'gatsby-link'
 import Nav from '../components/Nav'
 import { OrderDetail } from '../types'
 import Seo from '../components/Seo'
@@ -99,13 +100,22 @@ const MyAccount = () => {
       </>
     )
   }
+  let logoutBtn = <div></div>
 
   if (!useRecoilValue(isSignedIn)) {
     content = (
-      <H1>
-        Please <Link to="/signin">sign in</Link> to see your orders
-      </H1>
+      <Heading>
+        Please{' '}
+        <Text as="u" color="blue.500">
+          <Link as={GatsbyLink} to="/signin">
+            sign in
+          </Link>
+        </Text>{' '}
+        to see your account
+      </Heading>
     )
+  } else {
+    logoutBtn = <a href="/logout">Logout</a>
   }
 
   return (
@@ -115,7 +125,7 @@ const MyAccount = () => {
       <BasketAccountShopLinks />
       <Content>
         {content}
-        <a href="/logout">Logout</a>
+        {logoutBtn}
       </Content>
     </Page>
   )
