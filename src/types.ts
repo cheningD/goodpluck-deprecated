@@ -78,6 +78,11 @@ export interface BasketItemData {
   unitPriceInCents: number
 }
 
+export interface SubscriptionRecord {
+  sku: string
+  quantity: number
+  frequency: string // "every week" or "every other week"
+}
 export interface BasketItemAndProduct {
   stripePriceId: string
   quantity: number
