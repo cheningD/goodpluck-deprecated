@@ -1,4 +1,4 @@
-import { BasketItemData, StripeCustomer } from './types'
+import { BasketItemData, StripeCustomer, SubscriptionRecord } from './types'
 import { atom, selector } from 'recoil'
 
 export const signedInUser = atom({
@@ -31,6 +31,13 @@ export const myOrders = atom({
 export const pastOrders = atom({
   key: 'pastorders', // unique ID (with respect to other atoms/selectors)
   default: null, // default value (aka initial value),
+})
+
+const subscriptionsDefault: SubscriptionRecord[] = []
+
+export const mySubscriptions = atom({
+  key: 'subscriptions', // unique ID (with respect to other atoms/selectors)
+  default: subscriptionsDefault, // default value (aka initial value)
 })
 
 const basketDefault: Map<string, BasketItemData> | null = null

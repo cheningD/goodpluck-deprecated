@@ -6,6 +6,7 @@ import {
   OrderDetail,
   SignedInData,
   StripeCustomer,
+  SubscriptionRecord,
 } from './types'
 
 import { navigate } from 'gatsby'
@@ -294,6 +295,39 @@ export const getOrdersDemo = async (deliveryDayPreference): Promise<OrderDetail 
     console.log(`Error in getOrdersDemo: ${err.message || err}`)
     return null
   }
+}
+
+type JSONResponse = {
+  data?: {
+    subscriptions: SubscriptionRecord[]
+  }
+  errors?: Array<{ message: string }>
+}
+
+export const getSubscriptions = async () => {
+  const response = await fetch(`${LOCAL_API_PREFIX}/api/getsubscriptions`, {
+    credentials: 'same-origin',
+  })
+  const { data, errors }: JSONResponse = await response.json()
+  if (data.subscriptions && !errors) {
+    return data.subscriptions
+  } else {
+    throw new Error(`Error in get subscriptions: ${errors}`)
+  }
+}
+
+export const updateSubscriptions = async (subscriptions: SubscriptionRecord[]) => {
+  const response = await fetch(`${LOCAL_API_PREFIX}/api/updatesubscriptions`, {
+    credentials: 'same-origin',
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(subscriptions),
+  })
+
+  const responseJSON = await response.json()
+  return responseJSON.subscriptions
 }
 
 export const getBasket = async (): Promise<Map<string, BasketItemData> | null> => {

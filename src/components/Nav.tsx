@@ -5,8 +5,8 @@ import { CloseIcon, HamburgerIcon } from '@chakra-ui/icons'
 import GatsbyLink, { navigate } from 'gatsby-link'
 import { OrderDetail, SignedInData } from '../types'
 import React, { ReactNode, useEffect } from 'react'
-import { basketItems, isSignedIn, myOrders, signedInUser } from '../store'
-import { getBasket, getOrders, getSignedInData } from '../actions'
+import { basketItems, isSignedIn, myOrders, mySubscriptions, signedInUser } from '../store'
+import { getBasket, getOrders, getSignedInData, getSubscriptions } from '../actions'
 import { useRecoilState, useRecoilValue } from 'recoil'
 
 import { CartLink } from './CartLink'
@@ -37,6 +37,7 @@ export default function Nav() {
   const [user, setUser] = useRecoilState(signedInUser)
   const [orders, setOrders] = useRecoilState(myOrders)
   const [basket, setBasket] = useRecoilState(basketItems)
+  const [subscriptions, setSubscriptions] = useRecoilState(mySubscriptions)
 
   const fetchOrders = async () => {
     // GET ORDERS
@@ -78,6 +79,19 @@ export default function Nav() {
   useEffect(() => {
     if (basket === null) {
       fetchBasket()
+    }
+  }, [])
+
+  const fetchSubscriptions = async () => {
+    const _subscriptions = await getSubscriptions()
+    if (_subscriptions) {
+      setSubscriptions(_subscriptions)
+    }
+  }
+
+  useEffect(() => {
+    if (subscriptions === null) {
+      fetchSubscriptions()
     }
   }, [])
 
