@@ -316,18 +316,25 @@ export const getSubscriptions = async () => {
   }
 }
 
-export const updateSubscriptions = async (subscriptions: SubscriptionRecord[]) => {
+export const updateSubscriptions = async (
+  subscriptions: SubscriptionRecord[],
+  setSubscriptionsOnSuccessFunc: Function,
+) => {
   const response = await fetch(`${LOCAL_API_PREFIX}/api/updatesubscriptions`, {
     credentials: 'same-origin',
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify(subscriptions),
+    body: JSON.stringify({ subscriptions }),
   })
 
   const responseJSON = await response.json()
-  return responseJSON.subscriptions
+  console.log('The subscriprions JSON::', responseJSON)
+  if (responseJSON.data.subscriptions) {
+    console.log('IM Updating the subscriprions YAAY::')
+    setSubscriptionsOnSuccessFunc(responseJSON.data.subscriptions)
+  }
 }
 
 export const getBasket = async (): Promise<Map<string, BasketItemData> | null> => {

@@ -84,7 +84,9 @@ export default function Nav() {
 
   const fetchSubscriptions = async () => {
     const _subscriptions = await getSubscriptions()
+    console.log(`I'm getting subscriptions ${JSON.stringify(_subscriptions)}`)
     if (_subscriptions) {
+      console.log(`I'm updating subscriptions:::`, _subscriptions)
       setSubscriptions(_subscriptions)
     }
   }

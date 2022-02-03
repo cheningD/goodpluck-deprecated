@@ -1,4 +1,5 @@
-import { Card, DetailCell2, LineBreak, Spinner } from '../components/StyledComponentLib'
+import { Card, DetailCell2, Spinner } from '../components/StyledComponentLib'
+import { Container, Heading } from '@chakra-ui/react'
 import { Link, graphql, useStaticQuery } from 'gatsby'
 import { basketItems, shippingInCents, subtotalInCents } from '../store'
 import { useRecoilState, useRecoilValue } from 'recoil'
@@ -10,45 +11,42 @@ import { centsToString } from '../util'
 import get from 'lodash-es/get'
 import styled from 'styled-components'
 
-const ThinLineBreak = styled(LineBreak)`
-  height: 1px;
-`
-
 const Right = styled.span`
   float: right;
 `
 
 const Basket = ({ deliveryDate = null, orderFrequency = null, canEdit = false, skipped = false }) => {
-  const data = useStaticQuery(graphql`{
-  allAirtable(filter: {table: {eq: "product"}}) {
-    nodes {
-      data {
-        available
-        description
-        isInSeason
-        isLocal
-        isLocalPluck
-        isOrganic
-        name
-        oneLiner
-        priceInCents
-        stripePriceId
-        unitLabel
-        unitQuantity
-        mainImage {
-          id
-          localFiles {
-            url
-            childImageSharp {
-              gatsbyImageData(width: 100, height: 100, layout: CONSTRAINED)
+  const data = useStaticQuery(graphql`
+    {
+      allAirtable(filter: { table: { eq: "product" } }) {
+        nodes {
+          data {
+            available
+            description
+            isInSeason
+            isLocal
+            isLocalPluck
+            isOrganic
+            name
+            oneLiner
+            priceInCents
+            stripePriceId
+            unitLabel
+            unitQuantity
+            mainImage {
+              id
+              localFiles {
+                url
+                childImageSharp {
+                  gatsbyImageData(width: 100, height: 100, layout: CONSTRAINED)
+                }
+              }
             }
           }
         }
       }
     }
-  }
-}
-`)
+  `)
   const nodes = get(data, 'allAirtable.nodes', null)
   const [basket, setBasket] = useRecoilState(basketItems)
 
@@ -70,32 +68,33 @@ const Basket = ({ deliveryDate = null, orderFrequency = null, canEdit = false, s
       return null
     }
     const product = productNodes[0].data
-    const quantityLabel = `${product.unitQuantity || 1} ${product.unitLabel || ''}`
     return (
-      <>
-        {index === 0 ? '' : <ThinLineBreak />}
-        <BasketItem
-          canEdit={canEdit}
-          showControls={true}
-          childImageSharp={get(product, 'mainImage.localFiles[0].childImageSharp')}
-          isInSeason={product.isInSeason}
-          isLocal={product.isLocal}
-          isOrganic={product.isOrganic}
-          name={product.name || ''}
-          oneLiner={product.oneLiner || ''}
-          quantityLabel={quantityLabel}
-          stripePriceId={product.stripePriceId}
-          unitPriceInCents={product.priceInCents}
-          imageSrc={null}
-          isCompact={false}
-          quantityInBasket={quantity}
-        />
-      </>
+      <BasketItem
+        canEdit={canEdit}
+        showControls={true}
+        childImageSharp={get(product, 'mainImage.localFiles[0].childImageSharp')}
+        name={product.name || ''}
+        oneLiner={product.oneLiner || ''}
+        unitQuantity={product.unitQuantity}
+        unitLabel={product.unitLabel}
+        stripePriceId={product.stripePriceId}
+        unitPriceInCents={product.priceInCents}
+        quantityInBasket={quantity}
+      />
     )
   })
 
   return (
-    <Card>
+    <Container
+      bg="white"
+      borderRadius={[0, 0, 'md']}
+      pt={0}
+      pl={0}
+      pb={4}
+      pr={[0, 0, 4]}
+      w={['100%', '100%', '48em']}
+      overflow="hidden"
+    >
       {deliveryDate ? (
         <>
           <DetailCell2>Arrives on:</DetailCell2>
@@ -113,7 +112,6 @@ const Basket = ({ deliveryDate = null, orderFrequency = null, canEdit = false, s
         ''
       )}
       {items}
-      <LineBreak />
       <div>
         <span>Shipping{shipping ? ' (Free above $30)' : ''}</span>
         <Right>{shipping ? centsToString(shipping) : 'Free'}</Right>
@@ -126,7 +124,7 @@ const Basket = ({ deliveryDate = null, orderFrequency = null, canEdit = false, s
         <strong>To be charged</strong>
         <Right>{skipped ? 'Skipping this order!' : centsToString(shipping + subtotal)}</Right>
       </div>
-    </Card>
+    </Container>
   )
 }
 export default Basket

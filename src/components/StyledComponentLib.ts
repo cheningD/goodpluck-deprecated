@@ -287,13 +287,6 @@ export const CardElementStyle = {
   },
 }
 
-export const LineBreak = styled.div`
-  width: 100%;
-  height: 2px;
-  background-color: #eaeaea;
-  margin: 8px auto 16px auto;
-`
-
 interface DetailCellProps {
   bold?: boolean
   right?: boolean
