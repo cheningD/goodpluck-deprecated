@@ -1,41 +1,17 @@
 import { BasketItemData, OrderDetail } from '../types'
+import { Button, Text } from '@chakra-ui/react'
 import { basketItems, myOrders } from '../store'
 import { useRecoilState, useRecoilValue } from 'recoil'
 
 import { DateTime } from 'luxon'
 import React from 'react'
 import Select from 'react-select'
-import styled from 'styled-components'
 import { updateBasket } from '../actions'
 
-const Submit = styled.button`
-  background-color: #fff;
-  border-radius: 4px;
-  border: 1px solid hsl(0, 0%, 80%);
-  color: #333;
-  display: inline-block;
-  font-family: hk_grotesksemibold, sans-serif;
-  font-size: 0.875rem;
-  height: 38px;
-  margin-right: 16px;
-  width: 7rem;
-
-  &:hover,
-  &:focus {
-    background-color: #788474;
-    color: #fff;
+const AddToCartButton = ({ stripePriceId, unitPriceInCents, quantityInBasket, canEdit }) => {
+  if (!canEdit) {
+    return <Text>Qty: {quantityInBasket || 0}</Text>
   }
-`
-
-const AddToCartSelect = styled(Select)`
-  display: inline-block;
-  font-family: hk_grotesksemibold, sans-serif;
-  font-size: 0.875rem;
-  margin-right: 16px;
-  width: 7rem;
-`
-
-const AddToCartButton = ({ stripePriceId, unitPriceInCents, quantityInBasket }) => {
   const orders = useRecoilValue(myOrders)
 
   let upcomingOrderData: OrderDetail | null = null
@@ -55,8 +31,12 @@ const AddToCartButton = ({ stripePriceId, unitPriceInCents, quantityInBasket }) 
   }
   if (quantityInBasket === 0) {
     return (
-      <Submit
-        as="button"
+      <Button
+        w="103px"
+        variant="outline"
+        colorScheme="brand"
+        borderRadius="4px"
+        _hover={{ bg: 'brand.400', color: 'white' }}
         onClick={() => {
           let newBasket: Map<string, BasketItemData> = new Map(basket)
           newBasket.set(stripePriceId, { stripePriceId, quantity: 1, unitPriceInCents })
@@ -64,7 +44,7 @@ const AddToCartButton = ({ stripePriceId, unitPriceInCents, quantityInBasket }) 
         }}
       >
         Add
-      </Submit>
+      </Button>
     )
   }
 
@@ -82,8 +62,7 @@ const AddToCartButton = ({ stripePriceId, unitPriceInCents, quantityInBasket }) 
   ]
 
   return (
-    <AddToCartSelect
-      classNamePrefix="add-to-cart-select"
+    <Select
       options={options}
       onChange={option => {
         let newBasket: Map<string, BasketItemData> = new Map(basket)

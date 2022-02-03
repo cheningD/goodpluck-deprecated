@@ -1,4 +1,4 @@
-import { Container, Divider, Heading } from '@chakra-ui/react'
+import { Container, Heading } from '@chakra-ui/react'
 import React, { useState } from 'react'
 import { graphql, useStaticQuery } from 'gatsby'
 
@@ -121,25 +121,18 @@ export default MarketView
 
 const productToElement = (p, _basketItems, canEdit) => {
   return (
-    <>
-      <BasketItem
-        key={p.sku}
-        canEdit={canEdit}
-        showControls={true}
-        childImageSharp={get(p, 'mainImage.localFiles[0].childImageSharp')}
-        isCompact={false}
-        isInSeason={true}
-        isLocal={true}
-        isOrganic={false}
-        imageSrc={null}
-        name={p.name}
-        oneLiner={p.oneLiner}
-        quantityLabel={`${p.unitQuantity || 1} ${p.unitLabel || ''}`}
-        stripePriceId={p.sku}
-        unitPriceInCents={p.priceInCents} //Just a value
-        quantityInBasket={_basketItems?.get(p.sku)?.quantity || 0}
-      />
-      <Divider />
-    </>
+    <BasketItem
+      key={p.sku}
+      canEdit={canEdit}
+      showControls={true}
+      childImageSharp={get(p, 'mainImage.localFiles[0].childImageSharp')}
+      name={p.name}
+      oneLiner={p.oneLiner}
+      unitQuantity={+p.unitQuantity || 1}
+      unitLabel={p.unitLabel || ''}
+      stripePriceId={p.sku}
+      unitPriceInCents={p.priceInCents} //Just a value
+      quantityInBasket={_basketItems?.get(p.sku)?.quantity || 0}
+    />
   )
 }

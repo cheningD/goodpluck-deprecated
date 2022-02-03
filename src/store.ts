@@ -33,7 +33,7 @@ export const pastOrders = atom({
   default: null, // default value (aka initial value),
 })
 
-const subscriptionsDefault: SubscriptionRecord[] = []
+const subscriptionsDefault: SubscriptionRecord[] | null = null
 
 export const mySubscriptions = atom({
   key: 'subscriptions', // unique ID (with respect to other atoms/selectors)
