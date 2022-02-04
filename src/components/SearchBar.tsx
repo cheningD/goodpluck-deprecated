@@ -1,27 +1,58 @@
-import { Container, Input } from '@chakra-ui/react'
+import { Box, Button, Input, Stack } from '@chakra-ui/react'
 import React, { useRef, useState } from 'react'
 
-import { SecondaryButton } from './StyledComponentLib'
 import debounce from 'lodash-es/debounce'
-import styled from 'styled-components'
 
-const Search = styled.input`
-  width: 100%;
-  border: 1px solid #d8d8d8;
-  border-radius: 3px;
-  color: #31373d;
-  outline: 0;
-  padding: 0.5rem;
-  transition: all 0.5s ease-in-out, width 0s, height 0s;
-`
-
-const SearchBar = ({ updateSearchTerm }) => {
+const SearchBar = ({ fullscreen, updateSearchTerm, onOpen }) => {
   const [searchTerm, setSearchTerm] = useState('')
   // Store ref  to the debounced func https://rajeshnaroth.medium.com/using-throttle-and-debounce-in-a-react-function-component-5489fc3461b3
   const updateSearchTermDebounced = useRef(debounce(updateSearchTerm, 100)).current
 
+  if (fullscreen) {
+    return (
+      <Content
+        fullscreen={fullscreen}
+        searchTerm={searchTerm}
+        setSearchTerm={setSearchTerm}
+        updateSearchTermDebounced={updateSearchTermDebounced}
+        onOpen={onOpen}
+      />
+    )
+  } else {
+    return (
+      <Box w="full" display={['block', 'block', 'none']} position="sticky" top={0} zIndex={1}>
+        <Content
+          fullscreen={fullscreen}
+          searchTerm={searchTerm}
+          setSearchTerm={setSearchTerm}
+          updateSearchTermDebounced={updateSearchTermDebounced}
+          onOpen={onOpen}
+        />{' '}
+      </Box>
+    )
+  }
+}
+
+export default SearchBar
+
+const Content = ({ fullscreen, onOpen, setSearchTerm, searchTerm, updateSearchTermDebounced }) => {
   return (
-    <Container px={[2, 2, 0]}>
+    <Stack
+      mx={0}
+      position="sticky"
+      bg="white"
+      px={fullscreen ? 0 : 2}
+      py={2}
+      w="full"
+      direction={fullscreen ? 'column' : 'row'}
+    >
+      {fullscreen ? (
+        ''
+      ) : (
+        <Button colorScheme="brand" onClick={onOpen} w="100px">
+          Menu
+        </Button>
+      )}
       <Input
         type="text"
         placeholder="Search all products"
@@ -32,19 +63,18 @@ const SearchBar = ({ updateSearchTerm }) => {
         }}
       />
       {searchTerm ? (
-        <SecondaryButton
+        <Button
+          variant="ghost"
           onClick={() => {
             setSearchTerm('')
             updateSearchTermDebounced('')
           }}
         >
           Clear Search
-        </SecondaryButton>
+        </Button>
       ) : (
         ''
       )}
-    </Container>
+    </Stack>
   )
 }
-
-export default SearchBar

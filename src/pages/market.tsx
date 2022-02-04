@@ -1,11 +1,9 @@
-import { Heading, Link, Text } from '@chakra-ui/react'
+import { Container, Heading, Link, Text } from '@chakra-ui/react'
 import { isSignedIn, myOrders } from '../store'
 import { useRecoilState, useRecoilValue } from 'recoil'
 
-import BasketAccountShopLinks from '../components/BasketAccountShopLinks'
 import BasketSkippedCard from '../components/BasketSkippedCard'
 import { Card } from '../components/StyledComponentLib'
-import { Container } from '@chakra-ui/react'
 import CountDown from '../components/Countdown'
 import { DateTime } from 'luxon'
 import GatsbyLink from 'gatsby-link'
@@ -18,10 +16,9 @@ import { getSetSkippedFunc } from '../actions'
 
 const Market = () => {
   return (
-    <Container bg="var(--light-bg)" minH="100vh" p="0" m="0" minW="100vw">
+    <Container bg="var(--light-bg)" minH="100vh" h="100%" p="0" m="0" minW="100vw">
       <Seo title="Market | Local Produce" />
-      <Nav />
-      <BasketAccountShopLinks />
+      <Nav activelink="market" />
       <MarketContent />
     </Container>
   )
@@ -48,7 +45,7 @@ const MarketContent = () => {
     )
   } else if (upcomingOrderData && upcomingOrderData.skipped) {
     return (
-      <Container bg="tomato" p={[0, 0, 4]} w="100%" mx={[0, 0, 'auto']}>
+      <Container bg="tomato" p={[0, 0, 4]} w="100%" h="100%" mx={[0, 0, 'auto']}>
         <Card>
           <BasketSkippedCard
             setSkipped={setSkipped}

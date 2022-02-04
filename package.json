@@ -42,6 +42,7 @@
     "gatsby-plugin-robots-txt": "^1.5.3",
     "gatsby-plugin-sharp": "^4.2.0",
     "gatsby-plugin-sitemap": "^5.2.0",
+    "gatsby-plugin-smoothscroll": "^1.2.0",
     "gatsby-plugin-styled-components": "^5.2.0",
     "gatsby-source-airtable": "^2.1.1",
     "gatsby-source-filesystem": "^4.2.0",
