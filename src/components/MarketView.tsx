@@ -1,10 +1,12 @@
-import { Container, Heading } from '@chakra-ui/react'
+import { Container, HStack, Heading, Link, Text, useDisclosure } from '@chakra-ui/react'
 import React, { useState } from 'react'
 import { graphql, useStaticQuery } from 'gatsby'
 
 import BasketItem from '../components/BasketItem'
 import Fuse from 'fuse.js'
+import GatsbyLink from 'gatsby-link'
 import SearchBar from '../components/SearchBar'
+import Sidebar from './Sidebar'
 import { basketItems } from '../store'
 import get from 'lodash-es/get'
 import memoize from 'lodash-es/memoize'
@@ -31,6 +33,7 @@ const sortProducts = memoize(
 const MarketView = ({ canEdit }) => {
   const [searchTerm, setSearchTerm] = useState('')
   const _basketItems = useRecoilValue(basketItems)
+  const { isOpen, onOpen, onClose } = useDisclosure()
   const data = useStaticQuery(graphql`
     {
       products: allAirtable(
@@ -79,6 +82,7 @@ const MarketView = ({ canEdit }) => {
   }
 
   const marketItems = []
+  const links = []
   let prevProduct = null
   for (const product of products) {
     if (get(product, 'categories[0]') && get(product, 'categories[0]') !== get(prevProduct, 'categories[0]')) {
@@ -91,16 +95,43 @@ const MarketView = ({ canEdit }) => {
           fontFamily="Bebas Neue, sans-serif"
           letterSpacing="wide"
           color="var(--green-bg-dark)"
+          id={product.categories[0]}
         >
           {product.categories[0]}
         </Heading>,
       )
+      links.push(
+        <Text fontWeight="800" fontSize="lg" mt={2}>
+          <Link
+            as={GatsbyLink}
+            to={`#${product.categories[0]}`}
+            onClick={() => {
+              onClose()
+            }}
+          >
+            {product.categories[0]}
+          </Link>
+        </Text>,
+      )
     }
     if (get(product, 'subCategories[0]') && get(product, 'subCategories[0]') !== get(prevProduct, 'subCategories[0]')) {
       marketItems.push(
-        <Heading as="h2" size="lg" px={[2, 2, 0]} mt="8" mb="4">
+        <Heading as="h2" size="lg" px={[2, 2, 0]} mt="8" mb="4" id={product.subCategories[0]}>
           {product.subCategories[0]}
         </Heading>,
+      )
+      links.push(
+        <Text pl={2} mt={1}>
+          <Link
+            as={GatsbyLink}
+            to={`#${product.subCategories[0]}`}
+            onClick={() => {
+              onClose()
+            }}
+          >
+            {product.subCategories[0]}
+          </Link>
+        </Text>,
       )
     }
     if (get(product, 'sku') && get(product, 'sku') !== get(prevProduct, 'sku')) {
@@ -110,10 +141,23 @@ const MarketView = ({ canEdit }) => {
   }
 
   return (
-    <Container bg="white" borderRadius={[0, 0, 'md']} py={[2, 2, 4]} px={[0, 0, 4]} minW={['100%', '100%', '48em']}>
-      <SearchBar updateSearchTerm={value => setSearchTerm(value)} />
-      {products.length > 0 ? marketItems : searchTerm ? <div>Couldn't find anything like "{searchTerm}"</div> : ''}
-    </Container>
+    <>
+      <SearchBar onOpen={onOpen} updateSearchTerm={value => setSearchTerm(value)} fullscreen={false} />
+      <HStack align="flex-start" justify="flex-start" spacing={[0, 0, 4]} h="100%" m={[0, 0, 4]}>
+        <Sidebar setSearchTerm={setSearchTerm} isOpen={isOpen} onOpen={onOpen} onClose={onClose} links={links} />
+        <Container
+          bg="white"
+          pb={[2, 2, 4]}
+          px={[0, 0, 4]}
+          mt={[0, 0, 8]}
+          mb={8}
+          minW={['100%', '100%', '500px']}
+          borderRadius={[0, 0, 'md']}
+        >
+          {products.length > 0 ? marketItems : searchTerm ? <div>Couldn't find anything like "{searchTerm}"</div> : ''}
+        </Container>
+      </HStack>
+    </>
   )
 }
 

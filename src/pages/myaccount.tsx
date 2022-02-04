@@ -16,14 +16,13 @@ import {
   StyledErrorMessage,
   StyledField,
 } from '../components/StyledComponentLib'
+import { Container, Heading, Link, Text } from '@chakra-ui/react'
 import { Form, Formik } from 'formik'
-import { Heading, Link, Text } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
 import { getSetSkippedFunc, pauseSubscription, restartSubscription, retrieveCustomer } from '../actions'
 import { isSignedIn, myOrders, signedInUser, stripeCustomer } from '../store'
 import { useRecoilState, useRecoilValue } from 'recoil'
 
-import BasketAccountShopLinks from '../components/BasketAccountShopLinks'
 import BasketDates from '../components/BasketDates'
 import BasketSkippedCard from '../components/BasketSkippedCard'
 import { DateTime } from 'luxon'
@@ -37,12 +36,6 @@ import { sleep } from '../util'
 import startCase from 'lodash-es/startCase'
 import styled from 'styled-components'
 
-const Page = styled.div`
-  background-color: var(--light-bg);
-  min-height: 100vh;
-  width: 100%;
-  min-width: 320px;
-`
 const Content = styled.div`
   width: 100%;
   max-width: 500px;
@@ -58,7 +51,6 @@ const Content = styled.div`
     padding: 0 8px;
   }
 `
-
 const ErrorMessage = styled(StyledErrorMessage)`
   color: var(--blackish);
 `
@@ -119,15 +111,14 @@ const MyAccount = () => {
   }
 
   return (
-    <Page>
+    <Container bg="var(--light-bg)" minH="100vh" minW="100%" p={0}>
       <Seo title="My Account | Goodpluck" />
-      <Nav />
-      <BasketAccountShopLinks />
+      <Nav activelink={'my account'} />
       <Content>
         {content}
         {logoutBtn}
       </Content>
-    </Page>
+    </Container>
   )
 }
 
@@ -324,7 +315,7 @@ const BillingInfo = ({}) => {
   return (
     <>
       <H2>Billing Info</H2>
-      {isSubmitting ? <Spinner color="var(--peacvh-bg)" /> : ''}
+      {isSubmitting ? <Spinner color="var(--peach-bg)" /> : ''}
       {showEdit && !isSubmitting ? editView : defaultView}
     </>
   )

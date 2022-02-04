@@ -13,13 +13,14 @@ import { CartLink } from './CartLink'
 import { Toaster } from 'react-hot-toast'
 import { removeNonLetters } from '../util'
 
-const NavLink = ({ children, to }: { children: ReactNode; to: string }) => (
+const NavLink = ({ children, to, underlined }: { children: ReactNode; to: string; underlined?: boolean }) => (
   <Link
     as={GatsbyLink}
     to={to}
     px={2}
     py={1}
     color="white"
+    borderBottom={underlined ? '2px solid #fff' : 'none'}
     _hover={{
       textDecoration: 'none',
       fontFamily: 'heading',
@@ -31,7 +32,7 @@ const NavLink = ({ children, to }: { children: ReactNode; to: string }) => (
   </Link>
 )
 
-export default function Nav() {
+export default function Nav({ activelink }) {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const signedIn = useRecoilValue(isSignedIn)
   const [user, setUser] = useRecoilState(signedInUser)
@@ -132,7 +133,11 @@ export default function Nav() {
             </Box>
             <HStack as={'nav'} spacing={4} display={{ base: 'none', md: 'flex' }}>
               {links.map(link => (
-                <NavLink key={link} to={`/${removeNonLetters(link.toLowerCase())}`}>
+                <NavLink
+                  key={link}
+                  to={`/${removeNonLetters(link.toLowerCase())}`}
+                  underlined={link.toLowerCase() === activelink}
+                >
                   {link}
                 </NavLink>
               ))}
@@ -160,7 +165,7 @@ export default function Nav() {
           <Box pb={4} display={{ md: 'none' }}>
             <Stack as={'nav'} spacing={4}>
               {links.map(link => (
-                <NavLink key={link} to={removeNonLetters(link.toLowerCase())}>
+                <NavLink key={link} to={`/${removeNonLetters(link.toLowerCase())}`}>
                   {link}
                 </NavLink>
               ))}

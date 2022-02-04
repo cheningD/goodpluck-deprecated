@@ -1,10 +1,8 @@
-import { Card, Spinner } from '../components/StyledComponentLib'
-import { Heading, Link, Text } from '@chakra-ui/react'
+import { Container, Heading, Link, Spinner, Text, VStack } from '@chakra-ui/react'
 import { isSignedIn, myOrders } from '../store'
 import { useRecoilState, useRecoilValue } from 'recoil'
 
 import Basket from '../components/Basket'
-import BasketAccountShopLinks from '../components/BasketAccountShopLinks'
 import BasketSkippedCard from '../components/BasketSkippedCard'
 import Countdown from '../components/Countdown'
 import { DateTime } from 'luxon'
@@ -14,28 +12,6 @@ import { OrderDetail } from '../types'
 import React from 'react'
 import Seo from '../components/Seo'
 import { getSetSkippedFunc } from '../actions'
-import styled from 'styled-components'
-
-const Page = styled.div`
-  background-color: var(--light-bg);
-  min-height: 100vh;
-`
-
-const BasketContainer = styled.div`
-  padding: 16px;
-  font-weight: 500;
-  max-width: 500px;
-  margin: 32px auto;
-`
-
-const H1 = styled.h1`
-  color: var(--blackish);
-  font-family: hk_grotesksemibold, sans-serif;
-  font-size: 2rem;
-  margin: 0 auto;
-  padding: 32px 0;
-  text-align: center;
-`
 
 const BasketPage = () => {
   let content
@@ -62,53 +38,52 @@ const BasketPage = () => {
       upcomingOrderData = orders[Object.keys(orders).slice().sort()[0]]
     }
     if (!upcomingOrderData) {
-      content = <Spinner data-testid="spinner" />
+      content = <Spinner color="var(--peach-bg)" />
     } else if (upcomingOrderData && upcomingOrderData.skipped) {
       content = (
-        <BasketContainer>
-          <Card>
+        <>
+          <Container bg="white" mx={0} w="100%" borderRadius="md" p={4}>
             <BasketSkippedCard
               setSkipped={setSkipped}
               deliveryDate={upcomingOrderData.deliveryDate}
               mondayOfOrderDateString={upcomingOrderData.mondayOfOrderDateString}
             />
-          </Card>
+          </Container>
           <Basket canEdit={false} skipped={true} />
-        </BasketContainer>
+        </>
       )
     } else if (DateTime.local() < DateTime.fromISO(upcomingOrderData.editBasketStartDate).set({ hour: 17 })) {
       const startTime = DateTime.fromISO(upcomingOrderData.editBasketStartDate).set({ hour: 17 })
       content = (
-        <BasketContainer>
-          <Card>
+        <>
+          <Container bg="white" mx={0} w="100%" borderRadius="md" p={4}>
             <Countdown startTime={startTime} data-testid="countdown" />
-          </Card>
-        </BasketContainer>
+          </Container>
+        </>
       )
     } else if (DateTime.fromISO(upcomingOrderData.editBasketEndDate) < DateTime.local()) {
       // You can no longer edit your basket
       content = (
-        <BasketContainer>
-          <Card>Your order is being finalized now.</Card>
+        <>
+          <Container bg="white" mx={0} w="100%" borderRadius="md" p={4}>
+            Your order is being finalized now.
+          </Container>
           <Basket canEdit={false} />
-        </BasketContainer>
+        </>
       )
     } else {
-      content = (
-        <BasketContainer data-testid="editable-basket">
-          <Basket canEdit={true} />
-        </BasketContainer>
-      )
+      content = <Basket canEdit={true} />
     }
   }
 
   return (
-    <Page>
+    <Container bg="var(--light-bg)" minH="100vh" minW="100%" p={0}>
       <Seo title="My Basket" />
-      <Nav />
-      <BasketAccountShopLinks />
-      {content}
-    </Page>
+      <Nav activelink="basket" />
+      <VStack w={['100%', '100%', '550px']} spacing={4} borderRadius="md" mx="auto" p={0} mt={4}>
+        {content}
+      </VStack>
+    </Container>
   )
 }
 export default BasketPage
