@@ -82,11 +82,12 @@ const MyAccount = () => {
       </>
     )
   } else if (user && upcomingOrderData) {
+    const deliveryDay = user.deliveryDate && user.deliveryDate.toLowerCase().includes('sunday') ? 'Sunday' : 'Saturday'
     content = (
       <>
         <H1>{`Hi ${user.first},`}</H1>
         <UpcomingBasket setSkipped={setSkipped} {...upcomingOrderData} />
-        <MyPlan orderFrequency={user.orderFrequency} />
+        <MyPlan orderFrequency={user.orderFrequency} deliveryDay={deliveryDay} />
         <UpcomingOrders orders={orders} setSkipped={setSkipped} />
         <BillingInfo />
       </>
@@ -199,7 +200,7 @@ const PauseMySubscription = ({}) => {
   )
 }
 
-const MyPlan = ({ orderFrequency }) => {
+const MyPlan = ({ orderFrequency, deliveryDay }) => {
   const [showManage, setShowManage] = useState(false)
   if (showManage) {
     return (
@@ -221,7 +222,7 @@ const MyPlan = ({ orderFrequency }) => {
           <Row>
             <Column flex="2">
               <div>
-                Delivery Day: <Bold>Saturday</Bold>
+                Delivery Day: <Bold>{deliveryDay || 'Saturday'}</Bold>
               </div>
               <div>
                 Frequency: <Bold>{startCase(orderFrequency)}</Bold>
