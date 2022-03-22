@@ -36,6 +36,7 @@ interface DefaultSourceObject {
 
 export interface StripeCustomer {
   defaultSourceObject: DefaultSourceObject
+  balance: number
   livemode: boolean
 }
 export interface GoodpluckJSONResponse {
