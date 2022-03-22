@@ -19,6 +19,7 @@ import {
 import { Container, Heading, Link, Text } from '@chakra-ui/react'
 import { Form, Formik } from 'formik'
 import React, { useEffect, useState } from 'react'
+import { centsToString, sleep } from '../util'
 import { getSetSkippedFunc, pauseSubscription, restartSubscription, retrieveCustomer } from '../actions'
 import { isSignedIn, myOrders, signedInUser, stripeCustomer } from '../store'
 import { useRecoilState, useRecoilValue } from 'recoil'
@@ -32,7 +33,6 @@ import { OrderDetail } from '../types'
 import Seo from '../components/Seo'
 import { StripeUpdateCard } from '../components/StripeUpdateCard'
 import UpcomingOrders from '../components/UpcomingOrders'
-import { sleep } from '../util'
 import startCase from 'lodash-es/startCase'
 import styled from 'styled-components'
 
@@ -89,6 +89,7 @@ const MyAccount = () => {
         <UpcomingBasket setSkipped={setSkipped} {...upcomingOrderData} />
         <MyPlan orderFrequency={user.orderFrequency} deliveryDay={deliveryDay} />
         <UpcomingOrders orders={orders} setSkipped={setSkipped} />
+        <Credits />
         <BillingInfo />
       </>
     )
@@ -238,6 +239,20 @@ const MyPlan = ({ orderFrequency, deliveryDay }) => {
       </>
     )
   }
+}
+
+const Credits = ({}) => {
+  const customer = useRecoilValue(stripeCustomer)
+  let creditInCents = customer.balance || 0
+  return (
+    <>
+      <H2>Credits</H2>
+      <Card>
+        <Heading>{centsToString(creditInCents)}</Heading>
+      </Card>
+      <Text>These will be applied to your next basket</Text>
+    </>
+  )
 }
 
 const BillingInfo = ({}) => {
