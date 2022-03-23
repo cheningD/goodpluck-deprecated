@@ -257,9 +257,9 @@ const Credits = ({}) => {
     <>
       <H2>Credits</H2>
       <Card>
-        <Heading>{centsToString(customer.balance || 0)}</Heading>
+        <Heading fontSize="2xl">{centsToString(customer.balance || 0)}</Heading>
+        {customer.balance > 0 ? <Text>will be applied to your next basket</Text> : <></>}
       </Card>
-      <Text>These will be applied to your next basket</Text>
     </>
   )
 }
