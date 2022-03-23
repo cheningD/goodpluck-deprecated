@@ -12,11 +12,10 @@ import {
   PrimaryButton,
   Row,
   SecondaryButton,
-  Spinner,
   StyledErrorMessage,
   StyledField,
 } from '../components/StyledComponentLib'
-import { Container, Heading, Link, Text } from '@chakra-ui/react'
+import { Container, Heading, Link, Spinner, Text } from '@chakra-ui/react'
 import { Form, Formik } from 'formik'
 import React, { useEffect, useState } from 'react'
 import { centsToString, sleep } from '../util'
@@ -63,7 +62,7 @@ const MyAccount = () => {
   const loadingMsg = (
     <>
       <Header>Loading your account</Header>
-      <Spinner />
+      <Spinner color="var(--peach-bg)" />
     </>
   )
 
@@ -243,12 +242,22 @@ const MyPlan = ({ orderFrequency, deliveryDay }) => {
 
 const Credits = ({}) => {
   const customer = useRecoilValue(stripeCustomer)
-  let creditInCents = customer.balance || 0
+  if (!customer) {
+    return (
+      <>
+        <H2>Credits</H2>
+        <Card>
+          <Spinner color="var(--peach-bg)" />
+        </Card>
+      </>
+    )
+  }
+
   return (
     <>
       <H2>Credits</H2>
       <Card>
-        <Heading>{centsToString(creditInCents)}</Heading>
+        <Heading>{centsToString(customer.balance || 0)}</Heading>
       </Card>
       <Text>These will be applied to your next basket</Text>
     </>
