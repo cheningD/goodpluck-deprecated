@@ -18,7 +18,7 @@ const Countdown = ({ startTime }) => {
 
   content = (
     <div data-testid="countdown">
-      <h3>The market opens at {startTime.toFormat(`h a 'on' LLL dd`)}</h3>
+      <h3>The market opens on {startTime.toFormat(`cccc 'at' h a`)}</h3>
       <h3>Come back in: {countdown || diff()} </h3>
     </div>
   )

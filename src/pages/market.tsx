@@ -3,8 +3,7 @@ import { isSignedIn, myOrders } from '../store'
 import { useRecoilState, useRecoilValue } from 'recoil'
 
 import BasketSkippedCard from '../components/BasketSkippedCard'
-import { Card } from '../components/StyledComponentLib'
-import CountDown from '../components/Countdown'
+import Countdown from '../components/Countdown'
 import { DateTime } from 'luxon'
 import GatsbyLink from 'gatsby-link'
 import MarketView from '../components/MarketView'
@@ -62,9 +61,12 @@ const MarketContent = () => {
   ) {
     const startTime = DateTime.fromISO(upcomingOrderData.editBasketStartDate).set({ hour: 17 })
     return (
-      <Card>
-        <CountDown startTime={startTime} />
-      </Card>
+      <>
+        <Container bg="white" mx={0} w={['100%', '100%', '550px']} borderRadius="md" p={4} m={4}>
+          <Countdown startTime={startTime} />
+        </Container>
+        <MarketView canEdit={false} />
+      </>
     )
   } else {
     return <MarketView canEdit={true} />

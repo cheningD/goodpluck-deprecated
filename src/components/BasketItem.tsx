@@ -2,6 +2,7 @@ import { Flex, HStack, Heading, Text, VStack } from '@chakra-ui/react'
 import { GatsbyImage, StaticImage } from 'gatsby-plugin-image'
 
 import AddToCartButton from '../components/AddToCartButton'
+import { FavoriteButton } from './FavoriteButton'
 import React from 'react'
 import SubscribeButton from './SubscribeButton'
 
@@ -30,6 +31,7 @@ const BasketItem = ({
   quantityInBasket,
   showControls,
 }: BasketItemProps) => {
+  const sku = stripePriceId
   let image
   if (childImageSharp) {
     image = <GatsbyImage image={childImageSharp.gatsbyImageData} alt={name} />
@@ -61,12 +63,15 @@ const BasketItem = ({
         borderBottomColor="gray.100"
       >
         <VStack align="start" spacing="1">
-          <Heading fontSize={['sm', 'lg']}>
-            <Text as="em" color="#6c7668">
-              {quantityLabel}
-            </Text>
-            &nbsp;{name}
-          </Heading>
+          <HStack>
+            <Heading fontSize={['sm', 'lg']}>
+              <Text as="em" color="#6c7668">
+                {quantityLabel}
+              </Text>
+              &nbsp;{name}
+            </Heading>
+            <FavoriteButton sku={sku} />
+          </HStack>
           <Text fontSize={['xs', 'md']} as="em">
             {oneLiner}
           </Text>
