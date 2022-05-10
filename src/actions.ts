@@ -9,7 +9,6 @@ import {
   SubscriptionRecord,
 } from './types'
 
-import { date } from 'yup'
 import { navigate } from 'gatsby'
 import toast from 'react-hot-toast'
 
