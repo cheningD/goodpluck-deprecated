@@ -81,7 +81,10 @@ const MyAccount = () => {
       </>
     )
   } else if (user && upcomingOrderData) {
-    const deliveryDay = user.deliveryDate && user.deliveryDate.toLowerCase().includes('sunday') ? 'Sunday' : 'Saturday'
+    let deliveryDay = 'Sunday'
+    if (user.deliveryDate && user.deliveryDate.toLowerCase().includes('monday')) {
+      deliveryDay = 'Monday'
+    }
     content = (
       <>
         <H1>{`Hi ${user.first},`}</H1>
@@ -222,7 +225,7 @@ const MyPlan = ({ orderFrequency, deliveryDay }) => {
           <Row>
             <Column flex="2">
               <div>
-                Delivery Day: <Bold>{deliveryDay || 'Saturday'}</Bold>
+                Delivery Day: <Bold>{deliveryDay || 'Monday_'}</Bold>
               </div>
               <div>
                 Frequency: <Bold>{startCase(orderFrequency)}</Bold>
