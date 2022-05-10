@@ -9,6 +9,7 @@ import {
   SubscriptionRecord,
 } from './types'
 
+import { date } from 'yup'
 import { navigate } from 'gatsby'
 import toast from 'react-hot-toast'
 
@@ -139,6 +140,31 @@ export const retrieveCustomer = async (): Promise<StripeCustomer | null> => {
   } catch (err) {
     console.log(`Error in retrieveCustomer: ${err.message || err}`)
     return null
+  }
+}
+
+export const changeDeliveryDay = async (day: string, setUser: Function): Promise<GoodpluckJSONResponse> => {
+  const response = await fetch(`${LOCAL_API_PREFIX}/api/changedeliveryday`, {
+    credentials: 'same-origin',
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ day: day.toLowerCase() }),
+  })
+
+  try {
+    const data = await response.json()
+    if (data.updatedUser) {
+      console.log(`Updating user updated user: ${JSON.stringify(data.updatedUser)}`)
+      setUser(data.updatedUser)
+    }
+  } catch (err) {
+    console.log(`Error in restartSubscription: ${err.message || err}`)
+    return {
+      success: false,
+      error: 'Something went wrong. Please contact us if this issue persists',
+    }
   }
 }
 

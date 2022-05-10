@@ -19,7 +19,13 @@ import { Container, Heading, Link, Spinner, Text } from '@chakra-ui/react'
 import { Form, Formik } from 'formik'
 import React, { useEffect, useState } from 'react'
 import { centsToString, sleep } from '../util'
-import { getSetSkippedFunc, pauseSubscription, restartSubscription, retrieveCustomer } from '../actions'
+import {
+  changeDeliveryDay,
+  getSetSkippedFunc,
+  pauseSubscription,
+  restartSubscription,
+  retrieveCustomer,
+} from '../actions'
 import { isSignedIn, myOrders, signedInUser, stripeCustomer } from '../store'
 import { useRecoilState, useRecoilValue } from 'recoil'
 
@@ -205,6 +211,8 @@ const PauseMySubscription = ({}) => {
 
 const MyPlan = ({ orderFrequency, deliveryDay }) => {
   const [showManage, setShowManage] = useState(false)
+  const [user, setUser] = useRecoilState(signedInUser)
+
   if (showManage) {
     return (
       <>
@@ -218,6 +226,7 @@ const MyPlan = ({ orderFrequency, deliveryDay }) => {
       </>
     )
   } else {
+    const alternateDeliveryDay = deliveryDay === 'Monday' ? 'Sunday' : 'Monday'
     return (
       <>
         <H2>My plan</H2>
@@ -225,18 +234,21 @@ const MyPlan = ({ orderFrequency, deliveryDay }) => {
           <Row>
             <Column flex="2">
               <div>
-                Delivery Day: <Bold>{deliveryDay || 'Monday'}</Bold>
+                Delivery Day: <Bold>{deliveryDay || 'Sunday'}</Bold>
               </div>
               <div>
                 Frequency: <Bold>{startCase(orderFrequency)}</Bold>
               </div>
             </Column>
             <Column>
-              <SecondaryButton as="button" onClick={() => setShowManage(!showManage)}>
-                Pause subscription
+              <SecondaryButton as="button" onClick={() => changeDeliveryDay(alternateDeliveryDay, setUser)}>
+                {`switch to ${alternateDeliveryDay} delivery`}
               </SecondaryButton>
             </Column>
           </Row>
+          <SecondaryButton as="button" onClick={() => setShowManage(!showManage)}>
+            Pause subscription
+          </SecondaryButton>
         </Card>
       </>
     )
