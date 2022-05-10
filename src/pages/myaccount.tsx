@@ -225,7 +225,7 @@ const MyPlan = ({ orderFrequency, deliveryDay }) => {
           <Row>
             <Column flex="2">
               <div>
-                Delivery Day: <Bold>{deliveryDay || 'Monday_'}</Bold>
+                Delivery Day: <Bold>{deliveryDay || 'Monday'}</Bold>
               </div>
               <div>
                 Frequency: <Bold>{startCase(orderFrequency)}</Bold>
