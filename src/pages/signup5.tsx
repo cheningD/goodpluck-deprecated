@@ -17,7 +17,7 @@ const schema = yup.object().shape({
 })
 
 const DeliveryDate = ({ control, errors, formData }) => {
-  const options = ['Saturday Afternoon (by 8 pm)', 'Sunday Morning (by noon)']
+  const options = ['Sunday morning', 'Monday morning']
 
   const { getRootProps, getRadioProps } = useRadioGroup({
     name: 'deliveryDate',
