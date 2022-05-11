@@ -159,7 +159,9 @@ export const changeDeliveryDay = async (
   })
 
   try {
-    const data = await response.json()
+    const jsondata = await response.json()
+    const data = jsondata.data
+
     if (data.updatedUser) {
       console.log(`Updating user updated user: ${JSON.stringify(data.updatedUser)}`)
       setUser(data.updatedUser)
