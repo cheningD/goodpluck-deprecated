@@ -211,7 +211,9 @@ const PauseMySubscription = ({}) => {
 
 const MyPlan = ({ orderFrequency, deliveryDay }) => {
   const [showManage, setShowManage] = useState(false)
+  const [showSpinner, setShowSpinner] = useState(false)
   const [user, setUser] = useRecoilState(signedInUser)
+  const [orders, setOrders] = useRecoilState(myOrders)
 
   if (showManage) {
     return (
@@ -241,9 +243,16 @@ const MyPlan = ({ orderFrequency, deliveryDay }) => {
               </div>
             </Column>
             <Column>
-              <SecondaryButton as="button" onClick={() => changeDeliveryDay(alternateDeliveryDay, setUser)}>
-                {`switch to ${alternateDeliveryDay} delivery`}
-              </SecondaryButton>
+              {showSpinner ? (
+                <Spinner />
+              ) : (
+                <SecondaryButton
+                  as="button"
+                  onClick={() => changeDeliveryDay(alternateDeliveryDay, setUser, setOrders, setShowSpinner)}
+                >
+                  {`switch to ${alternateDeliveryDay} delivery`}
+                </SecondaryButton>
+              )}
             </Column>
           </Row>
           <SecondaryButton as="button" onClick={() => setShowManage(!showManage)}>

@@ -142,7 +142,13 @@ export const retrieveCustomer = async (): Promise<StripeCustomer | null> => {
   }
 }
 
-export const changeDeliveryDay = async (day: string, setUser: Function): Promise<GoodpluckJSONResponse> => {
+export const changeDeliveryDay = async (
+  day: string,
+  setUser: Function,
+  setOrders: Function,
+  setShowSpinner: Function,
+): Promise<GoodpluckJSONResponse> => {
+  setShowSpinner(true)
   const response = await fetch(`${LOCAL_API_PREFIX}/api/changedeliveryday`, {
     credentials: 'same-origin',
     method: 'POST',
@@ -158,6 +164,10 @@ export const changeDeliveryDay = async (day: string, setUser: Function): Promise
       console.log(`Updating user updated user: ${JSON.stringify(data.updatedUser)}`)
       setUser(data.updatedUser)
     }
+    if (data.updatedOrders) {
+      console.log(`Updating orders: ${JSON.stringify(data.updatedOrders)}`)
+      setOrders(data.updatedOrders)
+    }
   } catch (err) {
     console.log(`Error in restartSubscription: ${err.message || err}`)
     return {
@@ -165,6 +175,7 @@ export const changeDeliveryDay = async (day: string, setUser: Function): Promise
       error: 'Something went wrong. Please contact us if this issue persists',
     }
   }
+  setShowSpinner(false)
 }
 
 export const restartSubscription = async (): Promise<GoodpluckJSONResponse> => {
