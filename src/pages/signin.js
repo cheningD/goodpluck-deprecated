@@ -97,7 +97,7 @@ export default function SignIn() {
   return (
     <>
       <Seo title="Sign In | Goodpluck" />
-      <Nav />
+      <Nav activelink={'signin'} />
       <SignInForm onSubmit={sendSignInRequest} errorText={errorText} />
     </>
   )

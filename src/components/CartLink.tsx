@@ -17,7 +17,7 @@ export const CartLink = () => {
 
   return (
     <HStack>
-      <Emoji symbol="🧺" label="basket" fontSize="3xl" />
+      <Emoji symbol="🧺" label="basket" fontSize="2xl" />
       <Text color="white">{useRecoilValue(basketCount)}</Text>
     </HStack>
   )
