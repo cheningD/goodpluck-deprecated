@@ -62,9 +62,12 @@ const MarketContent = () => {
   ) {
     const startTime = DateTime.fromISO(upcomingOrderData.editBasketStartDate).set({ hour: 17 })
     return (
-      <Card>
-        <CountDown startTime={startTime} />
-      </Card>
+      <>
+        <Card>
+          <CountDown startTime={startTime} />
+        </Card>
+        <MarketView canEdit={false} />
+      </>
     )
   } else {
     return <MarketView canEdit={true} />
