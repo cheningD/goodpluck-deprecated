@@ -1,39 +1,86 @@
 import * as Sentry from '@sentry/gatsby'
 
-import { Box, Button, Flex, HStack, IconButton, Link, Stack, Text, useDisclosure } from '@chakra-ui/react'
-import { CloseIcon, HamburgerIcon } from '@chakra-ui/icons'
+import { Box, Button, HStack, Icon, Link, Text } from '@chakra-ui/react'
 import GatsbyLink, { navigate } from 'gatsby-link'
 import { OrderDetail, SignedInData } from '../types'
 import React, { ReactNode, useEffect } from 'react'
-import { basketItems, isSignedIn, myOrders, mySubscriptions, signedInUser } from '../store'
+import { basketCount, basketItems, isSignedIn, myOrders, mySubscriptions, signedInUser } from '../store'
 import { getBasket, getOrders, getSignedInData, getSubscriptions } from '../actions'
 import { useRecoilState, useRecoilValue } from 'recoil'
 
-import { CartLink } from './CartLink'
+import Image from './Image'
+import { SettingsIcon } from '@chakra-ui/icons'
 import { Toaster } from 'react-hot-toast'
-import { removeNonLetters } from '../util'
 
-const NavLink = ({ children, to, underlined }: { children: ReactNode; to: string; underlined?: boolean }) => (
-  <Link
+const LogoText = () => (
+  <Box>
+    <Text
+      onClick={() => {
+        navigate('/')
+      }}
+      color="white"
+      fontFamily="title"
+      fontSize={['xl', '3xl', '3xl']}
+      _hover={{ textDecoration: 'none' }}
+    >
+      Goodpluck
+    </Text>
+  </Box>
+)
+
+const GetStartedBtn = () => (
+  <Button
+    bg="#fffd82"
+    color="#3f3a40"
+    border="2px solid #3f3a40"
+    _hover={{ bg: 'brand.pink' }}
     as={GatsbyLink}
-    to={to}
-    px={2}
-    py={1}
-    color="white"
-    borderBottom={underlined ? '2px solid #fff' : 'none'}
-    _hover={{
-      textDecoration: 'none',
-      fontFamily: 'heading',
-      borderStyle: 'none',
-      borderBottom: '2px solid #fff',
-    }}
+    to={'/signup'}
   >
-    {children}
-  </Link>
+    Get Started
+  </Button>
+)
+
+const NavLink = ({
+  children,
+  to,
+  underlined,
+  activelink,
+}: {
+  children: ReactNode
+  to: string
+  underlined?: boolean
+  activelink?: string
+}) => {
+  const underline = underlined || `/${activelink}` === to
+  return (
+    <Link
+      as={GatsbyLink}
+      to={to}
+      px={2}
+      py={1}
+      color="white"
+      borderBottom={underline ? '2px solid #fff' : 'none'}
+      _hover={{
+        textDecoration: 'none',
+        fontFamily: 'heading',
+        borderStyle: 'none',
+        borderBottom: '2px solid #fff',
+      }}
+    >
+      {children}
+    </Link>
+  )
+}
+
+const NavContent = ({ children }) => (
+  <HStack px="4" py="3" bg="brand.500" as={'nav'} justifyContent={'space-between'}>
+    <LogoText />
+    <HStack spacing="3">{children}</HStack>
+  </HStack>
 )
 
 export default function Nav({ activelink }) {
-  const { isOpen, onOpen, onClose } = useDisclosure()
   const signedIn = useRecoilValue(isSignedIn)
   const [user, setUser] = useRecoilState(signedInUser)
   const [orders, setOrders] = useRecoilState(myOrders)
@@ -83,96 +130,55 @@ export default function Nav({ activelink }) {
     }
   }, [])
 
-  const fetchSubscriptions = async () => {
-    const _subscriptions = await getSubscriptions()
-    console.log(`I'm getting subscriptions ${JSON.stringify(_subscriptions)}`)
-    if (_subscriptions) {
-      console.log(`I'm updating subscriptions:::`, _subscriptions)
-      setSubscriptions(_subscriptions)
-    }
-  }
+  // const fetchSubscriptions = async () => {
+  //   const _subscriptions = await getSubscriptions()
+  //   console.log(`I'm getting subscriptions ${JSON.stringify(_subscriptions)}`)
+  //   if (_subscriptions) {
+  //     console.log(`I'm updating subscriptions:::`, _subscriptions)
+  //     setSubscriptions(_subscriptions)
+  //   }
+  // }
 
-  useEffect(() => {
-    if (subscriptions === null) {
-      fetchSubscriptions()
-    }
-  }, [])
+  // useEffect(() => {
+  //   if (subscriptions === null) {
+  //     fetchSubscriptions()gs
+  //   }
+  // }, [])
 
-  let links = ['Sign In']
+  let nav = (
+    <NavContent>
+      <NavLink to="/signin" activelink={activelink}>
+        Sign In
+      </NavLink>
+      <GetStartedBtn />
+    </NavContent>
+  )
 
   if (signedIn) {
-    links = ['Market', 'My Account']
+    nav = (
+      <NavContent>
+        <NavLink to="/market" activelink={activelink}>
+          Market
+        </NavLink>
+        <NavLink to="/basket">
+          <Image
+            style={{ width: '30px', height: '30px', objectFit: 'contain', pos: 'relative', zIndex: '1' }}
+            src="icon.png"
+            alt="My Basket"
+          />{' '}
+          {useRecoilValue(basketCount)}
+        </NavLink>
+        <NavLink to="/myaccount" activelink={activelink}>
+          <SettingsIcon />
+        </NavLink>
+      </NavContent>
+    )
   }
 
   return (
     <>
       <Toaster />
-      <Box bg="brand.500" px={4}>
-        <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
-          <IconButton
-            size={'md'}
-            icon={isOpen ? <CloseIcon /> : <HamburgerIcon />}
-            aria-label={'Open Menu'}
-            display={{ md: 'none' }}
-            onClick={isOpen ? onClose : onOpen}
-            colorScheme="brand"
-          />
-          <HStack spacing={8} alignItems={'center'}>
-            <Box>
-              <Text
-                onClick={() => {
-                  navigate('/')
-                }}
-                color="white"
-                fontFamily="title"
-                fontSize="3xl"
-                _hover={{ textDecoration: 'none' }}
-              >
-                Goodpluck
-              </Text>
-            </Box>
-            <HStack as={'nav'} spacing={4} display={{ base: 'none', md: 'flex' }}>
-              {links.map(link => (
-                <NavLink
-                  key={link}
-                  to={`/${removeNonLetters(link.toLowerCase())}`}
-                  underlined={link.toLowerCase() === activelink}
-                >
-                  {link}
-                </NavLink>
-              ))}
-            </HStack>
-          </HStack>
-          {signedIn ? (
-            <NavLink to="/basket">
-              <CartLink />
-            </NavLink>
-          ) : (
-            <Button
-              bg="#fffd82"
-              color="#3f3a40"
-              border="2px solid #3f3a40"
-              _hover={{ bg: 'brand.pink' }}
-              as={GatsbyLink}
-              to={'/signup'}
-            >
-              Get Started
-            </Button>
-          )}
-        </Flex>
-
-        {isOpen ? (
-          <Box pb={4} display={{ md: 'none' }}>
-            <Stack as={'nav'} spacing={4}>
-              {links.map(link => (
-                <NavLink key={link} to={`/${removeNonLetters(link.toLowerCase())}`}>
-                  {link}
-                </NavLink>
-              ))}
-            </Stack>
-          </Box>
-        ) : null}
-      </Box>
+      {nav}
     </>
   )
 }
