@@ -312,16 +312,13 @@ const BillingInfo = ({}) => {
   }, [signedIn])
 
   let cardInfo
-  if (customer && customer.defaultSourceObject.card) {
+  if (customer && customer.default_source) {
     cardInfo = (
       <Row>
         <Column flex={'3'}>
-          <div>
-            Expires on{' '}
-            {`${customer.defaultSourceObject.card.exp_month || ''}/${customer.defaultSourceObject.card.exp_year || ''}`}
-          </div>
-          <div>Billing Zip: {`${customer.defaultSourceObject.billing_details.address.postal_code || ''}`}</div>
-          <div>Card: **** **** **** {`${customer.defaultSourceObject.card.last4 || ''}`}</div>
+          <div>Expires on {`${customer.default_source.exp_month || ''}/${customer.default_source.exp_year || ''}`}</div>
+          <div>Billing Zip: {`${customer.default_source.address_zip || ''}`}</div>
+          <div>Card: **** **** **** {`${customer.default_source.last4 || ''}`}</div>
         </Column>
         <Column alignItems="flex-end">
           <SecondaryButton as="button" onClick={() => setShowEdit(true)}>
