@@ -1,6 +1,6 @@
 ## Goodpluck.com
 
-This is a Gatsby App. Product Data comes from Airtable. Ity connects to teh [backend application](https://github.com/cheningD/goodpluck_cf_worker)
+This is a Gatsby App. Product Data comes from Airtable. It connects to the [backend application](https://github.com/cheningD/goodpluck_cf_worker)
 
 ## Process for making a change (creating a PR) [draft]
 
