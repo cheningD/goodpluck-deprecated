@@ -47,6 +47,8 @@ const UpcomingOrders = ({ orders, setSkipped }) => {
             {orderIsSkipped ? 'resume order' : 'skip'}
           </SecondaryButton>
         )
+      } else {
+        editButton = <Text>""</Text>
       }
 
       return (
