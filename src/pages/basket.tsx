@@ -52,8 +52,8 @@ const BasketPage = () => {
           <Basket canEdit={false} skipped={true} />
         </>
       )
-    } else if (DateTime.local() < DateTime.fromISO(upcomingOrderData.editBasketStartDate).set({ hour: 17 })) {
-      const startTime = DateTime.fromISO(upcomingOrderData.editBasketStartDate).set({ hour: 17 })
+    } else if (DateTime.local() < DateTime.fromISO(upcomingOrderData.editBasketStartDate) {
+      const startTime = DateTime.fromISO(upcomingOrderData.editBasketStartDate)
       content = (
         <>
           <Container bg="white" mx={0} w="100%" borderRadius="md" p={4}>
