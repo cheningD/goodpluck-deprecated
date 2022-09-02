@@ -4,6 +4,7 @@ import {
   CreateUserSuccessResponseJSON,
   GoodpluckJSONResponse,
   OrderDetail,
+  OrderSupabase,
   SignedInData,
   StripeCustomer,
   SubscriptionRecord,
@@ -292,6 +293,18 @@ export const getOrders = async (): Promise<Record<string, OrderDetail> | null> =
     console.log(`Error in getOrders: ${err.message || err}`)
     return null
   }
+}
+
+export const getPastOrders = async (): Promise<OrderSupabase[]> => {
+  const response = await fetch(`${LOCAL_API_PREFIX}/api/pastorders`, {
+    credentials: 'same-origin',
+  })
+
+  if (!response.ok) {
+    throw new Error(`Error in getPastOrders: ${response.statusText}`)
+  }
+  const responseJSON: GoodpluckJSONResponse = await response.json()
+  return responseJSON.data as OrderSupabase[]
 }
 
 export const getOldOrders = async (): Promise<Record<string, OrderDetail> | null> => {
