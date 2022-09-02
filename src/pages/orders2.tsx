@@ -5,7 +5,7 @@ import { getPastOrders } from '../actions'
 import { pastOrders2 } from '../store'
 import { useRecoilState } from 'recoil'
 
-export const OrdersPage = () => {
+const OrdersPage = () => {
   const [pastOrders, setPastOrders] = useRecoilState(pastOrders2)
 
   const fetchPastOrders = async () => {
@@ -52,3 +52,5 @@ export const OrdersPage = () => {
     </Center>
   )
 }
+
+export default OrdersPage
