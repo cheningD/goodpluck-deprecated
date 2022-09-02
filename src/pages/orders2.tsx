@@ -24,29 +24,33 @@ const OrdersPage = () => {
 
   return (
     <Center maxW="sm" mx="auto" py={{ base: '4', md: '8' }}>
-      <Box bg="bg-surface" py="4">
+      WELCOME!
+      <Box bg="peach" py="4">
         <Stack divider={<StackDivider />} spacing="4">
-          {pastOrders.map(order => (
-            <Stack key={order.order_index} fontSize="sm" px="4" spacing="0.5">
-              <Box>
-                <Text fontWeight="medium" color="emphasized">
-                  {order.order_index}
-                </Text>
-                <Text color="subtle">Published {order.order_index}</Text>
-              </Box>
-              <Text
-                color="muted"
-                sx={{
-                  '-webkit-box-orient': 'vertical',
-                  '-webkit-line-clamp': '2',
-                  overflow: 'hidden',
-                  display: '-webkit-box',
-                }}
-              >
-                Order Text
-              </Text>
-            </Stack>
-          ))}
+          HELLO THERE
+          {pastOrders
+            ? pastOrders.map(order => (
+                <Stack key={order.order_index} fontSize="sm" px="4" spacing="0.5">
+                  <Box>
+                    <Text fontWeight="medium" color="emphasized">
+                      {order.order_index}
+                    </Text>
+                    <Text color="subtle">Published {order.order_index}</Text>
+                  </Box>
+                  <Text
+                    color="muted"
+                    sx={{
+                      '-webkit-box-orient': 'vertical',
+                      '-webkit-line-clamp': '2',
+                      overflow: 'hidden',
+                      display: '-webkit-box',
+                    }}
+                  >
+                    Order Text
+                  </Text>
+                </Stack>
+              ))
+            : 'Loading...'}
         </Stack>
       </Box>
     </Center>

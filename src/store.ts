@@ -33,7 +33,8 @@ export const pastOrders = atom({
   default: null, // default value (aka initial value),
 })
 
-const ordersDefault: OrderSupabase[] = []
+const ordersDefault: OrderSupabase[] | null = null
+
 export const pastOrders2 = atom({
   key: 'pastorders2', // unique ID (with respect to other atoms/selectors)
   default: ordersDefault, // default value (aka initial value),
