@@ -15,7 +15,7 @@ const Right = styled.span`
   float: right;
 `
 
-const Basket = ({ deliveryDate = null, orderFrequency = null, canEdit = false, x = false }) => {
+const Basket = ({ deliveryDate = null, orderFrequency = null, canEdit = false, skipped = false }) => {
   const data = useStaticQuery(graphql`
     {
       allAirtable(filter: { table: { eq: "product" } }) {
