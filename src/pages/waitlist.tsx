@@ -16,16 +16,14 @@ export default function Waitlist() {
   let email: string
 
   if (typeof window === `undefined`) {
-    return null
+    return <div></div>
   }
 
-  if (typeof window !== `undefined`) {
-    const params = new URLSearchParams(window.location.search)
-    email = params.get('email')
-    zip = params.get('zip')
-    city = params.get('city')
-    waitlistZone = params.get('waitlistZone') === 'true' ? true : false
-  }
+  const params = new URLSearchParams(window.location.search)
+  email = params.get('email') || ''
+  zip = params.get('zip') || ''
+  city = params.get('city') || ''
+  waitlistZone = params.get('waitlistZone') === 'true' ? true : false
 
   const formOpts = {}
   if (email) {
