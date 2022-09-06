@@ -61,6 +61,9 @@ const PhoneIcon = styled(Phone)`
 `
 
 const VerifyEmail = () => {
+  if (typeof window === `undefined`) {
+    return <div></div>
+  }
   const [user, setUser] = useRecoilState(signedInUser)
   const [errorText, setErrorText] = useState('')
   const [loading, setLoading] = useState(false)
