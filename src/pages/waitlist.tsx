@@ -15,22 +15,18 @@ export default function Waitlist() {
   let waitlistZone: boolean
   let email: string
 
-  if (typeof window !== `undefined`) {
-    const params = new URLSearchParams(window.location.search)
-    email = params.get('email')
-    zip = params.get('zip')
-    city = params.get('city')
-    waitlistZone = params.get('waitlistZone') === 'true' ? true : false
+  if (typeof window === `undefined`) {
+    return null
   }
 
-  const formOpts = {}
-  if (email) {
-    formOpts['prefill_email'] = email
-  }
-  if (zip) {
-    formOpts['prefill_zip'] = zip
-  }
-  const formParams = new URLSearchParams(formOpts).toString()
+    if (typeof window !== `undefined`) {
+      const params = new URLSearchParams(window.location.search)
+      email = params.get('email')
+      zip = params.get('zip')
+      city = params.get('city')
+      waitlistZone = params.get('waitlistZone') === 'true' ? true : false
+    }
+  }mParams = new URLSearchParams(formOpts).toString()
   const FormContent = () => {
     return (
       <LightText>
