@@ -19,14 +19,22 @@ export default function Waitlist() {
     return null
   }
 
-    if (typeof window !== `undefined`) {
-      const params = new URLSearchParams(window.location.search)
-      email = params.get('email')
-      zip = params.get('zip')
-      city = params.get('city')
-      waitlistZone = params.get('waitlistZone') === 'true' ? true : false
-    }
-  }mParams = new URLSearchParams(formOpts).toString()
+  if (typeof window !== `undefined`) {
+    const params = new URLSearchParams(window.location.search)
+    email = params.get('email')
+    zip = params.get('zip')
+    city = params.get('city')
+    waitlistZone = params.get('waitlistZone') === 'true' ? true : false
+  }
+
+  const formOpts = {}
+  if (email) {
+    formOpts['prefill_email'] = email
+  }
+  if (zip) {
+    formOpts['prefill_zip'] = zip
+  }
+  const formParams = new URLSearchParams(formOpts).toString()
   const FormContent = () => {
     return (
       <LightText>
