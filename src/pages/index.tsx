@@ -12,7 +12,6 @@ import Testimonial from '../components/Testimonial'
 export default function Home(props: PageProps) {
   return (
     <>
-      <Seo />
       <Nav />
       <Hero />
       <Features />
@@ -22,4 +21,8 @@ export default function Home(props: PageProps) {
       <Footer />
     </>
   )
+}
+
+export const Head = () => {
+  return <Seo />
 }

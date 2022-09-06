@@ -40,7 +40,6 @@ export const FormLayout = ({
 }: FormLayoutProps) => {
   return (
     <>
-      <Seo title="Signup | Goodpluck" />
       <SimpleNav />
       <Stack
         bgColor="var(--light-bg)"
@@ -99,4 +98,8 @@ export const FormLayout = ({
       <Footer />
     </>
   )
+}
+
+export const Head = () => {
+  return <Seo title="Signup | Goodpluck" />
 }

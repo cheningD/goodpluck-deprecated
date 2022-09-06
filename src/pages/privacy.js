@@ -1,5 +1,4 @@
 import Footer from '../components/Footer'
-import { Helmet } from 'react-helmet'
 import Nav from '../components/Nav'
 import React from 'react'
 import Seo from '../components/Seo'

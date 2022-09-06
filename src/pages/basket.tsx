@@ -78,7 +78,6 @@ const BasketPage = () => {
 
   return (
     <Container bg="var(--light-bg)" minH="100vh" minW="100%" p={0}>
-      <Seo title="My Basket" />
       <Nav activelink="basket" />
       <VStack w={['100%', '100%', '550px']} spacing={4} borderRadius="md" mx="auto" p={0} mt={4}>
         {content}
@@ -87,3 +86,7 @@ const BasketPage = () => {
   )
 }
 export default BasketPage
+
+export const Head = () => {
+  return <Seo title="My Basket" />
+}

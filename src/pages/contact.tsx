@@ -17,7 +17,6 @@ const Contact = () => {
   return (
     <>
       <Page>
-        <Seo title="Contact Us | Goodpluck" />
         <Nav />
         <Content>
           <h1>Contact Us</h1>
@@ -30,3 +29,7 @@ const Contact = () => {
 }
 
 export default Contact
+
+export const Head = () => {
+  return <Seo title="Contact Us | Goodpluck" />
+}

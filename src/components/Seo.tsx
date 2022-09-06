@@ -1,6 +1,5 @@
 import { graphql, useStaticQuery } from 'gatsby'
 
-import { Helmet } from 'react-helmet'
 import PropTypes from 'prop-types'
 import React from 'react'
 import { useLocation } from '@reach/router'
@@ -26,7 +25,7 @@ const Seo = ({ title = null, description = null, image = null, article = false }
   }
 
   return (
-    <Helmet title={seo.title} titleTemplate={titleTemplate}>
+    <>
       <meta name="description" content={seo.description} />
       <meta name="image" content={seo.image} />
 
@@ -50,7 +49,7 @@ const Seo = ({ title = null, description = null, image = null, article = false }
 
       {seo.image && <meta name="twitter:image" content={seo.image} />}
       <html lang="en" />
-    </Helmet>
+    </>
   )
 }
 

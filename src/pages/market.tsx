@@ -17,7 +17,6 @@ import { getSetSkippedFunc } from '../actions'
 const Market = () => {
   return (
     <Container bg="var(--light-bg)" minH="100vh" h="100%" p="0" m="0" minW="100vw">
-      <Seo title="Market | Local Produce" />
       <Nav activelink="market" />
       <MarketContent />
     </Container>
@@ -75,3 +74,7 @@ const MarketContent = () => {
 }
 
 export default Market
+
+export const Head = () => {
+  return <Seo title="Market | Local Produce" />
+}

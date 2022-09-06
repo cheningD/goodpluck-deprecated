@@ -441,7 +441,7 @@ export const Checkout = () => {
   return (
     <>
       <Nav />
-      <Seo title="Checkout" />
+
       <Columns>
         <Column>
           <CheckoutForm
@@ -467,3 +467,7 @@ const CheckoutPage = () => (
 )
 
 export default CheckoutPage
+
+export const Head = () => {
+  return <Seo title="Checkout" />
+}
