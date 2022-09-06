@@ -7268,13 +7268,6 @@ gatsby-plugin-preconnect@^1.1.54:
   dependencies:
     "@babel/runtime" "^7.4.3"
 
-gatsby-plugin-purge-cloudflare-cache@^0.0.3:
-  version "0.0.3"
-  resolved "https://registry.npmjs.org/gatsby-plugin-purge-cloudflare-cache/-/gatsby-plugin-purge-cloudflare-cache-0.0.3.tgz"
-  integrity sha512-/St+Izftm9PMT6N+iUrGJvWsCLV76ybf5+rAB9/mR1lcib/C/AV+fRpCUDaLyW6H7KLfxjba0l4XxRII5A1qZg==
-  dependencies:
-    node-fetch "^2.6.0"
-
 gatsby-plugin-react-helmet@^5.2.0:
   version "5.2.0"
   resolved "https://registry.npmjs.org/gatsby-plugin-react-helmet/-/gatsby-plugin-react-helmet-5.2.0.tgz"
