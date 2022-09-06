@@ -5,7 +5,6 @@ import { isSignedIn, pastOrders, signedInUser } from '../store'
 import { useRecoilState, useRecoilValue } from 'recoil'
 
 import BasketDates from '../components/BasketDates'
-import { Helmet } from 'react-helmet'
 import { Link } from 'gatsby'
 import Nav from '../components/Nav'
 import Select from 'react-select'
@@ -171,10 +170,6 @@ const OrdersPage = () => {
 
   return (
     <Page>
-      <Helmet>
-        <link href="https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.css" rel="stylesheet" />
-      </Helmet>
-      <Seo title="My Basket" />
       <Nav />
 
       <Container>{content}</Container>
@@ -182,3 +177,12 @@ const OrdersPage = () => {
   )
 }
 export default OrdersPage
+
+export const Head = () => {
+  return (
+    <>
+      <link href="https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.css" rel="stylesheet" />
+      <Seo title="My Basket" />
+    </>
+  )
+}
