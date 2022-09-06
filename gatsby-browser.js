@@ -13,3 +13,11 @@ if (!process.env.GATSBY_STRIPE_API_PUBLIC_KEY) {
 if (!process.env.GATSBY_STAGING_STRIPE_API_PUBLIC_KEY) {
   throw new Error('Missing required env variable: GATSBY_STAGING_STRIPE_API_PUBLIC_KEY')
 }
+
+if (!process.env.GATSBY_REACT_APP_SUPABASE_URL) {
+  throw new Error('Missing required env variable: GATSBY_REACT_APP_SUPABASE_URL')
+}
+
+if (!process.env.GATSBY_REACT_APP_SUPABASE_ANON_KEY) {
+  throw new Error('Missing required env variable: GATSBY_REACT_APP_SUPABASE_ANON_KEY')
+}
