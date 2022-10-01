@@ -17,6 +17,7 @@ import {
 } from '../components/StyledComponentLib'
 import { Container, Heading, Link, Spinner, Text } from '@chakra-ui/react'
 import { Form, Formik } from 'formik'
+import { OrderSupabase, SignedInUser } from '../types'
 import React, { useEffect, useState } from 'react'
 import { centsToString, sleep } from '../util'
 import {
@@ -34,7 +35,6 @@ import BasketSkippedCard from '../components/BasketSkippedCard'
 import { DateTime } from 'luxon'
 import GatsbyLink from 'gatsby-link'
 import Nav from '../components/Nav'
-import { OrderDetail } from '../types'
 import Seo from '../components/Seo'
 import { StripeUpdateCard } from '../components/StripeUpdateCard'
 import UpcomingOrders from '../components/UpcomingOrders'
@@ -61,7 +61,7 @@ const ErrorMessage = styled(StyledErrorMessage)`
 `
 
 const MyAccount = () => {
-  const user = useRecoilValue(signedInUser)
+  const user: SignedInUser = useRecoilValue(signedInUser)
   const [orders, setOrders] = useRecoilState(myOrders)
   const setSkipped = getSetSkippedFunc(orders, setOrders)
 
@@ -72,9 +72,10 @@ const MyAccount = () => {
     </>
   )
 
-  let upcomingOrderData: OrderDetail | null = null
-  if (orders && Object.keys(orders).length > 0) {
-    upcomingOrderData = orders[Object.keys(orders).slice().sort()[0]]
+  let upcomingOrderData: OrderSupabase | null = null
+  if (orders) {
+    //Get the earliest order
+    upcomingOrderData = orders.sort((a, b) => (a.order_index < b.order_index ? -1 : 1)).slice()[0]
   }
 
   let content = loadingMsg
