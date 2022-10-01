@@ -7,6 +7,7 @@ export interface SignedInUser {
   addressLine2?: string
   zip: string
   deliveryDate: string
+  subscriptionIsActive: boolean
 }
 
 export interface SignedInData {
