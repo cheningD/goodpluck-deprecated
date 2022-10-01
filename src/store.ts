@@ -1,4 +1,4 @@
-import { BasketItemData, StripeCustomer, SubscriptionRecord } from './types'
+import { BasketItemData, OrderSupabase, StripeCustomer, SubscriptionRecord } from './types'
 import { atom, selector } from 'recoil'
 
 export const signedInUser = atom({
@@ -23,9 +23,11 @@ export const isSignedIn = selector({
   },
 })
 
+const ordersDefault: OrderSupabase[] | null = null
+
 export const myOrders = atom({
   key: 'orders', // unique ID (with respect to other atoms/selectors)
-  default: null, // default value (aka initial value),
+  default: ordersDefault, // default value (aka initial value),
 })
 
 export const pastOrders = atom({

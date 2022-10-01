@@ -11,7 +11,7 @@ interface Props {
   article: boolean
 }
 
-const Seo = ({ title = null, description = null, image = null, article = false }) => {
+const Seo = ({ title = '', description = '', image = null, article = false }) => {
   const { pathname } = useLocation()
   const { site } = useStaticQuery(query)
 

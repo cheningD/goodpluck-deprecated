@@ -1,4 +1,5 @@
 import { Container, Heading, Link, Text } from '@chakra-ui/react'
+import { OrderDetail, OrderSupabase } from '../types'
 import { isSignedIn, myOrders } from '../store'
 import { useRecoilState, useRecoilValue } from 'recoil'
 
@@ -9,7 +10,6 @@ import { DateTime } from 'luxon'
 import GatsbyLink from 'gatsby-link'
 import MarketView from '../components/MarketView'
 import Nav from '../components/Nav'
-import { OrderDetail } from '../types'
 import React from 'react'
 import Seo from '../components/Seo'
 import { getSetSkippedFunc } from '../actions'
@@ -26,9 +26,11 @@ const Market = () => {
 const MarketContent = () => {
   const [orders, setOrders] = useRecoilState(myOrders)
   const setSkipped = getSetSkippedFunc(orders, setOrders)
-  let upcomingOrderData: OrderDetail | null = null
-  if (orders && Object.keys(orders).length > 0) {
-    upcomingOrderData = orders[Object.keys(orders).slice().sort()[0]]
+  let upcomingOrderData: OrderSupabase | null = null
+
+  if (orders) {
+    //Get the earliest order
+    upcomingOrderData = orders.sort((a, b) => (a.order_index < b.order_index ? -1 : 1)).slice()[0]
   }
   if (!useRecoilValue(isSignedIn)) {
     return (
@@ -48,8 +50,8 @@ const MarketContent = () => {
         <Card>
           <BasketSkippedCard
             setSkipped={setSkipped}
-            deliveryDate={upcomingOrderData.deliveryDate}
-            mondayOfOrderDateString={upcomingOrderData.mondayOfOrderDateString}
+            deliveryDate={upcomingOrderData.delivery_date}
+            mondayOfOrderDateString={upcomingOrderData.order_index}
           />
         </Card>
         <MarketView canEdit={false} />
@@ -57,9 +59,9 @@ const MarketContent = () => {
     )
   } else if (
     upcomingOrderData &&
-    DateTime.local() < DateTime.fromISO(upcomingOrderData.editBasketStartDate).set({ hour: 17 })
+    DateTime.local() < DateTime.fromISO(upcomingOrderData.edit_start_date).set({ hour: 17 })
   ) {
-    const startTime = DateTime.fromISO(upcomingOrderData.editBasketStartDate).set({ hour: 17 })
+    const startTime = DateTime.fromISO(upcomingOrderData.edit_end_date).set({ hour: 17 })
     return (
       <>
         <Card>

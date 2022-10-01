@@ -4,6 +4,7 @@ import {
   CreateUserSuccessResponseJSON,
   GoodpluckJSONResponse,
   OrderDetail,
+  OrderSupabase,
   SignedInData,
   StripeCustomer,
   SubscriptionRecord,
@@ -276,7 +277,7 @@ export const updateStripeCard = async (tokenID: string): Promise<Record<string, 
   }
 }
 
-export const getOrders = async (): Promise<Record<string, OrderDetail> | null> => {
+export const getOrders = async (): Promise<OrderSupabase[] | null> => {
   const response = await fetch(`${LOCAL_API_PREFIX}/api/orders`, {
     credentials: 'same-origin',
   })
