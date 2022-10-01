@@ -419,7 +419,7 @@ const UpcomingBasket = ({
         ) : (
           <BasketDates
             scheduledStatus={'done'}
-            editStatus={dit_end_date > DateTime.local().toISO() ? 'active' : 'done'}
+            editStatus={edit_end_date > DateTime.local().toISO() ? 'active' : 'done'}
             chargedStatus={paid ? 'done' : null}
             deliveredStatus={delivered ? 'done' : null}
             editBasketStartDate={edit_start_date}
