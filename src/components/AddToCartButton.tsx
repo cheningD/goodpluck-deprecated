@@ -1,4 +1,4 @@
-import { BasketItemData, OrderDetail } from '../types'
+import { BasketItemData, OrderDetail, OrderSupabase } from '../types'
 import { Button, Text } from '@chakra-ui/react'
 import { basketItems, myOrders } from '../store'
 import { useRecoilState, useRecoilValue } from 'recoil'
@@ -12,15 +12,15 @@ const AddToCartButton = ({ stripePriceId, unitPriceInCents, quantityInBasket, ca
   if (!canEdit) {
     return <Text>Qty: {quantityInBasket || 0}</Text>
   }
-  const orders = useRecoilValue(myOrders)
-
-  let upcomingOrderData: OrderDetail | null = null
-  if (orders && Object.keys(orders).length > 0) {
-    upcomingOrderData = orders[Object.keys(orders).slice().sort()[0]]
+  const orders = useRecoilValue(myOrders) as OrderSupabase[] | null
+  let upcomingOrderData: OrderSupabase | null = null
+  if (orders && orders.length > 0) {
+    //Get the earliest order
+    upcomingOrderData = orders.sort((a, b) => (a.order_index < b.order_index ? -1 : 1)).slice()[0]
   }
 
   // If editBasketEndDate is in the past, dont let them edit....
-  if (upcomingOrderData && DateTime.fromISO(upcomingOrderData.editBasketEndDate) < DateTime.local()) {
+  if (upcomingOrderData && DateTime.fromISO(upcomingOrderData.edit_end_date) < DateTime.local()) {
     return <div>{`Quantity: ${quantityInBasket}`}</div>
   }
 

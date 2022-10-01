@@ -73,7 +73,7 @@ const MyAccount = () => {
   )
 
   let upcomingOrderData: OrderSupabase | null = null
-  if (orders) {
+  if (orders && orders.length > 0) {
     //Get the earliest order
     upcomingOrderData = orders.sort((a, b) => (a.order_index < b.order_index ? -1 : 1)).slice()[0]
   }

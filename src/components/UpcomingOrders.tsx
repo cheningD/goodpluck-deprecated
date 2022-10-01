@@ -42,13 +42,13 @@ const UpcomingOrders = ({ orders, setSkipped }) => {
         </SecondaryButton>
       )
     } else {
-      editButton = <Text>""</Text>
+      editButton = <Text></Text>
     }
 
     return (
       <UpcomingOrder skipped={order.skipped} key={order.order_index}>
         <HStack>
-          <Text fontFamily="heading">{isoToNiceDate(order.delivery_date)}</Text> {order.skipped ? '(skipped) ' : ''}
+          <Text fontFamily="heading">{isoToNiceDate(order.delivery_date)}</Text> {order.skipped ? '(skipped) ' : ' '}
           {editButton}
         </HStack>
       </UpcomingOrder>
