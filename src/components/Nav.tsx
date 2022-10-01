@@ -2,15 +2,17 @@ import * as Sentry from '@sentry/gatsby'
 
 import { Box, Button, HStack, Icon, Link, Text } from '@chakra-ui/react'
 import GatsbyLink, { navigate } from 'gatsby-link'
-import { OrderDetail, SignedInData } from '../types'
-import React, { ReactNode, useEffect } from 'react'
+import { OrderDetail, OrderSupabase, SignedInData } from '../types'
+import React, { ReactNode, useEffect, useState } from 'react'
 import { basketCount, basketItems, isSignedIn, myOrders, mySubscriptions, signedInUser } from '../store'
 import { getBasket, getOrders, getSignedInData, getSubscriptions } from '../actions'
 import { useRecoilState, useRecoilValue } from 'recoil'
 
 import Image from './Image'
+import { Order } from '@stripe/stripe-js'
 import { SettingsIcon } from '@chakra-ui/icons'
 import { Toaster } from 'react-hot-toast'
+import { supabase } from '../supabaseClient'
 
 const LogoText = () => (
   <Box>
@@ -85,11 +87,10 @@ export default function Nav({ activelink }) {
   const [user, setUser] = useRecoilState(signedInUser)
   const [orders, setOrders] = useRecoilState(myOrders)
   const [basket, setBasket] = useRecoilState(basketItems)
-  const [subscriptions, setSubscriptions] = useRecoilState(mySubscriptions)
 
   const fetchOrders = async () => {
     // GET ORDERS
-    const orderData: Record<string, OrderDetail> = await getOrders()
+    const orderData: OrderSupabase[] = await getOrders()
     if (orderData) {
       setOrders(orderData)
     }
@@ -128,6 +129,18 @@ export default function Nav({ activelink }) {
     if (basket === null) {
       fetchBasket()
     }
+  }, [])
+
+  const [session, setSession] = useState(null)
+
+  useEffect(() => {
+    const s = supabase.auth.session()
+    setSession(s)
+
+    supabase.auth.onAuthStateChange((_event, _session) => {
+      console.log(_event, _session)
+      setSession(_session)
+    })
   }, [])
 
   // const fetchSubscriptions = async () => {
