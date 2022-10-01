@@ -35,6 +35,7 @@ const BasketPage = () => {
 
     if (orders) {
       //Get the earliest order
+      console.log(`orders: ${JSON.stringify(orders)}`)
       upcomingOrderData = orders.sort((a, b) => (a.order_index < b.order_index ? -1 : 1)).slice()[0]
     }
     if (!upcomingOrderData) {
