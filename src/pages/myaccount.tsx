@@ -414,12 +414,12 @@ const UpcomingBasket = ({
       <H2>My Next Basket</H2>
       <Card>
         {message}
-        {isCancelled || skipped ? (
+        {cancelled_reason || skipped ? (
           ''
         ) : (
           <BasketDates
             scheduledStatus={'done'}
-            editStatus={editStatus}
+            editStatus={dit_end_date > DateTime.local().toISO() ? 'active' : 'done'}
             chargedStatus={paid ? 'done' : null}
             deliveredStatus={delivered ? 'done' : null}
             editBasketStartDate={edit_start_date}
