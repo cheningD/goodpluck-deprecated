@@ -369,55 +369,42 @@ const BillingInfo = ({}) => {
 }
 
 const UpcomingBasket = ({
-  mondayOfOrderDateString,
-  scheduledStatus,
-  editStatus,
-  chargedStatus,
-  deliveredStatus,
-  editBasketStartDate,
-  editBasketEndDate,
-  chargedDate,
-  deliveryDate,
+  order_index,
+  delivered,
+  edit_start_date,
+  edit_end_date,
+  charged_date,
+  delivery_date,
   skipped,
-  isCancelled,
-  cancelledReason,
+  paid,
+  cancelled_reason,
   setSkipped,
 }) => {
   let message
-  if (isCancelled) {
-    message = <span>{`${cancelledReason}`}</span>
+  if (cancelled_reason) {
+    message = <span>{`${cancelled_reason}`}</span>
   } else if (skipped) {
     message = (
-      <BasketSkippedCard
-        setSkipped={setSkipped}
-        deliveryDate={deliveryDate}
-        mondayOfOrderDateString={mondayOfOrderDateString}
-      />
+      <BasketSkippedCard setSkipped={setSkipped} deliveryDate={delivery_date} mondayOfOrderDateString={order_index} />
     )
-  } else if (editStatus === 'done') {
+  } else if (edit_end_date < DateTime.local().toISO() && !paid) {
     message = (
       <span>
-        Your card will be charged on <Bold>{DateTime.fromISO(chargedDate).toFormat('ccc, LLL dd')}</Bold>
+        Your card will be charged on <Bold>{DateTime.fromISO(charged_date).toFormat('ccc, LLL dd')}</Bold>
       </span>
     )
-  } else if (editStatus === 'active') {
+  } else if (edit_end_date > DateTime.local().toISO()) {
     message = (
       <span>
         You can <Bold>edit</Bold> your basket until midnight on{' '}
-        <Bold>{DateTime.fromISO(editBasketEndDate).toFormat('ccc, LLL dd')}</Bold>
+        <Bold>{DateTime.fromISO(edit_end_date).toFormat('ccc, LLL dd')}</Bold>
       </span>
     )
-  } else if (scheduledStatus === 'done') {
+  } else {
     message = (
       <span>
         Your next basket is <Bold>scheduled</Bold> for delivery on{' '}
-        <Bold>{DateTime.fromISO(deliveryDate).toFormat('ccc, LLL dd')}</Bold>
-      </span>
-    )
-  } else if (scheduledStatus === 'active') {
-    message = (
-      <span>
-        <span>Confirm your order to schedule your next basket</span>
+        <Bold>{DateTime.fromISO(delivery_date).toFormat('ccc, LLL dd')}</Bold>
       </span>
     )
   }
@@ -431,14 +418,14 @@ const UpcomingBasket = ({
           ''
         ) : (
           <BasketDates
-            scheduledStatus={scheduledStatus}
+            scheduledStatus={'done'}
             editStatus={editStatus}
-            chargedStatus={chargedStatus}
-            deliveredStatus={deliveredStatus}
-            editBasketStartDate={editBasketStartDate}
-            editBasketEndDate={editBasketEndDate}
-            chargedDate={chargedDate}
-            deliveryDate={deliveryDate}
+            chargedStatus={paid ? 'done' : null}
+            deliveredStatus={delivered ? 'done' : null}
+            editBasketStartDate={edit_start_date}
+            editBasketEndDate={edit_end_date}
+            chargedDate={charged_date}
+            deliveryDate={delivery_date}
           />
         )}
       </Card>

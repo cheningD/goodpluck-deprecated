@@ -131,7 +131,7 @@ const OrdersPage = () => {
         chargedStatus={order.chargedStatus}
         deliveredStatus={order.deliveredStatus}
         editBasketStartDate={order.editBasketStartDate}
-        editBasketEndDate={order.editBasketEndDate}
+        editBasketEndDate={order.edit_end_date}
         chargedDate={order.chargedDate}
         deliveryDate={order.deliveryDate}
       />
