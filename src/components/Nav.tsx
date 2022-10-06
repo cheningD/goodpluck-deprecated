@@ -123,6 +123,12 @@ export default function Nav({ activelink }) {
     }
   }
 
+  useEffect(() => {
+    if (!user) {
+      fetchBasket()
+    }
+  }, [])
+
   // const fetchSubscriptions = async () => {
   //   const _subscriptions = await getSubscriptions()
   //   console.log(`I'm getting subscriptions ${JSON.stringify(_subscriptions)}`)
