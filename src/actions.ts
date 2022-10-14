@@ -15,7 +15,7 @@ import toast from 'react-hot-toast'
 
 // For testing the api on localhost
 export const LOCAL_API_PREFIX =
-  process.env.GATSBY_DEPLOY_ENVIRONMENT === 'DEVELOPMENT' ? 'https://localhost.goodpluck.com' : ''
+  process.env.GATSBY_DEPLOY_ENVIRONMENT === 'DEVELOPMENT' ? 'https://cors.pluck.workers.dev' : ''
 
 export const createUser = async (params: Record<string, any>): Promise<CreateUserSuccessResponseJSON> => {
   const response = await fetch(`${LOCAL_API_PREFIX}/api/createuser`, {

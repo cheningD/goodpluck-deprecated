@@ -13,6 +13,18 @@ import React from 'react'
 import Seo from '../components/Seo'
 import { getSetSkippedFunc } from '../actions'
 
+const compareOrders = (a: OrderSupabase, b: OrderSupabase) => {
+  console.log('a', a)
+  console.log('b', b)
+  if (a.order_index < b.order_index) {
+    return -1
+  } else if (a.order_index > b.order_index) {
+    return 1
+  } else {
+    return 0
+  }
+}
+
 const BasketPage = () => {
   let content
   if (!useRecoilValue(isSignedIn)) {
@@ -35,7 +47,10 @@ const BasketPage = () => {
 
     if (orders && orders.length > 0) {
       //Get the earliest order
-      upcomingOrderData = orders.sort((a, b) => (a.order_index < b.order_index ? -1 : 1)).slice()[0]
+      upcomingOrderData = orders
+        .slice()
+        .sort((a, b) => (a.order_index < b.order_index ? -1 : 1))
+        .slice()[0]
     }
 
     if (!upcomingOrderData) {
