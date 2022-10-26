@@ -16,7 +16,7 @@ const AddToCartButton = ({ stripePriceId, unitPriceInCents, quantityInBasket, ca
   let upcomingOrderData: OrderSupabase | null = null
   if (orders && orders.length > 0) {
     //Get the earliest order
-    upcomingOrderData = orders.sort((a, b) => (a.order_index < b.order_index ? -1 : 1)).slice()[0]
+    upcomingOrderData = orders.slice().sort((a, b) => (a.order_index < b.order_index ? -1 : 1))[0]
   }
 
   // If editBasketEndDate is in the past, dont let them edit....

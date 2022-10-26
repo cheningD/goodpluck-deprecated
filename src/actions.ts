@@ -15,7 +15,7 @@ import toast from 'react-hot-toast'
 
 // For testing the api on localhost
 export const LOCAL_API_PREFIX =
-  process.env.GATSBY_DEPLOY_ENVIRONMENT === 'DEVELOPMENT' ? 'https://cors.pluck.workers.dev' : ''
+  process.env.GATSBY_DEPLOY_ENVIRONMENT === 'DEVELOPMENT' ? 'https://api-localhost.pluck.workers.dev' : ''
 
 export const createUser = async (params: Record<string, any>): Promise<CreateUserSuccessResponseJSON> => {
   const response = await fetch(`${LOCAL_API_PREFIX}/api/createuser`, {
@@ -225,13 +225,20 @@ export const pauseSubscription = async (reason: string): Promise<GoodpluckJSONRe
 export const getSetSkippedFunc = (orders, setOrders: Function) => {
   const setSkipped = async (orderMondayIndex: string, skip: boolean) => {
     const response = await editOrder(orderMondayIndex, skip)
-    let data: Record<string, any>
+    let data: Record<string, any> | null = null
     try {
       data = (await response.json()).data
     } catch (err) {}
 
     if (data && data.updatedOrder) {
-      setOrders(Object.assign({}, orders, { [orderMondayIndex]: data.updatedOrder }))
+      const updatedOrders = orders.map((order: OrderSupabase) => {
+        if (order.order_index === orderMondayIndex) {
+          return data.updatedOrder
+        }
+        return order
+      })
+
+      setOrders(updatedOrders)
     } else if (data && data.error) {
       toast.error(`That didn't work: ${data.error || ''}`)
     } else {

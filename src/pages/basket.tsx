@@ -35,10 +35,7 @@ const BasketPage = () => {
 
     if (orders && orders.length > 0) {
       //Get the earliest order
-      upcomingOrderData = orders
-        .slice()
-        .sort((a, b) => (a.order_index < b.order_index ? -1 : 1))
-        .slice()[0]
+      upcomingOrderData = orders.slice().sort((a, b) => (a.order_index < b.order_index ? -1 : 1))[0]
     }
 
     if (!upcomingOrderData) {
