@@ -54,7 +54,7 @@ export const PrimaryButton = styled.button`
   font-family: hk_grotesksemibold, sans-serif;
   font-size: 1rem;
   justify-content: center;
-  padding: 8px 0px;
+  padding: 8px 4px;
   margin: 16px 0;
   width: 100%;
 
