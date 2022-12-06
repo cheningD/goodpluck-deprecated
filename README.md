@@ -12,7 +12,7 @@ We use rebase git flow. (See https://www.benmarshall.me/git-rebase/)
 [ ] Commit using "Fixes #issue-number" syntax `git commit -m "Fixes #33 - No more spiders"`
 [ ] Push em, and ask for a review
 
-## Deploying
+## Deploying.
 
 Once your change is in master you can trigger a deploy by rebasing master onto the live/master or the staging/master branch. Github will automatically deploy pushes to those branches.  
 [ ] Update master `git checkout master && git pull origin master`  
