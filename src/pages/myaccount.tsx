@@ -30,6 +30,7 @@ import {
 import { isSignedIn, myOrders, signedInUser, stripeCustomer } from '../store'
 import { useRecoilState, useRecoilValue } from 'recoil'
 
+import Balance from '../components/Balance'
 import BasketDates from '../components/BasketDates'
 import BasketSkippedCard from '../components/BasketSkippedCard'
 import { DateTime } from 'luxon'
@@ -98,7 +99,7 @@ const MyAccount = () => {
         <UpcomingBasket setSkipped={setSkipped} {...upcomingOrderData} />
         <MyPlan orderFrequency={user.orderFrequency} deliveryDay={deliveryDay} />
         <UpcomingOrders orders={orders} setSkipped={setSkipped} />
-        <Credits />
+        <Balance />
         <BillingInfo />
       </>
     )
@@ -263,30 +264,6 @@ const MyPlan = ({ orderFrequency, deliveryDay }) => {
       </>
     )
   }
-}
-
-const Credits = ({}) => {
-  const customer = useRecoilValue(stripeCustomer)
-  if (!customer) {
-    return (
-      <>
-        <H2>Credits</H2>
-        <Card>
-          <Spinner color="var(--peach-bg)" />
-        </Card>
-      </>
-    )
-  }
-
-  return (
-    <>
-      <H2>Credits</H2>
-      <Card>
-        <Heading fontSize="2xl">{centsToString(customer.balance || 0)}</Heading>
-        {customer.balance > 0 ? <Text>will be applied to your next basket</Text> : <></>}
-      </Card>
-    </>
-  )
 }
 
 const BillingInfo = ({}) => {

@@ -277,6 +277,24 @@ export const updateStripeCard = async (tokenID: string): Promise<Record<string, 
   }
 }
 
+export const getBalance = async (): Promise<any> => {
+  const response = await fetch(`${LOCAL_API_PREFIX}/api/balance`, {
+    credentials: 'same-origin',
+  })
+
+  if (!response.ok) {
+    return null
+  }
+
+  try {
+    const responseJSON: GoodpluckJSONResponse = await response.json()
+    return responseJSON.data
+  } catch (err) {
+    console.log(`Error in getBalance: ${err.message || err}`)
+    return null
+  }
+}
+
 export const getOrders = async (): Promise<OrderSupabase[] | null> => {
   const response = await fetch(`${LOCAL_API_PREFIX}/api/orders`, {
     credentials: 'same-origin',
