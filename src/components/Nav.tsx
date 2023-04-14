@@ -1,6 +1,6 @@
 import * as Sentry from '@sentry/gatsby'
 
-import { Box, Button, HStack, Link, Text } from '@chakra-ui/react'
+import { Box, Button, HStack, Link, Spinner, Text } from '@chakra-ui/react'
 import GatsbyLink, { navigate } from 'gatsby-link'
 import { OrderSupabase, SignedInData } from '../types'
 import React, { ReactNode, useEffect, useState } from 'react'
@@ -124,7 +124,7 @@ export default function Nav({ activelink }) {
   }
 
   useEffect(() => {
-    if (!user) {
+    if (basket === null) {
       fetchBasket()
     }
   }, [])
@@ -140,7 +140,7 @@ export default function Nav({ activelink }) {
 
   // useEffect(() => {
   //   if (subscriptions === null) {
-  //     fetchSubscriptions()gs
+  //     fetchSubscriptions()
   //   }
   // }, [])
 
@@ -153,7 +153,13 @@ export default function Nav({ activelink }) {
     </NavContent>
   )
 
-  if (signedIn) {
+  if (signedIn && basket === null) {
+    nav = (
+      <NavContent>
+        <Spinner />
+      </NavContent>
+    )
+  } else if (signedIn) {
     nav = (
       <NavContent>
         <NavLink to="/market" activelink={activelink}>
