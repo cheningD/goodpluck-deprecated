@@ -8,33 +8,28 @@ import { getBalance } from '../actions'
 export default function Balance({}) {
   const [balance, setBalance] = useState<number | null>(null)
 
-  const fetchBalance = async () => {
-    // GET Balance
-    const baljson = await getBalance()
-    const bal = baljson.data.balance
-    console.log(`Received Balance: ${JSON.stringify(baljson)}`)
-    if (bal) {
+  useEffect(() => {
+    const fetchBalance = async () => {
+      // GET Balance
+      const baljson = await getBalance()
+      const bal = baljson.balance
+      console.log(`Received Balance: ${baljson.balance}`)
       setBalance(bal)
     }
-  }
-
-  useEffect(() => {
-    if (balance === null) {
-      fetchBalance()
-    }
+    fetchBalance()
   }, [])
 
   return (
     <>
       <H2>Credits</H2>
       <Card>
-        {balance === null ? (
-          <Spinner color="var(--peach-bg)" />
-        ) : (
+        {balance !== null ? (
           <>
             <Heading fontSize="2xl">{centsToString(balance || 0)}</Heading>
             {balance > 0 ? <Text>will be applied to your next basket</Text> : <></>}
           </>
+        ) : (
+          <Spinner color="var(--peach-bg)" />
         )}
       </Card>
     </>
