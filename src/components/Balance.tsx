@@ -22,23 +22,18 @@ export default function Balance({}) {
     }
   }, [])
 
-  if (balance === null) {
-    return (
-      <>
-        <H2>Credits</H2>
-        <Card>
-          <Spinner color="var(--peach-bg)" />
-        </Card>
-      </>
-    )
-  }
-
   return (
     <>
       <H2>Credits</H2>
       <Card>
-        <Heading fontSize="2xl">{centsToString(balance || 0)}</Heading>
-        {balance > 0 ? <Text>will be applied to your next basket</Text> : <></>}
+        {balance === null ? (
+          <Spinner color="var(--peach-bg)" />
+        ) : (
+          <>
+            <Heading fontSize="2xl">{centsToString(balance || 0)}</Heading>
+            {balance > 0 ? <Text>will be applied to your next basket</Text> : <></>}
+          </>
+        )}
       </Card>
     </>
   )
