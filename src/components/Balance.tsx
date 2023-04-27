@@ -10,7 +10,9 @@ export default function Balance({}) {
 
   const fetchBalance = async () => {
     // GET Balance
-    const bal: number = (await getBalance()).balance
+    const baljson = await getBalance()
+    const bal = baljson.balance
+    console.log(`Received Balance: ${baljson}`)
     if (bal) {
       setBalance(bal)
     }
