@@ -358,11 +358,14 @@ const UpcomingBasket = ({
   setSkipped,
 }) => {
   let message
-  if (cancelled_reason) {
-    message = <span>{`${cancelled_reason}`}</span>
-  } else if (skipped) {
+  if (skipped) {
     message = (
-      <BasketSkippedCard setSkipped={setSkipped} deliveryDate={delivery_date} mondayOfOrderDateString={order_index} />
+      <BasketSkippedCard
+        setSkipped={setSkipped}
+        deliveryDate={delivery_date}
+        mondayOfOrderDateString={order_index}
+        edit_end_date={edit_end_date}
+      />
     )
   } else if (edit_end_date < DateTime.local().toISO() && !paid) {
     message = (
@@ -391,7 +394,7 @@ const UpcomingBasket = ({
       <H2>My Next Basket</H2>
       <Card>
         {message}
-        {cancelled_reason || skipped ? (
+        {skipped ? (
           ''
         ) : (
           <BasketDates
