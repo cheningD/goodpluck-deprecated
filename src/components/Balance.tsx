@@ -10,9 +10,9 @@ export default function Balance({}) {
 
   const fetchBalance = async () => {
     // GET Balance
-    const balance: number = (await getBalance()).balance
-    if (balance) {
-      setBalance(balance)
+    const bal: number = (await getBalance()).balance
+    if (bal) {
+      setBalance(bal)
     }
   }
 
