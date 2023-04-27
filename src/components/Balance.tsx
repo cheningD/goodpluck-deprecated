@@ -13,7 +13,6 @@ export default function Balance({}) {
       // GET Balance
       const baljson = await getBalance()
       const bal = baljson.balance
-      console.log(`Received Balance: ${baljson.balance}`)
       setBalance(bal)
     }
     fetchBalance()
