@@ -1,4 +1,4 @@
-name: Release to Goodpluck.com (Live)
+name: Release to Goodpluck.com Manual (Live)
 
 on: workflow_dispatch
 
