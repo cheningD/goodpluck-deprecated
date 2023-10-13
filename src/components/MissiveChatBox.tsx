@@ -16,7 +16,7 @@ const MissiveChatBox = () => {
 
       if (signedInData) {
         const config: MissiveChatConfig = {
-          id: '1ea1215d-b61c-4638-b7b1-65acdb00bd1c',
+          id: '78543e84-6c95-4008-936d-cf0904fb21f8',
           user: {
             name: `${signedInData.signedInUser.first} ${signedInData.signedInUser.last}`,
             email: signedInData.signedInUser.email,
