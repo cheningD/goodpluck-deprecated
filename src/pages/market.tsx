@@ -57,11 +57,8 @@ const MarketContent = () => {
         <MarketView canEdit={false} />
       </Container>
     )
-  } else if (
-    upcomingOrderData &&
-    DateTime.local() < DateTime.fromISO(upcomingOrderData.edit_start_date).set({ hour: 17 })
-  ) {
-    const startTime = DateTime.fromISO(upcomingOrderData.edit_end_date).set({ hour: 17 })
+  } else if (upcomingOrderData && DateTime.local() < DateTime.fromISO(upcomingOrderData.edit_start_date)) {
+    const startTime = DateTime.fromISO(upcomingOrderData.edit_start_date)
     return (
       <>
         <Card>
