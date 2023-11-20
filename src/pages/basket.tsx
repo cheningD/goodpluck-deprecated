@@ -57,7 +57,7 @@ const BasketPage = () => {
         </>
       )
     } else if (DateTime.local() < DateTime.fromISO(upcomingOrderData.edit_start_date)) {
-      const startTime = DateTime.fromISO(upcomingOrderData.edit_end_date)
+      const startTime = DateTime.fromISO(upcomingOrderData.edit_start_date)
       content = (
         <>
           <Container bg="white" mx={0} w="100%" borderRadius="md" p={4}>
