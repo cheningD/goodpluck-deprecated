@@ -12,6 +12,8 @@ export const BLACKOUT_DATES: Record<string, string> = {
   '2021-10-04': 'Service Break Sep 20 - Oct 11',
   '2021-12-20': 'No deliveries this week because of the holiday',
   '2021-12-27': 'Happy 2022! No deliveries today!',
+  '2023-12-25': 'Happy Holidays! No deliveries this week!',
+  '2024-01-01': 'Happy New Year! No deliveries this week!',
 }
 
 export const sleep = async (ms: number) => {
