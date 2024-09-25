@@ -1,10 +1,14 @@
+import MissiveChatBox from './src/components/MissiveChatBox'
 import React from 'react'
 import { RecoilRoot } from 'recoil'
 
 const Wrap = ({ element }) => {
   return (
     <>
-      <RecoilRoot>{element}</RecoilRoot>
+      <RecoilRoot>
+        <MissiveChatBox />
+        {element}
+      </RecoilRoot>
     </>
   )
 }

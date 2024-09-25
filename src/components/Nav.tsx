@@ -86,6 +86,8 @@ export default function Nav({ activelink }) {
   const [orders, setOrders] = useRecoilState(myOrders)
   const [basket, setBasket] = useRecoilState(basketItems)
 
+  const basketCountNumber = useRecoilValue(basketCount) || ''
+
   const fetchOrders = async () => {
     // GET ORDERS
     const orderData: OrderSupabase[] = await getOrders()
@@ -171,7 +173,7 @@ export default function Nav({ activelink }) {
             src="icon.png"
             alt="My Basket"
           />{' '}
-          {useRecoilValue(basketCount)}
+          {basketCountNumber}
         </NavLink>
         <NavLink to="/myaccount" activelink={activelink}>
           <SettingsIcon />
