@@ -15,6 +15,8 @@ import { getSetSkippedFunc } from '../actions'
 
 const BasketPage = () => {
   let content
+  const [orders, setOrders] = useRecoilState(myOrders)
+  const setSkipped = getSetSkippedFunc(orders, setOrders)
   if (!useRecoilValue(isSignedIn)) {
     content = (
       <Heading>
@@ -28,9 +30,6 @@ const BasketPage = () => {
       </Heading>
     )
   } else {
-    const [orders, setOrders] = useRecoilState(myOrders)
-    const setSkipped = getSetSkippedFunc(orders, setOrders)
-
     let upcomingOrderData: OrderSupabase | null = null
 
     if (orders && orders.length > 0) {
