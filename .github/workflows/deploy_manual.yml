@@ -6,16 +6,16 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
-
-      - name: Set Node.js
-        uses: actions/setup-node@master
+      - uses: actions/checkout@v4
+      - name: Enable Corepack
+        run: corepack enable
+      - name: Use Node.js 20.x
+        uses: actions/setup-node@v4
         with:
-          node-version: 14.x
-
+          node-version: '20.x'
+          cache: 'yarn'
       - name: Install dependencies
         run: yarn install --ignore-optional  --frozen-lockfile --production
-
       - name: Build
         run: yarn run build
         env:
@@ -30,7 +30,7 @@ jobs:
           GOOGLE_ANALYTICS_TRACKING_ID: ${{secrets.GOOGLE_ANALYTICS_TRACKING_ID}}
 
       - name: Publish
-        uses: cloudflare/wrangler-action@1.3.0
+        uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CF_API_TOKEN_WORKERS_SITES }}
           environment: 'production'
