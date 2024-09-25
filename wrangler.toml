@@ -1,12 +1,9 @@
 name = "goodpluck"
-type = "webpack"
-account_id = "b8cd4cd6c22746871556c8214a712815"
-zone_id = "8c1bebe51808c902a4fe76fc18397f3f"
-compatibility_date = "2021-11-01"
+main = "workers-site/index.js"
+compatibility_date = "2024-09-01"
 
 [site]
 bucket = "./public"
-entry-point = "workers-site"
 
 [env.staging]
 route = "https://staging.goodpluck.com/*"
