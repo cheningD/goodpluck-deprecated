@@ -15,7 +15,7 @@ jobs:
           node-version: '20.x'
           cache: 'yarn'
       - name: Install dependencies
-        run: yarn install --ignore-optional  --frozen-lockfile --production
+        run: yarn install --frozen-lockfile --production
       - name: Build
         run: yarn run build
         env:
