@@ -8,12 +8,14 @@ import { PageProps } from 'gatsby'
 import React from 'react'
 import Seo from '../components/Seo'
 import Testimonial from '../components/Testimonial'
+import DeliveryRestartBanner from '../components/DeliveryRestartBanner'
 
 export default function Home(props: PageProps) {
   return (
     <>
       <Seo />
       <Nav />
+      <DeliveryRestartBanner />
       <Hero />
       <Features />
       <HowItWorks />
