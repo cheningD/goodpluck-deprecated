@@ -18,7 +18,7 @@ const DeliveryRestartBanner = () => {
       <Flex maxW="7xl" mx="auto" px={{ base: '4', md: '8' }} alignItems="center" justifyContent="center">
         <Icon as={FiTruck} boxSize={{ base: 5, md: 6 }} mr={3} />
         <Text fontWeight="medium" fontSize={{ base: 'sm', md: 'md' }} textAlign="center">
-          Spring is here, we missed you! Fresh produce deliveries return April 3rd.
+          Sorry for the delay, were still building out our ne! Fresh produce deliveries return April 21st.
         </Text>
         <CloseButton
           position="absolute"
